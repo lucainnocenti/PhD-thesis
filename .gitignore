@@ -1,0 +1,14 @@
+.latexmkrc
+*.aux
+*.bbl
+*.bcf
+*.blg
+*latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.gz
+*.toc
