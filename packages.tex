@@ -1,0 +1,89 @@
+\usepackage{amsmath,amssymb}
+
+\usepackage{blindtext} % Package to generate dummy text throughout this template 
+
+%%%%%%%%%%%%%%%%%% FONT CHOICE %%%%%%%%%%%%%%%%%%%%%%
+
+% the following is to fix a compatibility issue between bbold and mathpazo
+% \usepackage{bbold}
+% \let\altmathbb\mathbb
+% \usepackage[sc]{mathpazo}
+% \AtBeginDocument{\let\mathbb\altmathbb}
+% \usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{unicode-math}
+\usepackage{parskip}
+\defaultfontfeatures{Scale=MatchLowercase}
+\setmainfont{TeX Gyre Pagella}[Scale = 1.0]
+% \setmathfont{Pagella Math}
+
+% \linespread{1.05} % Line spacing - Palatino needs more space between lines
+
+%%%%%%%%%%%%%%%%%% END FONT CHOICE %%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[english]{babel} % Language hyphenation and typographical rules
+
+\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
+\usepackage{setspace} % provides \setstretch
+\usepackage[small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+\usepackage{fullpage}
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+
+\usepackage{enumitem} % Customized lists
+\setlist[itemize]{noitemsep} % Make itemize lists more compact
+
+\usepackage{acronym}
+\newacro{SLM}{Spatial Light Modulator}
+
+\usepackage{todonotes}
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+% \usepackage{titlesec} % Allows customization of titles
+% \renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+% \renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
+% \titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+% \titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+% \usepackage{fancyhdr} % Headers and footers
+% \pagestyle{fancy} % All pages have headers and footers
+% \fancyhead{} % Blank out the default header
+% \fancyfoot{} % Blank out the default footer
+% \fancyhead[C]{Running title $\bullet$ May 2016 $\bullet$ Vol. XXI, No. 1} % Custom header text
+% \fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+\usepackage{titling} % Customizing the title section
+
+\usepackage{physics}
+
+\usepackage{csquotes}
+
+\usepackage{easyReview}
+
+\usepackage{xcolor}
+\usepackage{nameref}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage[nameinlink]{cleveref}
+\crefname{appsec}{Appendix}{Appendices}
+
+\usepackage{amsthm}
+\newtheorem{example}{Example}
+
+
+\usepackage[
+    backend=biber,
+    style=alphabetic,
+    maxcitenames=1,
+    url=true,
+    doi=true,
+    sorting=ynt,
+    backref=true
+]{biblatex}
+\DeclareNameAlias{author}{given-family}
+\addbibresource{Thesis.bib}

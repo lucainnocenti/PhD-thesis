@@ -1,0 +1,308 @@
+
+\chapter{Quantum Gate Learning}
+\label{Section:GateLearning}
+
+Synthesising target quantum operations is pivotal is a number of contexts in quantum information science, for example in quantum simulation~\cite{feynman1982simulating,lloyd1996universal}, quantum computation~\cite{feynman1982simulating,deutsch1985quantum,gottesman1998theory,nielsen2002quantum,ladd2010quantum}.
+In particular, unitary gates play a key role in the majority of schemes for quantum computation and quantum algorithms, and more generally are a fundamental component of most quantum information protocols.
+
+Implementing a given target unitary gate can however often be a daunting task. Different techiniques can be used to achieve this, depending on the particular experimental context and constraints.
+For example, in a photonics context, one often has access to a toolbox of elementary components, such as beamsplitters and phaseshifters, which are used to build up more complex operations.
+In this context, to built a complex operation $U$, one is tasked with finding a suitable combination of such elementary (generally unitary) operations $G_i$ such that $U=\prod_i G_i$. Given a fixed set of \textit{elementary gates} $\{G_i\}_i$, finding a suitable combination of these gates that results in the target operation $U$ is highly nontrivial, and is a task often referred to as the \textit{gate compilation} or \textit{gate synthesis} problem~\cite{mottonen2004quantum,nielsen2006quantum,loke2014optqc,loke2016optqc,nakajima2009synthesis,maslov2017basic,swaddle2017generating}. \highlight{(add more citations)}
+\highlight{are there other experimental contexts in which it is common to have such \textit{black boxes} that are composed together?}
+Solving gate compilation problems is especially important in the light of the recent significant experimental advances in the construction of experimental quantum devices, especially superconducting~\cite{devoret2013superconducting} and ion trap~\cite{blatt2008entangled,debnath2016demonstration} architectures.
+
+A completely different type of problem is the one faced when, instead of a discrete set of gates, one is able to tune continuous parameters of an underlying dynamics.
+In other words, it can be the case that the experimenter has access to some parameters $\bs\lambda$ of the system \textit{Hamiltonian} $H_{\bs\lambda}$, and wants to find the values of $\bs\lambda$ to achieve some target dynamics.
+One might for example be interested in driving a fixed input to a fixed target output, or in obtaining a full effective evolution via tuning the dynamics.
+In this kind of scenario, it is also common to allow for \textit{time-dependent} dynamics. This makes it much easier, in general, to achieve different types of evolutions, but at the same times makes the resulting optimisation problem that much harder, as one then has to look for an optimal \textit{function} $t\mapsto\bs\lambda(t)$, rather than just an optimal value $\bs\lambda\in\mathbb R^n$.
+This types of problems are usually referred to as \textit{quantum (optimal) control} problems.
+\highlight{quantum control refs}
+
+
+
+\begin{itemize}
+    \item \textbf{\textit{You can also mix these types of problems together, and/or add ancillary resources.}}
+    \item The third situation is ours: we want to tune the dynamics to getter better black boxes.
+    \item What's the advantages of doing it our way?
+\end{itemize}
+
+We are \cite{innocenti2018supervised}.
+
+Open problems and solutions, literature.
+
+\section{Standard techniques for gate engineering, previous work}
+\highlight{I'm not actually sure we want this section}
+
+\section{Time-independent dynamics for target gates}
+
+Here, we explore a different approach to devise target unitary evolutions. More specifically, we ask the following question: is there a way to implement a given target gate \textit{without} decomposing it as a sequence of simpler gates, \textit{and} without using a time-dependent dynamics, \textit{and} without the aid of additional ancillary resources?
+In other words, given a target operation $\calU$, and a set of possible candidate Hamiltonians $\calH[\bullet]\equiv \{\calH_{\bs\lambda}\}_{\bs\lambda}\subseteq\on{Herm}$\footnote{Here, $\on{Herm}\equiv\on{Herm}(N)$ is the set of Hermitian $N\times N$ matrices with complex entries, for some integer $N\ge2$. The dimension $N$ will be taken to be understood from the context.},
+can we find a \textit{time-independent} Hamiltonian $\calH\in\calH[\bullet]$ such that, at some time $t$, we have $\calU = e^{-it \calH}$?
+\footnote{Throughout this work, we will only consider the cases of operations and Hamiltonians acting on \textit{finite-dimensional} systems (generally sets of qubits).}
+Note that if no restriction is imposed on $\calH[\bullet]$, then the problem is always trivially solvable. Indeed, writing $\calU$ in its eigendecomposition as
+$\calU=\sum_k e^{i\varphi_k}\PP_k$ for some set of orthogonal projectors $\PP_j\PP_k=\delta_{jk}\PP_j$ with $\sum_k\PP_k=I_N$ and phases $\varphi_k\in\RR$, then any $\calH$ of the form
+$\calH = -\sum_k \varphi_k\mathbb P_k$ satisfies $e^{-i\calH}=\cal U$.
+\highlight{Do we want to prove this linear algebra stuff at some point?}
+The interesting cases, both from a theoretical and practical perspective, are therefore when $\calH[\bullet]$ is constrained to have some specific structure.
+Here, we will consider the case of $\calH[\bullet]$ being a set of Hamiltonians parametrised by a number of continuous parameters (in other words, it's taken to be a parametrised surface in $\on{Herm}(N)$).
+We will therefore always assume that there is a continuous mapping $\RR^\ell\ni\bs\lambda\mapsto\calH(\bs\lambda)\in\on{Herm}$ such that $\calH[\bullet]=\calH(I)$ for some $I\subseteq\RR^\ell$ (which will be usually taken to equal $\RR^\ell$ for simplicity).
+
+We can also consider the time $t$ as part of the definition of $\calH$, which amounts to a rescaling of the energy levels. We can therefore also assume $t=1$ in the following. Finally, to ease the calculations, we will consider the equivalent problem of finding $\calH$ such that $\calU=e^{i\cal H}$ (with the plus sign), as the solutions to one can be seamlessly translated into solutions to the other problem.
+
+For concreteness, let us analyse what happens when we try to find Hamiltonian generators for a few common two- and three-qubit gates, namely the CNOT and the Toffoli gate.
+\highlight{Ensure no other gates are added in the examples}
+\begin{example}
+\label{ex:eigendecomposition_cnot}
+Assume that the target operation is $\CNOT$: the two-qubit unitary gate which flips the second qubit conditionally to the value of the first one.
+In matrix notation, this reads
+\begin{equation}
+    \on{CNOT} \equiv\begin{pmatrix}1&0&0&0 \\ 0&1&0&0 \\ 0&0&0&1\\0&0&1&0\end{pmatrix} =
+    \PP_0\otimes I_2 + \PP_1\otimes X,
+\end{equation}
+where $\PP_k\equiv\ketbra k$ and $X$ is the Pauli $X$ gate.
+The eigendecomposition of this matrix is
+\begin{equation}
+    \on{CNOT} =
+    \ketbra{0,0} + \ketbra{0,1} + \ketbra{1,+} - \ketbra{1,-}.
+    \label{eq:cnot_eigendecomposition}
+\end{equation}
+A more expressive way to write~\cref{eq:cnot_eigendecomposition} is by introducing the projectors $X^\pm\equiv(1\pm X)/2$, and the similarly defined $Y^\pm$ and $Z^\pm$ (here, $X,Y,Z$ denote the one-qubit Pauli matrices).
+\Cref{eq:cnot_eigendecomposition} is then equivalently written as
+\begin{equation}
+    \on{CNOT} =
+    Z^+_1 Z^+_2 + Z^+_1 Z^-_2
+    + Z^-_1 X^+_2
+    - Z^-_1 X^-_2
+    = Z_1^+ + Z_1^- X_2^+ - Z_1^- X_2^-.
+    \label{eq:cnot_eigdecomp_with_paulis}
+\end{equation}
+The eigenvalues are therefore $\lambda_{1,2,3}=1$ and $\lambda_4=-1$.
+Can this gate be obtained via a two-qubit time-independent Hamiltonian $\calH$?
+Consider for the purpose a general parametrisation of the possible two-qubit Hamiltonians, which we can write using the set of Pauli matrices on the two qubits as operatorial basis:
+\begin{equation}
+    \calH({\bs\lambda}) =
+    \sum_{j,k=0}^4 \lambda_{j,k} \sigma^j_1\sigma^k_2.
+\end{equation}
+Given the decomposition of~\cref{eq:cnot_eigdecomp_with_paulis}, it is natural to use as an Ansatz for $\calH(\bs\lambda)$ an expression bearing the same eigenstructure as the CNOT. Let us therefore write
+\begin{equation}
+    \calH(\bs\lambda) = \lambda_1 Z_1^+ + \lambda_2 Z_1^- X_2^+ + \lambda_3 Z_1^- X_2^-.
+\end{equation}
+Finding $\bs\lambda\equiv(\lambda_1,\lambda_2,\lambda_3)$ such that $e^{i\calH}=\CNOT$ is then quite easy: just use $\lambda_1=\lambda_2=0$ and $\lambda_3=2\pi$. Indeed, as it is easy to check, $e^{\pi i Z_1^- X_2^-} = \CNOT$.
+The natural next question is then: is this the \textbf{only} such $\calH$? It is straightforward to see that the answer is negative: for example, it is also true that $e^{\pi i n Z_1^- X_2^-}=\CNOT$ for any $n\in\ZZ$.
+It is less trivial to get a complete characterisation of the solution set.
+Indeed, as will be shown in~\cref{sec:solutions_matrix_equation_f(A)=B}, there is a rich set of solutions for these types of matrix equations.
+\end{example}
+
+\begin{example}
+\label{ex:eigendecomposition_Toffoli}
+Consider now the \textbf{Toffoli gate}, which is a three-qubit gate which flips the third qubit conditionally to the first two qubits being in the $\ket1$ state.\highlight{Ensure Toffoli was defined before, or add relevant references here.}
+More explicitly, this means
+\begin{equation}
+    \Toff =
+    \PP_0\otimes I_4 + \PP_1\otimes\CNOT
+    \equiv
+    \begin{pmatrix}
+        I_4 & \mathbb{0}_4 \\
+        \mathbb 0_4 & \CNOT
+    \end{pmatrix}.
+    % \begin{pmatrix}
+    %     1&0&0&0&0&0&0&0 \\
+    %     0&1&0&0&0&0&0&0 \\
+    %     0&0&1&0&0&0&0&0 \\
+    %     0&0&0&1&0&0&0&0 \\
+    %     0&0&0&0&1&0&0&0 \\
+    %     0&0&0&0&0&1&0&0 \\
+    %     0&0&0&0&0&0&0&1 \\
+    %     0&0&0&0&0&0&1&0
+    % \end{pmatrix}
+\end{equation}
+In terms of projectors onto eigenvalues of (products of) Pauli matrices, we have
+\begin{equation}
+    \Toff = Z_1^+ + Z_1^- Z_2^+ + Z_1^- Z_2^- X_3^+ - Z_1^- Z_2^- X_3^-.
+\end{equation}
+The eigenvalues of $\Toff$ are thus readily seen to be $+1$ with multiplicity $7$, and $-1$ with multiplicity $1$.
+A possible $\calH$ such that $e^{i\cal H}=\Toff$ is then $\calH=\pi Z_1^- Z_2^- X_3^-$.
+Note how expanding this Hamiltonian we get
+\begin{equation}
+    \calH = \frac{\pi}{8}\left[
+        I - (Z_1 - Z_2 - X_3)
+        + (Z_1 Z_2 + Z_1 X_3 + Z_2 X_3)
+        - Z_1 Z_2 X_3
+    \right],
+\end{equation}
+which contains three-qubit interaction terms (the $Z_1 Z_2 X_3$ factor). While this is to be expected , as the Toffoli is a non-trivial three-qubit gate, these kinds of terms make practically implementing these Hamiltonians significantly harder.
+Indeed, natural interactions, and in particular interactions that can be easily implemented in experiments, generally \highlight{can we promote this to \textbf{always}?} involve only one- and two-qubit interaction terms.
+It is then natural to wonder about whether this is a \textbf{necessary} feature of time-independent generators of the Toffoli gates.
+As will be shown in the following sections, the answer is in fact that yes, it is possible to find time-independent Hamiltonians that generate a Toffoli gate \textbf{and} only use up to two-qubit interactions.
+\end{example}
+
+As shown in~\cref{ex:eigendecomposition_cnot,ex:eigendecomposition_Toffoli}, looking for Hermitian generators of few-qubit gates is not a fairly straightforward task. There are, however, two notable issues with the type of analysis conducted so far:
+\begin{enumerate}
+    \item It lacks in generality: while finding specific generators essentially amounts to computing the eigendecomposition of the target $\calU$, and then the logarithm of the eigenvalues, this says nothing about whether such procedure provides the most general kind of Hamiltonian generator for the given gate. In other words, can \textit{all} generators $\calH$ be obtained this way?
+    \item We have no control over the kind of generators that we obtain with this procedure. For example, in~\cref{ex:eigendecomposition_cnot} we obtained generators containing two-qubit interactions of the form $Z_1 X_2$. Does this mean that this type of interaction term is \textit{necessary} to generate a CNOT? Or is there instead some Hamiltonian that can still generate the CNOT without using such terms?
+    Similar questions arise in~\cref{ex:eigendecomposition_Toffoli}.
+\end{enumerate}
+To address these issues, we will study the underlying mathematical problem in more depth. As it turns out, we can divide such analysis in two parts. In~\cref{sec:solutions_matrix_equation_f(A)=B}, we show how to find general solutions to inverse matrix equations of the form $f(A)=B$. Then, in~\cref{sec:constraints_on_interaction_pars}, we present a way to bring additional constraints on the interaction terms into the discussion.
+\highlight{to review this part probably}
+
+\section{Solutions of the matrix equation \texorpdfstring{$f(A)=B$}{f(A)=B}}
+\label{sec:solutions_matrix_equation_f(A)=B}
+Let $A,B$ be normal matrices such that $f(A)=B$ for some function $f$ (assumed to be regular on the spectrum of $A$), with $f(A)$ defined as usual on the eigenvalues of $A$.
+In this section we will provide a full characterisation of the set of solutions $A\in f^{-1}(B)$ .
+
+Explicitly, $f(A)=B$ amounts to
+\begin{equation}
+    \sum_j \lambda_j^B \PP_j^B = \sum_k f(\lambda_k^A) \PP_k^A,
+    \label{eq:f(A)=B_eigendecomp_proof}
+\end{equation}
+where $\PP_k^{A} (\PP_k^{B})$ are the projectors onto the corresponding eigenspaces of $A$ and $B$, so that
+$A\PP_k^A=\lambda_k \PP_k^A$, and similarly for $B$.
+Because both sides of~\cref{eq:f(A)=B_eigendecomp_proof} define the eigendecomposition of some (normal) operator, by the uniqueness of the eigendecompositions it follows that $\lambda_j^B=f(\lambda_j^A)$ and $\PP_j^B=\PP_j^A$.
+What is interesting about this is that it means that the relation $f(A)=B$ puts strong constraints on the eigenstructure of $A$: the eigenspaces of $A$ must be the same as those of $B$.
+
+Consider now the problem of finding a matrix $A$ such that $f(A)=B$, for some predetermined mapping $f$.
+If $f$ is injective (at least on $f^{-1}(\sigma(B))$), then, by our above argument, it follows that $A$ is uniquely determined. Indeed, we the condition would then be
+\begin{equation}
+    \sum_j \lambda_j^B \PP_j = \sum_j f(\lambda_j^A) \PP_j,
+\end{equation}
+which can only be true for $\lambda_j^A = f^{-1}(\lambda_j^B)$.
+However, because we are considering here matrices and functions defined over $\CC$, most interesting cases will correspond to \textit{non-injective} functions $f$\footnote{Indeed, the only entire, injective functions $\CC\to\CC$ are the linear mappings $z\mapsto az+b$ for some $a,b\in\CC$.}. The case $f(z)=e^z$, which is the one with which we will be mostly concerned with for the gate learning problem, is one such case of non-injective function.
+
+When $f$ is non-injective, there can be multiple $A$ such that $f(A)=B$. There are two main reasons for this, one fairly evidence, and the other one less so.
+Clearly, being $f$ not injective, for any given eigenvalue $\lambda_j^B$ there can be multiple $\lambda$ such that $f(\lambda)=\lambda_j^B$. This is indeed the only source of non-uniqueness whenever the eigenspaces of $B$ are all one-dimensional (equivalently, the projetors $\PP_k^B$ in~\cref{eq:f(A)=B_eigendecomp_proof} have all unit trace).
+However, whenever there are eigenspaces of dimension greater than one, there are multiple (infinite) ways to write a corresponding projector $\PP$ as sum of unit-trace projectors. Assume for example that $\Tr\PP=d$, and let $\PP_k$ be a set of $d$ unit-trace projectors such that $\PP=\sum_{k=1}^d \PP_k$. Let $U$ be an arbitrary operator that is unitary in the range of $\PP$.
+Then we have
+\begin{equation}
+    \PP=U^\dagger \PP U =\sum_{k=1}^d U^\dagger \PP_k U
+    \equiv \sum_{k=1}^d \tildePP_k,
+    \label{eq:rewriting_proj_with_rotated_projs}
+\end{equation}
+where we defined the ``rotated projectors'' $\tildePP_k\equiv U^\dagger \PP U$.
+While this rewriting is ininfluent in~\cref{eq:rewriting_proj_with_rotated_projs}, such rotations of the degenerate eigenspaces turn out to be of great relevance when looking for solutions of $f(A)=B$.
+To see this, let us consider again~\cref{eq:f(A)=B_eigendecomp_proof}, and focus on a single eigenspace $\PP_j^B$ such that $\Tr\PP_j^B=d_j>1$ (assuming $B$ has one), and write an arbitrary decomposition of $\PP_j^B$ in terms of on unit-trace projectors as $\PP_j^B=\sum_{\ell=1}^{d_j}\PP^B_{j,\ell}$.
+Let $\{\lambda_{j,\ell}\}_{\ell=1}^{d_j}\subseteq f^{-1}(\lambda_j^B)$ be a subset of inverses of $\lambda_j^B$. Then, any $A$ which has $\lambda_{j,\ell}$ as eigenvalues within the eigenspace $\PP_j^B$ is a suitable solution for $f^{-1}(B)$.
+In other words, we have
+\begin{equation}
+    A \equiv \sum_j \sum_{\ell=1}^{d_j} \lambda_{j,\ell} \PP_{j,\ell}\in f^{-1}(B),
+    \quad \forall \lambda_{j,\ell}\in\CC \text{ with } f(\lambda_{j,\ell})=\lambda_j^B.
+    \label{eq:general_form_f-1B}
+\end{equation}
+Note how this means that $f^{-1}(B)$ \textit{can break the degeneracies in $B$} thanks for the non-injectivity of $f$.
+
+Let us give now a few concrete examples of the freedom allowed by the degeneracies in action.
+
+\begin{example}
+\label{ex:solutions_f(A)=I2}
+Consider the two-dimensional identity matrix $I_2$, and an arbitrary complex function $f$ defined on the complex unit. \textbf{What is then the set of matrices $A$ such that $f(A)=I_2$?}
+Note that $I_2=P+Q$ for any pair of orthogonal projectors $P,Q$, and $\lambda P + \mu Q\in f^{-1}(I_2)$ for any $\lambda,\mu\in f^{-1}(1)$.
+This can be equivalently stated saying that, for any pair of orthonormal states $\ket u$ and $\ket v$, we have
+$\lambda \ketbra u + \mu \ketbra v\in f^{-1}(I_2)$.
+Going further, we parametrise the set of all such vectors writing (we can define the vectors up to an overall phase, as we are only interested in the corresponding projectors):
+\begin{equation}
+    \begin{cases}
+    \ket u =\cos\alpha\ket 0+e^{i\theta}\sin\alpha \ket 1, \\
+    \ket v =-e^{-i\theta}\sin\alpha\ket 0 + \cos\alpha\ket 1.
+\end{cases}
+\end{equation}
+This provides us with a parametrisation for the set of solutions $f^{-1}(B)$:
+\begin{equation}
+\begin{aligned}
+    A = &\lambda\left(\cos^2(\alpha) \PP_0 + \sin^2(\alpha) \PP_1 + \sin(2\alpha)\Re[e^{i\theta}\ketbra{1}{0}]\right) \\
+    +&\mu\left(
+        \sin^2(\alpha) \PP_0 + \cos^2(\alpha) \PP_1 - \sin(2\alpha)\Re[e^{i\theta}\ketbra{1}{0}]
+    \right),
+\end{aligned}
+\end{equation}
+or in matrix form,
+\begin{equation}
+    A = \begin{pmatrix}
+        \lambda \cos^2(\alpha)+\mu\sin^2(\alpha) &
+        \frac12 e^{-i\theta} \sin(2\alpha) (\lambda-\mu) \\ 
+        \frac12 e^{i\theta} \sin(2\alpha) (\lambda-\mu) &
+        \lambda \sin^2(\alpha)+\mu\cos^2(\alpha)
+    \end{pmatrix}.
+    \label{eq:explicit_inverse_f(A)_matrix_form}
+\end{equation}
+We conclude that any such $A$ is such that $f(A)=I_2$, as long as $f(\lambda)=f(\mu)=1$, and that this form covers the set of all possible normal matrices satisfying this equation.
+Whenever $\lambda=\mu$,~\cref{eq:explicit_inverse_f(A)_matrix_form} reduces to $A=\lambda I_2$, which is the trivial solution. When $\lambda\neq\mu$, however, it is less obvious that the corresponding matrix in~\cref{eq:explicit_inverse_f(A)_matrix_form} satisfies $f(A)=I_2$.
+\end{example}
+
+\begin{example}
+\label{ex:solutions_e^A=I2}
+Picking up from~\cref{ex:solutions_f(A)=I2}, let us analyse the solutions to $f(A)=I_2$ when $f(z)=e^z$.
+Then $f^{-1}(1)=2\pi i\ZZ$, and the set of solutions becomes
+\begin{equation}
+    A_{\alpha,\theta;n,m} = 2\pi i
+    \begin{pmatrix}
+        n \cos^2(\alpha)+m\sin^2(\alpha) &
+        \frac12 e^{-i\theta} \sin(2\alpha) (n-m) \\ 
+        \frac12 e^{i\theta} \sin(2\alpha) (n-m) &
+        n \sin^2(\alpha)+m\cos^2(\alpha)
+    \end{pmatrix},
+\end{equation}
+for all $n,m\in\ZZ$ and $\alpha,\theta\in\RR$.
+\end{example}
+
+\begin{example}
+We gave in~\cref{ex:eigendecomposition_cnot} a possible Hamiltonian generator for the CNOT gate.
+Here, strong on the general characterisation of matrix inverses given in~\cref{eq:general_form_f-1B}, we work out a more general expression for the set of Hamiltonians $\calH$ such that $e^{i\calH}=\CNOT$.
+Specialising~\cref{eq:general_form_f-1B} to the specific eigenstructure of $\CNOT$ (which we worked out in~\cref{ex:eigendecomposition_cnot}), we see that a generic (normal) generator for $\CNOT$ has the form
+\begin{equation}
+    \sum_{j=1}^3 \lambda_j \tildePP_j + \mu\PP_4,
+\end{equation}
+with
+% $\PP_8\equiv\ketbra 8\equiv\ketbra1\otimes\ketbra1\otimes\ketbra-$,
+$\PP_4\equiv\ketbra 4\equiv\ketbra{1,-}$, the projectors 
+$\{\tildePP_j\}_{j=1}^3$ define an arbitrary splitting of the degenerate eigenspace $\ker[(\CNOT-I_4)]$ into orthonormal vectors, and $\lambda_j,\mu\in\CC$ are such that $e^{i\lambda_j}=1$ and $e^{i\mu}=-1$.
+These last conditions identify $\lambda_j\in2\pi\ZZ$ and $\mu\in\pi + 2\pi\ZZ$.
+% \begin{equation}
+%     \lambda_{j,\ell} = 2\pi n_{j,\ell},
+%     \quad
+%     \mu_\ell = \pi + 2\pi m_\ell,
+%     \quad
+%     n_{j,\ell},m_\ell\in\ZZ.
+% \end{equation}
+A generic generator for the CNOT can thus be written as
+\begin{equation}
+    \calH =
+    2\pi\left[
+    \sum_{j=1}^3 n_j \tildePP_j +
+    \frac{1}{2} m\PP_4
+    \right].
+\end{equation}
+It is worth remarking again how the set of viable generators $\calH$ has both a discrete and a continuous degree of freedom.
+\end{example}
+
+\section{Adding physical practical constraints}
+\label{sec:constraints_on_interaction_pars}
+
+Here we discuss the fact that in practice we are not interested in generic time-independet generators, but rather want to focus on ones that contain only a small number of not-more-than-two-body interaction terms.
+\\[2ex]
+We should also discuss here how complex the problem becomes when such constraints are taken into consideration.
+
+\section{The problem, and ML to the rescue}
+\highlight{Probably these sections will be merged at some point, they're a bit to dispersive.}
+
+What kind of ML do we use here? Does what we do even qualify as ML? Why do we use supervised learning instead of other types of learning?
+
+
+
+\section{Rigorous description of the problem setting}
+
+\section{Analytical results}
+
+\subsection{The three great conditions}
+
+\subsection{Applications to Toffoli and Fredkin}
+
+\section{Numerical results}
+
+\subsection{Toffoli and Fredkin}
+
+\subsection{Other cool gates}
+
+\subsection{Analytical results}
+
+\subsection{Numerical approximate results in constrained scenarios}
+
+% \EnableTOCUpdates

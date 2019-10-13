@@ -1,0 +1,60 @@
+% \documentclass[letterpaper,nonstop,draftmode]{simplethesisdissertation}
+\documentclass[12pt,twoside]{report}
+\input{packages.tex}
+\input{macros.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PREAMBLE.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Document properties.
+\def\DocumentTitle{Machine-learning-assisted state and gate engineering for quantum technologies}
+\def\AuthorName{Luca Innocenti}
+
+% PDF settings and properties.
+\hypersetup{
+pdftitle={\DocumentTitle},
+pdfauthor={\AuthorName},
+pdfsubject={Ph.D. Thesis, Queen's University Belfast, 2019},
+pdfcreator={XeLaTeX},
+pdfproducer={},
+pdfkeywords={},
+unicode=true,
+% bookmarks=true,
+bookmarksopen=true,
+pdfstartview=FitH,
+pdfpagelayout=OneColumn,
+pdfpagemode=UseOutlines,
+hidelinks,
+breaklinks,
+bookmarksnumbered
+}
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = green!80!black, %Colour for external hyperlinks
+  linkcolor    = blue, %Colour of internal links 	q
+  citecolor    = red!80!black %Colour of citations
+}
+
+% Accent colors.
+\definecolor{AccentOne}{RGB}{0,68,186} % blue
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ACTUAL DOCUMENT.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\input{Thesis-FrontMatter.tex}
+
+\input{Thesis-Chapter-Intro.tex}
+
+\input{Thesis-Chapter-GateLearning.tex}
+
+\input{Thesis-Chapter-QWs.tex}
+
+\input{Thesis-Chapter-Summary.tex}
+
+\input{Thesis-BackMatter.tex}
+
+\end{document}
