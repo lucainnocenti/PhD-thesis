@@ -531,7 +531,394 @@ Consider now the Toffoli gate, and let $\calP_{\le2}$ be the set of one- and two
 
 A canonical generator for $\Toff$ is $\calH_{\Toff}=\pi Z_1^- Z_2^- X_3^-$.
 This has the nondegenerate eigenvector $\ket{1,1,-}$ with eigenvalue $-1$, which implies that any $\calH$ such that $[\calH,\calH_{\Toff}]=0$ must also stabilise $\ket{1,1,-}$.
-\highlight{ihdsfoijsdfoijdsfojPOJSDFPKSOPDFJOPI}
+This singles out the following $12$ generators:
+\begin{equation}
+\begin{gathered}
+  Z_1, Z_2, X_3,\,\, Z_1 Z_2, Z_1 X_3, Z_2 X_3,\\
+  X_1 (1 + X_3),\quad
+  X_2 (1 + X_3),\\
+  (1 + Z_1) X_2,\quad
+  (1 + Z_1) Z_3,\\
+  X_1 (1 + Z_2),\quad
+  (1 + Z_2) Z_3,
+\end{gathered}
+\label{eq:toffoli_ops_after_commcondition}
+\end{equation}
+The first $6$ are the one- and two-qubit Pauli matrices which have $\ket{1,1,-}$ as eigenvector with nonzero eigenvalue.
+The rest of the operators are built by considering an operator which annihilates this state, and then multiplying it by some remaining one-qubit Pauli matrix.
+\highlight{Maybe a better way to describe this?}
+We thus obtain the general form of a generator that respects the symmetries of the Toffoli. Any such $\calH$ will either preserve (first row) $\ket{1,1,-}$ or annihilate it (the other rows), which we shall write as
+\begin{equation}
+\begin{gathered}
+  \calH =
+  h_0 I + h_3^x X_3 + h_1^z Z_1 + h_2^z Z_2 \\
+  + J_{13}^{zx} Z_1 X_3 + J_{23}^{zx} Z_2 X_3 + J_{12}^{zz} Z_1 Z_2 \\
+  + (J_{13}^{xx} X_1 + J_{23}^{xx} X_2)(1 + X_3) \\
+  + (1 + Z_1)(J_{12}^{zx} X_2 + J_{13}^{zz} Z_3)
+  + (J_{12}^{xz} X_1 + J_{23}^{zz} Z_3)(1 + Z_2).
+\end{gathered}
+\end{equation}
+
+Imposing directly the eigenvalue conditions on $\calH-\calH_{\Toff}$ after~\cref{eq:toffoli_ops_after_commcondition} is not doable directly, as diagonalization here would involve solving high-order polynomial equations.
+Nonetheless, we can get somewhere by making some educated guesses. Let us then assume
+\begin{equation}
+\begin{gathered}
+  h_1^z = h_2^z = -\frac{\pi}{8},\quad
+  J_{12}^{xz} = J_{12}^{zx} = 0,
+  \quad J_{13}^{zx} = J_{23}^{zx} = \frac{\pi}{8}, \\
+  J_{13}^{xx} = J_{23}^{xx},\quad
+  J_{23}^{zz} = -J_{13}^{zz}.
+\end{gathered}
+\end{equation}
+With these assumptions, we get the following simplified expression
+\begin{equation}
+\begin{aligned}
+  \calH &= h_0 I + h_3^x X_3 - \pi/8 ( Z_1 +  Z_2)(1 - X_3)
+  % + \pi/8 (Z_1 + Z_2)X_3
+  + J_{12}^{zz} Z_1 Z_2 \\
+  &+ J_{13}^{xx} (X_1 + X_2)(1 + X_3)
+  + J_{13}^{zz} (1 + Z_3) Z_3 + J_{23}^{zz} (1 + Z_2) Z_3.
+\end{aligned}
+\end{equation}
+If we finally impose $J_{13}^{xx}$, so that the generator is diagonal on the first two qubits, we get
+\begin{equation}
+\begin{aligned}
+	\HPrimeToff{} =
+		&\pi/8\, Z_1 Z_2 X_3 + (h_0 - \pi/8)I +\\
+		&(h_3^x + \pi/8) X_3 + (J_{12}^{zz} - \pi/8) Z_1 Z_2 +\\
+		&J_{13}^{zz} (Z_1 - Z_2)Z_3.
+\end{aligned}
+\label{SM:eq:toffoli_HPrime_reduced}
+\end{equation}
+With the above simplified expression it is now possible to directly solve the eigenvalue problem.
+This results in the following family of solutions:
+\begin{equation}
+\begin{aligned}
+	% \frac{8}{\pi}\tilde{\mathcal H}_{\on{Toff}}(\nu_1, \nu_2, \nu_3, \nu_4) =
+	&\tilde{\mathcal H}_{\on{Toff}} =
+	\frac{\pi}{8} \bigg[
+	1 + 4 \left(\nu_1 + \nu_2 + 2\nu_3 + \sqrt{(\nu_3-\nu_4)^2} \right) \\
+	&- (Z_1 + Z_2)(1 - X_3) + X_3 (-2 - 8\nu_1 + 8\nu_2) \\
+	% &+ (Z_1 + Z_2) X_3 \\
+	&+ 4 Z_1 Z_2 \left(1/4 + \nu_1 + \nu_2 - 2\nu_3 - \sqrt{(\nu_3-\nu_4)^2} \right) \\
+	&+ (Z_2 - Z_1) Z_3 \,\,\sqrt{c(\nu_1, \nu_2, \nu_3, \nu_4)}
+	\bigg],
+\end{aligned}
+\label{eq:toff_tilde_general_solution}
+\end{equation}
+with
+\begin{equation}
+\begin{split}
+	c(\nu_1, \nu_2, \nu_3, \nu_4) =
+		&-(1 + 4\nu_1 - 4\nu_2 + 4\nu_3 - 4\nu_4)\\
+		&\times 	(1 + 4\nu_1 - 4\nu_2 - 4\nu_3 + 4\nu_4) =\\
+		&\!\!= -[(1+4\nu_{12})^2-(4\nu_{34})^2],
+\end{split}
+\end{equation}
+for all integer values of $\nu_i$ such that $c(\nu_1, \nu_2, \nu_3, \nu_4) \ge 0$.
+The corresponding spectrum of $\HPrimeToff = \HTildeToff - \HToff$ is
+\begin{equation}
+\begin{aligned}
+	\lambda_1 &= \lambda_2 = 2\pi \nu_1, \\
+	\lambda_3 &= \lambda_4 = 2\pi \nu_2, \\
+	\lambda_5 &= \lambda_6 = 2\pi \nu_3, \\
+	\lambda_7 &= \lambda_8 = 2\pi (\nu_3 + \lvert\nu_3 - \nu_4\rvert), 
+\end{aligned}
+\end{equation}
+while the spectrum of $\HTildeToff$ changes only in that
+$\lambda_2 = 2\pi(\nu_1 + 1/2)$.
+Consistently with this, $\lambda_2$ is also the eigenvalue corresponding to the non-degenerate eigenspace of $\HToff$, while all the other eigenvalues correspond to eigenvectors orthogonal to this one.
+More specifically, we have
+\begin{equation}
+\begin{aligned}
+	\ket{\lambda_1} &= \ket{0, 0, -}, \\
+	\ket{\lambda_2} &= \ket{1, 1, -}, \\
+	\ket{\lambda_3} &= \ket{1, 1, +}, \\
+	\ket{\lambda_4} &= \ket{0, 0, +}, \\
+	\ket{\lambda_5} &= \ket{1, 0} \otimes N_5\left[(a - b) \ket0 + \ket1 \right], \\
+	\ket{\lambda_6} &= \ket{0, 1} \otimes N_6\left[(a + b) \ket0 + \ket1 \right], \\
+	\ket{\lambda_7} &= \ket{1, 0} \otimes N_6\left[(a + b) \ket0 - \ket1 \right], \\
+	\ket{\lambda_8} &= \ket{0, 1} \otimes N_5\left[(a - b) \ket0 - \ket1 \right],
+\end{aligned}
+\label{eq:toffoli_eigenvectors_solution}
+\end{equation}
+where
+\begin{equation}
+\newcommand{\denom}{1 + \bar\nu_{12}}
+\begin{gathered}
+	a = \frac{\lvert\bar\nu_{34}\rvert}{\denom{}},
+	\qquad
+	b = \frac{\sqrt{\bar\nu_{34}^2 - (\bar\nu_{12} + 1)^2}}{\denom{}},
+\end{gathered}
+\end{equation}
+% \begin{equation}
+% \begin{gathered}
+% 	a = 4\lvert \nu_3 - \nu_4 \rvert / c,
+% 	\qquad
+% 	b = \sqrt{-b_1 b_2} / c, \\
+% 	% a &= \frac{4\lvert \nu_3 - \nu_4 \rvert}{1 + 4\nu_1 - 4\nu_2}, \\
+% 	% b &= \frac{\sqrt{-b_1 b_2}}{1 + 4\nu_1 - 4\nu_2}, \\
+% 	b_1 = (1 + 4(\nu_1 - \nu_2 + \nu_3 - \nu_4)), \\
+% 	b_2 = (1 + 4(\nu_1 - \nu_2 - \nu_3 + \nu_4)), \\
+% 	c = 1 + 4\nu_1 - 4\nu_2, \\
+% 	N_5^2 = ( (a-b)^2 + 1 )^{-1},\quad
+% 	N_6^2 = ( (a+b)^2 + 1 )^{-1}, \\
+% 	N_5^2 + N_6^2 = 1.
+% \end{gathered}
+% \end{equation}
+It is worth noting that the orthogonality of these eigenvectors follows from the easily verified property of the above coefficients: $a^2 - b^2 = 1$.
+Furthermore, we note that $c(\nu_1, \nu_2, \nu_3, \nu_4) \ge 0$ cannot be satisfied unless $\nu_3 \neq \nu_4$.
+This in turn, looking at \cref{eq:toffoli_eigenvectors_solution},
+reveals that all the solutions are made possible by a non-trivial lifting of the degeneracy of the subspaces $\ketbra{0,1}$ and $\ketbra{1,0}$.
+Let us now try to understand how and why the derived $\HPrimeToff{}$ works.
+Let us use the notation $P_i \equiv \ketbra{\lambda_i}$,
+and consider the projector over the last two eigenvectors.
+Highlighting the 3-qubit terms, we find
+\begin{equation}
+\begin{aligned}
+	P_7 \simeq - N_6^2 \frac{Z_1 Z_2}{4} \bigg[
+		\big((a + b)^2 - 1\big) \frac{Z_3}{2}
+		- (a + b) X_3
+	\bigg], \\
+	P_8 \simeq - N_5^2 \frac{Z_1 Z_2}{4} \bigg[
+		\big((a - b)^2 - 1\big) \frac{Z_3}{2}
+		- (a - b) X_3
+	\bigg].
+\end{aligned}
+\end{equation}
+The term in the Hamiltonian to which these two projectors contribute is
+$2\pi \nu_{3,4} (P_7 + P_8)$, with $\nu_{3,4} = \nu_3 + \lvert \nu_3 - \nu_4\rvert$.
+A little algebra reveals that the 3-qubit terms in $P_7 + P_8$ are
+\begin{equation}
+\begin{aligned}
+	- \frac{Z_1 Z_2 Z_3}{8} \left[
+		N_6^2\big((a+b)^2 - 1\big)
+		+ N_5^2 \big((a-b)^2 - 1\big)
+	\right] \\
+	+ \frac{Z_1 Z_2 X_3}{4} \left[
+		N_6^2(a+b) + N_5^2(a-b)
+	\right].
+\end{aligned}
+\end{equation}
+Recalling the definitions of $a,b,N_5,N_6$, we see that the coefficient of $Z_1 Z_2 Z_3$ vanishes, and the resulting expression becomes
+\begin{equation}
+	P_7 + P_8 = (...) +
+	Z_1 Z_2 X_3 \frac{1 + 4(\nu_1 - \nu_2)}{16\lvert \nu_3 - \nu_4\rvert}.
+\end{equation}
+Substitution of the appropriate values of $\nu_i$ shows that the above term can be used to generate the 3-qubit factor $\pi/8 \,\,Z_1 Z_2 X_3$,
+\emph{without introducing additional 3-qubit factors}.
+In Box~\ref{tcolorbox:toffoli} are given the full expressions for the projectors and the found solutions for the Toffoli gate.
+It is also interesting to note that all of the above still holds if the $X_i$ operators are replaced with $Y_i$ operators.
+That is, the expressions found solving for the Toffoli, by simple substitution $X_i \to Y_i$,
+also give a generator with only 2-qubit interactions for the CCY gate
+(that is, the gate that applies $Y$ to the third qubit conditionally to the first 2 qubits being in the $\ket1$ state).
+
+\begin{tbox}[label=tcolorbox:toffoli]{Toffoli}
+	\begin{equation*}
+	\begin{aligned}
+		P_1 &= Z_1^+ Z_2^+ X_3^-,
+		\qquad
+		P_2 &= Z_1^- Z_2^- X_3^-,
+		\qquad
+		P_3 &= Z_1^+ Z_2^+ X_3^+,
+		\qquad
+		P_4 &= Z_1^- Z_2^- X_3^+,
+	\end{aligned}
+	\end{equation*}
+	%
+	\begin{equation*}
+	\begin{aligned}
+		P_5 &= Z_1^- Z_2^+ \frac{1}{2\lvert\bar{\nu}_{34}\rvert}
+		\left[
+			\lvert\bar\nu_{34}\rvert +
+			(1 + \bar\nu_{12}) X_3 -
+			\sqrt{-(1 + \bar\nu_{12})^2 + \bar\nu_{34}^2} Z_3
+		\right], \\
+		P_6 &= Z_1^+ Z_2^- \frac{1}{2\lvert\bar{\nu}_{34}\rvert}
+		\left[
+			\lvert\bar\nu_{34}\rvert +
+			(1 + \bar\nu_{12}) X_3 +
+			\sqrt{-(1 + \bar\nu_{12})^2 + \bar\nu_{34}^2} Z_3
+		\right], \\
+		P_7 &= Z_1^- Z_2^+ \frac{1}{2\lvert\bar{\nu}_{34}\rvert}
+		\left[
+			\lvert\bar\nu_{34}\rvert -
+			(1 + \bar\nu_{12}) X_3 +
+			\sqrt{-(1 + \bar\nu_{12})^2 + \bar\nu_{34}^2} Z_3
+		\right], \\
+		P_8 &= Z_1^+ Z_2^- \frac{1}{2\lvert\bar{\nu}_{34}\rvert}
+		\left[
+			\lvert\bar\nu_{34}\rvert -
+			(1 + \bar\nu_{12}) X_3 -
+			\sqrt{-(1 + \bar\nu_{12})^2 + \bar\nu_{34}^2} Z_3
+		\right].
+	\end{aligned}
+	\end{equation*}
+	%
+	\begin{equation*}
+		P_1 + P_2 = \frac{1}{4} (1 + Z_1 Z_2) (1 - X_3),
+		\qquad
+		P_3 + P_4 = \frac{1}{4} (1 + Z_1 Z_2) (1 + X_3).
+	\end{equation*}
+	%
+	\begin{align*}
+		P_5 + P_6 = \frac{1}{4\lvert\bar\nu_{34}\rvert} \left[
+			(1 - Z_1 Z_2) \lvert\bar\nu_{34}\rvert +
+			(1 - Z_1 Z_2) X_3 (1 + \bar\nu_{12}) +
+			(Z_1 - Z_2)Z_3 \sqrt{\bar\nu_{34}^2 - (1 + \bar\nu_{12})^2}
+		\right], \\
+		P_7 + P_8 = \frac{1}{4\lvert\bar\nu_{34}\rvert} \left[
+			(1 - Z_1 Z_2) \lvert\bar\nu_{34}\rvert -
+			(1 - Z_1 Z_2) X_3 (1 + \bar\nu_{12}) -
+			(Z_1 - Z_2)Z_3 \sqrt{\bar\nu_{34}^2 - (1 + \bar\nu_{12})^2}
+		\right].
+	\end{align*}
+	% \begin{align*} 
+	% 	P_5 + P_6 &= \frac{1}{16} \left[
+	% 	4(1 - Z_1 Z_2)
+	% 	+ \frac{1 + 4(\nu_1 - \nu_2)}{\lvert \nu_3 - \nu_4 \rvert}
+	% 		(1 - Z_1 Z_2)X_3
+	% 	- (Z_2 - Z_1)Z_3 \sqrt{16 - \frac{(1 + 4(\nu_1 - \nu_2))^2}{(\nu_3-\nu_4)^2}}
+	% 	\right], \\
+	% 	P_7 + P_8 &= \frac{1}{16} \left[
+	% 	4(1 - Z_1 Z_2)
+	% 	- \frac{1 + 4(\nu_1 - \nu_2)}{\lvert \nu_3 - \nu_4 \rvert}
+	% 		(1 - Z_1 Z_2)X_3
+	% 	+ (Z_2 - Z_1)Z_3 \sqrt{16 - \frac{(1 + 4(\nu_1 - \nu_2))^2}{(\nu_3-\nu_4)^2}}
+	% 	\right].
+	% \end{align*}
+	It is easily verified from the above that
+	\begin{equation*}
+		P_1 + P_2 + P_3 + P_4 = \frac{1}{2} (1 + Z_1 Z_2),
+		\qquad
+		P_5 + P_6 + P_7 + P_8 = \frac{1}{2} (1 - Z_1 Z_2),
+	\end{equation*}
+	so that the sum of the projectors gives the identity as it should.
+	On the other hand, multiplying by the appropriate $\nu_i$ factors, we get
+	\begin{equation*}
+	\begin{aligned}
+		2\pi\left[\nu_1(P_1 + P_2) + \nu_2(P_3 + P_4)\right]
+		&= (...) + \frac{\pi}{2} (\nu_2 - \nu_1) Z_1 Z_2 X_3, \\
+		%
+		2\pi\left[\nu_3(P_5 + P_6) + \nu_4(P_7 + P_8)\right]
+		&= (...) + \frac{\pi}{2} (\nu_1 - \nu_2) Z_1 Z_2 X_3 + \frac{\pi}{8} Z_1 Z_2 X_3,
+	\end{aligned}
+	\end{equation*}
+	with the last identity holding for $\nu_3\neq \nu_4$.
+\end{tbox}
+
+A different way to understand $\HTildeToff$ is to analyse the four two-dimensional subspaces on the main diagonal, exploiting the fact that $\HTildeToff{}$ acts diagonally on the first two qubits.
+Straightforward calculations lead to
+\begin{equation*}
+\begin{aligned}
+	\mel{00}{\HTildeToff}{00} &= \pi \left[(\nu_1+\nu_2)-(\nu_1-\nu_2)X\right], \\
+	\mel{01}{\HTildeToff}{01} &= 2\pi\nu_3 + \pi\lvert\nu_{34}\rvert(1 - \sigma_{01}), \\
+	\mel{10}{\HTildeToff}{10} &= 2\pi\nu_3 + \pi\lvert\nu_{34}\rvert(1 - \sigma_{10}), \\
+	\mel{11}{\HTildeToff}{11} &= \frac{\pi}{2}\left[
+		(1+2(\nu_1+\nu_2))-(1+2\nu_{12})X
+	\right], \\
+\end{aligned}
+\end{equation*}
+where
+\begin{equation}
+\begin{aligned}
+	\sigma_{01}&\equiv\frac{(1+4\nu_{12})X + \sqrt{c}Z}{4\lvert\nu_{34}\rvert}, \\
+	\sigma_{10}&\equiv\frac{(1+4\nu_{12})X - \sqrt{c}Z}{4\lvert\nu_{34}\rvert}.
+\end{aligned}
+\end{equation}
+It can be verified that for all values of $\nu_1, \nu_2, \nu_3, \nu_4$, the two-dimensional identity and $X$ are correctly generated in the $\ket{00}$ and $\ket{11}$ spaces, respectively.
+On the other hand, in the $\ket{01}$ and $\ket{10}$ spaces, the two-dimensional identity is generated as long as $\nu_3\neq\nu_4$, as was also derived before.
+
+In particular, the class of solutions given by $\nu_1 = \nu_2 = \nu_3 = 0$ is
+\begin{equation}
+\begin{split}
+	\frac{\pi}{8} \bigg[
+	1 + 4\lvert\nu_4\rvert
+	- 2 X_3 - Z_1 - Z_2
+	+ (Z_1 + Z_2) X_3 \\
+	+ Z_1 Z_2 (1 - 4\lvert\nu_4 \rvert)
+	+ (Z_2 - Z_1) Z_3 \sqrt{16\nu_4^2 - 1}
+	\bigg],
+\end{split}
+\label{SM:eq:toffoli_generator_nu4}
+\end{equation}
+for all $\nu_4\neq 0$.
+It is interesting to look at the explicit form of the exponentials
+generated by this class generators.
+Computing $\exp(i \tilde{\mathcal H} t)$ with $\tilde{\mathcal H}$ as in \cref{SM:eq:toffoli_generator_nu4}, we get the following unitary:
+\begin{equation}
+	\begin{pmatrix}
+		I_2 & \mathbb0 & \mathbb0 & \mathbb0 \\
+		\mathbb0 & S(t, \nu_4) & \mathbb0 & \mathbb0 \\
+		\mathbb0 & \mathbb0 & S(t, \nu_4) & \mathbb0 \\
+		\mathbb0 & \mathbb0 & \mathbb0 & X(t)
+	\end{pmatrix},
+\end{equation}
+where
+\begin{equation}
+	S(t, \nu_4) = \begin{pmatrix}
+		a + b & c \\
+		c & a - b
+	\end{pmatrix},
+\end{equation}
+\begin{equation}
+\begin{gathered}
+	a = \frac{1 + e^{2i\pi t \nu_4}}{2},
+	\qquad c = \frac{1 - e^{2i\pi t \nu_4}}{8\nu_4},  \\
+	b = \frac{(-1 + e^{2i\pi t \nu_4})\sqrt{16\nu_4^2 - 1}}{8\nu_4},
+\end{gathered}
+\end{equation}
+and
+\begin{equation}
+	X(t) = \frac{1}{2} \begin{pmatrix}
+		(1 + e^{i\pi t}) & (1 - e^{i\pi t}) \\
+		(1 - e^{i\pi t}) & (1 + e^{i\pi t})
+	\end{pmatrix}
+\end{equation}
+For large (in modulus) values of $\nu_4$,
+$a + b \to e^{2i\pi t \nu_4}$, $a - b \to 1$ and $c\to0$,
+so that the exponential becomes
+\begin{equation}
+	\begin{pmatrix}
+		I & & & & &\\
+		& e^{2i\pi t \nu_4} & & & & \\
+		& & 1 & & & \\
+		& & & e^{2i\pi t \nu_4} & & \\
+		& & & & 1 & \\
+		& & & & & X(t)
+	\end{pmatrix},
+\end{equation}
+which very closely resembles the matrix obtained by exponentiating the principal generator
+$\mathcal H_{\on{Toff}} = \pi Z_1^- Z_2^- X_3^-$:
+\begin{equation}
+	\exp(i t \mathcal H_{\on{Toff}}) =
+	\begin{pmatrix}
+		I & & & \\
+		& I & & \\
+		& & I & \\
+		& & & X(t)
+	\end{pmatrix}.
+\end{equation}
+A different solution derived from~\cref{eq:toff_tilde_general_solution} is
+\begin{equation}
+\begin{aligned}
+	\tilde{\mathcal H}_{\on{Toff}} =
+	\frac{9\pi}{8} + \frac{3\pi}{4} X_3 - \frac{\pi}{8} (Z_1 + Z_2)
+	+ \frac{\pi}{8} Z_1 Z_2 \\
+	+ \frac{\pi}{8} (Z_1 + Z_2) X_3
+	- \frac{\sqrt7 \pi}{8} (Z_1 - Z_2) Z_3.
+\end{aligned}
+\end{equation}
+Moreover, it is worth noting that~\cref{eq:toff_tilde_general_solution} is only one possible family of solutions, and that different assumptions will lead to different ones.
+For example, a similar reasoning as above, starting however from the assumptions $J_{23}^{zz}=J_{13}^{zz}$ will lead to solutions such as (note the use of $(Z_1+Z_2)$ terms here, making this solution not derivable from~\cref{eq:toff_tilde_general_solution}):
+\begin{equation}
+\begin{aligned}
+	\HTildeToff{} =\,
+		&\frac{9\pi}{8} - \frac{7\pi}{8}X_3 + \frac{\sqrt{15}\pi}{8} Z_3 + \frac{\pi}{8}Z_1 Z_2 \\
+		&\frac{\pi}{8}(Z_1+Z_2)\left(-1+\frac{5}{2}X_3 + \frac{\sqrt{15}}{2}Z_3\right).
+\end{aligned}
+\end{equation}
+
 
 \section{ML to the rescue}
 \highlight{Probably these sections will be merged at some point, they're a bit to dispersive.}

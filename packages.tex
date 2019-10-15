@@ -102,6 +102,12 @@
   title={Example \thetcbcounter},
   #1
 }
+\newtcolorbox[auto counter]{tbox}[2][]{%
+	enhanced, float*=t,
+	colback=gray!5!white, colframe=gray!75!black,
+	width=\textwidth,
+	title={Box \thetcbcounter: #2}, #1
+}
 
 
 \usepackage[
