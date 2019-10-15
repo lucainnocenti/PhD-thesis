@@ -52,8 +52,7 @@ We can also consider the time $t$ as part of the definition of $\calH$, which am
 
 For concreteness, let us analyse what happens when we try to find Hamiltonian generators for a few common two- and three-qubit gates, namely the CNOT and the Toffoli gate.
 \highlight{Ensure no other gates are added in the examples}
-\begin{example}
-\label{ex:eigendecomposition_cnot}
+\begin{example}[label=ex:eigendecomposition_cnot]
 Assume that the target operation is $\CNOT$: the two-qubit unitary gate which flips the second qubit conditionally to the value of the first one.
 In matrix notation, this reads
 \begin{equation}
@@ -94,8 +93,7 @@ It is less trivial to get a complete characterisation of the solution set.
 Indeed, as will be shown in~\cref{sec:solutions_matrix_equation_f(A)=B}, there is a rich set of solutions for these types of matrix equations.
 \end{example}
 
-\begin{example}
-\label{ex:eigendecomposition_Toffoli}
+\begin{example}[label={ex:eigendecomposition_Toffoli}]
 Consider now the \textbf{Toffoli gate}, which is a three-qubit gate which flips the third qubit conditionally to the first two qubits being in the $\ket1$ state.\highlight{Ensure Toffoli was defined before, or add relevant references here.}
 More explicitly, this means
 \begin{equation}
@@ -192,8 +190,7 @@ Note how this means that $f^{-1}(B)$ \textit{can break the degeneracies in $B$} 
 
 Let us give now a few concrete examples of the freedom allowed by the degeneracies.
 
-\begin{example}
-\label{ex:solutions_f(A)=I2}
+\begin{example}[label={ex:solutions_f(A)=I2}]
 Consider the two-dimensional identity matrix $I_2$, and an arbitrary complex function $f$ defined on the complex unit. \textbf{What is then the set of matrices $A$ such that $f(A)=I_2$?}
 Note that $I_2=P+Q$ for any pair of orthogonal projectors $P,Q$, and $\lambda P + \mu Q\in f^{-1}(I_2)$ for any $\lambda,\mu\in f^{-1}(1)$.
 This can be equivalently stated saying that, for any pair of orthonormal states $\ket u$ and $\ket v$, we have
@@ -228,8 +225,25 @@ We conclude that any such $A$ is such that $f(A)=I_2$, as long as $f(\lambda)=f(
 Whenever $\lambda=\mu$,~\cref{eq:explicit_inverse_f(A)_matrix_form} reduces to $A=\lambda I_2$, which is the trivial solution. When $\lambda\neq\mu$, however, it is less obvious that the corresponding matrix in~\cref{eq:explicit_inverse_f(A)_matrix_form} satisfies $f(A)=I_2$.
 \end{example}
 
-\begin{example}
-\label{ex:solutions_e^A=I2}
+\begin{example}[label={ex:solutions_f(A)=I_3}]
+\highlight{To decide where to put this crap.}
+
+Consider how to split the eigenspace of the three-dimensional identity $I_3$.
+This essentially amounts to the problem of parametrising a set of three orthonormal complex vectors. For the purpose, let us write them as
+\begin{equation}
+\begin{cases}
+    \ket{u_1} = \cos(\alpha)\ket0
+    + e^{i\theta}\sin(\alpha)\cos(\beta)\ket1
+    + e^{i\varphi}\sin(\alpha)\sin(\beta)\ket2, \\
+    \ket{u_2} = \cos(\alpha)\ket0
+    + e^{i\theta}\sin(\alpha)\cos(\beta)\ket1
+    + e^{i\varphi}\sin(\alpha)\sin(\beta)\ket2, \\
+\end{cases}
+\end{equation}
+\highlight{Actually, there might not be a general nice way to parametrise such sets of vectors!}
+\end{example}
+
+\begin{example}[label={ex:solutions_e^A=I2}]
 Picking up from~\cref{ex:solutions_f(A)=I2}, let us analyse the solutions to $f(A)=I_2$ when $f(z)=e^z$.
 Then $f^{-1}(1)=2\pi i\ZZ$, and the set of solutions becomes
 \begin{equation}
@@ -244,15 +258,14 @@ Then $f^{-1}(1)=2\pi i\ZZ$, and the set of solutions becomes
 for all $n,m\in\ZZ$ and $\alpha,\theta\in\RR$.
 \end{example}
 
-\begin{example}
+\begin{example}[label={ex:cnot_generator_decomposition}]
 We gave in~\cref{ex:eigendecomposition_cnot} a possible Hamiltonian generator for the CNOT gate.
 Here, strong on the general characterisation of matrix inverses given in~\cref{eq:general_form_f-1B}, we work out a more general expression for the set of Hamiltonians $\calH$ such that $e^{i\calH}=\CNOT$.
 Specialising~\cref{eq:general_form_f-1B} to the specific eigenstructure of $\CNOT$ (which we worked out in~\cref{ex:eigendecomposition_cnot}), we see that a generic (normal) generator for $\CNOT$ has the form
 \begin{equation}
     \sum_{j=1}^3 \lambda_j \tildePP_j + \mu\PP_4,
 \end{equation}
-with
-% $\PP_8\equiv\ketbra 8\equiv\ketbra1\otimes\ketbra1\otimes\ketbra-$,
+where
 $\PP_4\equiv\ketbra 4\equiv\ketbra{1,-}$, the projectors 
 $\{\tildePP_j\}_{j=1}^3$ define an arbitrary splitting of the degenerate eigenspace $\ker[(\CNOT-I_4)]$ into orthonormal vectors, and $\lambda_j,\mu\in\CC$ are such that $e^{i\lambda_j}=1$ and $e^{i\mu}=-1$.
 These last conditions identify $\lambda_j\in2\pi\ZZ$ and $\mu\in\pi + 2\pi\ZZ$.
@@ -271,30 +284,262 @@ A generic generator for the CNOT can thus be written as
     \frac{1}{2} m\PP_4
     \right].
 \end{equation}
-It is worth remarking again how the set of viable generators $\calH$ has both a discrete and a continuous degree of freedom.
+It is worth stressing how the set of viable generators $\calH$ has both a discrete and a continuous degree of freedom.
 \end{example}
+
+In the rest of the thesis, we will focus on the case $f(A)\equiv e^{iA}$, which is case of relevance to find Hamiltonians generating target unitaries.
 
 \section{Adding physical practical constraints}
 \label{sec:constraints_on_interaction_pars}
 
-In~\cref{sec:solutions_matrix_equation_f(A)=B}, we gave a full 
+In~\cref{sec:solutions_matrix_equation_f(A)=B} we described how to write the full set of solution for a matrix equation of the form $f(A)=B$.
+In this section we will show how introducing further constraints on the type of interaction terms allowed in the final generator reveals a particularly daunting task.
 
-Here we discuss the fact that in practice we are not interested in generic time-independet generators, but rather want to focus on ones that contain only a small number of not-more-than-two-body interaction terms.
-\\[2ex]
-We should also discuss here how complex the problem becomes when such constraints are taken into consideration.
+To restrict the type of interaction terms allowed in the final generator, means to fix some set $\calP$ comprised of orthogonal Hermitian operators $\sigma_i$, and ask for a generator $\calH\in f^{-1}(\calU)$ such that $\calH$ is in the span of $\{\sigma_i\}_i$:
+\begin{equation}
+    \calH \in f^{-1}(\calU) \cap \on{Span}\calP.
+\end{equation}
+In the following, we will focus on the case  $f(A)\equiv e^{iA}$. \highlight{probably need to specify what is $f$ here}
+A typical (but not necessary) choice for the $\sigma_i$ is the set of one- and two-qubit interaction terms $\calP_{\le2}$, defined as
+\begin{equation}
+    \calP_{\le2} \equiv \{ I, X_i,Y_i,Z_i, X_i Y_j, X_i Z_j, Y_i Z_j : \,\,i,j=1,2,3 \}.
+\end{equation}
+We thus have for example $X_i,Y_j\in\calP_{\le2}$ and $X_i Z_j\in\calP_{\le2}$, but $X_i Y_j Z_k\notin\calP_{\le2}$ for $i\neq j,i\neq k$ and $j\neq k$.
 
-\section{The problem, and ML to the rescue}
+Given a candidate generator $\calH\in f^{-1}(\calU)$, one would therefore need to decompose $\calH$ in a basis containing the elements of $\calP$, and impose that all terms outside of this set are vanishing.
+Given a target gate with eigendecomposition
+$\calU=\sum_j e^{i\varphi_j}\PP_j$ with $\Tr\PP_j=d_j$ and $\sum_j d_j=2^n$ with $n$ the number of qubits, this would entail in practice finding bases for each $\on{Range}(\PP_j)$ built out of states $\{\ket*{u_{jk}}\}_{k=1}^{d_j}\subset \mathbb{CP}^{d_j}$, and integers $n_{jk}$, such that
+\begin{equation}
+    \sum_j\sum_{k=1}^{d_j} (\varphi_j + 2\pi n_{jk}) \PP[\ket*{u_{jk}}]
+    \in \on{Span}_{\RR}\calP.
+\end{equation}
+
+\begin{example}[label={ex:cnot_physical_constraints}]
+Let $\calU=\CNOT$, and consider a set of allowed interactions containing only single-qubit terms: $\calP_1\equiv\{X_i,Y_i,Z_i\}_{i\in\{1,2\}}$.
+Is there an $\calH$ containing only interactions in $\calP_1$ and such that $e^{i\calH}=\CNOT$?
+
+From a physical point of view, the answer should obviously be that no, there cannot be any such Hamiltonian, as that would mean that an entangling two-qubit gate can be obtained without having the qubits interact in any way.
+Still, it is interesting to see if we can recover this result using the formalism introduced in the previous section, as a testbed to see it in action.
+Consider then the decomposition given in~\cref{ex:cnot_generator_decomposition} for the CNOT:
+\begin{equation}
+    \calH =
+    2\pi\left[
+    \sum_{j=1}^3 n_j \tildePP_j +
+    \frac{1}{2} m\PP_4
+    \right],
+\label{eq:cnotex_general_H_expr}
+\end{equation}
+where
+$\PP_4\equiv Z_1^- X_2^-$ and $\tildePP_1,\tildePP_2,\tildePP_3$ define an arbitrary splitting of the eigenspace generated by $\ket{0,0},\ket{0,1}$ and $\ket{1,+}$.
+Let us write down explicitly the decompositions of these projectors in terms of Pauli matrices:
+\begin{equation}
+\begin{cases}
+    \tildePP_1 &= Z_1^+ Z_2^+ \,= \frac{1}{4} (I + Z_1 + Z_2 + Z_1 Z_2), \\
+    \tildePP_2 &= Z_1^+ Z_2^- \,= \frac{1}{4} (I + Z_1 - Z_2 - Z_1 Z_2), \\
+    \tildePP_3 &= Z_1^- X_2^+ = \frac{1}{4} (I - Z_1 + X_2 - Z_1 X_2), \\
+    \PP_4 &= Z_1^- X_2^- = \frac{1}{4} (I - Z_1 - X_2 + Z_1 X_2),
+\end{cases}
+\end{equation}
+where we made a canonical choice for the $\tildePP_i$.
+Without exploiting the freedom given by the degeneracies, it is straightforward to see that it is not possible to find values for the $n_j\in\ZZ$ such annihilate the two qubit interaction terms, due to the $1/2$ factor in~\cref{eq:cnotex_general_H_expr}.
+Indeed, expanding~\cref{eq:cnotex_general_H_expr} and focusing on the two-qubit interaction terms, we get
+\begin{equation}
+    \calH = (...) + \frac{2\pi}{4}\left[
+    (n_1 - n_2) Z_1 Z_2 +
+    (n_4/2 - n_3) Z_1 X_2
+    \right].
+\end{equation}
+Remarkably, this shows how the $Z_1 X_2$ seems to be a necessary part of a generator, as there is no choice of $n_3,n_4\in\ZZ$ such that $n_4-2 n_3=0$.
+Still, this does not rule out the possibility that for some other choice of $\tildePP_j$ it is possible.
+The difficulty in showing this in full generality arises from the lack of a nice general expression for a arbitrary unitary rotations in more than two dimensions \highlight{maybe make sure this is actually true. What about Jarlskogwhateverthefuckitscalled decomposition?}.
+In~\cref{sec:gatelearning_solution_framework} we will provide a way to answer these questions more easily.
+\end{example}
+
+\begin{example}[label={ex:toffoli_physical_constraints}]
+Let $\calU=\Toff$, and consider the set of allowed interactions $\calP_{\le2}$ comprised of one- and two-qubit interaction terms (but notably \textit{not} three-qubit terms).
+\textbf{\textit{Is there a generator $\calH\in f^{-1}(\Toff)\cap\calP_{\le2}$?}}
+
+The eigenstructure of the Toffoli gate was given in~\cref{ex:eigendecomposition_Toffoli}. Similarly to the case of the CNOT, we here have a sevenfold degenerate eigenvalues $+1$ and a nondegenerate eigenvalue $-1$.
+The eigenvector of the eigenvalue $-1$ is $\ket{1,1,-}$. We can therefore write a general expression for generators of $\Toff$ in the form
+\begin{equation}
+    \calH=2\pi \left[
+        \sum_{j=1}^7 n_j \tildePP_j
+        +\frac12 m\PP_8,
+    \right]
+\end{equation}
+where $\PP_8\equiv\ketbra{1,1,-}$ and $\sum_{j=1}^7\tildePP_j+\PP_8=I_8$.
+Note how the choice $n_j=0$ gives a generator proportional to $\PP_8$, which contains the three-qubit interaction term $Z_1 Z_2 X_3$, and is therefore not contained in $\calP_{\le2}$.
+A canonical choice for the $\tildePP_j$ is the following:
+\begin{equation}
+\begin{cases}
+    \tildePP_1 &= Z_1^+ Z_2^+ Z_3^+ = (...) + \frac18 Z_1 Z_2 Z_3, \\
+    % = \frac{1}{8} (I + Z_1 + Z_2 + Z_3 + Z_1 Z_2 + Z_1 Z_3 + Z_2 Z_3 + Z_1 Z_2 Z_3), \\
+    \tildePP_2 &= Z_1^+ Z_2^+ Z_3^- = (...) - \frac{1}{8} Z_1 Z_2 Z_3, \\
+    %\,= \frac{1}{4} (I + Z_1 - Z_2 - Z_1 Z_2), \\
+    \tildePP_3 &= Z_1^+ Z_2^- Z_3^+ = (...) - \frac18 Z_1 Z_2 Z_3, \\
+    \tildePP_4 &= Z_1^+ Z_2^- Z_3^- = (...) + \frac18 Z_1 Z_2 Z_3, \\
+    \tildePP_5 &= Z_1^- Z_2^+ Z_3^+ = (...) - \frac18 Z_1 Z_2 Z_3, \\
+    \tildePP_6 &= Z_1^- Z_2^+ Z_3^- = (...) + \frac18 Z_1 Z_2 Z_3, \\
+    \tildePP_7 &= Z_1^- Z_2^- X_3^+ = (...) + \frac18 Z_1 Z_2 X_3, \\
+    \PP_8 &= Z_1^- Z_2^- X_3^- = (...) - \frac18 Z_1 Z_2 X_3.
+\end{cases}
+\end{equation}
+Similarly to what we found in~\cref{ex:cnot_physical_constraints}, we have here a three-qubit interaction term, $Z_1 Z_2 X_3$, which is proportional to $(n_7 - m/2)$, and therefore cannot be removed by any choice of the integer parameters.
+% \begin{equation}
+%     (n_7 - m/2) Z_1 Z_2 X_3
+% \end{equation}
+There is, however, a marked difference between the present case and~\cref{ex:cnot_physical_constraints}: while for the CNOT we have strong physical reasons to believe that it is impossible to obtain the gate without two-qubit interaction terms, this is not the case for the Toffoli.
+Indeed, while it is in principle possible to achieve a three-qubit entangling gate without using three-qubit interaction terms, although the veracity of this claim is not obvious.
+Indeed, we will show in~\cref{sec:gatelearning_solution_framework} how, by appropriately rotating the degenerate eigenspace, it \textit{is} possible to achieve such a feat.
+\end{example}
+
+\section{A solution framework}
+\label{sec:gatelearning_solution_framework}
+As demonstrated in~\cref{sec:constraints_on_interaction_pars}, injecting physical constraints into the problem makes it significantly harder to solve.
+Nevertheless, we will show in this section how a few observations can be exploited to significantly simplify the task.
+
+Piggybacking on the results of~\cref{sec:solutions_matrix_equation_f(A)=B}, consider the general problem of looking for generators $\calH$ such that $e^{i\calH}=\calU$ for a given unitary $\calU$.
+While, as previously discussed, there are in general many possible such $\calH$, there \textit{is} one ``natural'' choice that can be considered as \textit{canonical} in this context.
+Indeed, while a generic $\calH$ can break the degeneracies of $\calU$, let us denote with $\calH_{\calU}$ a \textit{canonical generator}, which is one that preserves the degeneracies of $\calU$.
+Note that computing such a generator is generally a straightforward task.
+% Indeed, given an eigendecomposition of $\calU$ 
+% As previously discussed, it is easy to find \textit{one} possible $\calH$ satisfying this requirement. Let us denote such a ``canonical'' generator with $\calH_{\calU}$.
+Any other generator $\calH$ will have to be related to $\calH_{\calU}$ through the equation $e^{i\calH}=e^{i\calH_{\calU}}=\calU$.
+We will show in this section that the following two conditions must be always satisfied by any such $\calH$:
+\begin{itemize}
+    \item Every such $\calH$ must commute with $\calH_{\calU}$.
+    % : $[\calH,\calH_{\calU}]=0$.
+    \item The eigenvalues of $\calH-\calH_{\calU}$ must all be integer multiples of $2\pi$.
+\end{itemize}
+
+Indeed, assume that $\calH$ and $\calH_{\calU}$ satisfy these two conditions.
+% Then, as shown in~\cref{sec:solutions_matrix_equation_f(A)=B}, 
+While, in general, two Hamiltonians $\calH_1,\calH_2$ with $e^{i\calH_1}=e^{i\calH_2}=\calU$ need not commute with each other, this must be the case when one of the two is a canonical generator $\calH_{\calU}$. In other words, we must always have $[\calH,\calH_{\calU}]=0$.
+This is for the same reason why, for any generator $\calH$, we must have $[\calH,\calU]=0$.
+Moreover, $[\calH,\calH_{\calU}]=0$ implies that
+$I=e^{i\calH}e^{-i\calH_{\calU}}=e^{i(\calH-\calH_{\calU})}$.
+But for this to be true, the eigenvalues of $\calH-\calH_{\calU}$ must necessarily be integer multiples of $2\pi$, which proves the first implication.
+
+For the other direction, let us assume that, given some $\calH_{\calU}$ such that $e^{i\calH_{\calU}}=\calU$, we have $[\calH,\calH_{\calU}]=0$ and $\on{Spec}(\calH-\calH_{\calU})\subseteq2\pi\ZZ$.
+Then,
+\begin{equation}
+    e^{i\calH} =
+    e^{i\calH} e^{-i\calH_{\calU}} e^{i\calH_{\calU}} =
+    e^{i(\calH-\calH_{\calU})} \calU =
+    \calU.
+\end{equation}
+This suggests the following plan of action to solve the general problem in the presence of constraints on the Hamiltonian generators: let $\calU$ be a target gate with canonical generator $\calH_{\calU}$. Then, to find $\calH\in f^{-1}(\calU)\cap\calP$ is equivalent to find $\calH$ satisfying the following three conditions:
+\begin{subequations}
+\begin{gather}
+    \calH\in\calP, \label{eq:3conditions_1st}\\
+    [\calH,\calU]=0 \text{ (equivalently, $[\calH,\calH_{\calU}]=0$)}, \label{eq:3conditions_2nd}\\
+    \on{Spectrum}(\calH-\calH_{\calU})\subseteq2\pi\ZZ \label{eq:3conditions_3rd}
+\end{gather}
+\label{eq:3conditions}
+\end{subequations}
+% \begin{enumerate}
+%     \item $\calH\in\calP$,
+%     \item $[\calH,\calU]=0$ (or, equivalently, $[\calH,\calH_{\calU}]=0$),
+%     \item $\on{Spectrum}(\calH-\calH_{\calU})\subseteq2\pi\ZZ.$
+% \end{enumerate}
+To approach a given problem, we can therefore proceed as follows:
+1) write a general expression for an element in the (real) span of $\calP$: $\calH=\sum_k c_k \sigma_k$ summed over all $\sigma_k\in\calP$.
+2) Impose $[\calH,\calU]=0$, this immediately cuts many of the coefficients in the general expression for $\calH$.
+3) Look into the remaining set of coefficients $c_k$ for a combination that satisfies the third condition.
+
+Note how the first two conditions are easy to impose, while the third one remains difficult. To see this more concretely let us consider a few applications of this framework.
+
+\begin{example}[label={ex:cnot_with_conditions}]
+Taking up where we left off in~\cref{ex:cnot_physical_constraints}, let us see if~\cref{eq:3conditions} can give us a conclusive way to prove the impossibility of generating a CNOT with only one-qubit interactions.
+A canonical generator for the CNOT is obtained by setting $n_i=0$ and $m=1$ in~\cref{eq:cnotex_general_H_expr}, which results in
+$\calH_{\CNOT}=\pi Z_1^- X_2^-$.
+A general form for an $\calH$ containing one-qubit interactions is
+\begin{equation}
+    \calH = h_0 I +
+    \sum_{\alpha=1}^3 (h_1^\alpha\sigma_1^\alpha + h_2^\alpha\sigma_2^\alpha),
+\end{equation}
+where $\sigma_i^1\equiv X_i, \sigma_i^2\equiv Y_i, \sigma_i^3\equiv Z_i$.
+Imposing $[\calH,\CNOT]=0$ removes most of the parameters, leaving us with the simplified expression
+\begin{equation}
+    \calH = h_0 I_4 + h_1^3 Z_1 + h_2^1 X_2.
+    \label{eq:cnot_expr_after_commutativity_condition}
+\end{equation}
+One easy way to see this is to note that for $\calH$ to commute with $\CNOT$, the two matrices must respect each other's eigenspaces. In particular, this means that $\calH$ must preserve the nondegenerate eigenvector of $\CNOT$, which is $\ket{1,-}$.
+The only one-qubit gates that do this are $I_4, Z_1$ and $X_2$, hence we arrive to~\cref{eq:cnot_expr_after_commutativity_condition}.
+
+The question is now reduced to that of figuring out whether there are coefficients $h_0,h_1^3,h_2^1\in\RR$ such that the spectrum of $\calH-\calH_{\CNOT}$ contains nothing but integer multiples of $2\pi$.
+In matrix form,~\cref{eq:cnot_expr_after_commutativity_condition} reads
+\begin{equation}
+    \calH = \begin{pmatrix}
+        h_0 + h_1^3 & h_2^1 & 0 & 0 \\
+        h_2^1 & h_0 + h_1^3 & 0 & 0 \\
+        0 & 0 & h_0 - h_1^3 & h_2^1 \\
+        0 & 0 & h_2^1 & h_0 - h_1^3
+    \end{pmatrix},
+\end{equation}
+which has the four eigenvalues $h_0\pm h_1^3 \pm h_2^1$.
+At the same time,
+\begin{equation}
+    \calH_{\CNOT} = \frac{\pi}{2}\begin{pmatrix}
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 1 & -1 \\
+        0 & 0 & -1 & 1
+    \end{pmatrix},
+\end{equation}
+which has eigenvalues $\pi,0$. The eigenvalues of $\calH-\calH_{\CNOT}$ are then
+\begin{equation}
+\def\id{h_0}
+\def\Z1{h_1^3}
+\def\X2{h_2^1}
+\begin{cases}
+    \id + \Z1 - \X2 &= 2\pi \nu_1, \\
+    \id - \Z1 + \X2 &= 2\pi \nu_2, \\
+    \id + \Z1 + \X2 &= 2\pi \nu_3, \\
+    \id - \Z1 - \X2 - \pi &= 2\pi \nu_4.
+\end{cases}
+\end{equation}
+Inverting this system, we get from the first three equations
+\begin{equation}
+\def\id{h_0}
+\def\Z1{h_1^3}
+\def\X2{h_2^1}
+\begin{cases}
+    \id &= \pi (\nu_1 + \nu_2), \\
+    \X2 &= \pi (\nu_3 - \nu_1), \\
+    \Z1 &= \pi (\nu_3 - \nu_2).
+\end{cases}
+\end{equation}
+However, using now these with the fourth equation, we arrive to the condition
+\begin{equation}
+    2(\nu_1 + \nu_2 - \nu_3 - \nu_4) = 1,
+\end{equation}
+which is clearly unsatisfiable for integer $\nu_i\in\ZZ$.
+
+It is worth noting that, of course, this result could have been obtained more easily from a more physical line of reasoning. Indeed, an Hamiltonian $\calH$ containing only one-qubit interactions can always be written as $\calH=h_0 I+\calH_1+\calH_2$ with $\calH_i$ containing only one-qubit terms on the $i$-th qubit. Then, $[\calH_1,\calH_2]=0$, and therefore
+\begin{equation}
+    e^{it\calH}=e^{it h_0}e^{it\calH_1}e^{it\calH_2}=e^{it h_0} \calU_1\otimes\calU_2,
+\end{equation}
+with $\calU_i$ a gate acting only on the $i$-th qubit.
+
+Nevertheless, this example is interesting to show how the technique suggested by~\cref{eq:3conditions} can be put into action.
+\end{example}
+\highlight{Is there a way to do a reasoning like the above for a generic two-qubit gate?}
+
+\section{Generators for the Toffoli gate}
+Consider now the Toffoli gate, and let $\calP_{\le2}$ be the set of one- and two-qubit Pauli matrices. In this section we ask the question: \textit{\textbf{is there a time-independent $\calH\in\spanR(\calP_{\le2})$ such that $e^{i\calH}=\Toff$?}}
+
+A canonical generator for $\Toff$ is $\calH_{\Toff}=\pi Z_1^- Z_2^- X_3^-$.
+This has the nondegenerate eigenvector $\ket{1,1,-}$ with eigenvalue $-1$, which implies that any $\calH$ such that $[\calH,\calH_{\Toff}]=0$ must also stabilise $\ket{1,1,-}$.
+\highlight{ihdsfoijsdfoijdsfojPOJSDFPKSOPDFJOPI}
+
+\section{ML to the rescue}
 \highlight{Probably these sections will be merged at some point, they're a bit to dispersive.}
 
 What kind of ML do we use here? Does what we do even qualify as ML? Why do we use supervised learning instead of other types of learning?
 
 
-
-\section{Rigorous description of the problem setting}
-
 \section{Analytical results}
-
-\subsection{The three great conditions}
 
 \subsection{Applications to Toffoli and Fredkin}
 

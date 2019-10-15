@@ -4,17 +4,17 @@
 
 %%%%%%%%%%%%%%%%%% FONT CHOICE %%%%%%%%%%%%%%%%%%%%%%
 
-% the following is to fix a compatibility issue between bbold and mathpazo
-% \usepackage{bbold}
-% \let\altmathbb\mathbb
-% \usepackage[sc]{mathpazo}
-% \AtBeginDocument{\let\mathbb\altmathbb}
-% \usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
-\usepackage{unicode-math}
+% \usepackage{unicode-math}
+\usepackage[bold-style=ISO]{unicode-math}
 \usepackage{parskip}
 \defaultfontfeatures{Scale=MatchLowercase}
 \setmainfont{TeX Gyre Pagella}[Scale = 1.0]
+
 % \setmathfont{Pagella Math}
+% \setmathfont{XITS Math}
+\usepackage{bm}
+
+% \renewcommand{\boldsymbol}{\symbf} % this is because unicode-math with the bold-style option wants you to use \symbf rather that \boldsymbol, for some reason
 
 % \linespread{1.05} % Line spacing - Palatino needs more space between lines
 
@@ -73,7 +73,35 @@
 \crefname{appsec}{Appendix}{Appendices}
 
 \usepackage{amsthm}
-\newtheorem{example}{Example}
+% \newtheorem{example}{Example}
+
+\usepackage[most]{tcolorbox}
+% \tcbuselibrary{theorems}
+% \newtcbtheorem
+%   [number within=section]% init options
+%   {example}% name
+%   {Example}% title
+%   {%
+%     breakable, enhanced,
+%     colback=green!5,
+%     colframe=green!35!black,
+%     fonttitle=\bfseries,
+%     title={Porco dio}
+%   }% options
+%   {example}% prefix
+\newtcolorbox[
+    auto counter,
+    number within=section,
+    crefname={example}{examples}
+]{example}[1][]{
+  enhanced,
+  breakable,
+%   colback=green!5,
+%   colframe=green!35!black,
+  fonttitle=\bfseries,
+  title={Example \thetcbcounter},
+  #1
+}
 
 
 \usepackage[
