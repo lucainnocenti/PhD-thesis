@@ -527,16 +527,16 @@ Nevertheless, this example is interesting to show how the technique suggested by
 \highlight{Is there a way to do a reasoning like the above for a generic two-qubit gate?}
 
 \section{Generators for the Toffoli gate}
-Consider now the Toffoli gate, and let $\calP_{\le2}$ be the set of one- and two-qubit Pauli matrices. In this section we ask the question: \textit{\textbf{is there a time-independent $\calH\in\spanR(\calP_{\le2})$ such that $e^{i\calH}=\Toff$?}}
+Consider now the Toffoli gate, and let $\calP_{\le2}$ be the set of one- and two-qubit Pauli matrices. In this section we ask the question: \textit{\textbf{is there a time-independent $\HTildeToff\in\spanR(\calP_{\le2})$ such that $e^{i\calH}=\Toff$?}}
 
-A canonical generator for $\Toff$ is $\calH_{\Toff}=\pi Z_1^- Z_2^- X_3^-$.
+A canonical generator for $\Toff$ is $\HToff=\pi Z_1^- Z_2^- X_3^-$.
 This has the nondegenerate eigenvector $\ket{1,1,-}$ with eigenvalue $-1$, which implies that any $\calH$ such that $[\calH,\calH_{\Toff}]=0$ must also stabilise $\ket{1,1,-}$.
 This singles out the following $12$ generators:
 \begin{equation}
 \begin{gathered}
   Z_1, Z_2, X_3,\,\, Z_1 Z_2, Z_1 X_3, Z_2 X_3,\\
   X_1 (1 + X_3),\quad
-  X_2 (1 + X_3),\\
+  X_2 (1 + X_3),\quad
   (1 + Z_1) X_2,\quad
   (1 + Z_1) Z_3,\\
   X_1 (1 + Z_2),\quad
@@ -547,10 +547,10 @@ This singles out the following $12$ generators:
 The first $6$ are the one- and two-qubit Pauli matrices which have $\ket{1,1,-}$ as eigenvector with nonzero eigenvalue.
 The rest of the operators are built by considering an operator which annihilates this state, and then multiplying it by some remaining one-qubit Pauli matrix.
 \highlight{Maybe a better way to describe this?}
-We thus obtain the general form of a generator that respects the symmetries of the Toffoli. Any such $\calH$ will either preserve (first row) $\ket{1,1,-}$ or annihilate it (the other rows), which we shall write as
+We thus obtain the general form of a generator that respects the symmetries of the Toffoli. Any such $\HTildeToff$ will either preserve $\ket{1,1,-}$ (first row) or annihilate it (the other rows). We write a general real linear combination of the operators listed in~\cref{eq:toffoli_ops_after_commcondition} as
 \begin{equation}
 \begin{gathered}
-  \calH =
+  \HTildeToff =
   h_0 I + h_3^x X_3 + h_1^z Z_1 + h_2^z Z_2 \\
   + J_{13}^{zx} Z_1 X_3 + J_{23}^{zx} Z_2 X_3 + J_{12}^{zz} Z_1 Z_2 \\
   + (J_{13}^{xx} X_1 + J_{23}^{xx} X_2)(1 + X_3) \\
@@ -559,8 +559,9 @@ We thus obtain the general form of a generator that respects the symmetries of t
 \end{gathered}
 \end{equation}
 
-Imposing directly the eigenvalue conditions on $\calH-\calH_{\Toff}$ after~\cref{eq:toffoli_ops_after_commcondition} is not doable directly, as diagonalization here would involve solving high-order polynomial equations.
-Nonetheless, we can get somewhere by making some educated guesses. Let us then assume
+\subsection{A lucky guess}
+Imposing directly the eigenvalue conditions on $\HPrimeToff\equiv\HTildeToff-\HToff$ after~\cref{eq:toffoli_ops_after_commcondition} is not doable directly, as diagonalisation here would involve solving high-order polynomial equations.
+Nonetheless, we can get somewhere by making some educated guesses \highlight{(guess?)}. Let us then assume
 \begin{equation}
 \begin{gathered}
   h_1^z = h_2^z = -\frac{\pi}{8},\quad
@@ -570,27 +571,98 @@ Nonetheless, we can get somewhere by making some educated guesses. Let us then a
   J_{23}^{zz} = -J_{13}^{zz}.
 \end{gathered}
 \end{equation}
-With these assumptions, we get the following simplified expression
+With these values, we get the following simplified expression
 \begin{equation}
 \begin{aligned}
-  \calH &= h_0 I + h_3^x X_3 - \pi/8 ( Z_1 +  Z_2)(1 - X_3)
+  \HTildeToff &= h_0 I + h_3^x X_3 - \pi/8 ( Z_1 +  Z_2)(1 - X_3)
   % + \pi/8 (Z_1 + Z_2)X_3
   + J_{12}^{zz} Z_1 Z_2 \\
   &+ J_{13}^{xx} (X_1 + X_2)(1 + X_3)
-  + J_{13}^{zz} (1 + Z_3) Z_3 + J_{23}^{zz} (1 + Z_2) Z_3.
+  + J_{13}^{zz} (Z_1 - Z_2) Z_3.
 \end{aligned}
 \end{equation}
-If we finally impose $J_{13}^{xx}$, so that the generator is diagonal on the first two qubits, we get
+% Check on Mathematica with
+% hToff = QPauliExpr[
+%   h[0] + h[3, x] x[3] - \[Pi]/8 (z[1] + z[2]) (1 - x[3]) + 
+%   j[1, 2, zz] z[1] z[2] +
+%   j[1, 3, xx] (x[1] + x[2]) (1 + x[3]) + 
+%   j[1, 3, zz] (z[1] - z[2]) z[3]
+%   ]
+% Normal@hToff /. {h[n_] :> Subscript[h, n], 
+%   h[n_, m_] :> Subsuperscript[h, n, m], 
+%   j[n_, m_, k_] :> Subsuperscript["J", Row@{n, m}, k]} // MatrixForm
+If we further impose $J_{13}^{xx}=0$, so that the generator is diagonal on the first two qubits, we get
 \begin{equation}
 \begin{aligned}
-	\HPrimeToff{} =
-		&\pi/8\, Z_1 Z_2 X_3 + (h_0 - \pi/8)I +\\
-		&(h_3^x + \pi/8) X_3 + (J_{12}^{zz} - \pi/8) Z_1 Z_2 +\\
-		&J_{13}^{zz} (Z_1 - Z_2)Z_3.
+	\HPrimeToff{}\equiv \HTildeToff-\HToff =
+		\pi/8\, Z_1 Z_2 X_3 + (h_0 - \pi/8)I +\\
+		(h_3^x + \pi/8) X_3 + (J_{12}^{zz} - \pi/8) Z_1 Z_2 +
+		J_{13}^{zz} (Z_1 - Z_2)Z_3.
 \end{aligned}
 \label{SM:eq:toffoli_HPrime_reduced}
 \end{equation}
-With the above simplified expression it is now possible to directly solve the eigenvalue problem.
+% Reproduce with:
+% nicerSymbols[expr_] := expr /. {
+%     h[n_] :> Subscript[h, n], h[n_, m_] :> Subsuperscript[h, n, m], 
+%     j[n_, m_, k_] :> Subsuperscript["J", Row@{n, m}, k]};
+% HToffWithoutJ13xx = QPauliExpr[
+%     h[0] + h[3, x] x[3] - \[Pi]/8 (z[1] + z[2]) (1 - x[3]) + 
+%      j[1, 2, zz] z[1] z[2] +
+%      j[1, 3, xx] (x[1] + x[2]) (1 + x[3]) + 
+%      j[1, 3, zz] (z[1] - z[2]) z[3]
+%     ] /. {j[1, 3, xx] -> 0};
+% HToffCaonical = QPauliExpr[Pi/8 (1 - z[1]) (1 - z[2]) (1 - x[3])];
+% HToffPrime = HToffWithoutJ13xx - HToffCaonical;
+% Normal@HToffPrime // Eigenvalues // Column
+\highlight{Check if we want to try and solve this from the matrix form, which is made up of 2x2 easily solvable blocks.}
+With the above simplified expression it is now possible to directly solve the eigenvalue problem. Note that with this choice of coefficients we are left with a block-diagonal matrix (notice the lack of off-diagonal Pauli matrices on the first and second qubit), the diagonalisation of which is much easier to carry out.
+The four different eigenvalues are then
+\begin{equation}
+\begin{cases}
+    \lambda_1 &= h_0 + h_3^x + J_{12}^{zz}, \\
+    \lambda_2 &= -\pi/2 + (h_0 - h_3^x + J_{12}^{zz}), \\
+    \lambda_3 &= h_0 - J_{12}^{zz}
+                - \sqrt{(h_3^x)^2+ (2J_{13}^{zz})^2}\\
+    \lambda_4 &= h_0 - J_{12}^{zz}
+                + \sqrt{(h_3^x)^2+ (2J_{13}^{zz})^2}.
+\end{cases}
+\end{equation}
+Imposing $\lambda_k=2\pi\nu_k$, we obtain the following conditions on the coefficients:
+\begin{equation}
+\begin{cases}
+    % h_3^x/\pi &= \nu_2 - 1/4, \\
+    % h_0/\pi &= 1/8 + \nu_1 - (\nu_2 - \nu_3 - \nu_4)/2, \\
+    % J_{12}^{zz}/\pi &= 1/8 + \nu_1 - (\nu_2 + \nu_3 + \nu_4)/2,
+    \lambda_1 - \lambda_2 &= \frac{\pi}{2} + 2 h_3^x, \\
+    \lambda_1 + \lambda_2 &= -\frac{\pi}{2} + 2(h_0 + J_{12}^{zz}), \\
+    \lambda_4 - \lambda_3 &= 2\sqrt{(h_3^x)^2+ (2J_{13}^{zz})^2}, \\
+    \lambda_4 + \lambda_3 &= 2(h_0 - J_{12}^{zz}),
+\end{cases}
+\end{equation}
+which then resolves to
+\begin{equation}
+\begin{cases}%\displaystyle
+    h_3^x &= \frac{1}{2}(\lambda_1 - \lambda_2) - \frac{\pi}{4}, \\
+    h_0 &= \frac{1}{4}(\lambda_1 + \lambda_2 + \lambda_3 + \lambda_4) + \frac{\pi}{8}, \\
+    J_{12}^{zz} &= \frac{1}{4}(\lambda_1 + \lambda_2 - \lambda_3 - \lambda_4) + \frac{\pi}{8}, \\
+    (J_{13}^{zz})^2 &=
+    [(\lambda_4-\lambda_3)/2]^2 -
+    [(\lambda_1-\lambda_2)/2 - \pi/4]^2.
+\end{cases}
+\end{equation}
+Note that we stil did not impose $\lambda_k\in2\pi\ZZ$. For the corresponding Hamiltonian to be physical, we need all the coefficients to be real, and thus in particular $(J_{13}^{zz})^2\ge0$ which gives
+% \begin{equation}
+%     \left(\lambda_4-\lambda_3\right)^2 \ge
+%     \left[(\lambda_1-\lambda_2) - \pi\right]^2
+% \end{equation}
+% and thus
+\begin{equation}
+    -\abs{\lambda_4 -\lambda_3} \le
+    (\lambda_1 - \lambda_2) - \pi \le \abs{\lambda_4 -\lambda_3}.
+\end{equation}
+As long as this condition is satisfied, any combination of values for the $\lambda_k$ can be obtained, and thus in particular we can find values for the interaction strengths which give $\lambda_k\in2\pi\ZZ$.
+\highlight{UNDERSTAND WHY THIS IS NOT WORKING}
+
 This results in the following family of solutions:
 \begin{equation}
 \begin{aligned}
@@ -714,6 +786,7 @@ also give a generator with only 2-qubit interactions for the CCY gate
 (that is, the gate that applies $Y$ to the third qubit conditionally to the first 2 qubits being in the $\ket1$ state).
 
 \begin{tbox}[label=tcolorbox:toffoli]{Toffoli}
+\fontsize{9pt}{9pt}\selectfont
 	\begin{equation*}
 	\begin{aligned}
 		P_1 &= Z_1^+ Z_2^+ X_3^-,
@@ -807,6 +880,7 @@ also give a generator with only 2-qubit interactions for the CCY gate
 	with the last identity holding for $\nu_3\neq \nu_4$.
 \end{tbox}
 
+\subsection{Work diagonalising the 2D blocks}
 A different way to understand $\HTildeToff$ is to analyse the four two-dimensional subspaces on the main diagonal, exploiting the fact that $\HTildeToff{}$ acts diagonally on the first two qubits.
 Straightforward calculations lead to
 \begin{equation*}
@@ -919,6 +993,146 @@ For example, a similar reasoning as above, starting however from the assumptions
 \end{aligned}
 \end{equation}
 
+\subsection{\textit{A posteriori} alternative derivation}
+\label{sec:toffoli_posteriori_derivation}
+
+We will here show a line of thought that could have conceivably led to \cref{SM:eq:toffoli_generator_nu4} (in the case $\nu_4=1$), by direct analysis, and without using any of the previously used techniques.
+It will be useful to keep in mind the expressions of $Z_1 \pm Z_2$:
+\begin{equation}
+\begin{aligned}
+	Z_2 + Z_1 &= \on{diag}(2, 2, 0, 0, 0, 0, -2, -2), \\
+	Z_2 - Z_1 &= \on{diag}(0, 0, -2, -2, 2, 2, 0, 0).
+\end{aligned}
+\end{equation}
+Given that we want to generate a CC-X gate, and remembering that
+$\exp\left[\frac{i\pi}{2}(1-X)\right] = X$, it is reasonable to start building our Hamiltonian as
+\begin{equation}
+	\mathcal H_1 = - \pi \left(\frac{Z_1+Z_2}{2}\right)\left(\frac{1-X_3}{2}\right),
+\end{equation}
+which however will generate an $X$ evolution both in the $\ket{00}$ and in the $\ket{11}$ sectors, while we want it only in the latter sector:
+% \begin{equation}
+	$\mathcal H_1 \doteq \on{diag}(-X^-, 0, 0, X^-)$.
+% \end{equation}
+We can remove the term in the $\ket{00}$ sector exploiting the sign difference introduced by $Z_1 + Z_2$, by directly adding an appropriate 1-qubit interaction term:
+\begin{equation}
+\begin{aligned}
+	\mathcal H_2 &= \frac{1}{2} \left[ \mathcal H_1 + \frac{\pi}{2} (1 - X_3) \right] \\
+				 &= \pi \on{diag}(0, X^-\!/2, X^-\!/2, X^-),
+\end{aligned}
+\label{eq:toffoli_analytical_step2}
+\end{equation}
+where we remember that $\exp(i\pi X^-) = X$.
+\Cref{eq:toffoli_analytical_step2} now correctly reproduces the evolution on $\ket{00}$ and $\ket{11}$, but also wrongly evolves $\ket{01}$ and $\ket{10}$.
+To remove these additional terms while at the same time leaving the others unaffected we use the fact that
+$\exp(i\pi (1 \pm \bs{\sigma})) = I$, for any normalised vector of sigma matrices: $\bs\sigma \equiv \sum_{i=1}^3 n_i \sigma_i$ with $n_1^2 + n_2^2 + n_3^2 = 1$.
+To convert the central terms in~\cref{eq:toffoli_analytical_step2} into something like this we observe that we can rewrite the second term in the above equation as
+\begin{equation}
+	\pi/4(1-X_3) = \pi/8(2 - 2 X_3) = \pi/8(5 - 3 - 2 X_3).
+\end{equation}
+Remembering that $Z_1 Z_2 = \on{diag}(1, -1, -1, 1)$, we substitute the above with
+$\pi/8(5 - 3Z_1 Z_2 - 2X_3)$.
+This change affects only the central terms, converting the expression into:
+$\pi \on{diag}(0, 1 - X/4, 1 - X/4, X^-)$.
+The reason this form is preferable is that we can now simply add a factor in the central terms to convert them into an expression of the form $1 - \bs\sigma$.
+Adding an interaction of the form $\pi \alpha (Z_2 - Z_1)Z_3$ gives
+\begin{equation}
+	\pi\on{diag}(0, 1 - X/4 - 2\alpha Z, 1 - X/4 + 2\alpha Z, X^-).
+\end{equation}
+For the central terms to exponentiate to the identity we need them to become of the form $1-\bs\sigma$ with normalised $\bs\sigma$.
+This is easily achieved by choosing $\alpha=\pm\sqrt{15}/8$.
+The final expression is therefore:
+\begin{equation}
+\begin{aligned}
+	8/\pi \,\, \mathcal H_3 = -(Z_1 + Z_2)(1 - X_3) \\+ (5 - 3Z_1Z_2 - 2 X_3)
+				 \pm \sqrt{15} (Z_2 - Z_1)Z_3.
+\end{aligned}
+\end{equation}
+Note that instead of $\pi \alpha (Z_2 - Z_1)Z_3$ we could have equivalently chosen
+$\pi\alpha(Z_2-Z_1)O_3$ for any $O_3 = a Y_3 + b Z_3$ and $a^2 + b^2 = 1$.
+The above reasoning explains the origin of the weird $\sqrt{15}$ factor: it comes as the coordinate necessary to make the vector unitary: for $X/4 + x Z / 4$ to be normalized, $x = \sqrt{15}$ must be satisfied.
+
+\section{Fredkin analytical derivation}
+% BEGIN FREDKIN
+We show here how to use the framework given in~\cref{sec:gatelearning_solution_framework} to find a Hamiltonian that does not contain three-qubit interaction terms, and generates the Fredkin gate at $t=1$.
+The quantum Fredkin gate $\UFred$ is the three-qubit gate which swaps the first two qubits conditionally to the third one being in the state $\ket1$.
+This gate finds widespread use for a number of quantum information protocols~\cite{patel2016a,loft2018quantum}. 
+A time-independent two-body Hamiltonian simulating $\UFred$ with 4 qubits has been found in~\cite{banchi2016quantum} using numerical optimization.
+
+Explicitly,
+\begin{equation}
+    \UFred = \PP_0 \otimes I_4 + \PP_1 \otimes \on{SWAP} =
+    \begin{pmatrix}
+        I_4 & \mathbb0_4 \\
+        \mathbb0_4 & \on{SWAP},
+    \end{pmatrix}
+    % \begin{pmatrix}
+    %     1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    %     0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    %     0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+    %     0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+    %     0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+    %     0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+    %     0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+    %     0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
+    % \end{pmatrix}
+\end{equation}
+where
+\begin{equation}
+    \on{SWAP} \equiv
+    \frac{1}{2}(I + X_1 X_2 + Y_1 Y_2 + Z_1 Z_2) =
+    \begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix}.
+\end{equation}
+The $\on{SWAP}$ gate has eigenvalues $\pm1$ with $+1$ being three-fold degenerate.
+It follows that $\UFred$ also has a seven-fold degenerate eigenvalue $+1$ and a non-degenerate eigenvalue $-1$.
+The eigenstate of $\on{SWAP}$ with eigenvalue $\lambda=-1$ is $\ket{01}-\ket{10}$, and thus the corresponding eigenstate of $\UFred$ is $\ket{-1}\equiv(\ket{101}-\ket{110})/\sqrt2$.
+The projector onto this eigenstate can be written in the Pauli basis as
+\begin{equation}
+    \PP_{-1}\equiv \ketbra{-1} =
+    % \frac{I}{2} -\frac{1}{2}( X_1 X_2 + Y_1 Y_2 + Z_1 Z_2)
+    \left(\frac{1-Z_1}{2}\right)
+    \left(\frac{I - X_2 X_3 - Y_2 Y_3 - Z_2 Z_3}{2}\right).
+\end{equation}
+The principal logarithm $\HFred$ is then
+$\HFred = \pi\PP_{-1}$.
+
+\highlight{check consistency of \textit{principal}/\textit{canonical} notation}
+% \begin{equation}
+%   \HFred = (\pi/8) \left(I-\sigma^z_1\right)\left[I - \sum_{\alpha}\sigma^\alpha_2 \sigma^\alpha_3 \right],
+%   \label{HGF}
+% \end{equation}
+% where qubit $1$ is the control. %\cref{HGF} contains both two- and three-body interactions.
+
+Here, we find an analytic solution that requires as few as three qubits. 
+We now write down the general parameterization $\HTildeFred(\bs\lambda)$ for a 3-qubit Hamiltonian containing only pairwise \emph{diagonal} interactions,
+and imposing~\cref{prop2} we cut the number of parameters $\bs\lambda$ down to 22.
+Imposing additional physically plausible conditions, like the symmetry of second and third qubit, we manage to reduce the number of parameters enough to solve the eigenvalue problem, finding %the following solution
+\begin{align}
+  \HTildeFred &{=} 
+ \frac{\pi}{8} \left( \sqrt{\frac{143}{5}}I+5\sqrt 3 \sigma^x_1\right)(\sigma^x_2 + \sigma^x_3) {-}\frac{3\pi}{8} \sum_{\alpha=x,y,z}\sigma^\alpha_2 \sigma^\alpha_3%+  \frac{5\sqrt{3}\pi}{8}   \sigma^x_1( \sigma^x_2 + \sigma^x_3) 
+ \nonumber\\
+ &
+ + \frac{3\pi}{4}\sqrt{\frac{7}{5}}\sigma^z_1(\sigma^z_2+\sigma^z_3) +\frac{\pi}{2}\sigma^z_1+\frac{3\pi}{8}I.
+% + \frac{\pi}{2}  \sigma^z_1  
+  \label{eq:fredkin_generator}
+\end{align}
+% Thus, a highly non-trivial three-qubit gate such as Fredkin's,
+% which in principle requires three-body interactions as in~\cref{HGF},
+% can be obtained exactly \emph{without} three-qubit interactions.
+% \hl{Ripetuto identico da sopra (Thus, a highly etc)}
+Therefore, also a non-trivial gate of crucial relevance such as the Fredkin gate can be implemented without time-dependent dynamics using only at most two-qubit interactions.
+The physical reason behind this simplification can be understood from the study of the spectral properties.
+For example, the gate $\Fred$ has only two eigenvalues, $\lambda_\pm=\pm1$
+with $\lambda_+$ having a sevenfold degeneracy. Such degeneracy makes the propagator generated by $\HFred$ operate in a two-level subspace.
+On the other hand, the spectrum of $\HTildeFred-\HFred$ is $\{{-}4\pi,{-}2\pi,0,0,0,2\pi,2\pi,4\pi\}$, showing that the degeneracy in the spectrum of $\HFred$ is partially lifted when considering 
+$\HTildeFred-\HFred$, and the dynamics thus occurs in an  larger effective Hilbert space.  %Therefore, $\HTildeFred$ breaks some of the symmetries of $\Fred$, it acts on an effectively larger 
+%space where the simulation of  $\Fred$ with a two-body Hamiltonian is possible. 
+Although $\exponential(it\HTildeFred)$ is non-symmetric for most of the evolution times, all the symmetries are restored at $t=1$ and any subsequent integer times. This  shows that breaking the symmetries of $\G$ and exploiting its degenerate space can help the gate gesign when restricting the set of viable interactions.
+%END FREDKIN
 
 \section{ML to the rescue}
 \highlight{Probably these sections will be merged at some point, they're a bit to dispersive.}
