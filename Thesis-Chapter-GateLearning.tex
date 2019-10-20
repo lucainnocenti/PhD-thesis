@@ -356,8 +356,8 @@ In~\cref{sec:gatelearning_solution_framework} we will provide a way to answer th
 \end{example}
 
 \begin{example}[label={ex:toffoli_physical_constraints}]
-Let $\calU=\Toff$, and consider the set of allowed interactions $\calP_{\le2}$ comprised of one- and two-qubit interaction terms (but notably \textit{not} three-qubit terms).
-\textbf{\textit{Is there a generator $\calH\in f^{-1}(\Toff)\cap\calP_{\le2}$?}}
+Let $\UToff$ denote the Toffoli gate, and consider the set of allowed interactions $\calP_{\le2}$ comprised of one- and two-qubit interaction terms (but notably \textit{not} three-qubit terms).
+\textbf{\textit{Is there a generator $\HToff\in f^{-1}(\UToff)\cap\calP_{\le2}$?}}
 
 The eigenstructure of the Toffoli gate was given in~\cref{ex:eigendecomposition_Toffoli}. Similarly to the case of the CNOT, we here have a sevenfold degenerate eigenvalues $+1$ and a nondegenerate eigenvalue $-1$.
 The eigenvector of the eigenvalue $-1$ is $\ket{1,1,-}$. We can therefore write a general expression for generators of $\Toff$ in the form
@@ -527,60 +527,97 @@ Nevertheless, this example is interesting to show how the technique suggested by
 \highlight{Is there a way to do a reasoning like the above for a generic two-qubit gate?}
 
 \section{Generators for the Toffoli gate}
-Consider now the Toffoli gate, and let $\calP_{\le2}$ be the set of one- and two-qubit Pauli matrices. In this section we ask the question: \textit{\textbf{is there a time-independent $\HTildeToff\in\spanR(\calP_{\le2})$ such that $e^{i\calH}=\Toff$?}}
+Consider now the Toffoli gate $\UToff$, and let $\calP_{\le2}$ be the set of one- and two-qubit Pauli matrices. In this section we ask the question: \textit{\textbf{is there a time-independent $\HTildeToff\in\spanR(\calP_{\le2})$ such that $e^{i\HTildeToff}=\UToff$?}}
 
-A canonical generator for $\Toff$ is $\HToff=\pi Z_1^- Z_2^- X_3^-$.
-This has the nondegenerate eigenvector $\ket{1,1,-}$ with eigenvalue $-1$, which implies that any $\calH$ such that $[\calH,\calH_{\Toff}]=0$ must also stabilise $\ket{1,1,-}$.
-This singles out the following $12$ generators:
+A canonical generator for $\UToff$ is $\HToff=\pi Z_1^- Z_2^- X_3^-$.
+As previously discussed in~\cref{ex:toffoli_physical_constraints}, $\UToff$ has the nondegenerate eigenvector $\ket{1,1,-}$ with eigenvalue $-1$, which implies that any $\calH$ such that $[\calH,\HToff]=0$ must also stabilise $\ket{1,1,-}$.
+We then write down the general parametrisation of an Hamiltonian containing only one- and two-qubit interactions:
 \begin{equation}
-\begin{gathered}
-  Z_1, Z_2, X_3,\,\, Z_1 Z_2, Z_1 X_3, Z_2 X_3,\\
-  X_1 (1 + X_3),\quad
-  X_2 (1 + X_3),\quad
-  (1 + Z_1) X_2,\quad
-  (1 + Z_1) Z_3,\\
-  X_1 (1 + Z_2),\quad
-  (1 + Z_2) Z_3,
-\end{gathered}
-\label{eq:toffoli_ops_after_commcondition}
+    \HTildeToff =
+    h_0 I + \sum h_{i,\alpha}\sigma_i^\alpha
+    + J_{ij}^{\alpha\beta}\sigma_i^\alpha\sigma_j^\beta.
+    \label{eq:general_toffoli_onetwoqubitints}
 \end{equation}
-The first $6$ are the one- and two-qubit Pauli matrices which have $\ket{1,1,-}$ as eigenvector with nonzero eigenvalue.
-The rest of the operators are built by considering an operator which annihilates this state, and then multiplying it by some remaining one-qubit Pauli matrix.
-\highlight{Maybe a better way to describe this?}
-We thus obtain the general form of a generator that respects the symmetries of the Toffoli. Any such $\HTildeToff$ will either preserve $\ket{1,1,-}$ (first row) or annihilate it (the other rows). We write a general real linear combination of the operators listed in~\cref{eq:toffoli_ops_after_commcondition} as
+\Cref{eq:general_toffoli_onetwoqubitints} contains $37$ free parameters: $9$ for the one-qubit interactions, $\binom{3}{2}\times 3^2=27$ for the two-qubit interactions, plus one for the identity.
+Imposing $[\HTildeToff,\HToff]=0$ then translates into a series of conditions over the coefficients in~\cref{eq:general_toffoli_onetwoqubitints}, which allows to remove $13$ of the coefficients, leaving us with $24$ of them.
+If we furthermore remove all terms containing $Y_k$ matrices, we are left with the following simplified expression
 \begin{equation}
-\begin{gathered}
-  \HTildeToff =
-  h_0 I + h_3^x X_3 + h_1^z Z_1 + h_2^z Z_2 \\
-  + J_{13}^{zx} Z_1 X_3 + J_{23}^{zx} Z_2 X_3 + J_{12}^{zz} Z_1 Z_2 \\
-  + (J_{13}^{xx} X_1 + J_{23}^{xx} X_2)(1 + X_3) \\
-  + (1 + Z_1)(J_{12}^{zx} X_2 + J_{13}^{zz} Z_3)
-  + (J_{12}^{xz} X_1 + J_{23}^{zz} Z_3)(1 + Z_2).
-\end{gathered}
+\begin{aligned}
+    \HTildeToff =
+    % &h_1^x X_1 + J_{13}^{xx} X_1 X_3 + (h_1^x - J_{13}^{xx}) X_1 Z_2 \\
+    & X_1 [h_1^x (1 + Z_2) + J_{13}^{xx} (X_3 - Z_2)] \\
+    % + &h_2^x X_2 + J_{23}^{xx} X_2 X_3 + (h_2^x - J_{23}^{xx}) Z_1 X_2 \\
+    +&X_2 [h_2^x (1 + Z_1) + J_{23}^{xx} (X_3 - Z_1)] \\
+    % + &h_3^z \,Z_3 + J_{13}^{zz} \, Z_1 Z_3\, + (h_3^z - J_{13}^{zz}) Z_2 Z_3 \\
+    +&\,Z_3 [h_3^z(1 + Z_2) + J_{13}^{zz} (Z_1 - Z_2)] \\
+    + &h_1^z Z_1 + h_2^z Z_2
+    + J_{13}^{zx} Z_1 X_3 + J_{12}^{zz} Z_1 Z_2 + J_{23}^{zx} Z_2 X_3
+    +h_0 I.
+    \label{eq:general_toffoli_onetwoqubitints_without_Ys}
+\end{aligned}
 \end{equation}
+% HToff = QPauliExpr[Pi (1 - z[1]) (1 - z[2]) (1 - x[3])/8];
+% generalOneTwoQubitsExpr = 
+%   QPauliOpsList@3 /. _[_, _, _] -> 0 // DeleteCases[0] // Rest // 
+%     Times[a /@ Range@Length@#, #] & // Total;
+% generalOneTwoQubitsExprAfterComm = 
+%  Comm[HToff, generalOneTwoQubitsExpr] // Normal // Flatten // 
+%       DeleteCases[0] // Map[# == 0 &] // Solve[#, a /@ Range@36] & // 
+%   First // generalOneTwoQubitsExpr /. # &
+% generalOneTwoQubitsExprAfterComm /. {a[4] -> 0, a[5] -> 0, a[6] -> 0, 
+%   a[12] -> 0, a[13] -> 0, a[17] -> 0, a[10] -> 0, a[20] -> 0, 
+%   a[25] -> 0, a[18] -> 0, a[31] -> 0, a[15] -> 0}
+We now need to find values of these coefficients such that the eigenvalues of $\HTildeToff-\HToff$ are integer multiples of $2\pi$.
+Solving this condition directly on~\cref{eq:general_toffoli_onetwoqubitints_without_Ys} remains a daunting task due to he large number of coefficients involved, which result in high-order polynomials when resolving the characteristic equation of the matrix.
+Nevertheless, we can still obtain solutions by making a few guesses on the values of the coefficients.
+
+% We thus obtain the general form of a generator that respects the symmetries of the Toffoli. Any such $\HTildeToff$ will either preserve $\ket{1,1,-}$ (first row) or annihilate it (the other rows).
+% We write a general real linear combination of the operators listed in~\cref{eq:toffoli_ops_after_commcondition} as
+% \begin{equation}
+% \begin{gathered}
+%   \HTildeToff =
+%   h_0 I + h_3^x X_3 + h_1^z Z_1 + h_2^z Z_2 \\
+%   + J_{13}^{zx} Z_1 X_3 + J_{23}^{zx} Z_2 X_3 + J_{12}^{zz} Z_1 Z_2 \\
+%   + (J_{13}^{xx} X_1 + J_{23}^{xx} X_2)(1 + X_3) \\
+%   + (1 + Z_1)(J_{12}^{zx} X_2 + J_{13}^{zz} Z_3)
+%   + (J_{12}^{xz} X_1 + J_{23}^{zz} Z_3)(1 + Z_2).
+% \end{gathered}
+% \end{equation}
 
 \subsection{A lucky guess}
-Imposing directly the eigenvalue conditions on $\HPrimeToff\equiv\HTildeToff-\HToff$ after~\cref{eq:toffoli_ops_after_commcondition} is not doable directly, as diagonalisation here would involve solving high-order polynomial equations.
-Nonetheless, we can get somewhere by making some educated guesses \highlight{(guess?)}. Let us then assume
+
+Let us try here the following values for the coefficients:
 \begin{equation}
 \begin{gathered}
   h_1^z = h_2^z = -\frac{\pi}{8},\quad
-  J_{12}^{xz} = J_{12}^{zx} = 0,
+  h_1^x = h_2^x = 0,
+%   J_{12}^{xz} = J_{12}^{zx} = 0,
   \quad J_{13}^{zx} = J_{23}^{zx} = \frac{\pi}{8}, \\
-  J_{13}^{xx} = J_{23}^{xx},\quad
-  J_{23}^{zz} = -J_{13}^{zz}.
+  J_{13}^{xx} = J_{23}^{xx},
+%   J_{23}^{zz} = -J_{13}^{zz}.
 \end{gathered}
 \end{equation}
 With these values, we get the following simplified expression
 \begin{equation}
 \begin{aligned}
-  \HTildeToff &= h_0 I + h_3^x X_3 - \pi/8 ( Z_1 +  Z_2)(1 - X_3)
+  \HTildeToff &= h_0 I + h_3^x X_3 + h_3^z(1+ Z_2)Z_3
+  + J_{13}^{zz}(Z_1 - Z_2)Z_3 + J_{12}^{zz} Z_1 Z_2 \\
+  + &J_{13}^{xx} [X_1(X_3 - Z_2) + X_2(X_3 - Z_1)]
+  - \pi/8 ( Z_1 +  Z_2)(1 - X_3)
   % + \pi/8 (Z_1 + Z_2)X_3
-  + J_{12}^{zz} Z_1 Z_2 \\
-  &+ J_{13}^{xx} (X_1 + X_2)(1 + X_3)
-  + J_{13}^{zz} (Z_1 - Z_2) Z_3.
+%   + J_{12}^{zz} Z_1 Z_2 \\
 \end{aligned}
 \end{equation}
+% With these values, we get the following simplified expression
+% \begin{equation}
+% \begin{aligned}
+%   \HTildeToff &= h_0 I + h_3^x X_3 - \pi/8 ( Z_1 +  Z_2)(1 - X_3)
+%   % + \pi/8 (Z_1 + Z_2)X_3
+%   + J_{12}^{zz} Z_1 Z_2 \\
+%   &+ J_{13}^{xx} (X_1 + X_2)(1 + X_3)
+%   + J_{13}^{zz} (Z_1 - Z_2) Z_3.
+% \end{aligned}
+% \end{equation}
 % Check on Mathematica with
 % hToff = QPauliExpr[
 %   h[0] + h[3, x] x[3] - \[Pi]/8 (z[1] + z[2]) (1 - x[3]) + 
@@ -594,13 +631,31 @@ With these values, we get the following simplified expression
 If we further impose $J_{13}^{xx}=0$, so that the generator is diagonal on the first two qubits, we get
 \begin{equation}
 \begin{aligned}
-	\HPrimeToff{}\equiv \HTildeToff-\HToff =
-		\pi/8\, Z_1 Z_2 X_3 + (h_0 - \pi/8)I +\\
-		(h_3^x + \pi/8) X_3 + (J_{12}^{zz} - \pi/8) Z_1 Z_2 +
-		J_{13}^{zz} (Z_1 - Z_2)Z_3.
+    \HTildeToff &= h_0 I + h_3^x X_3 + h_3^z(1+ Z_2)Z_3
+    + J_{13}^{zz}(Z_1 - Z_2)Z_3 \\
+    &+ J_{12}^{zz} Z_1 Z_2 - \pi/8 (Z_1 +  Z_2)(1 - X_3)
 \end{aligned}
-\label{SM:eq:toffoli_HPrime_reduced}
 \end{equation}
+and finally assuming also $h_3^z=0$ we get
+\begin{equation}
+\begin{aligned}
+    \HTildeToff &= h_0 I + h_3^x X_3 + J_{13}^{zz}(Z_1 - Z_2)Z_3 \\
+   +& J_{12}^{zz} Z_1 Z_2 - \pi/8 ( Z_1 +  Z_2)(1 - X_3)
+\end{aligned}
+\end{equation}
+and, finally,
+% Use the following for the version WITH the h_3^z term
+% \begin{equation}
+% \begin{aligned}
+% 	\HPrimeToff{}\equiv \HTildeToff-\HToff =
+% 		\pi/8\, Z_1 Z_2 X_3 + (h_0 - \pi/8)I
+% 		+ (h_3^x + \pi/8) X_3 \\
+% 		+ (J_{12}^{zz} - \pi/8) Z_1 Z_2 +
+% 		J_{13}^{zz} (Z_1 - Z_2)Z_3 +
+% 		h_3^z (1 + Z_2)Z_3.
+% \end{aligned}
+% \label{SM:eq:toffoli_HPrime_reduced}
+% \end{equation}
 % Reproduce with:
 % nicerSymbols[expr_] := expr /. {
 %     h[n_] :> Subscript[h, n], h[n_, m_] :> Subsuperscript[h, n, m], 
@@ -614,13 +669,23 @@ If we further impose $J_{13}^{xx}=0$, so that the generator is diagonal on the f
 % HToffCaonical = QPauliExpr[Pi/8 (1 - z[1]) (1 - z[2]) (1 - x[3])];
 % HToffPrime = HToffWithoutJ13xx - HToffCaonical;
 % Normal@HToffPrime // Eigenvalues // Column
-\highlight{Check if we want to try and solve this from the matrix form, which is made up of 2x2 easily solvable blocks.}
-With the above simplified expression it is now possible to directly solve the eigenvalue problem. Note that with this choice of coefficients we are left with a block-diagonal matrix (notice the lack of off-diagonal Pauli matrices on the first and second qubit), the diagonalisation of which is much easier to carry out.
-The four different eigenvalues are then
+\begin{equation}
+\begin{aligned}
+	\HPrimeToff{}\equiv \HTildeToff-\HToff &=
+		\pi/8\, Z_1 Z_2 X_3 + (h_0 - \pi/8)I
+		+ (h_3^x + \pi/8) X_3 \\
+		&+ (J_{12}^{zz} - \pi/8) Z_1 Z_2 +
+		J_{13}^{zz} (Z_1 - Z_2)Z_3.
+% 		h_3^z (1 + Z_2)Z_3.
+\end{aligned}
+\label{eq:toffoli_HPrime_reduced}
+\end{equation}
+With the above simplified expression it is now possible to directly solve the eigenvalue problem. Note that with this choice of coefficients we are left with a block-diagonal matrix (notice the lack of off-diagonal Pauli matrices on the first and second qubit) which depends on only four parameters, the diagonalisation of which is much easier to carry out.
+The four different eigenvalues of $\HPrimeToff{}$ are
 \begin{equation}
 \begin{cases}
     \lambda_1 &= h_0 + h_3^x + J_{12}^{zz}, \\
-    \lambda_2 &= -\pi/2 + (h_0 - h_3^x + J_{12}^{zz}), \\
+    \lambda_2 &= h_0 - h_3^x + J_{12}^{zz} - \pi/2, \\
     \lambda_3 &= h_0 - J_{12}^{zz}
                 - \sqrt{(h_3^x)^2+ (2J_{13}^{zz})^2}\\
     \lambda_4 &= h_0 - J_{12}^{zz}
@@ -633,11 +698,12 @@ Imposing $\lambda_k=2\pi\nu_k$, we obtain the following conditions on the coeffi
     % h_3^x/\pi &= \nu_2 - 1/4, \\
     % h_0/\pi &= 1/8 + \nu_1 - (\nu_2 - \nu_3 - \nu_4)/2, \\
     % J_{12}^{zz}/\pi &= 1/8 + \nu_1 - (\nu_2 + \nu_3 + \nu_4)/2,
-    \lambda_1 - \lambda_2 &= \frac{\pi}{2} + 2 h_3^x, \\
-    \lambda_1 + \lambda_2 &= -\frac{\pi}{2} + 2(h_0 + J_{12}^{zz}), \\
+    \lambda_1 - \lambda_2 &= 2 h_3^x + \pi/2, \\
+    \lambda_1 + \lambda_2 &= 2(h_0 + J_{12}^{zz}) - \pi/2, \\
     \lambda_4 - \lambda_3 &= 2\sqrt{(h_3^x)^2+ (2J_{13}^{zz})^2}, \\
     \lambda_4 + \lambda_3 &= 2(h_0 - J_{12}^{zz}),
 \end{cases}
+\label{eq:toffoli_lambdas_vs_parameters}
 \end{equation}
 which then resolves to
 \begin{equation}
@@ -645,7 +711,7 @@ which then resolves to
     h_3^x &= \frac{1}{2}(\lambda_1 - \lambda_2) - \frac{\pi}{4}, \\
     h_0 &= \frac{1}{4}(\lambda_1 + \lambda_2 + \lambda_3 + \lambda_4) + \frac{\pi}{8}, \\
     J_{12}^{zz} &= \frac{1}{4}(\lambda_1 + \lambda_2 - \lambda_3 - \lambda_4) + \frac{\pi}{8}, \\
-    (J_{13}^{zz})^2 &=
+    (2J_{13}^{zz})^2 &=
     [(\lambda_4-\lambda_3)/2]^2 -
     [(\lambda_1-\lambda_2)/2 - \pi/4]^2.
 \end{cases}
@@ -659,54 +725,66 @@ Note that we stil did not impose $\lambda_k\in2\pi\ZZ$. For the corresponding Ha
 \begin{equation}
     -\abs{\lambda_4 -\lambda_3} \le
     (\lambda_1 - \lambda_2) - \pi \le \abs{\lambda_4 -\lambda_3}.
+    \label{eq:toffoli_lambdas_condition}
 \end{equation}
 As long as this condition is satisfied, any combination of values for the $\lambda_k$ can be obtained, and thus in particular we can find values for the interaction strengths which give $\lambda_k\in2\pi\ZZ$.
-\highlight{UNDERSTAND WHY THIS IS NOT WORKING}
 
 This results in the following family of solutions:
 \begin{equation}
 \begin{aligned}
 	% \frac{8}{\pi}\tilde{\mathcal H}_{\on{Toff}}(\nu_1, \nu_2, \nu_3, \nu_4) =
-	&\tilde{\mathcal H}_{\on{Toff}} =
-	\frac{\pi}{8} \bigg[
-	1 + 4 \left(\nu_1 + \nu_2 + 2\nu_3 + \sqrt{(\nu_3-\nu_4)^2} \right) \\
-	&- (Z_1 + Z_2)(1 - X_3) + X_3 (-2 - 8\nu_1 + 8\nu_2) \\
-	% &+ (Z_1 + Z_2) X_3 \\
-	&+ 4 Z_1 Z_2 \left(1/4 + \nu_1 + \nu_2 - 2\nu_3 - \sqrt{(\nu_3-\nu_4)^2} \right) \\
-	&+ (Z_2 - Z_1) Z_3 \,\,\sqrt{c(\nu_1, \nu_2, \nu_3, \nu_4)}
-	\bigg],
+	\frac{8}{\pi}\HTildeToff &=
+	[1 + 4(\nu_1+\nu_2+\nu_3+\nu_4)] I +
+	2[4(\nu_1-\nu_2) - 1] X_3 \\
+	&- (Z_1 + Z_2)(1 - X_3) +
+	[1 + 4(\nu_1+\nu_2-\nu_3-\nu_4)] Z_1 Z_2 \\
+	&\pm \sqrt{c(\nu_1,\nu_2,\nu_3,\nu_4)} (Z_1 - Z_2)Z_3.
 \end{aligned}
 \label{eq:toff_tilde_general_solution}
 \end{equation}
-with
+% \begin{equation}
+% \begin{aligned}
+% 	% \frac{8}{\pi}\tilde{\mathcal H}_{\on{Toff}}(\nu_1, \nu_2, \nu_3, \nu_4) =
+% 	&\tilde{\mathcal H}_{\on{Toff}} =
+% 	\frac{\pi}{8} \bigg[
+% 	1 + 4 \left(\nu_1 + \nu_2 + 2\nu_3 + \sqrt{(\nu_3-\nu_4)^2} \right) \\
+% 	&- (Z_1 + Z_2)(1 - X_3) + X_3 (-2 - 8\nu_1 + 8\nu_2) \\
+% 	% &+ (Z_1 + Z_2) X_3 \\
+% 	&+ 4 Z_1 Z_2 \left(1/4 + \nu_1 + \nu_2 - 2\nu_3 - \sqrt{(\nu_3-\nu_4)^2} \right) \\
+% 	&+ (Z_2 - Z_1) Z_3 \,\,\sqrt{c(\nu_1, \nu_2, \nu_3, \nu_4)}
+% 	\bigg],
+% \end{aligned}
+% \label{eq:toff_tilde_general_solution}
+% \end{equation}
+where
 \begin{equation}
 \begin{split}
-	c(\nu_1, \nu_2, \nu_3, \nu_4) =
-		&-(1 + 4\nu_1 - 4\nu_2 + 4\nu_3 - 4\nu_4)\\
-		&\times 	(1 + 4\nu_1 - 4\nu_2 - 4\nu_3 + 4\nu_4) =\\
-		&\!\!= -[(1+4\nu_{12})^2-(4\nu_{34})^2],
+	c(\nu_1, \nu_2, \nu_3, \nu_4) &\equiv
+		-[1 - 4(\nu_1 - \nu_2 + \nu_3 - \nu_4)]
+		\, [1 - 4(\nu_1 - \nu_2 - \nu_3 + \nu_4)]\\
+		&= -[(1-4\nu_{12})^2-(4\nu_{34})^2],
 \end{split}
 \end{equation}
-for all integer values of $\nu_i$ such that $c(\nu_1, \nu_2, \nu_3, \nu_4) \ge 0$.
-The corresponding spectrum of $\HPrimeToff = \HTildeToff - \HToff$ is
+for all integer values of $\nu_i$ such that $c(\nu_1, \nu_2, \nu_3, \nu_4) \ge 0$ (which is the same condition written in~\cref{eq:toffoli_lambdas_condition} in terms of $\lambda_k$).
+The corresponding spectrum of $\HPrimeToff$ is
 \begin{equation}
 \begin{aligned}
 	\lambda_1 &= \lambda_2 = 2\pi \nu_1, \\
 	\lambda_3 &= \lambda_4 = 2\pi \nu_2, \\
 	\lambda_5 &= \lambda_6 = 2\pi \nu_3, \\
-	\lambda_7 &= \lambda_8 = 2\pi (\nu_3 + \lvert\nu_3 - \nu_4\rvert), 
+	\lambda_7 &= \lambda_8 = 2\pi \nu_4, 
 \end{aligned}
 \end{equation}
 while the spectrum of $\HTildeToff$ changes only in that
-$\lambda_2 = 2\pi(\nu_1 + 1/2)$.
-Consistently with this, $\lambda_2$ is also the eigenvalue corresponding to the non-degenerate eigenspace of $\HToff$, while all the other eigenvalues correspond to eigenvectors orthogonal to this one.
+$\lambda_4 = 2\pi(\nu_2 + 1/2)$.
+Consistently with this, $\lambda_2$ is also the eigenvalue corresponding to the non-degenerate eigenspace of $\HToff$.
 More specifically, we have
 \begin{equation}
 \begin{aligned}
-	\ket{\lambda_1} &= \ket{0, 0, -}, \\
-	\ket{\lambda_2} &= \ket{1, 1, -}, \\
-	\ket{\lambda_3} &= \ket{1, 1, +}, \\
-	\ket{\lambda_4} &= \ket{0, 0, +}, \\
+	\ket{\lambda_1} &= \ket{0, 0, +}, \\
+	\ket{\lambda_2} &= \ket{1, 1, +}, \\
+	\ket{\lambda_3} &= \ket{0, 0, -}, \\
+	\ket{\lambda_4} &= \ket{1, 1, -}, \\
 	\ket{\lambda_5} &= \ket{1, 0} \otimes N_5\left[(a - b) \ket0 + \ket1 \right], \\
 	\ket{\lambda_6} &= \ket{0, 1} \otimes N_6\left[(a + b) \ket0 + \ket1 \right], \\
 	\ket{\lambda_7} &= \ket{1, 0} \otimes N_6\left[(a + b) \ket0 - \ket1 \right], \\
@@ -714,6 +792,7 @@ More specifically, we have
 \end{aligned}
 \label{eq:toffoli_eigenvectors_solution}
 \end{equation}
+\highlight{recheck these coefficients at some point}
 where
 \begin{equation}
 \newcommand{\denom}{1 + \bar\nu_{12}}
@@ -740,8 +819,18 @@ where
 % \end{equation}
 It is worth noting that the orthogonality of these eigenvectors follows from the easily verified property of the above coefficients: $a^2 - b^2 = 1$.
 Furthermore, we note that $c(\nu_1, \nu_2, \nu_3, \nu_4) \ge 0$ cannot be satisfied unless $\nu_3 \neq \nu_4$.
-This in turn, looking at \cref{eq:toffoli_eigenvectors_solution},
+This can also be verified by looking back at~\cref{eq:toffoli_lambdas_vs_parameters}, from which we deduce that $\nu_3=\nu_4$ is only possible if $h_3^x=J_{13}^{zz}=0$, which when used in~\cref{eq:toffoli_HPrime_reduced} gives a matrix whose eigenvalues can be seen to not be made equal to multiple integers of $2\pi$.
+The condition $\nu_3\neq\nu_4$, in turn, looking at \cref{eq:toffoli_eigenvectors_solution},
 reveals that all the solutions are made possible by a non-trivial lifting of the degeneracy of the subspaces $\ketbra{0,1}$ and $\ketbra{1,0}$.
+A simple example of such a $\HTildeToff$, obtaining with the choice $\nu_1=\nu_2=\nu_3=0$ and $\nu_4=1$, is
+\begin{equation}
+    \frac{8}{\pi}\HTildeToff =
+    5 I - 2 X_3 - (Z_1 + Z_2)(1 - X_3)
+    - 3 Z_1 Z_2 \pm \sqrt{15}(Z_1 - Z_2)Z_3,
+\end{equation}
+which can be readily verified to satisfy $e^{i\HTildeToff}=\UToff$.
+
+\highlight{to recheck the following}
 Let us now try to understand how and why the derived $\HPrimeToff{}$ works.
 Let us use the notation $P_i \equiv \ketbra{\lambda_i}$,
 and consider the projector over the last two eigenvectors.
@@ -1051,13 +1140,14 @@ Note that instead of $\pi \alpha (Z_2 - Z_1)Z_3$ we could have equivalently chos
 $\pi\alpha(Z_2-Z_1)O_3$ for any $O_3 = a Y_3 + b Z_3$ and $a^2 + b^2 = 1$.
 The above reasoning explains the origin of the weird $\sqrt{15}$ factor: it comes as the coordinate necessary to make the vector unitary: for $X/4 + x Z / 4$ to be normalized, $x = \sqrt{15}$ must be satisfied.
 
-\section{Fredkin analytical derivation}
+\section{Fredkin gate}
 % BEGIN FREDKIN
 We show here how to use the framework given in~\cref{sec:gatelearning_solution_framework} to find a Hamiltonian that does not contain three-qubit interaction terms, and generates the Fredkin gate at $t=1$.
 The quantum Fredkin gate $\UFred$ is the three-qubit gate which swaps the first two qubits conditionally to the third one being in the state $\ket1$.
 This gate finds widespread use for a number of quantum information protocols~\cite{patel2016a,loft2018quantum}.
 \highlight{probably more uses?}
-A time-independent two-body Hamiltonian simulating $\UFred$ with 4 qubits has been found in~\cite{banchi2016quantum} using numerical optimization.
+A time-independent two-body Hamiltonian simulating $\UFred$ with four qubits has been found in~\cite{banchi2016quantum} using numerical optimization.
+We show here that it is possible to implement $\UFred$ via a time-independent dynamics using only \textit{three} qubits, and without using non-diagonal interaction terms.
 
 Explicitly,
 \begin{equation}
@@ -1090,7 +1180,7 @@ where
 \end{equation}
 The $\on{SWAP}$ gate has eigenvalues $\pm1$ with $+1$ being three-fold degenerate.
 It follows that $\UFred$ has a seven-fold degenerate eigenvalue $+1$ and a non-degenerate eigenvalue $-1$.
-The eigenstate of $\on{SWAP}$ with eigenvalue $\lambda=-1$ is $\ket{01}-\ket{10}$, and thus the corresponding eigenstate of $\UFred$ is $\ket{-1}=\ket1\otimes(\ket{01}-\ket{10})/\sqrt2$.
+The eigenstate of $\on{SWAP}$ with eigenvalue $\lambda=-1$ is $\ket{01}-\ket{10}$, and thus the corresponding eigenstate of $\UFred$ is $\ket{-1}\equiv\ket1\otimes(\ket{01}-\ket{10})/\sqrt2$.
 The projector onto this eigenstate can be written in the Pauli basis as
 \begin{equation}
     \PP_{-1}\equiv \ketbra{-1} =
@@ -1121,7 +1211,6 @@ $(1 + 2n)\pi \PP_{-1}$ for some $n\in\ZZ$.
 This term contains three-qubit interactions, so we must hope that some other term in $I-\PP_{-1}$ removes these.
 
 
-
 \highlight{check consistency of \textit{principal}/\textit{canonical} notation}
 % \begin{equation}
 %   \HFred = (\pi/8) \left(I-\sigma^z_1\right)\left[I - \sum_{\alpha}\sigma^\alpha_2 \sigma^\alpha_3 \right],
@@ -1130,7 +1219,67 @@ This term contains three-qubit interactions, so we must hope that some other ter
 % where qubit $1$ is the control. %\cref{HGF} contains both two- and three-body interactions.
 
 Writing down the general parameterization $\HTildeFred(\bs\lambda)$ for a 3-qubit Hamiltonian containing only pairwise \emph{diagonal} interactions,
-and imposing~\cref{eq:3conditions_2nd}, we cut the number of parameters $\bs\lambda$ down to 22.
+and imposing~\cref{eq:3conditions_2nd}, we cut the number of parameters $\bs\lambda$ down to 12, getting to the following expression:
+% \begin{equation}
+% \begin{aligned}
+%     \HTildeFred &=
+%     h_0 I
+%     + h_2^x (X_2 + X_3)
+%     + h_2^y (Y_2 + Y_3)
+%     + h_1^z Z_1 + h_2^z Z_2 + h_3^z Z_3 \\
+%     &+ (h_2^z - h_3^z + J_{13}^{zz}) Z_1 Z_2
+%     + J_{13}^{zz} Z_1 Z_3
+%     + J_{23}^{zz} Z_2 Z_3 \\
+%     &+ J_{13}^{xx} X_1(X_2 + X_3)
+%     + J_{23}^{xx} X_3 X_2 \\
+%     &+ J_{13}^{yy} Y_1 (Y_2 + Y_3)
+%     + J_{23}^{yy} Y_2 Y_3
+% \end{aligned}
+% \end{equation}
+\begin{equation}
+\begin{aligned}
+    \HTildeFred &=
+    h_0 I
+    + h_2^x (X_2 + X_3)
+    + h_2^y (Y_2 + Y_3)
+    + h_1^z Z_1 \\
+    &+ J_{13}^{zz} Z_1(Z_2 + Z_3)
+    + h_2^z (1 + Z_1) Z_2
+    + h_3^z (Z_3 - Z_1 Z_2)
+    + J_{23}^{zz} Z_2 Z_3 \\
+    &+ J_{13}^{xx} X_1(X_2 + X_3)
+    + J_{23}^{xx} X_3 X_2 \\
+    &+ J_{13}^{yy} Y_1 (Y_2 + Y_3)
+    + J_{23}^{yy} Y_2 Y_3.
+\end{aligned}
+\end{equation}
+\highlight{recheck the above}
+Imposing the following further constraints:
+\begin{equation}
+\begin{gathered}
+    h_3^z = h_2^z = h_2^y = 0, \quad
+    h_1^z = \pi/2, \\
+    J_{13}^{yy} = 0,\quad
+    J_{23}^{yy} = J_{23}^{xx} = J_{23}^{zz},
+\end{gathered}
+\end{equation}
+we get the following simplified expression
+\begin{equation}
+\begin{aligned}
+    \HTildeFred &=
+    h_0 I
+    + J_{23}^{zz} (X_2 X_3 + Y_2 Y_3 + Z_2 Z_3) \\
+    % + h_2^x (X_2 + X_3)
+    % + J_{13}^{xx} X_1 (X_2 + X_3)
+    &+ (h_2^x + J_{13}^{xx} X_1)(X_2 + X_3)
+    + J_{13}^{zz} Z_1 (Z_2 + Z_3)
+    + \frac{\pi}{2}  Z_1,
+\end{aligned}
+\end{equation}
+corresponding to the following expression for $\HPrimeFred$
+
+While much simpler, this expression is still 
+
 Imposing additional physically plausible conditions, such as the symmetry between second and third qubit, we manage to reduce the number of parameters enough to solve the eigenvalue problem, finding %the following solution
 \begin{align}
     \HTildeFred &{=} 
@@ -1153,11 +1302,11 @@ Imposing additional physically plausible conditions, such as the symmetry betwee
 
 Therefore, also a non-trivial gate of crucial relevance such as the Fredkin gate can be implemented without time-dependent dynamics using only at most two-qubit interactions.
 The physical reason behind this simplification can be understood from the study of the spectral properties.
-For example, the gate $\Fred$ has only two eigenvalues, $\lambda_\pm=\pm1$
+For example, the gate $\UFred$ has only two eigenvalues, $\lambda_\pm=\pm1$
 with $\lambda_+$ having a sevenfold degeneracy. Such degeneracy makes the propagator generated by $\HFred$ operate in a two-level subspace.
 On the other hand, the spectrum of $\HTildeFred-\HFred$ is $\{{-}4\pi,{-}2\pi,0,0,0,2\pi,2\pi,4\pi\}$, showing that the degeneracy in the spectrum of $\HFred$ is partially lifted when considering 
-$\HTildeFred-\HFred$, and the dynamics thus occurs in an  larger effective Hilbert space.  %Therefore, $\HTildeFred$ breaks some of the symmetries of $\Fred$, it acts on an effectively larger 
-%space where the simulation of  $\Fred$ with a two-body Hamiltonian is possible. 
+$\HTildeFred-\HFred$, and the dynamics thus occurs in an  larger effective Hilbert space.  %Therefore, $\HTildeFred$ breaks some of the symmetries of $\calFred$, it acts on an effectively larger 
+%space where the simulation of  $\calFred$ with a two-body Hamiltonian is possible. 
 Although $\exponential(it\HTildeFred)$ is non-symmetric for most of the evolution times, all the symmetries are restored at $t=1$ and any subsequent integer times. This  shows that breaking the symmetries of $\calU$ and exploiting its degenerate space can help the gate gesign when restricting the set of viable interactions.
 %END FREDKIN
 
@@ -1169,7 +1318,7 @@ What kind of ML do we use here? Does what we do even qualify as ML? Why do we us
 
 \section{Supervised learning approach}
 \label{sec:supervised_learning_approach}
-We here study more in depth the following problem: given a target gate $\G$ and a parametrised Hamiltonian ${\mathcal H(\bs\lambda) = \sum_k \lambda_k \sigma_k}$, with $\lambda_k\in\mathbb R$ and $\sigma_k$ Hermitian operators, what is the set of parameters $\bs\lambda_0$ such that $\exponential(i\HH(\bs\lambda_0)) = \G$?
+We here study more in depth the following problem: given a target gate $\calG$ and a parametrised Hamiltonian ${\mathcal H(\bs\lambda) = \sum_k \lambda_k \sigma_k}$, with $\lambda_k\in\mathbb R$ and $\sigma_k$ Hermitian operators, what is the set of parameters $\bs\lambda_0$ such that $\exponential(i\HH(\bs\lambda_0)) = \calG$?
 We present a supervised learning approach to numerically solve this problem, considerably extending the ideas presented in Ref.~\cite{banchi2016quantum}.
 Thanks to a number of numerical optimisation techniques, and in particular the use of \ac{AD}~\cite{baydin2015automatic,bartholomewbiggs2000automatic,wengert1964a,bischof2008advances}, we can explore a variety of different scenarios, optimising over potentially hundreds of Hamiltonian parameters.
 On top of this, condition (1b) in the main text is used to further speed-up the numerical training, removing many interaction parameters that are known not to lead to the target gate.
@@ -1207,15 +1356,15 @@ $\bs w\to\bs w-\eta\sum_{k=1}^M\grad_{\bs w}f(\bs x_k; \bs w)/M$.
 More sophisticated updating rules are used to increase the training efficiency in different circumstances.
 Common techniques involve dynamically updating the learning rate, or using \emph{momentum gradient descent}~\cite{goh2017momentum,ruder2016overview} techniques.
 
-To see how this class of optimisation problems is relevant to us, consider the fidelity function $\F$ defined as
+To see how this class of optimisation problems is relevant to us, consider the fidelity function $\calF$ defined as
 \begin{equation}
-	\F(\bs\lambda, \psi) \equiv \mel{\psi}{\G^\dagger \exp(i \HH(\bs\lambda)) \G}{\psi},
+	\calF(\bs\lambda, \psi) \equiv \mel{\psi}{\calG^\dagger \exp(i \HH(\bs\lambda)) \calG}{\psi},
 	\label{eq:def_fidelity}
 \end{equation}
-with $\G$ the target gate, $\bs\lambda$ the set of parameters, and $\psi$ an input state.
-The gate design problem is then equivalent to finding $\bs\lambda$ such that $\F(\bs\lambda, \psi)$ is maximised (that is, equal to 1) for all $\psi$.
-One possibility to solve this problem is to consider the average fidelity $\bar{\F}(\bs\lambda)$, for which explicit formulas are known~\cite{banchi2011nonperturbative,pedersen2007fidelity,magesan2011gate}.
-Standard optimisation methods, like standard gradient descent or differential evolution, can be applied directly on $\bar{\F}(\bs\lambda)$.
+with $\calG$ the target gate, $\bs\lambda$ the set of parameters, and $\psi$ an input state.
+The gate design problem is then equivalent to finding $\bs\lambda$ such that $\calF(\bs\lambda, \psi)$ is maximised (that is, equal to 1) for all $\psi$.
+One possibility to solve this problem is to consider the average fidelity $\bar{\calF}(\bs\lambda)$, for which explicit formulas are known~\cite{banchi2011nonperturbative,pedersen2007fidelity,magesan2011gate}.
+Standard optimisation methods, like standard gradient descent or differential evolution, can be applied directly on $\bar{\calF}(\bs\lambda)$.
 This, however, reveals to be impractical, due to the complexity of the associated parameter landscapes.
 On the other hand, \ac{SGD} allows to use a simple and efficient local maximisation method, while at the same time being less prone to getting stuck in local maxima.
 This works particularly well in this case, because we know that the sets of parameters corresponding to the target gate are \emph{all and only} those such that \emph{for all inputs $\psi$} the fidelity is unitary.
@@ -1289,7 +1438,7 @@ For quantum states, the fidelity between these turns out to work well.
 	\centering
 	\begin{minipage}{0.3\linewidth}
 		\centering
-		\includegraphics[height=1.3\textwidth]{automatic-differentiation}
+		\includegraphics[height=1.3\textwidth]{Figures/automatic-differentiation}
 	\end{minipage}\hfill
 	\begin{minipage}{0.3\linewidth}
 		\centering
@@ -1333,7 +1482,7 @@ The use of \emph{momentum}~\cite{ruder2016overview,goh2017momentum} involves usi
 The updating rule is instead given by
 \begin{equation}
 \begin{aligned}
-	\bs v &\to \gamma \bs v + \eta \grad_{\bs\lambda} \F(\psi, \bs\lambda), \\
+	\bs v &\to \gamma \bs v + \eta \grad_{\bs\lambda} \calF(\psi, \bs\lambda), \\
 	\bs\lambda &\to \bs\lambda + \bs v,
 \end{aligned}
 \label{eq:updating_rule_momentum}
@@ -1341,7 +1490,7 @@ The updating rule is instead given by
 where here $\eta$ is the \emph{learning rate} and $\gamma$ the \emph{momentum}.
 The use of the auxiliary parameter $\bs v$ during the training discourages sudden changes of direction, and can make the training significantly more efficient~\cite{goh2017momentum}.
 
-While the cost function $\F$ is always real, some of the intermediate calculations needed to compute it involve complex numbers.
+While the cost function $\calF$ is always real, some of the intermediate calculations needed to compute it involve complex numbers.
 While this poses no fundamental problems, many of the \ac{ML} libraries do not support \ac{AD} over functions with complex inputs or outputs.
 We worked around this problem using a similar trick to the one reported in~\cite{leung2017speedup}.
 In particular, to use the existing framework, we mapped the problem into one involving only real numbers.
@@ -1365,7 +1514,7 @@ More specifically, the employed algorithm involves the following steps:
 	$N_e$ random training states are sampled, to be used during the epoch.
 	\begin{enumerate}
 		\item Pick $N_b$ of the $N_e$ training states.
-		\item Forward-propagate each state of the sample, and then backpropagate the gradients, thus computing the average gradient over the mini-batch $\grad_{\bs\lambda} \F(\bs\lambda)$.
+		\item Forward-propagate each state of the sample, and then backpropagate the gradients, thus computing the average gradient over the mini-batch $\grad_{\bs\lambda} \calF(\bs\lambda)$.
 		\item Update the coupling strengths $\lambda$ as per~\cref{eq:updating_rule_momentum}.
 		\item Return to point (a).
 	\end{enumerate}
@@ -1391,8 +1540,8 @@ As shown in these plots, the stability of the implemented gates with respect to 
 
 To assess the feasibility of nontrivial gates in more restrictive experimental scenarios, we performed a systematic analysis of the reachability of Fredkin and Toffoli gates when allowing only for single-qubit and $X_i X_j+Y_i Y_j$ two-qubit interactions, and in the less restrictive setting of allowing for all $X_i X_j$ and $Y_i Y_j$ interactions.
 The results are shown in~\cref{fig:fredkin_XY,fig:fredkin_XX,fig:toffoli_XX,fig:toffoli_XY}.
-For the Fredkin gate, in the more restrictive $XX$ interactions setting, the biggest fidelity obtained was $\F\simeq 0.94$, while when allowing for all $XX$ and $YY$ interactions the maximum fidelity obtained was $\F\simeq0.999$.
-For the Toffoli gate, the maximum fidelity obtained in the $XX$ scenario was $\F\simeq0.94$ as well, while when allowing for all $XX$ and $YY$ interactions the best training results corresponded to $\F\simeq 0.98$.
+For the Fredkin gate, in the more restrictive $XX$ interactions setting, the biggest fidelity obtained was $\calF\simeq 0.94$, while when allowing for all $XX$ and $YY$ interactions the maximum fidelity obtained was $\calF\simeq0.999$.
+For the Toffoli gate, the maximum fidelity obtained in the $XX$ scenario was $\calF\simeq0.94$ as well, while when allowing for all $XX$ and $YY$ interactions the best training results corresponded to $\calF\simeq 0.98$.
 To have more consistent results, in all the training instances shown here all the hyperparameters, except for the interaction parameters' initial values, were chosen to have the same value.
 In particular, each training instance was run for $200$ epochs, each one using $200$ random quantum states as inputs, divided in batches of $2$ elements.
 This choice of hyperparameters is mostly empirical, and it is possible for different values to provide better results.
@@ -1404,6 +1553,196 @@ Additional solutions and data, as well as the code used to produce them, is avai
 \href{https://github.com/lucainnocenti/quantum-gate-learning-1803.07119}{lucainnocenti/quantum-gate-learning-1803.07119}.
 This repository contains all the code used to reproduce the solutions presented in this paper, as well as to train arbitrary gates on arbitrary numbers of qubits.
 Even more generally, arbitrary (linearly) parametrised matrices can be used as training model, allowing a high degree of flexibility.
+
+\begin{figure*}[htbp]
+	\centering
+	\begin{tikzpicture}
+		\node[anchor=south west] (A) at (0, 0)%
+			{\includegraphics[width=.8\linewidth]{toffoli_diagonal_parhistories}};
+		\node[above] at (4., -.2) {$t_e$};
+		\node[above] at (11.5, -.2) {$t_e$};
+	\end{tikzpicture}%
+	% \includegraphics[width=.8\linewidth]{toffoli_diagonal_parhistories}
+	\caption{
+		Training histories for the \textbf{Toffoli} gate with only diagonal interactions.
+		In each plot are reported the values of the $9$ network parameters during the training process, for each training epoch $t_e$.
+		Each training process was left running until convergence to unit fidelity, therefore, the number of epochs in the horizontal axes differs for different trainings instances.
+		The histories shown here correspond to training instances in which the parameters were initialised at various values, as seen from the leftmost values in each plot.
+	}
+	\label{fig:toffoli_diagonal_parhistories}
+\end{figure*}
+
+\begin{figure*}[htbp]
+	\centering
+		\begin{tikzpicture}
+		\node[anchor=south west] (A) at (0, 0)%
+			{\includegraphics[width=.8\linewidth]{fredkin_diagonal_parhistories}};
+		\node[above] at (4., -.2) {$t_e$};
+		\node[above] at (11.5, -.2) {$t_e$};
+	\end{tikzpicture}%
+	% \includegraphics[width=.8\linewidth]{fredkin_diagonal_parhistories}
+	\caption{
+		Training histories for the \textbf{Fredkin} gate with only diagonal interactions.
+		In each plot are reported the values of the $9$ network parameters during the training process, for each training epoch $t_e$.
+		Each training process was left running until convergence to unit fidelity, therefore, the number of epochs in the horizontal axes differs for different trainings instances.
+		The histories shown here correspond to training instances in which the parameters were initialised at various values, as seen from the leftmost values in each plot.
+	}
+	\label{fig:fredkin_diagonal_parhistories}
+\end{figure*}
+
+\begin{figure*}[htbp]
+	\centering
+	\begin{tikzpicture}
+		\node[anchor=south west] (A) at (0, 0)%
+			{\includegraphics[width=.8\linewidth]{doublefredkin_diagonal_initvalues4_parhistories}};
+		\node[above] at (4., -.2) {$t_e$};
+		\node[above] at (11.5, -.2) {$t_e$};
+	\end{tikzpicture}%
+	% \includegraphics[width=.8\linewidth]{doublefredkin_diagonal_initvalues4_parhistories}
+	\caption{
+		Training histories for the \textbf{double-Fredkin} gate with only diagonal interactions.
+		In each plot are reported the values of the $18$ network parameters during the training process, for each training epoch $t_e$.
+		Each training process was left running until convergence to unit fidelity, therefore, the number of epochs in the horizontal axes differs for different trainings instances.
+		All the histories shown here correspond to training instances in which the parameters were initialised to $4$.
+	}
+	\label{fig:doublefredkin_diagonal_parhistories}
+\end{figure*}
+
+\newcommand{\graphicswithlabel}[3]{%
+	\begin{tikzpicture}
+		\node[anchor=north west] (A) at (0, 0)%
+			{\includegraphics[width=.48\linewidth]{#2}};
+		\node[above] at (1.4, -.85) {\small\textbf{(#1)}};
+		\node[above] at (4.6, -4.65) {#3};
+		\node[above] at (1., -.2) {$\calF_\bslambda(\psi)$};
+	\end{tikzpicture}%
+}
+\begin{figure*}[htbp]
+	\centering
+	\graphicswithlabel{a}{toffoli_fidVStime}{$\alpha$}\vspace{-6pt}
+	\graphicswithlabel{b}{toffoli_fidVStime_wide}{$\alpha$}
+	\graphicswithlabel{c}{toffoli_fidVSpar0}{$\lambda_1$}\vspace{-6pt}
+	\graphicswithlabel{d}{toffoli_fidVSpar1}{$\lambda_2$}
+	\caption{
+		Fidelity $\calF_\bslambda(\psi)$ vs variations of $\bslambda$, for different test states, for the \textbf{Toffoli} gate. The five test states $\psi$ are sampled randomly.
+		\textbf{(a)} Global relative variations of $\bslambda$, that is, plotting the fidelity against $\alpha\bslambda$ for $0.9 \le\alpha\le 1.1$.
+		Note that this is equivalent to studying how the fidelity changes with respect to uncertainties in the evolution time, that is, how much does $\exp(i\HH t')$ differ from $\exp(i\HH t)$.
+		\textbf{(b)} Same as \emph{(a)} but with $0\le\alpha\le 1.2$.
+		\textbf{(c)} Plot of $\calF_\bslambda(\psi)$ against \emph{absolute} variations of a single element of $\bslambda$, in this case the first one, i.e. we take $\lambda_1\in[-10,10]$.
+		\textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
+	}
+	\label{fig:toffoli_fidVSpars}
+\end{figure*}
+
+\renewcommand{\graphicswithlabel}[3]{%
+	\begin{tikzpicture}
+		\node[anchor=north west] (A) at (0, 0)%
+			{\includegraphics[width=.48\linewidth]{#2}};
+		\node[above] at (1.4, -.85) {\small\textbf{(#1)}};
+		\node[above] at (4.6, -4.65) {#3};
+		\node[above] at (1., -.2) {$\calF_\bslambda(\psi)$};
+	\end{tikzpicture}%
+}
+\begin{figure*}[htbp]
+	\centering
+	\graphicswithlabel{a}{fredkin_fidVStime}{$\alpha$}\vspace{-6pt}
+	\graphicswithlabel{b}{fredkin_fidVStime_wide}{$\alpha$}
+	\graphicswithlabel{c}{fredkin_fidVSpar0}{$\lambda_1$}\vspace{-6pt}
+	\graphicswithlabel{d}{fredkin_fidVSpar3}{$\lambda_2$}
+	\caption{
+		Fidelity $\calF_\bslambda(\psi)$ vs variations of $\bslambda$, for different test states, for the \textbf{Fredkin} gate. The five test states $\psi$ are sampled randomly.
+		\textbf{(a)} Global relative variations of $\bslambda$, that is, plotting the fidelity against $\alpha\bslambda$ for $0.9 \le\alpha\le 1.1$.
+		Note that this is equivalent to studying how the fidelity changes with respect to uncertainties in the evolution time, that is, how much does $\exp(i\HH t')$ differ from $\exp(i\HH t)$.
+		\textbf{(b)} Same as \emph{(a)} but with $0\le\alpha\le 1.2$.
+		\textbf{(c)} Plot of $\calF_\bslambda(\psi)$ against \emph{absolute} variations of a single element of $\bslambda$, in this case the first one, i.e. we take $\lambda_1\in[-10,10]$.
+		\textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
+	}
+	\label{fig:fredkin_fidVSpars}
+\end{figure*}
+
+\renewcommand{\graphicswithlabel}[3]{%
+	\begin{tikzpicture}
+		\node[anchor=north west] (A) at (0, 0)%
+			{\includegraphics[width=.48\linewidth]{#2}};
+		\node[above] at (1.4, -.85) {\small\textbf{(#1)}};
+		\node[above] at (4.6, -4.65) {#3};
+		\node[above] at (1., -.2) {$\calF_\bslambda(\psi)$};
+	\end{tikzpicture}%
+}
+\begin{figure*}[htbp]
+	\centering
+	\graphicswithlabel{a}{doublefredkin_fidVStime}{$\alpha$}\vspace{-6pt}
+	\graphicswithlabel{b}{doublefredkin_fidVStime_wide}{$\alpha$}
+	\graphicswithlabel{c}{doublefredkin_fidVSpar0}{$\lambda_1$}\vspace{-6pt}
+	\graphicswithlabel{d}{doublefredkin_fidVSpar1}{$\lambda_2$}
+	\caption{
+		Fidelity $\calF_\bslambda(\psi)$ vs variations of $\bslambda$, for different test states, for the \textbf{double Fredkin} gate. The five test states $\psi$ are sampled randomly.
+		\textbf{(a)} Global relative variations of $\bslambda$, that is, plotting the fidelity against $\alpha\bslambda$ for $0.9 \le\alpha\le 1.1$.
+		Note that this is equivalent to studying how the fidelity changes with respect to uncertainties in the evolution time, that is, how much does $\exp(i\HH t')$ differ from $\exp(i\HH t)$.
+		\textbf{(b)} Same as \emph{(a)} but with $0\le\alpha\le 1.2$.
+		\textbf{(c)} Plot of $\calF_\bslambda(\psi)$ against \emph{absolute} variations of a single element of $\bslambda$, in this case the first one, i.e. we take $\lambda_1\in[-10,10]$.
+		\textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
+	}
+	\label{fig:doublefredkin_fidVSpars}
+\end{figure*}
+
+
+\newcommand{\traininggraphicswithlabel}[1]{%
+	\begin{tikzpicture}
+		\node[anchor=north west] (A) at (0, 0)%
+			{\includegraphics[width=.85\linewidth]{#1}};
+		\node[above] at (0, -.8) {$\barF$};
+	\end{tikzpicture}%
+}
+
+\begin{figure*}[htbp]
+	\centering
+	% \includegraphics[width=.85\linewidth]{fredkin_noancillae_XXall.pdf}
+	\traininggraphicswithlabel{fredkin_noancillae_XXall.pdf}
+	\caption{
+		Training results for the Fredkin gate with a generator containing one-qubit interactions and two-qubit interactions of the form $J_{ij}(X_i X_j + Y_i Y_j)$.
+		Every point shows the final fidelity obtained at the end of a training procedure.
+		The hyperparameters, as well as the total number of training iterations, are kept the same in all the training instances shown here.
+		The initial parameters' values are the same within each horizontal sector, but changed between different sectors.
+		The initial parameters' values within each sector have been chosen as all equal to $c$ (that is, $\lambda_i=c$ for all $i$). The values of $c$ are $0, 1,..., 10$, with $c=0$ in the leftmost sector and $c=10$ in the last to rightmost one.
+		The rightmost sector contains the results of training attempts with the initial values chosen at random (that is, with $\lambda_i$ sampled according to the uniform normal distribution, independently for each $i$).
+		The greatest reached fidelity, obtained with initial parameters' values $\lambda_i=3$, is $\calF\simeq0.94$.
+	}
+	\label{fig:fredkin_XX}
+\end{figure*}
+
+\begin{figure*}[htbp]
+	\centering
+	\traininggraphicswithlabel{fredkin_noancillae_XYall.pdf}
+	\caption{
+		Training results for the Fredkin gate with a generator containing all one-qubit interactions and two-qubit interactions of the form $J^{(1)}_{ij}X_i X_j + J^{(2)}_{ij}Y_i Y_j$.
+		The initial conditions are chosen as in~\cref{fig:fredkin_XX}.
+		The maximum fidelities obtained are $\calF\simeq0.999$, obtained in multiple instances $c=3$ and $c=4$ sectors.
+	}
+	\label{fig:fredkin_XY}
+\end{figure*}
+
+\begin{figure*}[htbp]
+	\centering
+	\traininggraphicswithlabel{toffoli_noancillae_XXall.pdf}
+	\caption{
+		Training results for the Toffoli gate with a generator containing all one-qubit interactions and two-qubit interactions of the form $J_{ij}(X_i X_j + Y_i Y_j)$.
+		The initial conditions are chosen as in~\cref{fig:fredkin_XX}.
+		The maximum fidelities obtained are $\calF\simeq0.94$, obtained in the $c=3$ sector.
+	}
+	\label{fig:toffoli_XX}
+\end{figure*}
+
+\begin{figure*}[htbp]
+	\centering
+	\traininggraphicswithlabel{toffoli_noancillae_XYall.pdf}
+	\caption{
+		Training results for the Toffoli gate with a generator containing all one-qubit interactions and two-qubit interactions of the form $J^{(1)}_{ij}X_i X_j + J^{(2)}_{ij}Y_i Y_j$.
+		The initial conditions are chosen as in~\cref{fig:fredkin_XX}.
+		The maximum fidelities obtained are $\calF\simeq0.98$, obtained in the $c=4$ and $c=5$ sectors.
+	}
+	\label{fig:toffoli_XY}
+\end{figure*}
 
 \subsection{Numerical approximate results in constrained scenarios}
 
