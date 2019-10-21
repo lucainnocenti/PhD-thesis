@@ -526,7 +526,7 @@ Nevertheless, this example is interesting to show how the technique suggested by
 \end{example}
 \highlight{Is there a way to do a reasoning like the above for a generic two-qubit gate?}
 
-\section{Generators for the Toffoli gate}
+\section{Toffoli gate}
 Consider now the Toffoli gate $\UToff$, and let $\calP_{\le2}$ be the set of one- and two-qubit Pauli matrices. In this section we ask the question: \textit{\textbf{is there a time-independent $\HTildeToff\in\spanR(\calP_{\le2})$ such that $e^{i\HTildeToff}=\UToff$?}}
 
 A canonical generator for $\UToff$ is $\HToff=\pi Z_1^- Z_2^- X_3^-$.
@@ -1276,7 +1276,21 @@ we get the following simplified expression
     + \frac{\pi}{2}  Z_1,
 \end{aligned}
 \end{equation}
-corresponding to the following expression for $\HPrimeFred$
+corresponding to the following expression for $\HPrimeFred$:
+\begin{equation}
+\begin{aligned}
+    \HPrimeFred &=
+    (X_2+X_3) h_2^x
+    + J_{13}^{xx} X_1 (X_2+X_3)
+    + J_{23}^{zz} X_2 X_3 
+    + J_{23}^{zz} Y_2 Y_3
+    + J_{13}^{zz} Z_1 Z_2  \\
+    &+ Z_1 Z_3 J_{13}^{zz}
+    + 1/8 Z_2 Z_3 (8 J_{23}^{zz}-\pi Z_1+\pi)
+    + h_0+1/8 \pi (X_2 X_3+Y_2 Y_3+5 Z_1-1)-1/8 \pi X_2 X_3 Z_1
+    -1/8 \pi Y_2 Y_3 Z_1
+\end{aligned}
+\end{equation}
 
 While much simpler, this expression is still 
 
