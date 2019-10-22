@@ -21,7 +21,8 @@
 
 %%%%%%%%%%%%%%%%%% END FONT CHOICE %%%%%%%%%%%%%%%%%%%%%%
 
-
+\usepackage{xspace} % to avoid newcommand eating trailing space
+\usepackage{etoolbox}
 \usepackage{microtype} % Slightly tweak font spacing for aesthetics
 
 \usepackage[english]{babel} % Language hyphenation and typographical rules
@@ -81,6 +82,9 @@
 \usepackage[colorlinks=true]{hyperref}
 \usepackage[nameinlink]{cleveref}
 \crefname{appsec}{Appendix}{Appendices}
+
+
+\usepackage{tikz}
 
 \usepackage{amsthm}
 % \newtheorem{example}{Example}

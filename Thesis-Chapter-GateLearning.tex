@@ -1451,18 +1451,18 @@ Although $\exponential(it\HTildeFred)$ is non-symmetric for most of the evolutio
 
 \highlight{Maybe CCZ gate case?}
 
-\section{ML to the rescue}
-\highlight{Probably these sections will be merged at some point, they're a bit to dispersive.}
 
-What kind of ML do we use here? Does what we do even qualify as ML? Why do we use supervised learning instead of other types of learning?
+\section{Numerical approach}
+\label{sec:numerical_approach}
 
+As the analyses given in~\cref{sec:gatelearning_toffoli,sec:gatelearning_fredkin} demonstrated, finding time-independent Hamiltonians for target gates can be a rather nontrivial task. 
+Moreover, the fact that each gate presents a nontrivial problem of its own, makes the results that are found hard to extend
+\highlight{reads like shit}.
+It would therefore seem desirable to have a more flexible method to solve a given gate learning problem with more ease, albeit numerically.
 
-\section{Supervised learning approach}
-\label{sec:supervised_learning_approach}
+A naive approach to do this is to convert the gate learning problem into a numerical optimisation problem by defining a suitable cost function.
 
-As the analyses given in~\cref{sec:gatelearning_toffoli,sec:gatelearning_fredkin} demonstrated, finding time-independent Hamiltonians for target gates is a nontrivial task. 
-
-We here study more in depth the following problem: given a target gate $\calG$ and a parametrised Hamiltonian ${\calH(\bs\lambda) = \sum_k \lambda_k \sigma_k}$, with $\lambda_k\in\RR$ and $\sigma_k$ Hermitians, what is the set of parameters $\bs\lambda_0$ such that $\exponential(i\calH(\bs\lambda_0)) = \calG$?
+% We here study more in depth the following problem: given a target gate $\calG$ and a parametrised Hamiltonian ${\calH(\bs\lambda) = \sum_k \lambda_k \sigma_k}$, with $\lambda_k\in\RR$ and $\sigma_k$ Hermitians, what is the set of parameters $\bs\lambda_0$ such that $\exponential(i\calH(\bs\lambda_0)) = \calG$?
 We present a supervised learning approach to numerically solve this problem, considerably extending the ideas presented in Ref.~\cite{banchi2016quantum}.
 Thanks to a number of numerical optimisation techniques, and in particular the use of \ac{AD}~\cite{baydin2015automatic,bartholomewbiggs2000automatic,wengert1964a,bischof2008advances}, we can explore a variety of different scenarios, optimising over potentially hundreds of Hamiltonian parameters.
 On top of this, condition (1b) in the main text is used to further speed-up the numerical training, removing many interaction parameters that are known not to lead to the target gate.
@@ -1578,7 +1578,7 @@ In the context of training neural networks, the function to be derived is the \e
 For the gate design problem, we will use another notion of \emph{distance} between output obtained and output expected.
 For quantum states, the fidelity between these turns out to work well.
 
-\begin{figure*}[tb]
+\begin{figure}[tb]
 	\centering
 	\begin{minipage}{0.3\linewidth}
 		\centering
@@ -1603,7 +1603,7 @@ For quantum states, the fidelity between these turns out to work well.
 		\textbf{(c)} Using the same example function as (b), we give an example of the actual number computed at all stages when the inputs are $(x_1, x_2) = (\pi / 2, 2)$.
 	}
 	\label{fig:automatic-differentiation}
-\end{figure*}
+\end{figure}
 
 \subsection{Implementation details}
 \label{subsec:implementation_details}
@@ -1639,7 +1639,7 @@ While this poses no fundamental problems, many of the \ac{ML} libraries do not s
 We worked around this problem using a similar trick to the one reported in~\cite{leung2017speedup}.
 In particular, to use the existing framework, we mapped the problem into one involving only real numbers.
 To do this, we map complex matrices into real ones via the bijection
-$A\mapsto\mathfrak{Re}(A)\equiv\mathds1\otimes A_{R} - i \sigma_y\otimes A_{I}$,
+$A\mapsto\mathfrak{Re}(A)\equiv I \otimes A_{R} - i \sigma_y\otimes A_{I}$,
 where $A_R$ and $A_I$ are the real and imaginary parts of $A$, respectively.
 At the same time, state vectors are to be mapped to
 $\Psi\mapsto\mathfrak{Re}(\Psi)\equiv(\Psi_R, \Psi_I)^T$.
@@ -1698,7 +1698,7 @@ Additional solutions and data, as well as the code used to produce them, is avai
 This repository contains all the code used to reproduce the solutions presented in this paper, as well as to train arbitrary gates on arbitrary numbers of qubits.
 Even more generally, arbitrary (linearly) parametrised matrices can be used as training model, allowing a high degree of flexibility.
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 	\centering
 	\begin{tikzpicture}
 		\node[anchor=south west] (A) at (0, 0)%
@@ -1714,9 +1714,9 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		The histories shown here correspond to training instances in which the parameters were initialised at various values, as seen from the leftmost values in each plot.
 	}
 	\label{fig:toffoli_diagonal_parhistories}
-\end{figure*}
-
-\begin{figure*}[htbp]
+\end{figure}
+ 
+\begin{figure}[htbp]
 	\centering
 		\begin{tikzpicture}
 		\node[anchor=south west] (A) at (0, 0)%
@@ -1732,9 +1732,9 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		The histories shown here correspond to training instances in which the parameters were initialised at various values, as seen from the leftmost values in each plot.
 	}
 	\label{fig:fredkin_diagonal_parhistories}
-\end{figure*}
+\end{figure}
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 	\centering
 	\begin{tikzpicture}
 		\node[anchor=south west] (A) at (0, 0)%
@@ -1750,7 +1750,7 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		All the histories shown here correspond to training instances in which the parameters were initialised to $4$.
 	}
 	\label{fig:doublefredkin_diagonal_parhistories}
-\end{figure*}
+\end{figure}
 
 \newcommand{\graphicswithlabel}[3]{%
 	\begin{tikzpicture}
@@ -1761,22 +1761,22 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		\node[above] at (1., -.2) {$\calF_\bslambda(\psi)$};
 	\end{tikzpicture}%
 }
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 	\centering
-	\graphicswithlabel{a}{toffoli_fidVStime}{$\alpha$}\vspace{-6pt}
+	\graphicswithlabel{a}{toffoli_fidVStime}{$\alpha$}%\vspace{-6pt}
 	\graphicswithlabel{b}{toffoli_fidVStime_wide}{$\alpha$}
 	\graphicswithlabel{c}{toffoli_fidVSpar0}{$\lambda_1$}\vspace{-6pt}
 	\graphicswithlabel{d}{toffoli_fidVSpar1}{$\lambda_2$}
-	\caption{
-		Fidelity $\calF_\bslambda(\psi)$ vs variations of $\bslambda$, for different test states, for the \textbf{Toffoli} gate. The five test states $\psi$ are sampled randomly.
-		\textbf{(a)} Global relative variations of $\bslambda$, that is, plotting the fidelity against $\alpha\bslambda$ for $0.9 \le\alpha\le 1.1$.
-		Note that this is equivalent to studying how the fidelity changes with respect to uncertainties in the evolution time, that is, how much does $\exp(i\HH t')$ differ from $\exp(i\HH t)$.
-		\textbf{(b)} Same as \emph{(a)} but with $0\le\alpha\le 1.2$.
-		\textbf{(c)} Plot of $\calF_\bslambda(\psi)$ against \emph{absolute} variations of a single element of $\bslambda$, in this case the first one, i.e. we take $\lambda_1\in[-10,10]$.
-		\textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
-	}
-	\label{fig:toffoli_fidVSpars}
-\end{figure*}
+ 	\caption{
+ 		Fidelity $\calF_\bslambda(\psi)$ vs variations of $\bslambda$, for different test states, for the \textbf{Toffoli} gate. The five test states $\psi$ are sampled randomly.
+ 		\textbf{(a)} Global relative variations of $\bslambda$, that is, plotting the fidelity against $\alpha\bslambda$ for $0.9 \le\alpha\le 1.1$.
+ 		Note that this is equivalent to studying how the fidelity changes with respect to uncertainties in the evolution time, that is, how much does $\exp(i\calH t')$ differ from $\exp(i\calH t)$.
+ 		\textbf{(b)} Same as \emph{(a)} but with $0\le\alpha\le 1.2$.
+ 		\textbf{(c)} Plot of $\calF_\bslambda(\psi)$ against \emph{absolute} variations of a single element of $\bslambda$, in this case the first one, i.e. we take $\lambda_1\in[-10,10]$.
+ 		\textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
+ 	}
+ %\label{fig:toffoli_fidVSpars}
+\end{figure}
 
 \renewcommand{\graphicswithlabel}[3]{%
 	\begin{tikzpicture}
@@ -1787,7 +1787,7 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		\node[above] at (1., -.2) {$\calF_\bslambda(\psi)$};
 	\end{tikzpicture}%
 }
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 	\centering
 	\graphicswithlabel{a}{fredkin_fidVStime}{$\alpha$}\vspace{-6pt}
 	\graphicswithlabel{b}{fredkin_fidVStime_wide}{$\alpha$}
@@ -1802,7 +1802,7 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		\textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
 	}
 	\label{fig:fredkin_fidVSpars}
-\end{figure*}
+\end{figure}
 
 \renewcommand{\graphicswithlabel}[3]{%
 	\begin{tikzpicture}
@@ -1813,7 +1813,7 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		\node[above] at (1., -.2) {$\calF_\bslambda(\psi)$};
 	\end{tikzpicture}%
 }
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 	\centering
 	\graphicswithlabel{a}{doublefredkin_fidVStime}{$\alpha$}\vspace{-6pt}
 	\graphicswithlabel{b}{doublefredkin_fidVStime_wide}{$\alpha$}
@@ -1828,7 +1828,7 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		\textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
 	}
 	\label{fig:doublefredkin_fidVSpars}
-\end{figure*}
+\end{figure}
 
 
 \newcommand{\traininggraphicswithlabel}[1]{%
@@ -1839,7 +1839,7 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 	\end{tikzpicture}%
 }
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 	\centering
 	% \includegraphics[width=.85\linewidth]{fredkin_noancillae_XXall.pdf}
 	\traininggraphicswithlabel{fredkin_noancillae_XXall.pdf}
@@ -1848,14 +1848,14 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		Every point shows the final fidelity obtained at the end of a training procedure.
 		The hyperparameters, as well as the total number of training iterations, are kept the same in all the training instances shown here.
 		The initial parameters' values are the same within each horizontal sector, but changed between different sectors.
-		The initial parameters' values within each sector have been chosen as all equal to $c$ (that is, $\lambda_i=c$ for all $i$). The values of $c$ are $0, 1,..., 10$, with $c=0$ in the leftmost sector and $c=10$ in the last to rightmost one.
+		The initial parameters' values within each sector have been chosen as all equal to $c$ (that is, $\lambda_i=c$ for all $i$). The values of $c$ are $0, 1,\ldots, 10$, with $c=0$ in the leftmost sector and $c=10$ in the last to rightmost one.
 		The rightmost sector contains the results of training attempts with the initial values chosen at random (that is, with $\lambda_i$ sampled according to the uniform normal distribution, independently for each $i$).
 		The greatest reached fidelity, obtained with initial parameters' values $\lambda_i=3$, is $\calF\simeq0.94$.
 	}
-	\label{fig:fredkin_XX}
-\end{figure*}
+\label{fig:fredkin_XX}
+\end{figure}
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 	\centering
 	\traininggraphicswithlabel{fredkin_noancillae_XYall.pdf}
 	\caption{
@@ -1863,10 +1863,10 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		The initial conditions are chosen as in~\cref{fig:fredkin_XX}.
 		The maximum fidelities obtained are $\calF\simeq0.999$, obtained in multiple instances $c=3$ and $c=4$ sectors.
 	}
-	\label{fig:fredkin_XY}
-\end{figure*}
+\label{fig:fredkin_XY}
+\end{figure}
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 	\centering
 	\traininggraphicswithlabel{toffoli_noancillae_XXall.pdf}
 	\caption{
@@ -1875,9 +1875,9 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		The maximum fidelities obtained are $\calF\simeq0.94$, obtained in the $c=3$ sector.
 	}
 	\label{fig:toffoli_XX}
-\end{figure*}
+\end{figure}
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 	\centering
 	\traininggraphicswithlabel{toffoli_noancillae_XYall.pdf}
 	\caption{
@@ -1886,7 +1886,7 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		The maximum fidelities obtained are $\calF\simeq0.98$, obtained in the $c=4$ and $c=5$ sectors.
 	}
 	\label{fig:toffoli_XY}
-\end{figure*}
+\end{figure}
 
 \subsection{Numerical approximate results in constrained scenarios}
 
