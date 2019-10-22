@@ -516,7 +516,7 @@ However, using now these with the fourth equation, we arrive to the condition
 \end{equation}
 which is clearly unsatisfiable for integer $\nu_i\in\ZZ$.
 
-It is worth noting that, of course, this result could have been obtained more easily from a more physical line of reasoning. Indeed, an Hamiltonian $\calH$ containing only one-qubit interactions can always be written as $\calH=h_0 I+\calH_1+\calH_2$ with $\calH_i$ containing only one-qubit terms on the $i$-th qubit. Then, $[\calH_1,\calH_2]=0$, and therefore
+It is worth noting that, of course, this result could have been easily obtained from a more physical line of reasoning. Indeed, a two-qubit Hamiltonian $\calH$ containing only one-qubit interactions can always be written as $\calH=h_0 I+\calH_1+\calH_2$ with $\calH_i$ containing only one-qubit terms on the $i$-th qubit. Then, $[\calH_1,\calH_2]=0$, and therefore
 \begin{equation}
     e^{it\calH}=e^{it h_0}e^{it\calH_1}e^{it\calH_2}=e^{it h_0} \calU_1\otimes\calU_2,
 \end{equation}
@@ -527,7 +527,8 @@ Nevertheless, this example is interesting to show how the technique suggested by
 \highlight{Is there a way to do a reasoning like the above for a generic two-qubit gate?}
 
 \section{Toffoli gate}
-Consider now the Toffoli gate $\UToff$, and let $\calP_{\le2}$ be the set of one- and two-qubit Pauli matrices. In this section we ask the question: \textit{\textbf{is there a time-independent $\HTildeToff\in\spanR(\calP_{\le2})$ such that $e^{i\HTildeToff}=\UToff$?}}
+\label{sec:gatelearning_toffoli}
+Consider now the Toffoli gate $\UToff$, and let $\calP_{\le2}$ be the set of one- and two-qubit Pauli matrices. In this section we ask the question: \textit{\textbf{is there a time-independent $\HTildeToff\in\spanR(\calP_{\le2})$ such that $\exponential(i\HTildeToff)=\UToff$?}}
 
 A canonical generator for $\UToff$ is $\HToff=\pi Z_1^- Z_2^- X_3^-$.
 As previously discussed in~\cref{ex:toffoli_physical_constraints}, $\UToff$ has the nondegenerate eigenvector $\ket{1,1,-}$ with eigenvalue $-1$, which implies that any $\calH$ such that $[\calH,\HToff]=0$ must also stabilise $\ket{1,1,-}$.
@@ -1141,6 +1142,7 @@ $\pi\alpha(Z_2-Z_1)O_3$ for any $O_3 = a Y_3 + b Z_3$ and $a^2 + b^2 = 1$.
 The above reasoning explains the origin of the weird $\sqrt{15}$ factor: it comes as the coordinate necessary to make the vector unitary: for $X/4 + x Z / 4$ to be normalized, $x = \sqrt{15}$ must be satisfied.
 
 \section{Fredkin gate}
+\label{sec:gatelearning_fredkin}
 % BEGIN FREDKIN
 We show here how to use the framework given in~\cref{sec:gatelearning_solution_framework} to find a Hamiltonian that does not contain three-qubit interaction terms, and generates the Fredkin gate at $t=1$.
 The quantum Fredkin gate $\UFred$ is the three-qubit gate which swaps the first two qubits conditionally to the third one being in the state $\ket1$.
@@ -1276,23 +1278,146 @@ we get the following simplified expression
     + \frac{\pi}{2}  Z_1,
 \end{aligned}
 \end{equation}
-corresponding to the following expression for $\HPrimeFred$:
+corresponding to the following expression for $\HPrimeFred\equiv\HTildeFred-\HFred$:
 \begin{equation}
 \begin{aligned}
     \HPrimeFred &=
-    (X_2+X_3) h_2^x
-    + J_{13}^{xx} X_1 (X_2+X_3)
-    + J_{23}^{zz} X_2 X_3 
-    + J_{23}^{zz} Y_2 Y_3
-    + J_{13}^{zz} Z_1 Z_2  \\
-    &+ Z_1 Z_3 J_{13}^{zz}
-    + 1/8 Z_2 Z_3 (8 J_{23}^{zz}-\pi Z_1+\pi)
-    + h_0+1/8 \pi (X_2 X_3+Y_2 Y_3+5 Z_1-1)-1/8 \pi X_2 X_3 Z_1
-    -1/8 \pi Y_2 Y_3 Z_1
+    (h_2^x + J_{13}^{xx} X_1)(X_2+X_3)
+    + J_{23}^{zz} (X_2 X_3 + Y_2 Y_3 + Z_1 Z_2) \\
+    &+ J_{13}^{zz} Z_1 (Z_2 + Z_3)
+    + \left(h_0 - \frac{\pi}{8}\right) I \\
+    &+ \frac{\pi}{8} [
+        (X_2 X_3 + Y_2 Y_3 + Z_2 Z_3) (1 - Z_1)
+        + 5 Z_1
+    ].
 \end{aligned}
+\label{eq:HPrimeFred_expression_after_commcond}
 \end{equation}
+While much simpler, this expression is still too cumbersome to solve the eigenvalue equation directly.
+However, we notice that two eigenvalues of~\cref{eq:HPrimeFred_expression_after_commcond} have an easy expression:
+\begin{equation}
+\begin{aligned}
+    \lambda_1 &= \frac{1}{2}( -3\pi + 2h_0 - 6J_{23}^{zz}), \\
+    \lambda_2 &= \frac{1}{2}( \pi   + 2h_0 - 6J_{23}^{zz}),
+\end{aligned}
+\label{eq:fredkin_first_two_nice_eigenvalues}
+\end{equation}
+% Reproduce the above with MMA with:
+% HFred = QPauliExpr[
+%   Pi/8 (1 - z[1]) (1 - (z[2] z[3] + y[2] y[3] + x[2] x[3]))];
+% HFredTilde = QPauliExpr[h[0] +
+%     J[2, 3, z, z] (z[2] z[3] + y[2] y[3] + x[2] x[3]) +
+%     (h[2, x] + J[1, 3, x, x] x[1]) (x[2] + x[3])
+%     + J[1, 3, z, z] z[1] (z[2] + z[3]) + Pi/2 z[1]];
+% HFredPrime = HFredTilde - HFred;
+% HFredPrime // Normal // Eigenvalues // #[[;; 2]] & // Column
 
-While much simpler, this expression is still 
+which implies that $\lambda_2-\lambda_1= 2\pi$ and thus $\nu_2-\nu_1=1$.
+This gives the following relation between the coefficients and the eigenvalues:
+\begin{equation}
+    \pi(2\nu_1 + 3/2) = h_0 - 3 J_{23}^{zz}.
+    \label{eq:fredkin_condition_between_h0_and_J23zz}
+\end{equation}
+The rest of the eigenvalues, however, involve complex expressions containing roots of cubic polynomials, from which we cannot easily extract useful expressions.
+The eigenvectors corresponding to the eigenvalues given in~\cref{eq:fredkin_first_two_nice_eigenvalues} are
+$\sqrt2\ket{\lambda_1} = \ket{1,1,0} - \ket{1,0,1}$
+and
+$\sqrt2\ket{\lambda_2} = \ket{0,1,0} - \ket{0,0,1}$.
+We can then project the matrix onto the space orthogonal to these (nondegenerate) eigenvectors, thus reducing from eight to six dimensions. The resulting matrix is the following:
+\begin{equation}\scalebox{0.6}{$%
+\begin{pmatrix}
+	2 J_{13}^{zz} + J_{23}^{zz} + h_{0} + \frac{\pi }{2} & \sqrt{2} h_{2}^{x} & 0 & 0 & \sqrt{2} J_{13}^{xx} & 0 \\
+	\sqrt{2} h_{2}^{x} & J_{23}^{zz} + h_{0} + \frac{\pi }{2} & \sqrt{2} h_{2}^{x} & \sqrt{2} J_{13}^{xx} & 0 & \sqrt{2} J_{13}^{xx} \\
+	0 & \sqrt{2} h_{2}^{x} & -2 J_{13}^{zz} + J_{23}^{zz} + h_{0} + \frac{\pi }{2} & 0 & \sqrt{2} J_{13}^{xx} & 0 \\
+	0 & \sqrt{2} J_{13}^{xx} & 0 & -2 J_{13}^{zz} + J_{23}^{zz} + h_{0}-\frac{\pi }{2} & \sqrt{2} h_{2}^{x} & 0 \\
+	\sqrt{2} J_{13}^{xx} & 0 & \sqrt{2} J_{13}^{xx} & \sqrt{2} h_{2}^{x} & J_{23}^{zz} + h_{0}-\frac{\pi }{2} & \sqrt{2} h_{2}^{x} \\
+	0 & \sqrt{2} J_{13}^{xx} & 0 & 0 & \sqrt{2} h_{2}^{x} & 2 J_{13}^{zz} + J_{23}^{zz} + h_{0}-\frac{\pi }{2} \\
+\end{pmatrix}.$}
+\end{equation}
+The eigenvalues of this expression, while again too complex to be all computed, reveal to satisfy
+\begin{equation}
+    \lambda_3 + \lambda_4
+    = \lambda_5 + \lambda_6
+    = \lambda_7 + \lambda_8 = 2(h_0 + J_{23}^{zz}).
+\end{equation}
+Together with~\cref{eq:fredkin_condition_between_h0_and_J23zz}, we then conclude that $h_0$ and $J_{23}^{zz}$ must be of the following form
+\begin{equation}
+\begin{cases}
+    h_0 &= \frac{\pi}{4}\left[3(\nu_3+\nu_4) + 2\nu_1+\frac{3}{2}\right], \\
+    J_{23}^{zz} &= \frac{\pi}{4}\left[\nu_3+\nu_4 - 2\nu_1-\frac{3}{2}\right].
+\end{cases}
+\label{eq:fredkin_sols_h0_and_J23zz_vs_nus}
+\end{equation}
+Note how the solution for $h_0$ in~\cref{eq:fredkin_sols_h0_and_J23zz_vs_nus} is consistent with the general requirement that $h_0$ must be an odd multiple of $\pi/8$, which follows from considering the relation $\det\UFred=-1=e^{i\Tr\HFred}$.
+Moreover, we note that $\lambda_4-\lambda_3$, $\lambda_6-\lambda_5$, and $\lambda_8-\lambda_7$ have the form
+\begin{equation}
+    (\lambda_{i+1}-\lambda_i)^2 =
+    4(h_0 + J_{23}^{zz})^2 + S_i,
+    \quad i=3,5,7,
+\end{equation}
+where the $S_i$ are the three solutions to the same cubic polynomial.
+If we then assume that $h_0=J_{23}^{zz}$, we conclude from~\cref{eq:fredkin_condition_between_h0_and_J23zz} that
+$h_0=-J_{23}^{zz}=3\pi/8+\pi \nu_1/2$ for $\nu_1\in\ZZ$, and the differences $\lambda_{i+1}-\lambda_i$ are then given by
+\begin{equation}
+    \lambda_{i+1} - \lambda_i = \pm \sqrt{S_i}.
+    \label{eq:fredkin_diff_lambdas_with_cubicsolution}
+\end{equation}
+It is important here to remember that $S_1, S_2, S_3$ are solutions to the same cubic polynomial, which is itself a function of all the $\lambda_i$, and so~\cref{eq:fredkin_diff_lambdas_with_cubicsolution} is really a self-consistent condition on the possible eigenvalues of the matrix.
+If one of these differences is zero, then $S_i=0$ for some $i$, which can only be verified if the interaction strengths satisfy the following condition:
+\begin{equation}
+    \pi^2
+    - (4h_2^x)^2
+    + (4 J_{13}^{xx})^2
+    - (4 J_{13}^{zz})^2 = 0,
+\end{equation}
+which allows to remove one further coefficient, expressing $J_{13}^{zz}$ as function of $h_2^x$ and $J_{13}^{xx}$:
+\begin{equation}
+    J_{13}^{zz} = \pm\frac{1}{4}\sqrt{
+        \pi^2 - (4 h_2^x)^2 + (4 J_{13}^{xx})^2
+    }.
+    \label{eq:fredkin_J13zz_final_sol}
+\end{equation}
+Using~\cref{eq:fredkin_J13zz_final_sol} on top of the previously introduced conditions on the parameters we are left, on top of the two eigenvalues given in~\cref{eq:fredkin_first_two_nice_eigenvalues}, with two vanishing eigenvalues (because we imposed $\lambda_i+\lambda_{i+1}=0$ for all $i$ and $\lambda_i=\lambda_{i+1}$ for one $i$), and four remaining eigenvalues which can be divided in two pairs of opposite values.
+In conclusion, there are two free eigenvalues to be determined, equal to
+\begin{equation}
+    \frac{1}{2\sqrt2}
+    \sqrt{
+        5\pi^2 + (8 J_{13}^{xx})^2
+        \pm
+        \sqrt{
+            9\pi^4 + 128[\pi^2 + 32 (h_2^x)^2] (J_{13}^{xx})^2
+        }
+    }.
+\end{equation}
+Imposing these to be multiple integers of $2\pi$, we finally get the following conditions on the parameters:
+\begin{equation}
+\begin{dcases}%\displaystyle
+    J_{13}^{xx} &= \epsilon_1\frac{\pi}{8}\sqrt{-5+16(n^2+m^2)}, \\
+    %\displaystyle
+    h_2^x       &= \epsilon_2\frac{\pi}{8} \frac{
+        \sqrt{256 m^4 - 32 m^2 (1 + 16n^2) + (1 - 16 n^2)^2}
+    }{
+        \sqrt{-5+16(n^2+m^2)}
+    }.
+\end{dcases}
+\end{equation}
+which when used back in~\cref{eq:fredkin_J13zz_final_sol} results in the following solution for $J_{13}^{zz}$:
+\begin{equation}
+    J_{13}^{zz} =
+    \pm \frac{\pi}{4}
+    \sqrt{\frac{
+        (-1 + 16 n^2)(-1 + 16 m^2)
+    }{
+        -5 + 16 (m^2 + n^2)
+    }}.
+    % \pm \frac{\pi}{4}
+    % \frac{
+    %     \sqrt{(-1 + 16 n^2)(-1 + 16 m^2)}
+    % }{
+    %     \sqrt{-5 + 16 m^2 + 16 n^2}
+    % }.
+\end{equation}
+Because we also need $J_{13}^{zz}\in\RR$, the integers must then also satisfy  $n,m>0$. Furthermore \highlight{INSERT CONDITION TO HAVE $h_2^x\in\RR$}
 
 Imposing additional physically plausible conditions, such as the symmetry between second and third qubit, we manage to reduce the number of parameters enough to solve the eigenvalue problem, finding %the following solution
 \begin{align}
@@ -1324,6 +1449,8 @@ $\HTildeFred-\HFred$, and the dynamics thus occurs in an  larger effective Hilbe
 Although $\exponential(it\HTildeFred)$ is non-symmetric for most of the evolution times, all the symmetries are restored at $t=1$ and any subsequent integer times. This  shows that breaking the symmetries of $\calU$ and exploiting its degenerate space can help the gate gesign when restricting the set of viable interactions.
 %END FREDKIN
 
+\highlight{Maybe CCZ gate case?}
+
 \section{ML to the rescue}
 \highlight{Probably these sections will be merged at some point, they're a bit to dispersive.}
 
@@ -1332,7 +1459,10 @@ What kind of ML do we use here? Does what we do even qualify as ML? Why do we us
 
 \section{Supervised learning approach}
 \label{sec:supervised_learning_approach}
-We here study more in depth the following problem: given a target gate $\calG$ and a parametrised Hamiltonian ${\mathcal H(\bs\lambda) = \sum_k \lambda_k \sigma_k}$, with $\lambda_k\in\mathbb R$ and $\sigma_k$ Hermitian operators, what is the set of parameters $\bs\lambda_0$ such that $\exponential(i\HH(\bs\lambda_0)) = \calG$?
+
+As the analyses given in~\cref{sec:gatelearning_toffoli,sec:gatelearning_fredkin} demonstrated, finding time-independent Hamiltonians for target gates is a nontrivial task. 
+
+We here study more in depth the following problem: given a target gate $\calG$ and a parametrised Hamiltonian ${\calH(\bs\lambda) = \sum_k \lambda_k \sigma_k}$, with $\lambda_k\in\RR$ and $\sigma_k$ Hermitians, what is the set of parameters $\bs\lambda_0$ such that $\exponential(i\calH(\bs\lambda_0)) = \calG$?
 We present a supervised learning approach to numerically solve this problem, considerably extending the ideas presented in Ref.~\cite{banchi2016quantum}.
 Thanks to a number of numerical optimisation techniques, and in particular the use of \ac{AD}~\cite{baydin2015automatic,bartholomewbiggs2000automatic,wengert1964a,bischof2008advances}, we can explore a variety of different scenarios, optimising over potentially hundreds of Hamiltonian parameters.
 On top of this, condition (1b) in the main text is used to further speed-up the numerical training, removing many interaction parameters that are known not to lead to the target gate.
