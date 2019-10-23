@@ -1496,8 +1496,43 @@ Indeed, if $\calU$ is the target gate we want to implement, and $\calH_\bslambda
 In turn, this can be made into a numerical optimisation problem by introducing some function $f(U, V)$ that quantifies the distance between $U$ and $V$, and looking for the solution to the problem
 \begin{equation}
     \argmin_\lambda f(\calU, \exponential(i\calH_{\bslambda})).
+    \label{eq:gatelearning_as_optimisation}
 \end{equation}
-A natural candidate for such $f$ is $f(A,B)\equiv 1-\calF(A,B)$, with $\calF(A,B)$ the \textit{gate fidelity} between $A$ and $B$~\cite{nielsen2002quantum,magesan2011gate}.
+A natural candidate for such $f$ is $f(A,B)\equiv 1-\barcalF(A,B)$, with $\barcalF(A,B)$ the \textit{average gate fidelity} between $A$ and $B$~\cite{nielsen2002simple,magesan2011gate}. The average gate fidelity can be defined more generally as a way to quantify the distance between a quantum channel $\calE$ and a gate $U$, by computing the overlap between $\PP[\calU\ket\psi]$ and $\calE(\PP\psi)$, averaged over all pure states $\ket\psi$. Explicitly, this means that we define
+\begin{equation}
+    \barcalF(\calE,\calU) = \int d\psi \calF(\calE, \calU, \psi),
+\end{equation}
+integrating over all possible pure states, with
+% \begin{equation}
+$
+    \calF(\calE, \calU, \psi) \equiv
+    \mel*{\psi}{\calU^\dagger \calE(\PP\psi)\calU}{\psi}.
+$% \end{equation}
+The integration can be evaluated explicitly in terms of the matrix elements of (the natural representation of) the channel~\cite{banchi2011nonperturbative,magesan2011gate,pedersen2007fidelity}, giving the expression~\cite{banchi2016quantum}:
+\begin{equation}
+    (D+1) \barcalF(\calE,\calU) =
+    1 + \frac{1}{D}\sum_{ijk\ell}\calU^*_{ik} \calU_{j\ell}K(\calE)_{ij,k\ell}
+    = 1 + \frac{1}{D}\Tr[(\calU^\dagger\otimes \calU^T)K(\calE)],
+    \label{eq:explicit_fidelity_map_unitary}
+\end{equation}
+where $K(\calE)$ denotes the natural representation of $\calE$~\cite{watrous2018theory},
+$K(\calE)_{ij,k\ell}|\equiv\langle i|\calE(\ketbra{k}{\ell})|j\rangle$
+\highlight{(maybe background on this at some point eh?)}, and
+$D$ is the dimension of the underlying space (thus $D=2^n$ for an $n$-qubit system).
+In the special case of $\calE$ being a unitary evolution: $\calE(\rho)=\calV\rho \calV^\dagger$ for some unitary $\calV$,~\cref{eq:explicit_fidelity_map_unitary} becomes
+\begin{equation}
+    (D+1) \barcalF(\calU, \calV) =
+    1 + \frac{1}{D} \abs{\Tr(\calU^\dagger \calV)}^2.
+    \label{eq:explicit_fidelity_unitary_unitary}
+\end{equation}
+\highlight{(the formula seems to came from Eq.8, pag.3 of~{\cite{pedersen2007fidelity}}, as well as from~{\cite{nielsen2002simple}}, even though here in a different form)}
+\Cref{eq:explicit_fidelity_unitary_unitary} can be leveraged to solve the optimisation problem posed in~\cref{eq:gatelearning_as_optimisation}.
+Indeed, given a parametrised Hamiltonian $\calH_{\bslambda}$, we can define the relative class of unitaries $\calU_{\bslambda}\equiv\exponential(i\calH_{\bslambda})$. Given a target gate $\calU$, the problem is thus reduced to that of finding
+\begin{equation}
+    \argmax_{\bslambda} \abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2.
+\end{equation}
+\highlight{add results of doing this}
+
 \paragraph{We do this and get this and this result}
 
 
