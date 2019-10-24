@@ -1498,7 +1498,7 @@ In turn, this can be made into a numerical optimisation problem by introducing s
     \argmin_\lambda f(\calU, \exponential(i\calH_{\bslambda})).
     \label{eq:gatelearning_as_optimisation}
 \end{equation}
-A natural candidate for such $f$ is $f(A,B)\equiv 1-\barcalF(A,B)$, with $\barcalF(A,B)$ the \textit{average gate fidelity} between $A$ and $B$~\cite{nielsen2002simple,magesan2011gate}. The average gate fidelity can be defined more generally as a way to quantify the distance between a quantum channel $\calE$ and a gate $U$, by computing the overlap between $\PP[\calU\ket\psi]$ and $\calE(\PP\psi)$, averaged over all pure states $\ket\psi$. Explicitly, this means that we define
+A natural candidate for such $f$ is $f(A,B)\equiv 1-\barcalF(A,B)$, with $\barcalF(A,B)$ the \textit{average gate fidelity} between $A$ and $B$~\cite{nielsen2002simple,magesan2011gate}. The average gate fidelity can be defined more generally as a way to quantify the distance between a quantum channel $\calE$ and a gate $U$, by computing the overlap between $\PP[\calU\ket\psi]$ and $\calE(\PP_\psi)$, averaged over all pure states $\ket\psi$. Explicitly, this means that we define the \emph{average gate fidelity between $\calE$ and $\calU$} as
 \begin{equation}
     \barcalF(\calE,\calU) = \int d\psi \calF(\calE, \calU, \psi),
 \end{equation}
@@ -1516,7 +1516,7 @@ The integration can be evaluated explicitly in terms of the matrix elements of (
     \label{eq:explicit_fidelity_map_unitary}
 \end{equation}
 where $K(\calE)$ denotes the natural representation of $\calE$~\cite{watrous2018theory},
-$K(\calE)_{ij,k\ell}|\equiv\langle i|\calE(\ketbra{k}{\ell})|j\rangle$
+$K(\calE)_{ij,k\ell}\equiv\langle i|\calE(\ketbra{k}{\ell})|j\rangle$
 \highlight{(maybe background on this at some point eh?)}, and
 $D$ is the dimension of the underlying space (thus $D=2^n$ for an $n$-qubit system).
 In the special case of $\calE$ being a unitary evolution: $\calE(\rho)=\calV\rho \calV^\dagger$ for some unitary $\calV$,~\cref{eq:explicit_fidelity_map_unitary} becomes
@@ -1527,7 +1527,7 @@ In the special case of $\calE$ being a unitary evolution: $\calE(\rho)=\calV\rho
 \end{equation}
 \highlight{(the formula seems to came from Eq.8, pag.3 of~{\cite{pedersen2007fidelity}}, as well as from~{\cite{nielsen2002simple}}, even though here in a different form)}
 \Cref{eq:explicit_fidelity_unitary_unitary} can be leveraged to solve the optimisation problem posed in~\cref{eq:gatelearning_as_optimisation}.
-Indeed, given a parametrised Hamiltonian $\calH_{\bslambda}$, we can define the relative class of unitaries $\calU_{\bslambda}\equiv\exponential(i\calH_{\bslambda})$. Given a target gate $\calU$, the problem is thus reduced to that of finding
+Given a parametrised Hamiltonian $\calH_{\bslambda}$, define the set of unitaries $\calU_{\bslambda}\equiv\exponential(i\calH_{\bslambda})$. Given a target gate $\calU$, the problem is then reduced to computing
 \begin{equation}
     \argmax_{\bslambda} \abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2.
 \end{equation}
@@ -1536,13 +1536,18 @@ Indeed, given a parametrised Hamiltonian $\calH_{\bslambda}$, we can define the 
 \paragraph{We do this and get this and this result}
 
 
-% We here study more in depth the following problem: given a target gate $\calG$ and a parametrised Hamiltonian ${\calH(\bs\lambda) = \sum_k \lambda_k \sigma_k}$, with $\lambda_k\in\RR$ and $\sigma_k$ Hermitians, what is the set of parameters $\bs\lambda_0$ such that $\exponential(i\calH(\bs\lambda_0)) = \calG$?
+
+
+\section{Supervised learning}
+\label{sec:supervised_learning}
+
+As discussed in~\cref{sec:numerical_approach}, while the problem can be approached in some cases with standard numerical optimisation techniques, this has in general limited success.
+The problem lies in the mapping $\bslambda\mapsto\abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2$ being not convex, which makes finding the global maximum a very hard task in general.
+
+We show here how, by borrowing from ideas that find widespread use in the context of supervised \ac{ML}, we can devise a technique to tackle the gate design problem more efficiently.
 We present a supervised learning approach to numerically solve this problem, considerably extending the ideas presented in Ref.~\cite{banchi2016quantum}.
 Thanks to a number of numerical optimisation techniques, and in particular the use of \ac{AD}~\cite{baydin2015automatic,bartholomewbiggs2000automatic,wengert1964a,bischof2008advances}, we can explore a variety of different scenarios, optimising over potentially hundreds of Hamiltonian parameters.
 On top of this, condition (1b) in the main text is used to further speed-up the numerical training, removing many interaction parameters that are known not to lead to the target gate.
-
-\subsection{Supervised learning}
-\label{subsec:supervised_learning}
 
 Supervised learning is the task of inferring or approximating a function, given a set of pre-labeled data~\cite{bishop2006pattern,mohri2012foundations}.
 A supervised learning algorithm starts with some \emph{model} --- a functional relation $g_{\bs\lambda}$ parametrised by a set of parameters $\bs\lambda$ --- and finds a $\bs\lambda_0$ making $g_{\bs\lambda_0}$ as close as possible to a target function $f$.
