@@ -28,11 +28,20 @@ Integrated photonics~\cite{wang2019integrated,flamini2018photonic}.
 
 \subsection{Classical and quantum walks}
 
-An interesting type of computational model that has been the subject of much study is the so-called \textit{quantum walk} model~\cite{aharonov2000quantum,venegas-andraca2012quantum}.
+An interesting type of computational model that has been the subject of much study is the so-called \textit{quantum walk} model~\cite{aharonov2000quantum,venegas-andraca2012quantum,kempe2003quantum}.
 
-Classical random walks are a type of stochastic processes which have proven to be a powerful technique for the development of several stochastic algorithms~\cite{motwani1995randomized,schoning1999probabilistic}, and are used across several different branches of science.
-\highlight{(other bullshit about quantum and classical walks blablabla)}
+Classical random walks are a type of stochastic processes which have proven to be a powerful technique for the development of stochastic algorithms~\cite{motwani1995randomized,schoning1999probabilistic}, and are used across several different branches of science.
+Quantum walks have been introduced in 1993 by Aharonov et al.~\cite{aharonov1993quantum}.
+Konno proposed a solid mathematical connection between correlated \acp{QW} and another QW model~\cite{konno2003limit}.
 
 \subsection{Introduction to quantum walks}
-The first main distinction to make is between \textit{discrete} and \textit{continuous} quantum walks.
+
+A first main distinction to make is between \textit{discrete} and \textit{continuous} quantum walks.
+
+DTQWs are systems comprised of a low-dimensional system (usually a qubit) named \textit{coin}, and a high-dimensional system, named the \textit{walker}.
+These names are in direct analogy with classical random walks. A single \textit{step} in a DTQW consists in a unitary evolution $\calW$ applied to the current state of the QW.
+In this model, the time is \textit{discrete} in the sense that there is no real notion of time as a continuous parameter. Rather, the state changes by discrete amounts at every step, just as its classical counterpart proceeds.
+
+Alternatively, it is possible to consider CTQWs, which instead 
+
 
