@@ -34,14 +34,40 @@ Classical random walks are a type of stochastic processes which have proven to b
 Quantum walks have been introduced in 1993 by Aharonov et al.~\cite{aharonov1993quantum}.
 Konno proposed a solid mathematical connection between correlated \acp{QW} and another QW model~\cite{konno2003limit}.
 
-\subsection{Introduction to quantum walks}
+\subsection{DTQWs vs CTQWs}
 
 A first main distinction to make is between \textit{discrete} and \textit{continuous} quantum walks.
 
-DTQWs are systems comprised of a low-dimensional system (usually a qubit) named \textit{coin}, and a high-dimensional system, named the \textit{walker}.
-These names are in direct analogy with classical random walks. A single \textit{step} in a DTQW consists in a unitary evolution $\calW$ applied to the current state of the QW.
+DTQWs are systems comprised of a low-dimensional degree of freedom, usually referred to as \textit{coin}, and a high-dimensional one named the \textit{walker}.
+These names are in direct analogy with classical random walks. A single \textit{step} in a DTQW consists of a unitary evolution $\calW$ applied to the current state of the QW.
 In this model, the time is \textit{discrete} in the sense that there is no real notion of time as a continuous parameter. Rather, the state changes by discrete amounts at every step, just as its classical counterpart proceeds.
 
-Alternatively, it is possible to consider CTQWs, which instead 
+A different model is the so-called CTQW. These systems model instead a continuous-time Hamiltonian evolution, governed by a standard Schr\"odinger equation. In a CTQW there is no place for the notion of a \textit{coin} degree of freedom, which makes the structure of these kinds of model rather different, at least on the surface, from their discrete counterpart.
+
+One important application of QWs is their use to develop quantum algorithms.
+
+\subsection{DTQWs}
+The simplest type of DTQW is a one-dimensional QW on a line.
+In this model, the evolving state lives in a Hilbert space $\calH\equiv\calH_C\otimes\calH_W$, with $\calH_C$ the two-dimensional space of the coin, and $\calH_W$ an high-dimensional space accomodating the possible states of the walker.
+A generic state for a DTQW can therefore be written as
+\begin{equation}
+    \ket\Psi = \sum_j \sum_{s\in\{0,1\}} c_{j,s} \ket{s, j},
+\end{equation}
+for some coefficients $c_{j,s}\in\CC$, and with the index $j$ spanning the possible values of the walker.
+
+The evolution in a DTQW is a two-step process.
+First, a unitary operation is applied locally to the coin. This step is commonly referred to as \textit{coin flipping}, in analogy with the classical case.
+Then, a controlled-shift operation is applied to the walker, changing its state conditionally to that of the coin.
+Formally we write a single \textit{step operator} as $\calW=\calS\calC$, with $\calS,\calC\in\Lin(\calH)$ and $\calC\equiv\calC\otimes I_W$\footnote{More precisely, this means that $\calC=\calC\otimes I_W$}.
+The shift operator $\calS$ is usually written in the form
+\begin{equation}
+    \calS = \PP_0\otimes \EE_+ + \PP_1\otimes \EE_-,
+\end{equation}
+where $\PP_k\equiv\ketbra k$ and $\EE_\pm$ are operators moving the walker in one direction or the other, that is,
+\begin{equation}
+    \EE_+\equiv \sum_k \ketbra{k+1}{k},
+    \qquad
+    \EE_-\equiv\sum_k\ketbra{k}{k+1}.
+\end{equation}
 
 
