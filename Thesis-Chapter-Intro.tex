@@ -22,8 +22,6 @@ Integrated photonics~\cite{wang2019integrated,flamini2018photonic}.
 
 \section{Quantum information}
 
-\section{Machine Learning}
-
 \section{Quantum walks}
 
 An interesting type of computational model that has been the subject of much study is the so-called \textit{quantum walk} model~\cite{aharonov2000quantum,kempe2003quantum,venegas-andraca2012quantum,portugal2013quantum}.
@@ -42,7 +40,7 @@ One can define random walks more generally on undirected \textit{graphs}
 Denoting with $v_t$ the position of the walker at the $t$-th step, for some $t\in\NN$, the probability of finding the walker in the $i$-th vertex at time $t$ is given by the probability
 $P_t(i)=\Prob(v_t=i)$. The random walk is then defined by the set of \textit{transition probabilities} $p_{ij}$, which give the probability of a walker in the position $i$ at a time $t$ jumping into the position $j$ at time $t+1$.
 \begin{wrapfigure}{r}{10cm}
-    \includegraphics[width=\linewidth]{Figures/random-walks/3d-randomwalk.png}
+    \includegraphics[width=\linewidth]{Figures/quantum-walks/3d-randomwalk.png}
     \caption{Example of three random walks on $\ZZ^3$.}
 \end{wrapfigure}
 % conversionRules = {1 -> {1, 0}, 2 -> {0, 1}, 3 -> {-1, 0}, 
@@ -127,6 +125,7 @@ Formally, we write a single \textit{step operator} as $\calW=\calS\calC$, with $
 The shift operator $\calS$ is usually written in the form
 \begin{equation}
     \calS = \PP_0\otimes \EE_+ + \PP_1\otimes \EE_-,
+    \label{eq:qws_shitty_definition_cshift}
 \end{equation}
 where $\PP_k\equiv\ketbra k$ and $\EE_\pm$ are operators moving the walker in one direction or the other:
 \begin{equation}
@@ -138,6 +137,7 @@ The choice of coin operation $\calC$ is what defines a particular DTQW.
 A standard choice is to use a \textit{Hadamard coin}, that is, $\calC=H$ where $H$ is the Hadamard matrix, defined via its action on the computational basis as
 $H\ket0=\ket+$ and $H\ket1=\ket-$, where $\ket\pm\equiv\frac{1}{\sqrt2}(\ket0\pm\ket1)$.
 
+\begin{example}
 As an example, consider what happens with an initial state $\ket{\Psi_0}\equiv\ket{\uparrow,0}$, writing for ease of notation write the coin states as $\uparrow,\downarrow$ instead of $0$ and $1$.
 The first coin operation sends this to $\ket{+,0}\equiv\frac{1}{\sqrt2}(\ket0+\ket1)$, after which the shift $\calS$ gives
 \begin{equation}
@@ -149,11 +149,68 @@ The first coin operation sends this to $\ket{+,0}\equiv\frac{1}{\sqrt2}(\ket0+\k
 The next step then sends this into
 \begin{equation}
     \ket{\Psi_2} \equiv
-    \frac12\left(
-        \ket{\uparrow,+2} + \ket{\downarrow, 0}
-        + \ket{\uparrow,0} - \ket{\downarrow, -2}
-    \right),
+    \frac12\left[
+        \ket{\uparrow,+2} +
+        (\ket{\downarrow}
+        + \ket{\uparrow})\otimes \ket{0}
+        - \ket{\downarrow, -2}
+    \right],
 \end{equation}
-and similarly for other steps.
+and then at the third step,
+\begin{equation}
+    \ket{\Psi_3} \equiv
+    \frac{1}{2\sqrt2}\left[
+        \ket{\uparrow,+3} +
+        (\ket{\downarrow} + 2\ket{\uparrow})\otimes \ket{+1}
+        - \ket{\uparrow,-1}
+        + \ket{\downarrow,-3}
+    \right].
+\end{equation}
+The calculation proceeds similarly for larger numbers of steps.
+Note how the walker proceeds asymmetrically, even though the direct classical analogue of an Hadamard walk would be a random walk with equal probabilities of going left or right at every step.
+The reason for this is in the interference effects, and the fact that the Hadamard treats $\ket\uparrow$ and $\ket\downarrow$ asymmetrically.
+See~\cref{fig:hadamardwalk_Nsteps} for a simulation of the Hadamard walk with $20$ and $40$ steps, which shows clearly the asymmetry present in the output states.
+\end{example}
+
+One feature that emerges clearly from the above example is that, at each step, some of the possible walker's position are never occupied. More precisely, if we start with the walker at a single fixed position, say the position $\ket0$, then at odd-numbered steps only even positions will have nonzero probability amplitudes.
+This symmetry can be exploited to make simulations more efficient, as well as simplify the derived expression removing modes that we know are never going to be occupied.
+We will then in the following use a variation of~\cref{eq:qws_shitty_definition_cshift} in which instead of having the walker move either left or right, we have the walker either stay still or moving in one direction (say, right):
+\begin{equation}
+    \calS = \PP_0\otimes I + \PP_1\otimes \EE_+
+    =\ketbra0\otimes I +\ketbra1\otimes\sum_k\ketbra{k+1}{k}.
+\end{equation}
+This notation, while somewhat nonstandard, has proven useful to derive some results~\cite{hoyer2009faster,montero2013unidirectional,montero2015quantum}, and will be used in~\cref{sec:quantum_walks} to obtain most of our analytical results.
+
+\begin{figure}[]
+    \centering
+    \subfloat[$20$ steps]{{\includegraphics[width=.4\linewidth]{QW20steps_initstateUp} }}%
+    \qquad
+    \subfloat[$40$ steps]{{\includegraphics[width=.4\linewidth]{QW40steps_initstateUp} }}%
+    % \includegraphics[width=.5\linewidth]{QW20steps_initstateUp}
+    \caption{
+        Output amplitudes of $20$ steps of Hadamard walk, with initial state $\ket{\Psi_0}\equiv\ket{\uparrow,0}$.
+        Blue (circles) and orange (squares) points are the output amplitudes corresponding to the coin state $\ket\uparrow$ and $\ket\downarrow$, respectively.
+    }
+    \label{fig:hadamardwalk_Nsteps}
+\end{figure}
+% reindexForQW[amps_] := Transpose[
+%    {{#[[1]], #[[2, 1]]}, {#[[1]], #[[2, 2]]}} & /@ 
+%       Thread@{Range@Length@# - 1/2 - Length@#/2, #} &@amps
+%    ];
+% outAmps = 
+%   QWEvolve[{1., 0}, ConstantArray[{\[Pi]/4, \[Pi]/2, \[Pi]/2}, 20], 
+%     "SimulationMethod" -> "StepByStep"] // Partition[#, 2] &;
+% fig = ListPlot[reindexForQW@outAmps, Joined -> True, 
+%   PlotMarkers -> Automatic, Frame -> True, 
+%   GridLines -> {Range[-20, 20], Range[-1, 1, 0.1]},
+%   GridLinesStyle -> Directive[Opacity@.4, Gray, Dashed],
+%   FrameStyle -> 
+%    Directive[Black, FontFamily -> "TeX Gyre Pagella Math", 
+%     FontSize -> 16]
+%   ]
+
+\section{Machine Learning}
+
+
 
 
