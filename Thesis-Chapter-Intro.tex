@@ -26,48 +26,134 @@ Integrated photonics~\cite{wang2019integrated,flamini2018photonic}.
 
 \section{Quantum walks}
 
-\subsection{Classical and quantum walks}
-
-An interesting type of computational model that has been the subject of much study is the so-called \textit{quantum walk} model~\cite{aharonov2000quantum,venegas-andraca2012quantum,kempe2003quantum}.
+An interesting type of computational model that has been the subject of much study is the so-called \textit{quantum walk} model~\cite{aharonov2000quantum,kempe2003quantum,venegas-andraca2012quantum,portugal2013quantum}.
 
 Classical random walks are a type of stochastic processes which have proven to be a powerful technique for the development of stochastic algorithms~\cite{motwani1995randomized,schoning1999probabilistic}, and are used across several different branches of science.
 Quantum walks have been introduced in 1993 by Aharonov et al.~\cite{aharonov1993quantum}.
 Konno proposed a solid mathematical connection between correlated \acp{QW} and another QW model~\cite{konno2003limit}.
 
-\subsection{DTQWs vs CTQWs}
+\subsection{Random walks}
+A (classical) random walk is a stochastic process, consisting of a succession of discrete \textit{steps} taken by a \textit{walker} in one of a number of allowed directions~\cite{lovasz1993random}.
+A popular type of random walk is that of a random walk on a \textit{regular lattice}. Here, the walking space is a regular $d$-dimensional lattice, which we can represent with $\ZZ^d$. The walker starts in a vertex $\bs n\in\ZZ^d$ and moves along the edges of the lattice.
+At every step, the one of the possible $2d$ directions is picked at random, and the walker moves to the closest vertex along the corresponding edge.
+One can define random walks more generally on undirected \textit{graphs}
+\footnote{An \textit{directed simple graph} is a pair $G\equiv (V,E)$, where $V$ is a set of \textit{vertices}, and $E\subseteq V\times V$ is a subset of ordered pairs of $V$. When the edges $E$ do not carry a notion of directionality, being for example defined as $E=\{\{x,y\} : x,y\in V\text{ and }x\neq y\}$, then ones talks of an \textit{undirected} graph.}
+, by having the walker jump at every step from one vertex to one of the neighboring ones with some probability.
+Denoting with $v_t$ the position of the walker at the $t$-th step, for some $t\in\NN$, the probability of finding the walker in the $i$-th vertex at time $t$ is given by the probability
+$P_t(i)=\Prob(v_t=i)$. The random walk is then defined by the set of \textit{transition probabilities} $p_{ij}$, which give the probability of a walker in the position $i$ at a time $t$ jumping into the position $j$ at time $t+1$.
+\begin{wrapfigure}{r}{10cm}
+    \includegraphics[width=\linewidth]{Figures/random-walks/3d-randomwalk.png}
+    \caption{Example of three random walks on $\ZZ^3$.}
+\end{wrapfigure}
+% conversionRules = {1 -> {1, 0}, 2 -> {0, 1}, 3 -> {-1, 0}, 
+%    4 -> {0, -1}};
+% conversionRules3D = {1 -> {1, 0, 0}, 2 -> {0, 1, 0}, 3 -> {0, 0, 1}, 
+%    4 -> {0, 0, -1}, 5 -> {0, -1, 0}, 6 -> {-1, 0, 0}};
+% makeSteps[num_] := RandomInteger[{1, 4}, num] /. conversionRules;
+% makeSteps3D[num_] := RandomInteger[{1, 6}, num] /. conversionRules3D;
+% Graphics3D[{
+%   {Red, PointSize@0.01, Point@{0, 0, 0}},
+%   {Black, Arrowheads@0.005, 
+%    Arrow /@ Most@Transpose@{#, RotateLeft@#} &@
+%     Accumulate@makeSteps3D@400},
+%   {Red, Arrowheads@0.005, 
+%    Arrow /@ Most@Transpose@{#, RotateLeft@#} &@
+%     Accumulate@makeSteps3D@400},
+%   {Blue, Arrowheads@0.005, 
+%    Arrow /@ Most@Transpose@{#, RotateLeft@#} &@
+%     Accumulate@makeSteps3D@400},
+%   {Darker@Green, Arrowheads@0.005, 
+%    Arrow /@ Most@Transpose@{#, RotateLeft@#} &@
+%     Accumulate@makeSteps3D@400}
+%   },
+%  (*PlotRange\[Rule]ConstantArray[{-25,25},3],Axes\[Rule]True*)
+%  
+%  PlotRange -> All, Boxed -> False
+%  ]
+The fact that the transition probability does not depend neither on the time $t$ nor on the previous history of the walker, but rather it depends exclusively on the current position, is a crucial properties of random walks, that characterises them as \textit{time-homogeneous Markov chains},
+\footnote{A \textit{Markov chain}, or \textit{Markov process}, is a generic type of stochastic process in which the probability of each event only depends on the state of the system at the previous time, rather than on the entire history of the system. Random walks are a notable example of Markov process.}
+which is a more general class of memoryless stochastic processes.
 
-A first main distinction to make is between \textit{discrete} and \textit{continuous} quantum walks.
+We can collect the set transition probabilities into a matrix $M$. This matrix will then be a \textit{bistochastic matrix}, that is a matrix satisfying $\sum_i M_{ij}=\sum_j M_{ij}=1$. If we collect the set of transition probabilities of going from $i$ to $j$ in the $i$-th column of $M$, we can then write compactly the evolution of a walk in linear algebraic notation as
+\begin{equation}
+    P_{k+1} = M P_k = M^k P_0,
+\end{equation}
+where $P_k$ is the vector of probabilities at the set $k$ ($(P_k)_i$ is the probability of finding the walker at the position $i$ at the $k$-th step).
 
-DTQWs are systems comprised of a low-dimensional degree of freedom, usually referred to as \textit{coin}, and a high-dimensional one named the \textit{walker}.
-These names are in direct analogy with classical random walks. A single \textit{step} in a DTQW consists of a unitary evolution $\calW$ applied to the current state of the QW.
-In this model, the time is \textit{discrete} in the sense that there is no real notion of time as a continuous parameter. Rather, the state changes by discrete amounts at every step, just as its classical counterpart proceeds.
+\paragraph{Possible other things to mention here:}
+\begin{itemize}
+    \item Hitting time
+    \item 1D standard example of random walk
+    \item Mixing time
+    \item Stationary distribution
+\end{itemize}
 
-A different model is the so-called CTQW. These systems model instead a continuous-time Hamiltonian evolution, governed by a standard Schr\"odinger equation. In a CTQW there is no place for the notion of a \textit{coin} degree of freedom, which makes the structure of these kinds of model rather different, at least on the surface, from their discrete counterpart.
 
-One important application of QWs is their use to develop quantum algorithms.
+\subsection{Quantum walks}
+
+\acp{QW} are models of quantum dynamics which share similarities with classical random walks, and are therefore often understood as their quantum counterparts.
+
+A first important distinction is between \textit{discrete} and \textit{continuous} quantum walks.
+\acp{DTQW} are systems comprised of a low-dimensional degree of freedom, usually referred to as the \textit{coin}, coupled with a high-dimensional one named the \textit{walker}.
+In this model, the time is discrete in the sense that the state evolves in discrete \textit{jumps}, rather than evolving continuously in time.
+A different model is the so-called \ac{CTQW}. Here, the dynamics is instead governed by a standard Schr\"odinger equation, and the process is therefore defined via some Hamiltonian. In a \ac{CTQW} there is no place for the notion of a \textit{coin} degree of freedom, which makes the structure of these kinds of model rather different, at least on the surface, from their discrete counterparts\highlight{(maybe mention equivalence between discrete and continuous models)}.
+
+\highlight{(What actual algorithms are QWs used for?)}
+Quantum walks have also been proven to be useful to develop quantum algorithms, and it was recently proved that quantum walks are universal for quantum compuation~\cite{childs2009universal,childs2003exponential,lovett2010universal,lovett2018quantum,underwood2010universal}.
+Reviews of QW-based quantum search algorithms~\cite{ambainis2011search,ambainis2008quantum,ambainis2010developments,kempe2003quantum,kendon2006random,santha2008quantum,venegas-andraca2012quantum,Venegas-Andraca2008quantum}.
 
 \subsection{DTQWs}
-The simplest type of DTQW is a one-dimensional QW on a line.
+
+\acp{DTQW} share many features with classical random walks.
+In particular, like the classical case, they come with a notion of a \textit{coin}: a random choice that is made at every step and determines the direction in which the walker moves.
+In the quantum walk, the coin becomes a quantum state, often but not necessarily a two-dimensional one, and the coin flipping operation becomes a unitary operation applied to the coin state.
+The walker also becomes a quantum state, typically of dimension much higher than the coin state. At every step, the walker's state changes conditionally to the state of the coin after the coin flipping operation.
+In contrast with the classical case, the evolution is here \textit{coherent}, bringing interference effects into the picture, which allows for features not found in the standard random walk model.
+
+A single \textit{step} of a \ac{DTQW} consists of a unitary evolution applied to the current state of the \ac{QW}.
+The time is therefore here \textit{discrete} in the sense that there is no real notion of ``time'' as a continuous parameter. Rather, the state changes by discrete amounts at every step, just as its classical counterpart.
+
+We will focus here on the simplest type of \ac{DTQW} model, in which the coin is a two-dimensional state and the walker is some high-dimensional state.
 In this model, the evolving state lives in a Hilbert space $\calH\equiv\calH_C\otimes\calH_W$, with $\calH_C$ the two-dimensional space of the coin, and $\calH_W$ an high-dimensional space accomodating the possible states of the walker.
-A generic state for a DTQW can therefore be written as
+A generic state for a DTQW can be written as
 \begin{equation}
     \ket\Psi = \sum_j \sum_{s\in\{0,1\}} c_{j,s} \ket{s, j},
 \end{equation}
 for some coefficients $c_{j,s}\in\CC$, and with the index $j$ spanning the possible values of the walker.
-
-The evolution in a DTQW is a two-step process.
-First, a unitary operation is applied locally to the coin. This step is commonly referred to as \textit{coin flipping}, in analogy with the classical case.
+The evolution of the \ac{DTQW} is a two-step process.
+First, a unitary operation is applied locally to the coin.
 Then, a controlled-shift operation is applied to the walker, changing its state conditionally to that of the coin.
-Formally we write a single \textit{step operator} as $\calW=\calS\calC$, with $\calS,\calC\in\Lin(\calH)$ and $\calC\equiv\calC\otimes I_W$\footnote{More precisely, this means that $\calC=\calC\otimes I_W$}.
+Formally, we write a single \textit{step operator} as $\calW=\calS\calC$, with $\calS,\calC\in\Lin(\calH)$ and $\calC\equiv\calC\otimes I_W$\footnote{More precisely, this means that $\calC=\calC\otimes I_W$}.
 The shift operator $\calS$ is usually written in the form
 \begin{equation}
     \calS = \PP_0\otimes \EE_+ + \PP_1\otimes \EE_-,
 \end{equation}
-where $\PP_k\equiv\ketbra k$ and $\EE_\pm$ are operators moving the walker in one direction or the other, that is,
+where $\PP_k\equiv\ketbra k$ and $\EE_\pm$ are operators moving the walker in one direction or the other:
 \begin{equation}
     \EE_+\equiv \sum_k \ketbra{k+1}{k},
     \qquad
     \EE_-\equiv\sum_k\ketbra{k}{k+1}.
 \end{equation}
+The choice of coin operation $\calC$ is what defines a particular DTQW.
+A standard choice is to use a \textit{Hadamard coin}, that is, $\calC=H$ where $H$ is the Hadamard matrix, defined via its action on the computational basis as
+$H\ket0=\ket+$ and $H\ket1=\ket-$, where $\ket\pm\equiv\frac{1}{\sqrt2}(\ket0\pm\ket1)$.
+
+As an example, consider what happens with an initial state $\ket{\Psi_0}\equiv\ket{\uparrow,0}$, writing for ease of notation write the coin states as $\uparrow,\downarrow$ instead of $0$ and $1$.
+The first coin operation sends this to $\ket{+,0}\equiv\frac{1}{\sqrt2}(\ket0+\ket1)$, after which the shift $\calS$ gives
+\begin{equation}
+    \ket{\Psi_1} \equiv 
+    \calS\calC\ket{\Psi_0} =
+    \calS\ket{+,0} =
+    \frac{1}{\sqrt2} \left( \ket{\uparrow,+1} + \ket{\downarrow, -1} \right).
+\end{equation}
+The next step then sends this into
+\begin{equation}
+    \ket{\Psi_2} \equiv
+    \frac12\left(
+        \ket{\uparrow,+2} + \ket{\downarrow, 0}
+        + \ket{\uparrow,0} - \ket{\downarrow, -2}
+    \right),
+\end{equation}
+and similarly for other steps.
 
 
