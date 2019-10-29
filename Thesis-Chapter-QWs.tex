@@ -1,26 +1,24 @@
 
-\chapter{Quantum Walks}
+\chapter{Quantum state engineering with QWs}
 \label{sec:quantum_walks}
 
-\section{Quantum state engineering with QWs}
+In this section we will present a complete characterisation of the possible output states of time-dependent \ac{DTQW} on a line. Strong of this result, we will then prove that arbitrary qudit states can be engineered if the coin is projected out, via suitable choice of the coin operators.
 
-
-\section{Introduction}
-Quantum states of high-dimensional Hilbert spaces are of paramount interest both from a foundational and applicative perspective. They exhibit a richer entanglement structure~\cite{horodecki2009quantum} and a stronger violation of local realism~\cite{brunner2014bell} than their qubit counterpart. Even at the level of a single system, they illustrate the contextual character of quantum mechanics in a way that cannot result from entanglement \cite{lapkiewicz2011experimental}. 
-In the framework of quantum communication, high-dimensional systems guarantee higher security and increased transmission rates \cite{bechmannpasquinucci2000quantum, cerf2002security, bru2002optimal, acin2003security, karimipour2002quantum, durt2004security, nunn2013largealphabet, mower2013highdimensional, lee2014entanglementbased, zhong2015photonefficient}, allowing also for convenient solutions to problems such as quantum bit commitment \cite{langford2004measuring} and  Byzantine agreement \cite{fitzi2001quantum}.
+\paragraph{High-dimensional quantum states}
+are of paramount interest both from a foundational and applicative perspective. They exhibit a richer entanglement structure~\cite{horodecki2009quantum} and a stronger violation of local realism~\cite{brunner2014bell} than their qubit counterpart. Even at the level of a single system, they illustrate the contextual character of quantum mechanics in a way that cannot result from entanglement~\cite{lapkiewicz2011experimental}. 
+In the framework of quantum communication, high-dimensional systems guarantee higher security and increased transmission rates~\cite{bechmannpasquinucci2000quantum, cerf2002security, bru2002optimal, acin2003security, karimipour2002quantum, durt2004security, nunn2013largealphabet, mower2013highdimensional, lee2014entanglementbased, zhong2015photonefficient}, allowing also for convenient solutions to problems such as quantum bit commitment~\cite{langford2004measuring} and  Byzantine agreement~\cite{fitzi2001quantum}.
 More generally, they have been shown to be advantageous for various applications,
-from spatial imaging \cite{howland2013efficient} to quantum computation \cite{bartlett2002quantum, ralph2007efficient} and error correction \cite{campbell2012magicstate}.
+from spatial imaging~\cite{howland2013efficient} to quantum computation~\cite{bartlett2002quantum, ralph2007efficient} and error correction~\cite{campbell2012magicstate}.
 
-Not surprisingly, in the past decades there has been a steady interest in engineering quantum states of high dimensions. %, with ongoing investigations spanning various physical platforms. Among the latter, quantum optical systems play a prominent role, where 
-Many engineering strategies have been theoretically proposed and experimentally realised in quantum optical systems using a variety of degrees of freedom, from time-energy \cite{thew2004belltype, bessire2014versatile} to polarization \cite{bogdanov2004qutrit}, path \cite{osullivanhale2005pixel}, orbital angular momentum \cite{mair2001entanglement, mclaren2012entangled, krenn2013entangled, krenn2014generation, zhang2016engineering} and frequency \cite{bernhard2013shaping, jin2016simple}. In general, such strategies depend strongly on the specific setting under consideration and a unified framework is lacking. 
+The past decades have seen a steady interest in engineering quantum states of high dimensions. %, with ongoing investigations spanning various physical platforms. Among the latter, quantum optical systems play a prominent role, where 
+Many engineering strategies have been theoretically proposed and experimentally realised in quantum optical systems using a variety of degrees of freedom, from time-energy~\cite{thew2004belltype, bessire2014versatile} to polarization~\cite{bogdanov2004qutrit}, path~\cite{osullivanhale2005pixel}, orbital angular momentum~\cite{mair2001entanglement, mclaren2012entangled, krenn2013entangled, krenn2014generation, zhang2016engineering}, and frequency~\cite{bernhard2013shaping, jin2016simple}. In general, such strategies depend strongly on the specific setting under consideration and a unified framework is lacking. 
 
+\paragraph{We use QWs for QSE}
 Here we make a significant step in this direction by proposing a strategy based on the ubiquitous dynamics offered by quantum walks, which are quantum generalizations of classical random walks~\cite{aharonov1993quantum, nayak2000quantum, ambainis2001onedimensional, kempe2003quantum, venegasandraca2012quantum}.
-In its simplest form, a quantum walk involves a high-dimensional system (generically a $d$-dimensional system dubbed \textit{qudit}), usually referred to as \emph{walker}, endowed with an inner 2-dimensional degree of freedom, referred to as the \emph{coin state} of the walker. 
-At every step, the coin state is \emph{flipped} with some unitary operation, and the walker moves coherently left and right, conditionally on the coin state.
-We focus on \acp{DTQW} on a line~\cite{ambainis2001onedimensional}, allowing the coin operation to change from step to step, while remaining site-independent~\cite{ribeiro2004aperiodic,wjcik2004quasiperiodic,bauls2006quantum}.
-We demonstrate the effectiveness of this framework for the state engineering of $d$-dimensional systems and provide a set of efficiently verifiable necessary and sufficient conditions for a given state to be the output of a quantum walk evolution.	
 
-Our results provide an additional relevant instance of the richness of quantum walks for quantum information processing tasks, notwithstanding their simplicity.
+
+\paragraph{Our results}
+provide an additional relevant instance of the richness of quantum walks for quantum information processing tasks, notwithstanding their simplicity.
 As other notable examples, it is worth mentioning that both the DTQW~\cite{aharonov1993quantum} and its continuous-time variant~\cite{farhi1998quantum} are universal for quantum computation~\cite{childs2009universal,childs2013universal},
 and allow for efficient implementations of quantum search algorithms~%
 \cite{shenvi2003quantum,ambainis2005coins,tulsi2008faster}.
@@ -33,7 +31,9 @@ fiber-loop systems for time-bin encoding~\cite{schreiber2010photons,schreiber201
 and quantum walks in the orbital angular momentum space~\cite{cardano2015quantum,cardano2016statistical}.
 We take advantage of the suitability of photonic settings for the implementation of DTQW to present an experimental proposal for the linear-optics validation of our results, exploiting both the polarization and orbital angular momentum degrees of freedom of a photon.
 
-\section{Quantum Walks background}
+In~\cref{sec:experimental_QSE_with_QW}, an experimental implementation of this protocol will be presented.
+
+\section{The setup}
 %A \ac{DTQW} on a line is a system with two degrees of freedom: a walker degree of freedom, spanning a finite number of steps, and a coin degree of freedom, living in a 2-dimensional Hilbert space.
 A single step of quantum walk evolution consists of a \emph{coin flipping} step, during which a unitary { transformation} $\mathcal C$ is applied to the coin, and a \emph{walking step}, in which the walker's state evolves conditionally to the state of the coin, through a controlled-shift operator $\mathcal S$.
 Formally, given an initial state of the walker
@@ -64,26 +64,31 @@ where we defined the \emph{step operator} $\mathcal W_{\mathcal C}$ as the combi
 	\label{eq:controlled_shift_operator}
 \end{equation}
 We here assume the walker's Hilbert space to be infinite dimensional (or, equivalently, larger than the considered number of steps), so that there is no need to take the boundary conditions into account.
-It is worth noting that we use a slightly different convention than those commonly found in the literature. Rather than considering the walker to be moving left or right conditionally to different coin states, we assume the walker to stand still or move right depending on whether the coin is prepared in $\ket{\uparrow}$ or $\ket{\downarrow}$ (cf.~\cref{fig:walker})~\cite{hoyer2009faster, montero2013unidirectional,montero2015quantum}.
+It is worth noting that we use a slightly different convention than those commonly found in the literature. Rather than considering the walker to be moving left or right conditionally to different coin states, we assume the walker to stand still or move right depending on whether the coin is prepared in $\ket{\uparrow}$ or $\ket{\downarrow}$ (cf.~\cref{fig:qw_conceptual_scheme_walker})~\cite{hoyer2009faster, montero2013unidirectional,montero2015quantum}.
 While for 2-dimensional coin states the two arrangements are equivalent, our choice allows for both a clearer presentation and more efficient simulations.
 
-\begin{figure}[ht!]
-\includegraphics[width=0.59\columnwidth]{Scheme}
-	\caption{
-		Schematic representation of how the amplitudes are distributed among the sites, at the various steps of the evolution.
-		The red (blue) arrows represent the movement of the walker with coin state $\ket\uparrow$ ($\ket\downarrow$) after the coin flip.
-		%It is clear from this representation why the ${u_{1,\downarrow} = u_{n+1, \uparrow} = 0}$ must hold.
-		The coin operators $\mathcal C_i$ determine the weights with which the amplitude at every site is distributed between the red and blue arrows, and thus the two sites of the next layer with which it is connected.
-	}
-	\label{fig:walker}
+\begin{figure}[tb]
+\center
+\includegraphics[width=0.3\columnwidth]{Scheme}
+\caption{
+    Schematic representation of how the amplitudes are distributed among the sites, at the various steps of the evolution.
+    The red (blue) arrows represent the movement of the walker with coin state $\ket\uparrow$ ($\ket\downarrow$) after the coin flip.
+    %It is clear from this representation why the ${u_{1,\downarrow} = u_{n+1, \uparrow} = 0}$ must hold.
+    The coin operators $\mathcal C_i$ determine the weights with which the amplitude at every site is distributed between the red and blue arrows, and thus the two sites of the next layer with which it is connected.
+}
+\label{fig:qw_conceptual_scheme_walker}
 \end{figure}
 
-\section{Reachability conditions}
+\section{Analytical results}
 \label{sec:reachability}
 \subsection{1-step reachability condition}
 \label{sec:1step_reachability}
 Let us now focus on the case where the walker is initially localised at site $i=1$ with some unspecified coin state, so that the initial state of the system reads
-${\ket*{\Psi^{(0)}} = \ket{1}\otimes(u^{(0)}_{1,\uparrow} \ket{1,\uparrow} + u^{(0)}_{1,\downarrow} \ket{1,\downarrow}})$.
+\begin{equation}
+    \ket*{\Psi^{(0)}} =
+    \ket{1}\otimes(u^{(0)}_{1,\uparrow} \ket{1,\uparrow} +
+    u^{(0)}_{1,\downarrow} \ket{1,\downarrow}).
+\end{equation}
 Given the definition of the conditional shift operation $\mathcal S$, after a step with coin operator $\mathcal C_1$, the resulting state ${\ket*{\Psi^{(1)}} \equiv \mathcal W_{\mathcal C_1} \ket*{\Psi^{(0)}}}$ satisfies the conditions 
 ${\braket{1, \downarrow}{\Psi^{(1)}} = \braket{2, \uparrow}{\Psi^{(1)}} = 0}$.
 More generally, for any initial walker state $\ket{\Psi}$ spanning $n$ sites, the application of $\mathcal W_{\mathcal C_1}$ produces a state spanning $n+1$ sites and satisfying the equations
@@ -396,8 +401,142 @@ ${\ket{\Phi_{in}} = u^{(0)}_{1,\uparrow} \ket{1, \uparrow} + u^{(0)}_{1, \downar
 \end{equation}
 The values of $u_{1, \uparrow}, u_{2,\downarrow}, u^{(0)}_{1, \uparrow}$ and $u^{(0)}_{1, \downarrow}$ are known, so that this equation is readily solved for the elements of $\mathcal C_1$, for any initial state $\ket{\Phi_{in}}$.
 
+\section{Generalised reachability conditions}
+\label{app:reachability_conditions}
+We here describe a generalised form of the reachability results of~\cref{sec:reachability}.
+In particular, we study the constraints associated to a state $\ket\Phi$ spanning $m+1$ sites, which is the output of at least $n$ steps of quantum walk evolution.
+Note that while in~\cref{sec:reachability} we focused on the common $m=n$ case, we here consider the more general scenario with $m \ge n$.
+Under these assumptions, $\ket\Phi$ is written as: 
+\begin{equation}
+	\ket\Phi =
+	\mathcal W_{\mathcal C_{1}} \mathcal W_{\mathcal C_{2}} ... \mathcal W_{\mathcal C_{n}}
+	\ket{\Phi_{in}},
+	\label{eq:starting_point}
+\end{equation}
+for some set of coin operators $\{\mathcal C_i \}$ and initial state $\ket{\Phi_{in}}$.
+We are here not imposing constraints on the form of $\ket{\Phi_{in}}$, which in particular does not have to satisfy any reachability condition of its own.
+We want to show that, for any set of coin operators $\{\mathcal C_i \}$, \cref{eq:starting_point} implies that the amplitudes of $\ket\Phi$ satisfy the following set of equations:
+% \begin{equation}
+\begin{gather}
+	u_{1,\downarrow} = u_{m+1, \uparrow} = 0,
+	\label{eq:vanishing_amplitudes}
+	\\
+	\sum_{i=1}^s \bs v_i^\dagger \bs v_{m-s+i} = 0,
+	\text{ for } s=1,..., n-1,
+	\label{eq:orthogonality_conditions_for_vs}
+\end{gather}
+where $\bs v_{i}$ is defined as
+\begin{equation*}
+	\bs v_i =
+	\begin{pmatrix}
+		u_{i,\uparrow} \\ u_{i+1, \downarrow}
+	\end{pmatrix}.
+\end{equation*}
+% \end{equation}
+The cases $n=2$ and $n=3$ were explicitly computed in~\cref{sec:reachability},
+so let us assume the statement to be true for $n$ and show that this implies it for $n+1$.
+The main idea is to see how each one of the equations in \cref{eq:orthogonality_conditions_for_vs} transforms after one step.
+Let us denote the amplitudes after one step with $u'_{i,\alpha}$.
+The relation between primed and unprimed amplitudes is therefore given by
+\begin{equation*}
+	\bs v_i^\prime
+	= \mathcal C
+	\begin{pmatrix}
+		u_{i,\uparrow} \\ u_{i, \downarrow}
+	\end{pmatrix},
+	\text{ for every }
+	i = 1, ..., m,
+	% \label{eq:evolution_amplitudes}
+\end{equation*}
+for some unitary coin operator $\mathcal C$,
+with $\bs v'_i \equiv (u_{i,\uparrow}',u_{i+1,\downarrow}')$.
+This directly implies that for any $i, j$,
+\begin{equation}
+	\begin{pmatrix}
+		u_{i, \uparrow}^* & u_{i, \downarrow}^*
+	\end{pmatrix}
+	\begin{pmatrix}
+		u_{j, \uparrow} \\ u_{j, \downarrow}
+	\end{pmatrix}
+	=
+	\bs v^{\prime\dagger}_{i} \cdot \bs v^\prime_j.
+	\label{eq:transition_us_to_vprimes}
+\end{equation}
+Consider then the $s$-th term in \cref{eq:orthogonality_conditions_for_vs}:
+\begin{equation*}
+	\bs v_1^\dagger \bs v_{m-s+1}
+	+ \bs v_2^\dagger \bs v_{m-s+2}
+	+ ...
+	+ \bs v_{s-1}^\dagger \bs v_{m-1}
+	+ \bs v_s^\dagger \bs v_m = 0.
+\end{equation*}
+Rewriting the LHS of the equation above in terms of the amplitudes, rearranging the terms, and remembering that $u_{1, \downarrow} = u_{m+1, \uparrow} = 0$, we get
+{\footnotesize\begin{equation*}
+\begin{aligned}
+	\begin{pmatrix}
+		u_{1, \uparrow}^* & u_{1, \downarrow}^*
+	\end{pmatrix}
+	\begin{pmatrix}
+		u_{m-s+1, \uparrow} \\ u_{m-s+1, \downarrow}
+	\end{pmatrix}
+	+
+	\begin{pmatrix}
+		u_{2, \uparrow}^* & u_{2, \downarrow}^*
+	\end{pmatrix}
+	\begin{pmatrix}
+		u_{m-s+2, \uparrow} \\ u_{m-s+2, \downarrow}
+	\end{pmatrix} \\
+	+ ... + 
+	\begin{pmatrix}
+		u_{s, \uparrow}^* & u_{s, \downarrow}^*
+	\end{pmatrix}
+	\begin{pmatrix}
+		u_{m, \uparrow} \\ u_{m, \downarrow}
+	\end{pmatrix}
+	+
+	\begin{pmatrix}
+		u_{s+1, \uparrow}^* & u_{s+1, \downarrow}^*
+	\end{pmatrix}
+	\begin{pmatrix}
+		u_{m+1, \uparrow} \\ u_{m+1, \downarrow}
+	\end{pmatrix}.
+\end{aligned}
+\end{equation*}}
+Using \cref{eq:transition_us_to_vprimes} the above becomes
+\begin{equation*}
+	\bs v^{\prime\dagger}_1 \bs v^\prime_{m-s+1} +
+	\bs v^{\prime\dagger}_2 \bs v^\prime_{m-s+2} +
+	... +
+	\bs v^{\prime\dagger}_s \bs v^\prime_m +
+	\bs v^{\prime\dagger}_{s+1} \bs v^\prime_{m+1},
+\end{equation*}
+or, equivalently,
+$\displaystyle
+	\sum_{i=1}^{s+1} \bs v^{\prime\dagger}_i \bs v^\prime_{m-s+i}.
+$
+This proves that
+% \begin{equation}
+$
+	% \ket\Phi =
+	\mathcal W_{\mathcal C}\mathcal W_{\mathcal C_1} \cdots \mathcal W_{\mathcal C_{n}}
+	\ket{\Phi_{in}}
+$
+% \end{equation}
+satisfies the set of $n-1$ constraints:
+\begin{equation}
+	\sum_{i=1}^{s}
+	\bs v^{\prime\dagger}_i
+	\bs v^\prime_{(m+1)-s+i} = 0,
+	\text{ for }
+	s = 2,...,n.
+	\label{eq:general_orthogonality_almost_finished}
+\end{equation}
+To complete the proof, we only miss to show that \cref{eq:general_orthogonality_almost_finished} also holds for $s=1$, that is, that
+$\bs v^{\prime\dagger}_1 \bs v^\prime_m = 0$.
+But this follows immediately from the vanishing amplitudes of $\ket\Phi$ at first and $m$-th site, as already shown in~\cref{sec:2step_reachability}.
 \section{Focusing on walker states}
 \label{sec:focusing_walker_states}
+
 \Cref{sec:reachability} focused on characterising the set of quantum states that can be generated by a quantum walk evolution.
 We here instead consider a different scenario, in which one is interested in generating a target \emph{qudit} state over the walker's degree of freedom, as opposite to wanting to generate a target quantum state in the full walker+coin space.
 In other words, we fix a number of steps $n$ and a target superposition over the sites $\ket\phi=\sum_{i=1}^{n+1} u_i\ket i$, and ask whether there is a combination of coin operators $\{\mathcal C_i\}_{i=1}^{n}$, a coin state $\ket\gamma$, and an initial state $\ket{\Psi_0}=\ket{1, \alpha}$ for some initial coin state $\ket\alpha$, such that (up to a normalisation factor)
@@ -722,139 +861,6 @@ Given the ubiquity of quantum walks, our approach should facilitate the engineer
 	\label{fig:prob_histograms_nmaximize}
 \end{figure*}
 
-\section{Generalised reachability conditions}
-\label{app:reachability_conditions}
-We here describe a generalised form of the reachability results of~\cref{sec:reachability}.
-In particular, we study the constraints associated to a state $\ket\Phi$ spanning $m+1$ sites, which is the output of at least $n$ steps of quantum walk evolution.
-Note that while in~\cref{sec:reachability} we focused on the common $m=n$ case, we here consider the more general scenario with $m \ge n$.
-Under these assumptions, $\ket\Phi$ is written as: 
-\begin{equation}
-	\ket\Phi =
-	\mathcal W_{\mathcal C_{1}} \mathcal W_{\mathcal C_{2}} ... \mathcal W_{\mathcal C_{n}}
-	\ket{\Phi_{in}},
-	\label{eq:starting_point}
-\end{equation}
-for some set of coin operators $\{\mathcal C_i \}$ and initial state $\ket{\Phi_{in}}$.
-We are here not imposing constraints on the form of $\ket{\Phi_{in}}$, which in particular does not have to satisfy any reachability condition of its own.
-We want to show that, for any set of coin operators $\{\mathcal C_i \}$, \cref{eq:starting_point} implies that the amplitudes of $\ket\Phi$ satisfy the following set of equations:
-% \begin{equation}
-\begin{gather}
-	u_{1,\downarrow} = u_{m+1, \uparrow} = 0,
-	\label{eq:vanishing_amplitudes}
-	\\
-	\sum_{i=1}^s \bs v_i^\dagger \bs v_{m-s+i} = 0,
-	\text{ for } s=1,..., n-1,
-	\label{eq:orthogonality_conditions_for_vs}
-\end{gather}
-where $\bs v_{i}$ is defined as
-\begin{equation*}
-	\bs v_i =
-	\begin{pmatrix}
-		u_{i,\uparrow} \\ u_{i+1, \downarrow}
-	\end{pmatrix}.
-\end{equation*}
-% \end{equation}
-The cases $n=2$ and $n=3$ were explicitly computed in~\cref{sec:reachability},
-so let us assume the statement to be true for $n$ and show that this implies it for $n+1$.
-The main idea is to see how each one of the equations in \cref{eq:orthogonality_conditions_for_vs} transforms after one step.
-Let us denote the amplitudes after one step with $u'_{i,\alpha}$.
-The relation between primed and unprimed amplitudes is therefore given by
-\begin{equation*}
-	\bs v_i^\prime
-	= \mathcal C
-	\begin{pmatrix}
-		u_{i,\uparrow} \\ u_{i, \downarrow}
-	\end{pmatrix},
-	\text{ for every }
-	i = 1, ..., m,
-	% \label{eq:evolution_amplitudes}
-\end{equation*}
-for some unitary coin operator $\mathcal C$,
-with $\bs v'_i \equiv (u_{i,\uparrow}',u_{i+1,\downarrow}')$.
-This directly implies that for any $i, j$,
-\begin{equation}
-	\begin{pmatrix}
-		u_{i, \uparrow}^* & u_{i, \downarrow}^*
-	\end{pmatrix}
-	\begin{pmatrix}
-		u_{j, \uparrow} \\ u_{j, \downarrow}
-	\end{pmatrix}
-	=
-	\bs v^{\prime\dagger}_{i} \cdot \bs v^\prime_j.
-	\label{eq:transition_us_to_vprimes}
-\end{equation}
-Consider then the $s$-th term in \cref{eq:orthogonality_conditions_for_vs}:
-\begin{equation*}
-	\bs v_1^\dagger \bs v_{m-s+1}
-	+ \bs v_2^\dagger \bs v_{m-s+2}
-	+ ...
-	+ \bs v_{s-1}^\dagger \bs v_{m-1}
-	+ \bs v_s^\dagger \bs v_m = 0.
-\end{equation*}
-Rewriting the LHS of the equation above in terms of the amplitudes, rearranging the terms, and remembering that $u_{1, \downarrow} = u_{m+1, \uparrow} = 0$, we get
-{\footnotesize\begin{equation*}
-\begin{aligned}
-	\begin{pmatrix}
-		u_{1, \uparrow}^* & u_{1, \downarrow}^*
-	\end{pmatrix}
-	\begin{pmatrix}
-		u_{m-s+1, \uparrow} \\ u_{m-s+1, \downarrow}
-	\end{pmatrix}
-	+
-	\begin{pmatrix}
-		u_{2, \uparrow}^* & u_{2, \downarrow}^*
-	\end{pmatrix}
-	\begin{pmatrix}
-		u_{m-s+2, \uparrow} \\ u_{m-s+2, \downarrow}
-	\end{pmatrix} \\
-	+ ... + 
-	\begin{pmatrix}
-		u_{s, \uparrow}^* & u_{s, \downarrow}^*
-	\end{pmatrix}
-	\begin{pmatrix}
-		u_{m, \uparrow} \\ u_{m, \downarrow}
-	\end{pmatrix}
-	+
-	\begin{pmatrix}
-		u_{s+1, \uparrow}^* & u_{s+1, \downarrow}^*
-	\end{pmatrix}
-	\begin{pmatrix}
-		u_{m+1, \uparrow} \\ u_{m+1, \downarrow}
-	\end{pmatrix}.
-\end{aligned}
-\end{equation*}}
-Using \cref{eq:transition_us_to_vprimes} the above becomes
-\begin{equation*}
-	\bs v^{\prime\dagger}_1 \bs v^\prime_{m-s+1} +
-	\bs v^{\prime\dagger}_2 \bs v^\prime_{m-s+2} +
-	... +
-	\bs v^{\prime\dagger}_s \bs v^\prime_m +
-	\bs v^{\prime\dagger}_{s+1} \bs v^\prime_{m+1},
-\end{equation*}
-or, equivalently,
-$\displaystyle
-	\sum_{i=1}^{s+1} \bs v^{\prime\dagger}_i \bs v^\prime_{m-s+i}.
-$
-This proves that
-% \begin{equation}
-$
-	% \ket\Phi =
-	\mathcal W_{\mathcal C}\mathcal W_{\mathcal C_1} \cdots \mathcal W_{\mathcal C_{n}}
-	\ket{\Phi_{in}}
-$
-% \end{equation}
-satisfies the set of $n-1$ constraints:
-\begin{equation}
-	\sum_{i=1}^{s}
-	\bs v^{\prime\dagger}_i
-	\bs v^\prime_{(m+1)-s+i} = 0,
-	\text{ for }
-	s = 2,...,n.
-	\label{eq:general_orthogonality_almost_finished}
-\end{equation}
-To complete the proof, we only miss to show that \cref{eq:general_orthogonality_almost_finished} also holds for $s=1$, that is, that
-$\bs v^{\prime\dagger}_1 \bs v^\prime_m = 0$.
-But this follows immediately from the vanishing amplitudes of $\ket\Phi$ at first and $m$-th site, as already shown in~\cref{sec:2step_reachability}.
 
 \section{Analytical solutions for two steps}
 \label{app:analytical_sol_2steps}
@@ -925,7 +931,7 @@ To illustrate this, in~\cref{fig:fid_vs_eps_varying_d} is shown how the fidelity
 
 \begin{figure}[tb]
 	\centering
-	\includegraphics[width=\linewidth]{projProbLandscape_2steps_allreal2.pdf}
+	\includegraphics[width=.5\linewidth]{projProbLandscape_2steps_allreal2.pdf}
 	\caption{
 		Probability given by \cref{eq:proj_prob_2steps} plotted against $u_1$ and $u_2$, for the special case of $u_1, u_2 \in \mathbb R$.
 	}
@@ -934,7 +940,7 @@ To illustrate this, in~\cref{fig:fid_vs_eps_varying_d} is shown how the fidelity
 \begin{figure}[tb]
 	\centering
 	\begin{tikzpicture}
-		\node (img) {\includegraphics[width=\columnwidth]%
+		\node (img) {\includegraphics[width=.5\columnwidth]%
 			{projProbLandscape_2steps_allreal_slices}
 		};
 		% \node [overlay] (x-axis) at (-.45, -2.4) {\scalebox{1.2}{$u_2$}};
@@ -947,7 +953,7 @@ To illustrate this, in~\cref{fig:fid_vs_eps_varying_d} is shown how the fidelity
 \end{figure}
 \begin{figure}[tb]
 	\centering
-	\includegraphics[width=\linewidth]{fidelityVsEpsVaryingD_2steps.pdf}
+	\includegraphics[width=.5\linewidth]{fidelityVsEpsVaryingD_2steps.pdf}
 	\caption{
 		Fidelity vs a relative change of the value of a coin parameter, for different values of $d_I$.
 		Starting from \cref{eq:state_degenerate_case}, we use as target state the normalized vector

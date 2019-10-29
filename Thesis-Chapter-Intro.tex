@@ -89,6 +89,13 @@ where $P_k$ is the vector of probabilities at the set $k$ ($(P_k)_i$ is the prob
 
 \subsection{Quantum walks}
 
+
+\paragraph{Intro to QWs from QSE paper}
+In its simplest form, a quantum walk involves a high-dimensional system (generically a $d$-dimensional system dubbed \textit{qudit}), usually referred to as \emph{walker}, endowed with an inner 2-dimensional degree of freedom, referred to as the \emph{coin state} of the walker. 
+At every step, the coin state is \emph{flipped} with some unitary operation, and the walker moves coherently left and right, conditionally on the coin state.
+We focus on \acp{DTQW} on a line~\cite{ambainis2001onedimensional}, allowing the coin operation to change from step to step, while remaining site-independent~\cite{ribeiro2004aperiodic,wjcik2004quasiperiodic,bauls2006quantum}.
+We demonstrate the effectiveness of this framework for the state engineering of $d$-dimensional systems and provide a set of efficiently verifiable necessary and sufficient conditions for a given state to be the output of a quantum walk evolution.	
+
 \acp{QW} are models of quantum dynamics which share similarities with classical random walks, and are therefore often understood as their quantum counterparts.
 
 A first important distinction is between \textit{discrete} and \textit{continuous} quantum walks.
