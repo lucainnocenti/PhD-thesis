@@ -5,7 +5,7 @@
 In this section we will present a complete characterisation of the possible output states of time-dependent \ac{DTQW} on a line. Strong of this result, we will then prove that arbitrary qudit states can be engineered if the coin is projected out, via suitable choice of the coin operators.
 
 \paragraph{High-dimensional quantum states}
-are of paramount interest both from a foundational and applicative perspective. They exhibit a richer entanglement structure~\cite{horodecki2009quantum} and a stronger violation of local realism~\cite{brunner2014bell} than their qubit counterpart. Even at the level of a single system, they illustrate the contextual character of quantum mechanics in a way that cannot result from entanglement~\cite{lapkiewicz2011experimental}. 
+are of paramount importance both from a foundational and applicative perspective. They exhibit a richer entanglement structure~\cite{horodecki2009quantum} and a stronger violation of local realism~\cite{brunner2014bell} than their qubit counterpart. Even at the level of a single system, they illustrate the contextual character of quantum mechanics in a way that cannot result from entanglement~\cite{lapkiewicz2011experimental}. 
 In the framework of quantum communication, high-dimensional systems guarantee higher security and increased transmission rates~\cite{bechmannpasquinucci2000quantum, cerf2002security, bru2002optimal, acin2003security, karimipour2002quantum, durt2004security, nunn2013largealphabet, mower2013highdimensional, lee2014entanglementbased, zhong2015photonefficient}, allowing also for convenient solutions to problems such as quantum bit commitment~\cite{langford2004measuring} and  Byzantine agreement~\cite{fitzi2001quantum}.
 More generally, they have been shown to be advantageous for various applications,
 from spatial imaging~\cite{howland2013efficient} to quantum computation~\cite{bartlett2002quantum, ralph2007efficient} and error correction~\cite{campbell2012magicstate}.
@@ -34,16 +34,14 @@ We take advantage of the suitability of photonic settings for the implementation
 In~\cref{sec:experimental_QSE_with_QW}, an experimental implementation of this protocol will be presented.
 
 \section{The setup}
-%A \ac{DTQW} on a line is a system with two degrees of freedom: a walker degree of freedom, spanning a finite number of steps, and a coin degree of freedom, living in a 2-dimensional Hilbert space.
-A single step of quantum walk evolution consists of a \emph{coin flipping} step, during which a unitary { transformation} $\mathcal C$ is applied to the coin, and a \emph{walking step}, in which the walker's state evolves conditionally to the state of the coin, through a controlled-shift operator $\mathcal S$.
+\label{sec:qw_setup}
+As described in~\cref{sec:quantum_walks}, a single step of quantum walk evolution consists of a \emph{coin flipping} step, during which a unitary { transformation} $\mathcal C$ is applied to the coin, and a \emph{walking step}, in which the walker's state evolves conditionally to the state of the coin, through a controlled-shift operator $\mathcal S$.
 Formally, given an initial state of the walker
-% \begin{equation}
-$
+\begin{equation}
 	\ket\Psi \equiv \sum_{k=1}^n \sum_{s\in\{\uparrow,\downarrow\}}
 	u_{k,s} \ket{k} \otimes \ket{s},
-	% \label{eq:initial_state}
-$
-% \end{equation}
+	\label{eq:initial_state}
+\end{equation}
 after one step the state evolves to
 \begin{equation}
 	\mathcal W_{\mathcal C} \ket\Psi \equiv
@@ -53,19 +51,19 @@ after one step the state evolves to
 	\mathcal S \big( \ket{k} \otimes \mathcal C \ket{s} \big),
 	\label{eq:step_operator_definition}
 \end{equation}
-where we defined the \emph{step operator} $\mathcal W_{\mathcal C}$ as the combined action of a coin flip and a controlled shift, and $\mathcal S$ is given by
+where we defined the \emph{step operator} $\calW_{\calC}$ as the combined action of a coin flip and a controlled shift $\calS$, which we write as
 \begin{equation}
-	\mathcal S =
-	\sum_k \big(
-		\ketbra{k}{k} \otimes \ketbra{\uparrow}{\uparrow}
-		+
-		\ketbra{k + 1}{k} \otimes \ketbra{\downarrow}{\downarrow}
-	\big).
+	\calS =
+    I\otimes \PP_\uparrow + \EE_+\otimes\PP_\downarrow.
+	% \sum_k \big(
+	% 	\ketbra{k}{k} \otimes \ketbra{\uparrow}{\uparrow}
+	% 	+
+	% 	\ketbra{k + 1}{k} \otimes \ketbra{\downarrow}{\downarrow}
+	% \big).
 	\label{eq:controlled_shift_operator}
 \end{equation}
-We here assume the walker's Hilbert space to be infinite dimensional (or, equivalently, larger than the considered number of steps), so that there is no need to take the boundary conditions into account.
-It is worth noting that we use a slightly different convention than those commonly found in the literature. Rather than considering the walker to be moving left or right conditionally to different coin states, we assume the walker to stand still or move right depending on whether the coin is prepared in $\ket{\uparrow}$ or $\ket{\downarrow}$ (cf.~\cref{fig:qw_conceptual_scheme_walker})~\cite{hoyer2009faster, montero2013unidirectional,montero2015quantum}.
-While for 2-dimensional coin states the two arrangements are equivalent, our choice allows for both a clearer presentation and more efficient simulations.
+The controlled-shift operation is written here in accordance to the convention presented in~\cref{sec:quantum_walks}, and previously employed in~~\cite{hoyer2009faster, montero2013unidirectional,montero2015quantum}: at each step, the walker either stands still or moves on the right, conditionally on whether the coin's state is $\ket{\uparrow}$ or $\ket{\downarrow}$ (cf.~\cref{fig:qw_conceptual_scheme_walker})
+While for 2-dimensional coin states and initial states spanning a single position the two conventions are equivalent, our choice allows for a tidier exposition, as well as for more efficient numerical simulations.
 
 \begin{figure}[tb]
 \center
@@ -80,17 +78,41 @@ While for 2-dimensional coin states the two arrangements are equivalent, our cho
 \end{figure}
 
 \section{Analytical results}
-\label{sec:reachability}
+\label{sec:reachability_conditions}
+
+In this section we present a full characterisation of the output states of a finite number of steps of a time-dependent \ac{DTQW}. We will find that such a characterisation can be formulated in terms of a sequence of efficiently verifiable conditions on the amplitudes of the output state.
+More precisely, given a candidate output state, these conditions can be used to 1) verify whether there is a sequence of coin operations generating the target states after the prescribed number of steps, and 2) if the answer is positive, obtain a sequence of coin operations generating it.
+
 \subsection{1-step reachability condition}
 \label{sec:1step_reachability}
-Let us now focus on the case where the walker is initially localised at site $i=1$ with some unspecified coin state, so that the initial state of the system reads
+
+To derive the result, we start by analysing what happens for small numbers of steps, to better illustrate the important features of the quantum walk.
+
+Suppose the walker is initially localised at the site $i=1$ with some unspecified initial coin state $\ket s$.
+% $\ket s=u_{1,\uparrow}^{(0)}\ket{1,\uparrow} + u_{1,\downarrow}^{(0)}\ket{1,\downarrow}$.
+The initial state of the full system is then
 \begin{equation}
-    \ket*{\Psi^{(0)}} =
-    \ket{1}\otimes(u^{(0)}_{1,\uparrow} \ket{1,\uparrow} +
-    u^{(0)}_{1,\downarrow} \ket{1,\downarrow}).
+    \ket*{\Psi^{(0)}} \equiv
+    \ket1\otimes\ket s \equiv
+    \ket{1}\otimes(u^{(0)}_{1,\uparrow} \ket{\uparrow} +
+    u^{(0)}_{1,\downarrow} \ket{\downarrow}).
 \end{equation}
-Given the definition of the conditional shift operation $\mathcal S$, after a step with coin operator $\mathcal C_1$, the resulting state ${\ket*{\Psi^{(1)}} \equiv \mathcal W_{\mathcal C_1} \ket*{\Psi^{(0)}}}$ satisfies the conditions 
-${\braket{1, \downarrow}{\Psi^{(1)}} = \braket{2, \uparrow}{\Psi^{(1)}} = 0}$.
+Let $\calC_1$ denote the coin operation performed at the first step,
+and let $\calW_{\calC_1}$ be the corresponding step operation.
+Then, the state after the first step is
+$\ket*{\Psi^{(1)}} \equiv \calW_{\calC_1} \ket*{\Psi^{(0)}}$.
+Explicitly, this state reads
+\begin{equation}
+    \ket*{\Psi^{(1)}} =
+    \calS \ket1\otimes(\calC_1\ket s) =
+    \mel{\uparrow}{\calC_1}{s} \ket{1,\uparrow} +
+    \mel{\downarrow}{\calC_1}{s} \ket{2,\downarrow}.
+\end{equation}
+A notable feature of this state is that there are two vanishing amplitudes:
+\begin{equation}
+    \braket{1, \downarrow}{\Psi^{(1)}} = \braket{2, \uparrow}{\Psi^{(1)}} = 0.
+\end{equation}
+Note how this feature is independent on the initial coin state $\ket s$ or the coin operation $\calC$, but is rather a general property of states produced by this kind of \ac{QW} dynamic.
 More generally, for any initial walker state $\ket{\Psi}$ spanning $n$ sites, the application of $\mathcal W_{\mathcal C_1}$ produces a state spanning $n+1$ sites and satisfying the equations
 \begin{equation}
 	\mel{1, \downarrow}{\mathcal W_{\mathcal C_1}}{\Psi} =
@@ -301,10 +323,10 @@ On the other hand, the same reasoning used in~\cref{sec:3step_reachability} can 
 
 While in the above we considered only the case of a quantum walk in which the initial walker state was $\ket1$, 
 the results hold in the more general case of a generic initial walker state, possibly spanning more than one position.
-Indeed, \cref{eq:general_reachability_conditions} is equivalent to stating that $\ket*{\Psi^{(n)}}$ is the output of (at least) $n$ steps of quantum walk evolution, \textit{regardless of the initial state}.
+Indeed,~\cref{eq:general_reachability_conditions} is equivalent to stating that $\ket*{\Psi^{(n)}}$ is the output of (at least) $n$ steps of quantum walk evolution, \textit{regardless of the initial state}.
 We refer to~\cref{app:reachability_conditions} for a more detailed discussion about this more general case.
 
-In \mbox{\cref{table:constraints}} we give a summary of the conditions characterizing the states at different steps.
+In~\cref{table:constraints} we give a summary of the conditions characterizing the states at different steps.
 The total number of (real) degrees of freedom of a walker state after $n$ steps, considering the two vanishing extremal amplitudes, is $4n - 2$.
 Additionally, the set of constraints in \cref{eq:general_reachability_conditions} amounts to $2(n-1)$ real conditions.
 It follows that the space of reachable states $\ket*{\Psi^{(n)}}$ has dimension $2n$, to compare with the number of degrees of freedom of a general state living in the same Hilbert space, that is, $4n + 2$.
