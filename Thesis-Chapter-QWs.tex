@@ -2,7 +2,7 @@
 \chapter{Quantum state engineering with QWs}
 \label{sec:quantum_walks}
 
-In this section we will present a complete characterisation of the possible output states of time-dependent \ac{DTQW} on a line. Strong of this result, we will then prove that arbitrary qudit states can be engineered if the coin is projected out, via suitable choice of the coin operators.
+In this section we provide a complete characterisation of the output states of time-dependent \acp{DTQW} on a line. Strong of this result, we will then prove that arbitrary qudit states can be engineered if the coin is projected out, via suitable choice of the coin operators.
 
 \paragraph{High-dimensional quantum states}
 are of paramount importance both from a foundational and applicative perspective. They exhibit a richer entanglement structure~\cite{horodecki2009quantum} and a stronger violation of local realism~\cite{brunner2014bell} than their qubit counterpart. Even at the level of a single system, they illustrate the contextual character of quantum mechanics in a way that cannot result from entanglement~\cite{lapkiewicz2011experimental}. 
@@ -77,31 +77,41 @@ While for 2-dimensional coin states and initial states spanning a single positio
 \label{fig:qw_conceptual_scheme_walker}
 \end{figure}
 
+An observation which will prove useful later \highlight{(where exactly?)} is that we can equivalently define a step operator $\calW$ via the relations
+\begin{equation}
+\begin{cases}
+    \calW\ket{k,\uparrow} &= \ket{k,\uparrow}, \\
+    \calW\ket{k,\downarrow} &= \ket{k+1, \downarrow}.
+\end{cases}
+\end{equation}
+
 \section{Analytical results}
 \label{sec:reachability_conditions}
 
-In this section we present a full characterisation of the output states of a finite number of steps of a time-dependent \ac{DTQW}. We will find that such a characterisation can be formulated in terms of a sequence of efficiently verifiable conditions on the amplitudes of the output state.
-More precisely, given a candidate output state, these conditions can be used to 1) verify whether there is a sequence of coin operations generating the target states after the prescribed number of steps, and 2) if the answer is positive, obtain a sequence of coin operations generating it.
+In this section we provide a complete characterisation of the output states of time-dependent \acp{DTQW} on a line.
+We will find that such a characterisation can be formulated in terms of a sequence of efficiently verifiable conditions on the amplitudes of the output state.
+More precisely, given a candidate output state, these conditions allow to 1) verify whether there is a sequence of coin operations generating the target states after the prescribed number of steps, and 2) if the answer is positive, obtain a possible such sequence.
 
 \subsection{1-step reachability condition}
 \label{sec:1step_reachability}
 
-To derive the result, we start by analysing what happens for small numbers of steps, to better illustrate the important features of the quantum walk.
+Let us start by analysing what happens for small numbers of steps. This will help to get intuition into the more general result.
 
-Suppose the walker is initially localised at the site $i=1$ with some unspecified initial coin state $\ket s$.
+Suppose the walker is initially localised at the site $i=1$ with some unspecified initial coin state $\ket\alpha$.
 % $\ket s=u_{1,\uparrow}^{(0)}\ket{1,\uparrow} + u_{1,\downarrow}^{(0)}\ket{1,\downarrow}$.
-The initial state of the full system is then
+The initial state of the full system is then written as
 \begin{equation}
     \ket*{\Psi^{(0)}} \equiv
-    \ket1\otimes\ket s \equiv
-    \ket{1}\otimes(u^{(0)}_{1,\uparrow} \ket{\uparrow} +
-    u^{(0)}_{1,\downarrow} \ket{\downarrow}).
+    \ket1\otimes\ket\alpha \equiv
+    \ket{1}\otimes \big(u^{(0)}_{1,\uparrow} \ket{\uparrow} +
+    u^{(0)}_{1,\downarrow} \ket{\downarrow} \big),
 \end{equation}
+denoting with $u^{(0)}_{1,\uparrow},u^{(0)}_{1,\downarrow}$ the amplitudes of $\ket\alpha$.
 Let $\calC_1$ denote the coin operation performed at the first step,
 and let $\calW_{\calC_1}$ be the corresponding step operation.
-Then, the state after the first step is
+The state after the first step is then
 $\ket*{\Psi^{(1)}} \equiv \calW_{\calC_1} \ket*{\Psi^{(0)}}$.
-Explicitly, this state reads
+Explicitly, this reads
 \begin{equation}
     \ket*{\Psi^{(1)}} =
     \calS \ket1\otimes(\calC_1\ket s) =
@@ -110,20 +120,23 @@ Explicitly, this state reads
 \end{equation}
 A notable feature of this state is that there are two vanishing amplitudes:
 \begin{equation}
-    \braket{1, \downarrow}{\Psi^{(1)}} = \braket{2, \uparrow}{\Psi^{(1)}} = 0.
+    \braket*{1, \downarrow}{\Psi^{(1)}} = \braket*{2, \uparrow}{\Psi^{(1)}} = 0.
 \end{equation}
-Note how this feature is independent on the initial coin state $\ket s$ or the coin operation $\calC$, but is rather a general property of states produced by this kind of \ac{QW} dynamic.
+Note how this feature is independent on the initial coin state $\ket\alpha$ or the coin operation $\calC_1$, but is rather a general property of states produced by this kind of \ac{QW} dynamic.
 More generally, for any initial walker state $\ket{\Psi}$ spanning $n$ sites, the application of $\mathcal W_{\mathcal C_1}$ produces a state spanning $n+1$ sites and satisfying the equations
 \begin{equation}
 	\mel{1, \downarrow}{\mathcal W_{\mathcal C_1}}{\Psi} =
 	\mel{n+1, \uparrow}{\mathcal W_{\mathcal C_1}}{\Psi} = 0.
 	\label{eq:vanishing_endpoints}
 \end{equation}
-% $
-% \mel{1, \downarrow}{\mathcal W}{\Psi} =
-% \mel{n+1, \uparrow}{\mathcal W}{\Psi} = 0
-% $.
-The implication goes both ways: any state $\ket\Phi$ of a system spanning $n+1$ sites and with an additional spin-like degree of freedom, such that
+This is a direct consequence of the structure of $\calS$, and can also be understood graphically from the pictorial representation in~\cref{fig:qw_conceptual_scheme_walker}.
+Indeed, the action of $\calS$ on an arbitrary state $\ket\Psi=\sum_{k=1}^N \sum_s c_{k,s}\ket{k,s}$ reads
+\begin{equation}
+    \calS\ket\Psi =
+    \sum_{k=1}^N (c_{k\uparrow}\ket{k,\uparrow} + c_{k\downarrow}\ket{k+1,\downarrow}),
+\end{equation}
+which means that $\mel{1,\downarrow}{\calS}{\Psi}=\mel{N+1,\uparrow}{\calS}{\Psi}=0$.
+The implication goes both ways: any state $\ket\Phi$ of a system spanning $n+1$ sites and with an additional spin-like degree of freedom such that
 $
 \braket{1, \downarrow}{\Phi} =
 \braket{n+1, \uparrow}{\Phi} = 0
