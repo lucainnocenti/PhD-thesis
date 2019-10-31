@@ -35,14 +35,15 @@ In~\cref{sec:experimental_QSE_with_QW}, an experimental implementation of this p
 
 \section{The setup}
 \label{sec:qw_setup}
-As described in~\cref{sec:quantum_walks}, a single step of quantum walk evolution consists of a \emph{coin flipping} step, during which a unitary { transformation} $\mathcal C$ is applied to the coin, and a \emph{walking step}, in which the walker's state evolves conditionally to the state of the coin, through a controlled-shift operator $\mathcal S$.
-Formally, given an initial state of the walker
+As described in~\cref{sec:quantum_walks}, a single step of quantum walk evolution consists of a \emph{coin flipping} step, during which a unitary transformation $\calC$ is applied to the coin, and a \emph{walking step}, in which the walker's state evolves conditionally to the state of the coin, through a controlled-shift operator $\calS$.
+We will denote with $\calHcoin$ and $\calHwalker$ the Hilbert spaces in which coin and walker states live, respectively.
+A general initial state $\ket\Psi\in\calHwalker\otimes\calHcoin$ can be written as
 \begin{equation}
 	\ket\Psi \equiv \sum_{k=1}^n \sum_{s\in\{\uparrow,\downarrow\}}
-	u_{k,s} \ket{k} \otimes \ket{s},
+	u_{k,s} \ket{k} \otimes \ket{s}.
 	\label{eq:initial_state}
 \end{equation}
-after one step the state evolves to
+After one step, the state evolves to
 \begin{equation}
 	\mathcal W_{\mathcal C} \ket\Psi \equiv
 	\mathcal S \,\mathcal C \ket\Psi
@@ -77,15 +78,27 @@ While for 2-dimensional coin states and initial states spanning a single positio
 \label{fig:qw_conceptual_scheme_walker}
 \end{figure}
 
-An observation which will prove useful later \highlight{(where exactly?)} is that we can equivalently define $\calS$ via the relations
+An observation which will prove useful later \highlight{(where exactly?)} is that we can equivalently define $\calS$ and $\calW_\calC$ via the relations
+% \begin{equation}
+% \begin{cases}
+%     \calS\ket{k,\uparrow} &= \ket{k,\uparrow}, \\
+%     \calS\ket{k,\downarrow} &= \ket{k+1, \downarrow},
+% \end{cases}
+% \end{equation}
+% and a step operator $\calW_{\calC}$ via
+% \begin{equation}
+% \begin{cases}
+%     \calW_\calC\ket{k,\uparrow} &= c_{00} \ket{k,\uparrow} + c_{10} \ket{k+ 1,\downarrow}, \\
+%     \calW_\calC\ket{k,\downarrow} &= c_{01}\ket{k, \uparrow} + c_{11} \ket{k+1, \downarrow},
+% \end{cases}
+% \end{equation}
+
 \begin{equation}
 \begin{cases}
     \calS\ket{k,\uparrow} &= \ket{k,\uparrow}, \\
     \calS\ket{k,\downarrow} &= \ket{k+1, \downarrow},
 \end{cases}
-\end{equation}
-and a step operator $\calW_{\calC}$ via
-\begin{equation}
+\qquad
 \begin{cases}
     \calW_\calC\ket{k,\uparrow} &= c_{00} \ket{k,\uparrow} + c_{10} \ket{k+ 1,\downarrow}, \\
     \calW_\calC\ket{k,\downarrow} &= c_{01}\ket{k, \uparrow} + c_{11} \ket{k+1, \downarrow},
@@ -108,6 +121,21 @@ Then,
     \label{eq:qw_dynamics_on_single_positions}
 \end{equation}
 
+Finally, an alternative way to represent states in $\calHwalker\otimes\calHcoin$ spanning $N$ sites is via $N\times 2$ matrices, in which each row represents the amplitudes associated with a specific site, and each column the set of amplitudes associated with a specific coin state. 
+We thus write $\ket\Psi$ as the $n\times2$ matrix
+\begin{equation}
+    \ket\Psi\simeq \begin{pmatrix}
+        \Psi_{1,\uparrow} & \Psi_{1,\downarrow} \\
+        \Psi_{2,\uparrow} & \Psi_{2,\downarrow} \\
+        \multicolumn{2}{c}{\vdots} \\ 
+        \Psi_{n,\uparrow} & \Psi_{n,\downarrow} \\
+    \end{pmatrix}.
+    \label{eq:qw_matrix_notation}
+\end{equation}
+In this notation, the coin operation only introduces coherence between amplitudes on the same row, while the shift $\calS$ acts by simply moving the amplitudes around.
+This notation will prove useful to derive the results in the next sections.
+
+
 \section{Analytical results}
 \label{sec:reachability_conditions}
 
@@ -116,7 +144,7 @@ We will find that such a characterisation can be formulated in terms of a sequen
 More precisely, given a candidate output state, these conditions allow to 1) verify whether there is a sequence of coin operations generating the target states after the prescribed number of steps, and 2) if the answer is positive, obtain a possible such sequence.
 
 \subsection{1-step reachability condition}
-\label{sec:1step_reachability}
+\label{sec:qw_1step_reachability}
 
 Let us start by analysing what happens for small numbers of steps. This will help to get intuition into the more general result.
 
@@ -150,7 +178,7 @@ More generally, for any initial walker state $\ket{\Psi}$ spanning $n$ sites, th
 \begin{equation}
 	\mel{1, \downarrow}{\mathcal W_{\mathcal C_1}}{\Psi} =
 	\mel{n+1, \uparrow}{\mathcal W_{\mathcal C_1}}{\Psi} = 0.
-	\label{eq:vanishing_endpoints}
+	\label{eq:qw_vanishing_endpoints}
 \end{equation}
 This is a direct consequence of the structure of $\calS$, and can also be understood graphically from the pictorial representation in~\cref{fig:qw_conceptual_scheme_walker}.
 Indeed, the action of $\calS$ on an arbitrary state
@@ -160,6 +188,18 @@ $\ket\Psi\equiv\sum_{k=1}^N \sum_s \Psi_{k,s}\ket{k,s}$ reads
     \sum_{k=1}^N (\Psi_{k,\uparrow}\ket{k,\uparrow} + \Psi_{k,\downarrow}\ket{k+1,\downarrow}),
 \end{equation}
 which means that $\mel{1,\downarrow}{\calS}{\Psi}=\mel{N+1,\uparrow}{\calS}{\Psi}=0$.
+We can restate this result using the matrix notation introduced in~\cref{eq:qw_matrix_notation} by saying that all and only the states that are the output of a step of \ac{DTQW} evolution have the form
+\begin{equation}
+    \begin{pmatrix}
+        \bullet & 0 \\
+        \bullet & \bullet \\
+        \multicolumn{2}{c}{\vdots} \\ 
+        \bullet & \bullet \\
+        0 & \bullet \\
+    \end{pmatrix},
+    \label{eq:qw_matrix_notation_vanishing_endpoints}
+\end{equation}
+where the $\bullet$ represent arbitrary amplitudes.
 The implication goes both ways: any state $\ket\Phi$ of a system spanning $n+1$ sites and with an additional spin-like degree of freedom such that
 $
 \braket{1, \downarrow}{\Phi} =
@@ -181,15 +221,16 @@ We then see from~\cref{eq:qw_dynamics_on_single_positions} that any $\calC$ can 
 We conclude that any state $\ket\Phi$ satisfying $\Phi_{1,\downarrow}=\Phi_{n+1,\uparrow}=0$ can be produced by a single step of a quantum walk evolution.
 
 \subsection{2-step reachability conditions}
-\label{sec:2step_reachability}
-Let us now study the possible states after \textit{two} \ac{QW} steps.
+\label{sec:qw_2step_reachability}
+We now consider the possible states after \textit{two} \ac{QW} steps.
 Suppose $\ket\Psi$ spans $n+2$ modes and can be written as
 $\ket\Psi=\calW_{\calC_2}\calW_{\calC_1}\ket*{\Psi^{(-2)}}$
 for some unitaries $\calC_1,\calC_2$ and state $\ket*{\Psi^{(-2)}}$.
+We will show in this section that all such states $\ket\Psi$ must satisfy a specific orthogonality condition on their amplitudes, and that, moreover, this condition, paired with the one discussed in~\cref{sec:qw_1step_reachability}, is sufficient for a state $\ket\Psi$ to be output of two steps of a \ac{DTQW} dynamic.
 
-From~\cref{sec:1step_reachability} we know that $\ket\Psi$ must be such that
+From~\cref{sec:qw_1step_reachability} we know that $\ket\Psi$ must be such that
 $\Psi_{1,\downarrow}=\Psi_{n+2,\uparrow}=0$.
-However, there is now an additional constraint to be taken into consideration. Namely, $\ket*{\Psi^{(-1)}}\equiv\calW_{\calC_1}\ket*{\Psi^{(-2)}}$ is also subject to the conditions derived in~\cref{sec:1step_reachability}:
+However, there is now an additional constraint to be taken into consideration. Namely, $\ket*{\Psi^{(-1)}}\equiv\calW_{\calC_1}\ket*{\Psi^{(-2)}}$ is also subject to the conditions derived in~\cref{sec:qw_1step_reachability}:
 $\Psi^{(-1)}_{1,\downarrow}=\Psi^{(-1)}_{n+1,\uparrow}=0$.
 This constraint reflects on~\cref{eq:qw_dynamics_on_single_positions}, which on the extremal sites now reads:
 \begin{equation}
@@ -235,91 +276,80 @@ $\begin{pmatrix}
     \Psi_{n+2,\downarrow}
 \end{pmatrix}$
 are orthogonal\footnote{We are using here the characterisation of unitaries are those complex matrices whose rows (equivalently, columns) form an orthonormal system for the underlying vector space.}.
-HERE
-
-Consider now another coin operator $\calC_2$, and the state
-$\ket*{\Psi^{(2)}} \equiv \calW_{\calC_1} \ket*{\Psi^{(1)}}$.
-It is useful to describe the evolution of the amplitudes $u_{i, s}^{(n)}$ after a generic step $\calW_{\mathcal C}$ as
+Let us then define the vectors $\bs v_j$ as:
 \begin{equation}
-	\bs{v}_i^{(n+1)} \equiv
-	\begin{pmatrix}
-		u^{(n+1)}_{i, \uparrow} \\ u^{(n+1)}_{i+1, \downarrow}
-	\end{pmatrix}
-	= \mathcal C
-	\begin{pmatrix}
-		u^{(n)}_{i, \uparrow} \\ u^{(n)}_{i, \downarrow}
-	\end{pmatrix},
-	\label{eq:evolution_equation_with_C}
+    \bs v_j \equiv \begin{pmatrix}
+        \Psi_{j,\uparrow} \\ \Psi_{j+1,\downarrow}
+    \end{pmatrix},
+    \qquad
+    \bs v_j^{(-k)} \equiv \begin{pmatrix}
+        \Psi^{(-k)}_{j,\uparrow} \\ \Psi^{(-k)}_{j+1,\downarrow}
+    \end{pmatrix}.
 \end{equation}
-where the complex vectors $\bs v_i^{(n)}$ collect the amplitudes at the $n$-th step that came from the $i$-th site at the previous step.
-It is easily verified that this description is equivalent to \cref{eq:step_operator_definition}.
-Applying \cref{eq:evolution_equation_with_C} to $\ket*{\Psi^{(1)}}$ we get
-\begin{equation}
-	\bs{v}^{(2)}_1
-	=
-	\mathcal C_2
-	\begin{pmatrix}
-		u^{(1)}_{1,\uparrow} \\ 0
-	\end{pmatrix},
-	\quad
-	\bs{v}^{(2)}_2
-	=
-	\mathcal C_2
-	\begin{pmatrix}
-		0 \\ u^{(1)}_{2,\downarrow} 
-	\end{pmatrix},
-	\label{eq:leading_to_first_orthogonality}
-\end{equation}
-which directly implies the orthogonality of
-$\bs v_1^{(2)}$ and $\bs v_{2}^{(2)}$,
-for any unitary $\mathcal C_2$.
-More explicitly, the amplitudes of $\ket*{\Psi^{(2)}}$ satisfy the conditions
-\begin{subequations}
-	\begin{align}
-		u^{(2)}_{1, \downarrow} = u^{(2)}_{3, \uparrow} = 0,
-		\label{eq:vanishing_endpoints_after_2steps}\\
-		u^{(2)*}_{1, \uparrow} u^{(2)}_{2, \uparrow}
-		+ u^{(2)*}_{2, \downarrow} u^{(2)}_{3, \downarrow} = 0.
-		\label{eq:1st_orthogonality_condition}
-	\end{align}
-	\label[pluralequation]{eq:both_2ndstep_conditions}
-\end{subequations}
-On the other hand, if $\ket\Phi$ is a walker state spanning $3$ sites like $\ket*{\Psi^{(2)}}$, with amplitudes satisfying the above relations,
-then \cref{eq:vanishing_endpoints_after_2steps} ensures that $\ket\Phi$ is output of at least 1 step,
-while \cref{eq:1st_orthogonality_condition} implies the existence of a unitary operator $\mathcal C_2$ and complex numbers $a$ and $b$ such that
-\begin{equation}
-	\begin{pmatrix}
-		u_{1, \uparrow} \\ u_{2, \downarrow}
-	\end{pmatrix}
-	=
-	\mathcal C_2
-	\begin{pmatrix}
-		a \\ 0
-	\end{pmatrix},
-	\qquad
-	\begin{pmatrix}
-		u_{2, \uparrow} \\ u_{3, \downarrow}
-	\end{pmatrix}
-	=
-	\mathcal C_2
-	\begin{pmatrix}
-		0 \\ b
-	\end{pmatrix}.
-	\label{eq:from_us_to_coin_operator}
-\end{equation}
-Note that, for fixed values of the final amplitudes $u_{i,s}$, the coin operator $\mathcal C_2$ (and consequently the amplitudes $a$ and $b$) is determined up to two phases.
-In other words, for any $\mathcal C_2$ satisfying \cref{eq:from_us_to_coin_operator}, the matrix
-$\mathcal C_2 \begin{pmatrix}
-	e^{i\theta_1} & 0 \\ 0 & e^{i\theta_2}
-\end{pmatrix}$
-is another possible coin operator generating $\ket\Phi$, corresponding to the extremal amplitudes at the previous step $e^{-i\theta_1}a$ and $e^{-i\theta_2}b$.
-Given that quantum states are always defined up to a global phase, this implies that the only freedom in the choice of the coin operator is in the phase difference between the two columns.
-A step backwards with coin operator $\mathcal C_2$ will then produce a state $\ket{\Phi'} = \mathcal{W}_{\mathcal C_2}^{-1}\ket\Phi$ which satisfies
+The orthogonality condition characterising $\Psi$ then becomes
 $
-\braket{1, \downarrow}{\Phi'} =
-\braket{n, \uparrow}{\Phi'} = 0
-$,
-and is therefore itself the output of a step of quantum walk evolution.
+    \bs v_1^\dagger \bs v_{n+1} \equiv \langle \bs v_1, \bs v_{n+1}\rangle = 0,
+$
+which, together with~\cref{sec:qw_1step_reachability}, gives the following two explicit conditions:
+% \begin{subequations}
+% 	\begin{align}
+% 		u^{(2)}_{1, \downarrow} = u^{(2)}_{3, \uparrow} = 0,
+% 		\label{eq:vanishing_endpoints_after_2steps}\\
+% 		u^{(2)*}_{1, \uparrow} u^{(2)}_{2, \uparrow}
+% 		+ u^{(2)*}_{2, \downarrow} u^{(2)}_{3, \downarrow} = 0.
+% 		\label{eq:1st_orthogonality_condition}
+% 	\end{align}
+% 	\label[pluralequation]{eq:both_2ndstep_conditions}
+% \end{subequations}
+\begin{subequations}
+ 	% \label[pluralequation]{eq:both_2ndstep_conditions}
+    \label{eq:qw_both_2ndstep_conditions}
+    \begin{align}
+        \Psi_{1,\downarrow} = \Psi_{n+2,\uparrow} = 0,
+ 		\label{eq:qw_vanishing_endpoints_after_2steps}\\
+        \bar\Psi_{1,\uparrow} \Psi_{n+1,\uparrow} + 
+        \bar\Psi_{2,\downarrow} \Psi_{n+2,\downarrow} = 0
+ 		\label{eq:qw_1st_orthogonality_condition}
+    \end{align}
+\end{subequations}
+
+Suppose now that $\ket\Phi$ is a state, spanning $n+2$ sites, and whose amplitudes satisfy~\cref{eq:qw_both_2ndstep_conditions}.
+Let $\ket*{\Phi^{(-1)}}$ be such that $\calW_{\calC_2}\ket*{\Phi^{(-1)}}$ for some $\calC_2$.
+Then~\cref{eq:qw_1st_orthogonality_condition}, remembering~\cref{eq:qw_dynamics_on_single_positions}, implies that
+$(\Phi^{(-1)}_{1,\uparrow},\Phi^{(-1)}_{1,\downarrow})^T$
+is orthogonal to
+$(\Phi^{(-1)}_{n+1,\uparrow},\Phi^{(-1)}_{n+1,\downarrow})^T$.
+However, we want $\ket\Phi$ to be the output of \textit{two} steps, which means that we need $\ket*{\Phi^{(-1)}}$ to be a viable output of a single step. As per our conclusions from~\cref{sec:qw_1step_reachability}, $\ket*{\Phi^{(-1)}}$ must therefore have the form~\cref{eq:qw_matrix_notation_vanishing_endpoints}, which then forces the coin $\calC_2$ to be such that
+\begin{equation}
+    \begin{pmatrix}
+        \Psi_{1,\uparrow} \\ \Psi_{2,\downarrow}
+    \end{pmatrix} =
+    \calC_2 \begin{pmatrix}
+        a \\ 0
+    \end{pmatrix},
+    \qquad
+    \begin{pmatrix}
+        \Psi_{n,\uparrow} \\ \Psi_{n+1,\downarrow}
+    \end{pmatrix} =
+    \calC_2 \begin{pmatrix}
+        0 \\ b
+    \end{pmatrix}.
+\end{equation}
+Basic linear algebra then tells us that $\calC_2$ is forced to have the form
+\begin{equation}
+    \calC_2 = \begin{pmatrix}
+        N_1 \Psi_{1,\uparrow} & N_2 e^{i\theta} \Psi_{n,\uparrow} \\
+        N_1 \Psi_{2,\downarrow} & N_2 e^{i\theta} \Psi_{n+1,\downarrow}
+    \end{pmatrix},
+    \label{eq:qw_coin_twosteps}
+\end{equation}
+where $N_1, N_2$ are normalisation constants to make the columns normalised, and $\theta\in\RR$ is an arbitrary phase.
+It is worth noting that an additional phase factor could be added on the first column, but this would not make any difference to the physics, as it would amount to a global phase added to the unitary. In other words,~\cref{eq:qw_coin_twosteps} determines an element of $\mathbf{U}(2)$ only up to its determinant\footnote{A more precise version of this statement is to say that we are determining the coins as elements of the quotient space $\mathbf{U}(2)/\mathbf U(1)\simeq\mathbf{SU}(2)$, in which matrices differing only by a multiplicative phase (equivalently, unitaries with different determinants), are considered as identical.}.
+This choice of $\calC_2$ makes $\ket*{\Phi^{(-1)}}=\calW_{\calC_2}^{-1}\ket\Phi$ a possible outcome of a single step of \ac{QW} evolution.
+Then, as per~\cref{sec:qw_1step_reachability}, for any choice of $\calC_1$ we have that
+$\calW_{\calC_1}^{-1}\calW_{\calC_2}^{-1}\ket\Phi$
+is a state which after two steps produces the target $\ket\Phi$.
+
 
 \subsection{3-step reachability conditions}
 \label{sec:3step_reachability}
