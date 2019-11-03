@@ -79,20 +79,6 @@ While for 2-dimensional coin states and initial states spanning a single positio
 \end{figure}
 
 An observation which will prove useful later \highlight{(where exactly?)} is that we can equivalently define $\calS$ and $\calW_\calC$ via the relations
-% \begin{equation}
-% \begin{cases}
-%     \calS\ket{k,\uparrow} &= \ket{k,\uparrow}, \\
-%     \calS\ket{k,\downarrow} &= \ket{k+1, \downarrow},
-% \end{cases}
-% \end{equation}
-% and a step operator $\calW_{\calC}$ via
-% \begin{equation}
-% \begin{cases}
-%     \calW_\calC\ket{k,\uparrow} &= c_{00} \ket{k,\uparrow} + c_{10} \ket{k+ 1,\downarrow}, \\
-%     \calW_\calC\ket{k,\downarrow} &= c_{01}\ket{k, \uparrow} + c_{11} \ket{k+1, \downarrow},
-% \end{cases}
-% \end{equation}
-
 \begin{equation}
 \begin{cases}
     \calS\ket{k,\uparrow} &= \ket{k,\uparrow}, \\
@@ -120,7 +106,6 @@ Then,
     \qquad \forall k=1,...,n.
     \label{eq:qw_dynamics_on_single_positions}
 \end{equation}
-
 Finally, an alternative way to represent states in $\calHwalker\otimes\calHcoin$ spanning $N$ sites is via $N\times 2$ matrices, in which each row represents the amplitudes associated with a specific site, and each column the set of amplitudes associated with a specific coin state. 
 We thus write $\ket\Psi$ as the $n\times2$ matrix
 \begin{equation}
@@ -431,138 +416,232 @@ the vanishing of the extremal amplitudes, $\bs v_1^{\dagger} \bs v_{n+2} = 0$, a
 
 \subsection{Generalised reachability conditions}
 \label{sec:qw_reachability_conditions}
+
 We analyse here the generalisation of the conditions derived in~\cref{sec:qw_1step_reachability,sec:qw_2step_reachability,sec:qw_3step_reachability}.
 Let $\ket\Psi$ be a state spanning $n+m$ sites, which is the output of at least $m$ steps of quantum walk evolution, so that
 \begin{equation}
 	\ket\Psi =
-	\calW_{\calC_{n}} \calW_{\calC_{n-1}} ... \calW_{\calC_{1}}
+	\calW_{\calC_{m}} \calW_{\calC_{m-1}} ... \calW_{\calC_{1}}
     \ket{\Psi^{(0)}},
 	\label{eq:qw_starting_point}
 \end{equation}
 for some set of coin operators $\{\calC_i \}$ and initial state $\ket{\Psi^{(0)}}$.
 Here, $\ket{\Psi^{(0)}}$ is an arbitrary state spanning $n$ positions (and which in particular is not required to satisfy any reachability condition of its own).
 We want to show that, for any set of coin operators $\{\calC_i \}$, \cref{eq:qw_starting_point} implies that the amplitudes of $\ket\Psi$ satisfy the following conditions:
-\par\highlight{FIX FROM HEREEEE}\par
 % \begin{equation}
 \begin{gather}
 	\Psi_{1,\downarrow} = \Psi_{n+m, \uparrow} = 0,
-	\label{eq:vanishing_amplitudes}
+    \label{eq:qw_vanishing_amplitudes}
 	\\
-	\sum_{i=1}^s \bs v_i^\dagger \bs v_{m-s+i} = 0,
-	\text{ for } s=1,..., n-1,
-	\label{eq:orthogonality_conditions_for_vs}
+    \sum_{i=1}^s \bs v_i^\dagger \bs v_{m+n-(s+1)+i} = 0,
+	\text{ for } s=1,\ldots, m-1,
+	\label{eq:qw_orthogonality_conditions_for_vs}
 \end{gather}
-where $\bs v_{i}$ is defined as
-\begin{equation*}
-	\bs v_i =
-	\begin{pmatrix}
-		u_{i,\uparrow} \\ u_{i+1, \downarrow}
-	\end{pmatrix}.
-\end{equation*}
+where $\bs v_{i}$ is again defined as
+% \begin{equation*}
+% 	\bs v_i \equiv
+% 	\begin{pmatrix}
+% 		\Psi_{i,\uparrow} \\ \Psi_{i+1, \downarrow}
+% 	\end{pmatrix}.
+% \end{equation*}
 % \end{equation}
-The cases $n=2$ and $n=3$ were explicitly computed in~\cref{sec:qw_reachability},
-so let us assume the statement to be true for $n$ and show that this implies it for $n+1$.
+$\bs v_i \equiv (\Psi_{i,\uparrow}, \Psi_{i+1, \downarrow})^T$.
+The cases $m=2$ and $m=3$ were worked out in~\cref{sec:qw_2step_reachability,sec:qw_3step_reachability},
+so let us assume the statement to be true for $m$ and show that this implies it for $m+1$.
 The main idea is to see how each one of the equations in \cref{eq:qw_orthogonality_conditions_for_vs} transforms after one step.
-Let us denote the amplitudes after one step with $u'_{i,\alpha}$.
-The relation between primed and unprimed amplitudes is therefore given by
+Denote the amplitudes after a single step with $\Psi'_{i,\alpha}$.
+The relation between primed and unprimed amplitudes is then
 \begin{equation*}
 	\bs v_i^\prime
 	= \mathcal C
 	\begin{pmatrix}
-		u_{i,\uparrow} \\ u_{i, \downarrow}
+		\Psi_{i,\uparrow} \\ \Psi_{i, \downarrow}
 	\end{pmatrix},
-	\text{ for every }
-	i = 1, ..., m,
+	\text{ for each }
+	i = 1, \dots, m,
 	% \label{eq:evolution_amplitudes}
 \end{equation*}
-for some unitary coin operator $\mathcal C$,
-with $\bs v'_i \equiv (u_{i,\uparrow}',u_{i+1,\downarrow}')$.
-This directly implies that for any $i, j$,
+for some unitary $\calC$,
+where $\bs v'_i \equiv (\Psi_{i,\uparrow}',\Psi_{i+1,\downarrow}')^T$.
+This directly implies, for all $i, j$,
 \begin{equation}
 	\begin{pmatrix}
-		u_{i, \uparrow}^* & u_{i, \downarrow}^*
+		\bar\Psi_{i, \uparrow} & \bar\Psi_{i, \downarrow}
 	\end{pmatrix}
 	\begin{pmatrix}
-		u_{j, \uparrow} \\ u_{j, \downarrow}
+		\Psi_{j, \uparrow} \\ \Psi_{j, \downarrow}
 	\end{pmatrix}
 	=
 	\bs v^{\prime\dagger}_{i} \cdot \bs v^\prime_j.
-	\label{eq:transition_us_to_vprimes}
+    \label{eq:qw_transition_us_to_vprimes}
 \end{equation}
-Consider then the $s$-th term in \cref{eq:orthogonality_conditions_for_vs}:
+The $s$-th term in \cref{eq:qw_orthogonality_conditions_for_vs} then becomes:
 \begin{equation*}
-	\bs v_1^\dagger \bs v_{m-s+1}
-	+ \bs v_2^\dagger \bs v_{m-s+2}
+	\bs v_1^\dagger \bs v_{m+n-s}
+	+ \bs v_2^\dagger \bs v_{m+n-s+1}
 	+ ...
-	+ \bs v_{s-1}^\dagger \bs v_{m-1}
-	+ \bs v_s^\dagger \bs v_m = 0.
+	+ \bs v_{s-1}^\dagger \bs v_{m+n-2}
+    + \bs v_s^\dagger \bs v_{m+n-1} = 0.
 \end{equation*}
-Rewriting the LHS of the equation above in terms of the amplitudes, rearranging the terms, and remembering that $u_{1, \downarrow} = u_{m+1, \uparrow} = 0$, we get
-{\footnotesize\begin{equation*}
+Rewriting the LHS of the equation above in terms of the amplitudes, rearranging the terms, and remembering that $\Psi_{1, \downarrow} = \Psi_{m+n, \uparrow} = 0$, we get
+\begin{equation*}
 \begin{aligned}
 	\begin{pmatrix}
-		u_{1, \uparrow}^* & u_{1, \downarrow}^*
+		\Psi_{1, \uparrow}^* & \Psi_{1, \downarrow}^*
 	\end{pmatrix}
 	\begin{pmatrix}
-		u_{m-s+1, \uparrow} \\ u_{m-s+1, \downarrow}
+		\Psi_{m+n-s, \uparrow} \\ \Psi_{m+n-s, \downarrow}
 	\end{pmatrix}
 	+
 	\begin{pmatrix}
-		u_{2, \uparrow}^* & u_{2, \downarrow}^*
+		\Psi_{2, \uparrow}^* & \Psi_{2, \downarrow}^*
 	\end{pmatrix}
 	\begin{pmatrix}
-		u_{m-s+2, \uparrow} \\ u_{m-s+2, \downarrow}
+		\Psi_{m+n-s+1, \uparrow} \\ \Psi_{m+n-s+1, \downarrow}
 	\end{pmatrix} \\
-	+ ... + 
+	+ \cdots + 
 	\begin{pmatrix}
-		u_{s, \uparrow}^* & u_{s, \downarrow}^*
+		\Psi_{s, \uparrow}^* & \Psi_{s, \downarrow}^*
 	\end{pmatrix}
 	\begin{pmatrix}
-		u_{m, \uparrow} \\ u_{m, \downarrow}
+		\Psi_{m+n-1, \uparrow} \\ \Psi_{m+n-1, \downarrow}
 	\end{pmatrix}
 	+
 	\begin{pmatrix}
-		u_{s+1, \uparrow}^* & u_{s+1, \downarrow}^*
+		\Psi_{s+1, \uparrow}^* & \Psi_{s+1, \downarrow}^*
 	\end{pmatrix}
 	\begin{pmatrix}
-		u_{m+1, \uparrow} \\ u_{m+1, \downarrow}
+		\Psi_{m+n, \uparrow} \\ \Psi_{m+n, \downarrow}
 	\end{pmatrix}.
 \end{aligned}
-\end{equation*}}
-Using \cref{eq:transition_us_to_vprimes} the above becomes
+\end{equation*}
+Using \cref{eq:qw_transition_us_to_vprimes} the above becomes
 \begin{equation*}
-	\bs v^{\prime\dagger}_1 \bs v^\prime_{m-s+1} +
-	\bs v^{\prime\dagger}_2 \bs v^\prime_{m-s+2} +
+	\bs v^{\prime\dagger}_1 \bs v^\prime_{m+n-s} +
+	\bs v^{\prime\dagger}_2 \bs v^\prime_{m+n-s+1} +
 	... +
-	\bs v^{\prime\dagger}_s \bs v^\prime_m +
-	\bs v^{\prime\dagger}_{s+1} \bs v^\prime_{m+1},
+    \bs v^{\prime\dagger}_{s} \bs v^\prime_{m+n-1} +
+	\bs v^{\prime\dagger}_{s+1} \bs v^\prime_{m+n},
 \end{equation*}
 or, equivalently,
-$\displaystyle
-	\sum_{i=1}^{s+1} \bs v^{\prime\dagger}_i \bs v^\prime_{m-s+i}.
-$
-This proves that
-% \begin{equation}
-$
-	% \ket\Phi =
-	\mathcal W_{\mathcal C}\mathcal W_{\mathcal C_1} \cdots \mathcal W_{\mathcal C_{n}}
-	\ket{\Phi_{in}}
-$
-% \end{equation}
-satisfies the set of $n-1$ constraints:
-\begin{equation}
-	\sum_{i=1}^{s}
-	\bs v^{\prime\dagger}_i
-	\bs v^\prime_{(m+1)-s+i} = 0,
-	\text{ for }
-	s = 2,...,n.
-	\label{eq:general_orthogonality_almost_finished}
-\end{equation}
-To complete the proof, we only miss to show that \cref{eq:general_orthogonality_almost_finished} also holds for $s=1$, that is, that
-$\bs v^{\prime\dagger}_1 \bs v^\prime_m = 0$.
-But this follows immediately from the vanishing amplitudes of $\ket\Phi$ at first and $m$-th site, as already shown in~\cref{sec:2step_reachability}.
+$\displaystyle \sum_{i=1}^{s+1} \bs v^{\prime\dagger}_i \bs v^\prime_{m+n-(s+1)+i}=0$
+for $s=1,\dots,m-1$.
 
-\subsection{\texorpdfstring{$n$-step}{n-step} reachability conditions}
+\begin{figure}[tbh]
+    \centering
+    \begin{equation*}
+    \begin{pmatrix}
+    \textcolor[rgb]{0.82,0.01,0.11}{\Psi _{1,\uparrow }} & 0\\
+    \textcolor[rgb]{0.96,0.65,0.14}{\Psi _{2,\uparrow }} & \textcolor[rgb]{0.96,0.65,0.14}{\Psi }\textcolor[rgb]{0.96,0.65,0.14}{_{2,\downarrow }}\\
+    \textcolor[rgb]{0.55,0.34,0.16}{\Psi _{3,\uparrow }} & \textcolor[rgb]{0.55,0.34,0.16}{\Psi }\textcolor[rgb]{0.55,0.34,0.16}{_{3,\downarrow }}\\
+    \vdots  & \vdots \\
+    \textcolor[rgb]{0.25,0.46,0.02}{\Psi _{m+n-1,\uparrow }} & \textcolor[rgb]{0.25,0.46,0.02}{\Psi }\textcolor[rgb]{0.25,0.46,0.02}{_{m+n-1,\downarrow }}\\
+    0 & \textcolor[rgb]{0.56,0.07,1}{\Psi }\textcolor[rgb]{0.56,0.07,1}{_{m+n,\downarrow }}
+    \end{pmatrix}\rightarrow \begin{pmatrix}
+    \textcolor[rgb]{0.82,0.01,0.11}{\Psi '}\textcolor[rgb]{0.82,0.01,0.11}{_{1,\uparrow }} & 0\\
+    \textcolor[rgb]{0.96,0.65,0.14}{\Psi '}\textcolor[rgb]{0.96,0.65,0.14}{_{2,\uparrow }} & \textcolor[rgb]{0.82,0.01,0.11}{\Psi '}\textcolor[rgb]{0.82,0.01,0.11}{_{2,\downarrow }}\\
+    \vdots  & \textcolor[rgb]{0.96,0.65,0.14}{\Psi '}\textcolor[rgb]{0.96,0.65,0.14}{_{3,\downarrow }}\\
+    \vdots  & \vdots \\
+    \textcolor[rgb]{0.25,0.46,0.02}{\Psi '}\textcolor[rgb]{0.25,0.46,0.02}{_{m+n-1,\uparrow }} & \vdots \\
+    \textcolor[rgb]{0.56,0.07,1}{\Psi '}\textcolor[rgb]{0.56,0.07,1}{_{m+n,\uparrow }} & \textcolor[rgb]{0.25,0.46,0.02}{\Psi '}\textcolor[rgb]{0.25,0.46,0.02}{_{m+n,\downarrow }}\\
+    0 & \textcolor[rgb]{0.56,0.07,1}{\Psi '}\textcolor[rgb]{0.56,0.07,1}{_{m+n+1,\downarrow }}
+    \end{pmatrix}
+    \end{equation*}
+    \caption{
+        Visualisation of relations between $\ket\Psi$ and $\ket{\Psi'}\equiv\calW_\calC\ket\Psi$ as used in~\cref{sec:qw_reachability_conditions}. The different colors correspond to pairs of amplitudes which are connected to one another via $\calC$, as per~\cref{eq:qw_dynamics_on_single_positions}.
+    }
+    \label{fig:qw_visualisation_PsiVsPsip}
+\end{figure}
+
+This proves that, given $\ket\Psi$ satisfying~\cref{eq:qw_orthogonality_conditions_for_vs}, any state of the form $\ket{\Psi'}=\calW_\calC\ket\Psi$ satisfies the $m-1$ constraints:
+\begin{equation}
+    \sum_{i=1}^{s} \bs v^{\prime\dagger}_i \bs v^\prime_{(m+1)+n-(s+1)+i}=0
+	\text{ for }
+	s = 2,...,m,
+	\label{eq:qw_general_orthogonality_almost_finished}
+\end{equation}
+which we can recognise as equivalent to~\cref{eq:qw_orthogonality_conditions_for_vs} with $m\to m+1$, except for the $s=1$ condition, which amounts to $\bs v_1^{\prime\dagger}\bs v'_{(m+1)+n-1}=0$.
+This condition follows however directly following the analysis in~\cref{sec:qw_2step_reachability}, and thus the induction step is concluded.
+
+\begin{example}[label=ex:qw_conditions_few_steps]
+    To illustrate how the derived conditions work, consider an example with initial state
+    \begin{equation}
+        \ket{\Psi^{(0)}} = \frac{1}{\sqrt4} (
+        \ket{1,0} + \ket{2,+} + \ket{3, -} + \ket{4, 1}
+        ).
+    \end{equation}
+    Let $\calC_1=H$, with $H$ the Hadamard matrix, which satisfies
+    \begin{equation}
+        H\ket0=\ket+, \quad H\ket1=\ket-,
+        \quad H\ket+=\ket0, \quad H\ket-=\ket1.
+    \end{equation}
+    Follow the matrix notation introduced in~\cref{eq:qw_matrix_notation}, we have
+    \begin{equation}
+        \ket{\Psi} \simeq
+        \frac{1}{\sqrt4}
+        \begin{pmatrix}
+            1 & 0 \\
+            1/\sqrt2 & 1/\sqrt2 \\
+            1/\sqrt2 & -1/\sqrt2 \\
+            0 & 1
+        \end{pmatrix}
+    \end{equation}
+    Because this state satisfies the conditions given in~\cref{sec:qw_1step_reachability} about the vanishing endpoints, $\Psi_{1,\downarrow}=\Psi_{4,\uparrow}=0$, we know that this is a possible output of a single step. On the other hand, it does not satisfy the conditions given in~\cref{sec:qw_2step_reachability} to be the output of \textit{two} steps.
+    Consider then the evolved state $\ket{\Psi'}\equiv\calW_{\calC_1}$. In matrix notation, this will be
+    \begin{equation}
+        \ket{\Psi'} =
+        \frac{1}{\sqrt4}
+        \begin{pmatrix}
+            1/\sqrt2 & 0 \\
+            1 & 1/\sqrt2 \\ 
+            0 & 0 \\
+            1/\sqrt2 & 1 \\
+            0 & -1/\sqrt2
+        \end{pmatrix}.
+    \end{equation}
+    The vectors $\bs v'$ then equal $\bs v'_1=(1/\sqrt2, 1/\sqrt2)$ and
+    $\bs v'_4=(1/\sqrt2, -1/\sqrt2)$,
+    which are clearly orthogonal, again consistently with $\ket{\Psi'}$ being output of two steps.
+    Let us consider an additional step, with coin $\calC_2=\frac{1}{\sqrt2}(X+Y)$.
+    Writing the output with $\ket{\Psi''}=\calW_{\calC_2}\ket{\Psi'}$, we have
+    \begin{equation}
+        \ket{\Psi''} = \frac{1}{4}
+        \begin{pmatrix}
+            \sqrt2 & 0 \\
+            2 + i\sqrt2 & i\sqrt2 \\
+            0 & \sqrt2 + 2i \\
+            \sqrt2 + 2i & 0 \\
+            -i\sqrt2 & 2 + i\sqrt2 \\
+            0 & -\sqrt2
+        \end{pmatrix}.
+    \end{equation}
+    The relevant $\bs v''$ vectors are for this state
+    \begin{equation}
+    \begin{aligned}
+        &\bs v''_1 = \frac{\sqrt2}{4}\begin{pmatrix} 1 \\ i \end{pmatrix},
+        &&\bs v''_2 = \frac{\sqrt2}{4}\begin{pmatrix} \sqrt2 + i \\ 1 + i\sqrt2 \end{pmatrix}, \\
+        &\bs v''_5 = \frac{\sqrt2}{4}\begin{pmatrix} 1 + i\sqrt2\\ \sqrt2 + i \end{pmatrix},
+        &&\bs v''_6 = \frac{\sqrt2}{4}\begin{pmatrix} -i \\ -1 \end{pmatrix},
+    \end{aligned}
+    \end{equation}
+    It is then straightforward to verify that
+    $\bs v_1^{\prime\prime\dagger}\bs v_6'' = 0$.
+    Furthermore,
+    $\bs v_1^{\prime\prime\dagger}\bs v_5'' = 1/4$
+    and $\bs v_2^{\prime\prime\dagger}\bs v_6'' = -1/4$,
+    thus 
+    $\bs v_1^{\prime\prime\dagger}\bs v_5'' + \bs v_2^{\prime\prime\dagger}\bs v_6'' = 0$,
+    again consistently with the results of~\cref{sec:qw_3step_reachability}.
+\end{example}
+
+\subsection{Starting on single site}
+\label{sec:qw_starting_on_single_site}
+
+While the results of~\cref{sec:qw_reachability_conditions} hold for arbitrary initial states, in the following we will restrict to the special condition of initial states of the form $\ket{1,\alpha}$, that is, with a fixed initial position.
+In this section, we will specialise the conditions to this special case.
+
+
+
 The same technique used in the above sections, applied iteratively, leads to the following set of conditions characterising the amplitudes of a $\ket*{\Psi}$ output of $n$ steps:
 \begin{equation}
 	\sum_{i=1}^s \bs v_i^{(n)\dagger} \bs v^{(n)}_{n-s+i} = 0,
