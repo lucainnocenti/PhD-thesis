@@ -602,7 +602,7 @@ This condition follows however directly following the analysis in~\cref{sec:qw_2
     The vectors $\bs v'$ then equal $\bs v'_1=(1/\sqrt2, 1/\sqrt2)$ and
     $\bs v'_4=(1/\sqrt2, -1/\sqrt2)$,
     which are clearly orthogonal, again consistently with $\ket{\Psi'}$ being output of two steps.
-    Let us consider an additional step, with coin $\calC_2=\frac{1}{\sqrt2}(X+Y)$.
+    Let us consider an additional step, with coin $\calC_2=\frac{1}{\sqrt2}(I + iX)$.
     Writing the output with $\ket{\Psi''}=\calW_{\calC_2}\ket{\Psi'}$, we have
     \begin{equation}
         \ket{\Psi''} = \frac{1}{4}
@@ -620,18 +620,29 @@ This condition follows however directly following the analysis in~\cref{sec:qw_2
     \begin{aligned}
         &\bs v''_1 = \frac{\sqrt2}{4}\begin{pmatrix} 1 \\ i \end{pmatrix},
         &&\bs v''_2 = \frac{\sqrt2}{4}\begin{pmatrix} \sqrt2 + i \\ 1 + i\sqrt2 \end{pmatrix}, \\
-        &\bs v''_5 = \frac{\sqrt2}{4}\begin{pmatrix} 1 + i\sqrt2\\ \sqrt2 + i \end{pmatrix},
-        &&\bs v''_6 = \frac{\sqrt2}{4}\begin{pmatrix} -i \\ -1 \end{pmatrix},
+        &\bs v''_4 = \frac{\sqrt2}{4}\begin{pmatrix} 1 + i\sqrt2\\ \sqrt2 + i \end{pmatrix},
+        &&\bs v''_5 = \frac{\sqrt2}{4}\begin{pmatrix} -i \\ -1 \end{pmatrix},
     \end{aligned}
     \end{equation}
     It is then straightforward to verify that
-    $\bs v_1^{\prime\prime\dagger}\bs v_6'' = 0$.
+    $\bs v_1^{\prime\prime\dagger}\bs v_5'' = 0$.
     Furthermore,
-    $\bs v_1^{\prime\prime\dagger}\bs v_5'' = 1/4$
-    and $\bs v_2^{\prime\prime\dagger}\bs v_6'' = -1/4$,
+    $\bs v_1^{\prime\prime\dagger}\bs v_4'' = 1/4$
+    and $\bs v_2^{\prime\prime\dagger}\bs v_5'' = -1/4$,
     thus 
-    $\bs v_1^{\prime\prime\dagger}\bs v_5'' + \bs v_2^{\prime\prime\dagger}\bs v_6'' = 0$,
+    $\bs v_1^{\prime\prime\dagger}\bs v_4'' + \bs v_2^{\prime\prime\dagger}\bs v_5'' = 0$,
     again consistently with the results of~\cref{sec:qw_3step_reachability}.
+    As a last remark, let us show how we would go in recovering the coin operators generating $\ket{\Psi''}$, assuming we are only given this state without further knowledge.
+    The idea behind such reconstruction is to observe that if $\calC$ is such that $\calW_{\calC}\ket{\Phi}=\ket{\Psi''}$ for some $\ket\Phi$, then $\calC^\dagger \bs v_1''\simeq(1,0)^T$ and $\calC^\dagger \bs v_5''\simeq(0,1)^T$, and thus
+    \begin{equation}
+        \calC = \begin{pmatrix}
+            N_1 \bs v_1'' & N_2 e^{i\phi} \bs v_5''
+        \end{pmatrix} = \frac{1}{\sqrt2}
+        \begin{pmatrix}
+            1 & e^{i\phi}i \\
+            i & e^{i\phi}1
+        \end{pmatrix}
+    \end{equation}
 \end{example}
 
 \subsection{Starting on single site}
