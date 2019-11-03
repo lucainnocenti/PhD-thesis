@@ -106,7 +106,7 @@ An observation which will prove useful later \highlight{(where exactly?)} is tha
 \end{equation}
 denoting the matrix elements of the coin operator as $(\calC)_{ij}=c_{ij}$.
 We can moreover write more coincisely the combined action of $\calC$ and $\calS$ by focusing on how $\calW$ acts on the single sites.
-To see this, suppose that $\calW_\calC\ket{\Phi'}=\ket{\Phi}$ for some states $\ket{\Phi},\ket{\Phi'}$ and coin operation $\calC$.
+To see this, suppose that $\ket{\Phi}=\calW_\calC\ket{\Phi'}$ for some $\ket{\Phi},\ket{\Phi'}$ and $\calC$.
 Then,
 \begin{equation}
     \begin{pmatrix}
@@ -232,7 +232,7 @@ From~\cref{sec:qw_1step_reachability} we know that $\ket\Psi$ must be such that
 $\Psi_{1,\downarrow}=\Psi_{n+2,\uparrow}=0$.
 However, there is now an additional constraint to be taken into consideration. Namely, $\ket*{\Psi^{(-1)}}\equiv\calW_{\calC_1}\ket*{\Psi^{(-2)}}$ is also subject to the conditions derived in~\cref{sec:qw_1step_reachability}:
 $\Psi^{(-1)}_{1,\downarrow}=\Psi^{(-1)}_{n+1,\uparrow}=0$.
-This constraint reflects on~\cref{eq:qw_dynamics_on_single_positions}, which on the extremal sites now reads:
+This constraint reflects on~\cref{eq:qw_dynamics_on_single_positions}, which on the extremal sites now gives:
 \begin{equation}
     \begin{pmatrix}
         \Psi_{1,\uparrow} \\
@@ -246,9 +246,8 @@ This constraint reflects on~\cref{eq:qw_dynamics_on_single_positions}, which on 
     \calC_1
     \begin{pmatrix}
         \Psi^{(-1)}_{1,\uparrow} \\ 0
-    \end{pmatrix}
+    \end{pmatrix},
 \end{equation}
-and
 \begin{equation}
     \begin{pmatrix}
         \Psi_{n+1,\uparrow} \\
@@ -286,7 +285,7 @@ Let us then define the vectors $\bs v_j$ as:
         \Psi^{(-k)}_{j,\uparrow} \\ \Psi^{(-k)}_{j+1,\downarrow}
     \end{pmatrix}.
 \end{equation}
-The orthogonality condition characterising $\Psi$ then becomes
+The orthogonality condition characterising $\Psi$ becomes
 $
     \bs v_1^\dagger \bs v_{n+1} \equiv \langle \bs v_1, \bs v_{n+1}\rangle = 0,
 $
@@ -352,53 +351,44 @@ is a state which after two steps produces the target $\ket\Phi$.
 
 
 \subsection{3-step reachability conditions}
-\label{sec:3step_reachability}
-Let us now consider the state $\ket*{\Psi^{(3)}} \equiv \mathcal W_{\mathcal C_3} \ket*{\Psi^{(2)}}$.
-The orthogonality relation satisfied by the amplitudes of $\ket*{\Psi^{(2)}}$, that is,
-$\bs v_1^{(2)\dagger} \bs v_2^{(2)} = 0$,
-can be rewritten as
+\label{sec:qw_3step_reachability}
+Let us now consider an output of three steps:
+$\ket*{\Psi} \equiv \calW_{\calC_3}\calW_{\calC_2}\calW_{\calC_1} \ket*{\Psi^{(-3)}}$,
+and assume that this state occupies $n+3$ position modes.
+Then, denoting with
+$\ket*{\Psi^{(-1}} \equiv \calW_{\calC_2}\calW_{\calC_1} \ket*{\Psi^{(-3)}}$
+the state at the previous step, we have that the amplitudes of $\ket*{\Psi^{(-1}}$ must satisfy~\cref{eq:qw_both_2ndstep_conditions}.
+Here, these conditions have the form
+$\bs v_1^{\dagger(-1)} \bs v_{n+1}^{(-1)}$,
+which can be rewritten as
 \begin{equation}
 \begin{gathered}
-	0 =
-	\bs v_1^{(2)\dagger} \bs v_2^{(2)} = 
-	\begin{pmatrix}
-		u^{(2)*}_{1,\uparrow} & u^{(2)*}_{2,\downarrow}
-	\end{pmatrix}
-	\begin{pmatrix}
-		u^{(2)}_{2,\uparrow} \\ u^{(2)}_{3,\downarrow}
-	\end{pmatrix}
+	0 = \bs v_1^{\dagger(-1)} \bs v_{n+1}^{(-1)} = 
+	\begin{pmatrix} \bar\Psi^{(-1)}_{1,\uparrow} & \bar\Psi^{(-1)}_{2,\downarrow} \end{pmatrix}
+	\begin{pmatrix} \Psi^{(-1)}_{n+1,\uparrow} \\ \Psi^{(-1)}_{n+2,\downarrow} \end{pmatrix}
 	\\
 	=
-	\begin{pmatrix}
-		u^{(2)*}_{1,\uparrow} & u^{(2)*}_{1,\downarrow}
-	\end{pmatrix}
-	\begin{pmatrix}
-		u^{(2)}_{2,\uparrow} \\ u^{(2)}_{2,\downarrow}
-	\end{pmatrix}
-	+
-	\begin{pmatrix}
-		u^{(2)*}_{2,\uparrow} & u^{(2)*}_{2,\downarrow}
-	\end{pmatrix}
-	\begin{pmatrix}
-		u^{(2)}_{3,\uparrow} \\ u^{(2)}_{3,\downarrow}
-	\end{pmatrix},
+	\begin{pmatrix} \bar\Psi^{(-1)}_{1,\uparrow} & \bar\Psi^{(-1)}_{1,\downarrow} \end{pmatrix}
+	\begin{pmatrix} \Psi^{(-1)}_{n+1,\uparrow} \\ \Psi^{(-1)}_{n+1,\downarrow} \end{pmatrix} +
+	\begin{pmatrix} \bar\Psi^{(-1)}_{2,\uparrow} & \bar\Psi^{(-1)}_{2,\downarrow} \end{pmatrix}
+	\begin{pmatrix} \Psi^{(-1)}_{n+2,\uparrow} \\ \Psi^{(-1)}_{n+2,\downarrow} \end{pmatrix},
 \end{gathered}
 \end{equation}
 where we used
-$u^{(2)}_{1,\downarrow} = u^{(2)}_{3,\uparrow} = 0$.
-Applying \cref{eq:evolution_equation_with_C} on the above we get
+$\Psi^{(-1)}_{1,\downarrow} = \Psi^{(-1)}_{n+2,\uparrow} = 0$.
+Applying \cref{eq:qw_dynamics_on_single_positions} on the above we get
 \begin{equation}
 \begin{aligned}
-	\bs v_1^{(3)\dagger} \mathcal C_3 \mathcal C_3^{-1} \bs v_2^{(3)} +
-	\bs v_2^{(3)\dagger} \mathcal C_3 \mathcal C_3^{-1} \bs v_3^{(3)}
-	\\ =
-	\bs v_1^{(3)\dagger} \bs v_2^{(3)} +
-	\bs v_2^{(3)\dagger} \bs v_3^{(3)} = 0.
+    \bs v_1^{\dagger} \calC_3 \calC_3^\dagger \bs v_{n+1}+
+    \bs v_2^{\dagger} \calC_3 \calC_3^\dagger \bs v_{n+2}  =
+    \bs v_1^{\dagger} \bs v_{n+1} +
+    \bs v_2^{\dagger} \bs v_{n+2} = 0.
 \end{aligned}
-\label{eq:last_condition_for_psi3}
+\label{eq:qw_last_condition_for_psi3}
 \end{equation}
 
 \begin{table}
+\centering
 \begin{tabular}{cc@{\quad}l}
 	\toprule
 	\textbf{State} & \textbf{Occupied sites} & \textbf{Constraints} \\
@@ -429,151 +419,33 @@ Applying \cref{eq:evolution_equation_with_C} on the above we get
 	\bottomrule
 \end{tabular}
 \caption{
-	Summary of the conditions characterizing the states at the various stages of the evolution.
+	Summary of the conditions characterising the states at the various stages of the evolution.
 	For better clarity, we have avoided the use of superscripts on the amplitudes.
 The amplitudes in each row refer to the corresponding state at that step.
-	The conditions shown in the case $\ket*{\Psi^{(n)}}$ hold for all $s=1,..., n-1$, consistently with \cref{eq:general_reachability_conditions}.
+	The conditions shown in the case $\ket*{\Psi^{(n)}}$ hold for all $s=1,..., n-1$, consistently with~\cref{eq:qw_general_reachability_conditions}.
 }
-\label{table:constraints}
+\label{table:qw_constraints}
 \end{table}
-Finally, following a reasoning similar to the one used in the previous section, we conclude that the amplitudes of $\ket*{\Psi^{(3)}}$ satisfy three conditions:
-the vanishing of the extremal amplitudes, $\bs v_1^{(3)\dagger} \bs v_3^{(3)} = 0$, and~\cref{eq:last_condition_for_psi3}.
+Finally, following a reasoning similar to the one used in the previous section, we conclude that the amplitudes of $\ket*{\Psi}$ satisfy three conditions:
+the vanishing of the extremal amplitudes, $\bs v_1^{\dagger} \bs v_{n+2} = 0$, and~\cref{eq:qw_last_condition_for_psi3}.
 
-\subsection{\texorpdfstring{$n$-step}{n-step} reachability conditions}
-The same technique used in the above sections, applied iteratively, leads to the following set of conditions characterizing the amplitudes of $\ket*{\Psi^{(n)}}$:
+\subsection{Generalised reachability conditions}
+\label{sec:qw_reachability_conditions}
+We analyse here the generalisation of the conditions derived in~\cref{sec:qw_1step_reachability,sec:qw_2step_reachability,sec:qw_3step_reachability}.
+Let $\ket\Psi$ be a state spanning $n+m$ sites, which is the output of at least $m$ steps of quantum walk evolution, so that
 \begin{equation}
-	\sum_{i=1}^s \bs v_i^{(n)\dagger} \bs v^{(n)}_{n-s+i} = 0,
-	\text{ for every } s=1,..,n-1,
-	\label{eq:general_reachability_conditions}
+	\ket\Psi =
+	\calW_{\calC_{n}} \calW_{\calC_{n-1}} ... \calW_{\calC_{1}}
+    \ket{\Psi^{(0)}},
+	\label{eq:qw_starting_point}
 \end{equation}
-plus the vanishing conditions on the extremal elements.
-Indeed, if $\ket*{\Psi^{(n)}}$ is the output of $n$ steps, then $\ket*{\Psi^{(n)}} = \mathcal W_{\mathcal C}\ket*{\Psi^{(n-1)}}$ with the amplitudes of $\ket*{\Psi^{(n-1)}}$ satisfying
-$\sum_{i=1}^s \bs v_i^{(n-1)\dagger} \bs v_{(n-1)-s+i}^{(n-1)} = 0$
-for all $s=1,...,n-2$,
-and $u_{1,\downarrow}^{(n-1)} = u_{n, \uparrow}^{(n-1)} = 0$.
-These last two conditions give, following the same reasoning used in~\cref{sec:2step_reachability}, the orthogonality condition $\bs v_1^{(n)\dagger} \bs v_n^{(n)} = 0$.
-On the other hand, the same reasoning used in~\cref{sec:3step_reachability} can be used to derive the $(s+1)$-th equation in~\cref{eq:general_reachability_conditions} from the $s$-th one on $\ket*{\Psi^{(n-1)}}$.
-
-While in the above we considered only the case of a quantum walk in which the initial walker state was $\ket1$, 
-the results hold in the more general case of a generic initial walker state, possibly spanning more than one position.
-Indeed,~\cref{eq:general_reachability_conditions} is equivalent to stating that $\ket*{\Psi^{(n)}}$ is the output of (at least) $n$ steps of quantum walk evolution, \textit{regardless of the initial state}.
-We refer to~\cref{app:reachability_conditions} for a more detailed discussion about this more general case.
-
-In~\cref{table:constraints} we give a summary of the conditions characterizing the states at different steps.
-The total number of (real) degrees of freedom of a walker state after $n$ steps, considering the two vanishing extremal amplitudes, is $4n - 2$.
-Additionally, the set of constraints in \cref{eq:general_reachability_conditions} amounts to $2(n-1)$ real conditions.
-It follows that the space of reachable states $\ket*{\Psi^{(n)}}$ has dimension $2n$, to compare with the number of degrees of freedom of a general state living in the same Hilbert space, that is, $4n + 2$.
-%Note how this is consistent with our finding that when computing the coin operator generating a state, the phase difference between its columns can be freely chosen. Therefore, the number of parameters characterizing all the possible SU(2) coin operators for $n$ steps is $2n$, being each coin operator characterized by only two parameters.
-
-\subsection{Set of coin operators generating a state}
-\label{sec:coin_operators_generating_state}
-We conclude our analysis of the global reachability conditions by remarking that \cref{eq:general_reachability_conditions} completely characterises the set of quantum states reachable after $n$ steps.
-In other words, not only every state that is the result of a quantum walk evolution satisfies it, but also for every state $\ket*{\Phi}$ that satisfies \cref{eq:general_reachability_conditions}, there is a set of coin operators $\{ \mathcal C_i \}_{i=1}^n$ and an initial state $\ket{\Phi_{in}}$ such that
-$\ket\Phi = 
-	\mathcal W_{\mathcal C_n} \cdots \mathcal W_{\mathcal C_1}
-	\ket{\Phi_{in}}$.
-In fact, given the state $\ket\Phi$, this set of coin operators is efficiently computable.
-This was already sketched in a previous section, but we will here give a more detailed and general description of the computation.
-% Let $\ket\Phi$ be a quantum state spanning $n + 1$ sites, with amplitudes satisfying~\cref{eq:general_reachability_conditions}.
-% We want to prove the existence of a set $\{ \mathcal C_i \}_{i=1}^n$ of unitary coin operators such that, for some initial state $\ket{\Phi_{in}}$, we have
-% $\ket\Phi =
-% \mathcal W_{\mathcal C_{n}} \cdots \mathcal W_{\mathcal C_{1}}
-% \ket{\Phi_{in}}.$
-% \begin{equation}
-% 	\ket\Phi =
-% 	\mathcal W_{\mathcal C_{1}} \mathcal W_{\mathcal C_{2}} ... \mathcal W_{\mathcal C_{n}}
-% 	\ket{\Phi_{in}}.
-% \end{equation}
-We start by noting that,
-denoting with $\bs v_i$ the $\bs v$-vectors built from the amplitudes of a generic $\ket{\Phi}$ satisfying~\cref{eq:general_reachability_conditions}, we have $\bs v_1^\dagger \bs v_n = 0$.
-This immediately implies the existence of a $2\times2$ unitary matrix $\calC_n$, and complex numbers $a$ and $b$, such that
-\begin{equation}
-	\bs v_1 = \mathcal C_n
-	\begin{pmatrix} a \\ 0 \end{pmatrix},
-	\qquad
-	\bs v_n = \mathcal C_n
-	\begin{pmatrix} 0 \\ b \end{pmatrix}.
-	\label{eq:equations_giving_C}
-\end{equation}
-The first of the above equations implies that the second row of $\mathcal C_n^{-1}$ is orthogonal to $\bs v_1$, that is,
-% \begin{equation}
-$
-	- c_{21} u_{1, \uparrow} + c_{11} u_{2, \downarrow} = 0.
-$
-This condition is enough, together with the constraint of the columns of a unitary matrix being normalised, to determine the first column of $\mathcal C_n$ up to a phase.
-The orthonormality constraint that $\mathcal C_n$ must satisfy then determines the elements of the second column, again up to a phase.
-This leaves the freedom to choose two different phases for the two columns.
-Finally, remembering that the global phase of $\mathcal C_n$ does not have physical consequences, we conclude that $\mathcal C_n$ is determined up to a phase difference between the two columns.
-More explicitly, the above argument tells us that the coin operators generating a walker state spanning $n+1$ sites are all and only the unitaries of the form
-\begin{equation*}
-\begin{aligned}
-	\mathcal C_n
-	&= N \begin{pmatrix}
-		u_{1,\uparrow} & e^{i\alpha} u_{\makebox[0pt][l]{$\scriptstyle n$}\phantom{n+1},\uparrow} \\
-		u_{2,\downarrow} & e^{i\alpha} u_{n+1,\downarrow}
-	\end{pmatrix} = N \begin{pmatrix}
-		u_{1,\uparrow} & -e^{i\alpha} u_{2,\downarrow}^* \\
-		u_{2,\downarrow} & \phantom{-}e^{i\alpha} u_{1,\uparrow}^*
-	\end{pmatrix},
-\end{aligned}
-\end{equation*}
-with $\alpha$ arbitrary and $N$ normalization constant.
-This coin operator can then be written, using for example the parametrization of~\cite{chandrashekar2008optimizing}, as
-\begin{equation}
-	\mathcal C_n = 
-	\begin{pmatrix}
-		e^{i\xi} \cos\theta &
-		e^{i\zeta} \sin\theta \\
-		-e^{-i\zeta}\sin\theta & e^{-i\xi}\cos\theta
-	\end{pmatrix},
-	\label{eq:su2_coin_matrix}
-\end{equation}
-with $\theta\in [0, \pi/2]$, $\xi$ and $\zeta$ satisfying
-$\tan\theta = \lvert u_{2,\downarrow} \rvert/\lvert u_{1,\uparrow} \rvert$
-and
-$\xi + \zeta \pm \pi = \arg\left(u_{1, \uparrow}/u_{2, \downarrow}\right)$.
-The freedom in $\alpha$ is here translated into the phase difference $\zeta - \xi$ not being uniquely determined.
-More explicitly, when tracing back the evolution of the walker one can at every step write the coin operator as in \cref{eq:su2_coin_matrix} with $\xi \to \xi + \varphi$ and $\zeta \to \zeta - \varphi$ for an arbitrary $\varphi\in \mathbb R$.
-Trivial modifications must be applied to the above formulae when $u_{2,\downarrow} = 0$.
-
-To obtain the coin operators at the previous steps, we use the $\mathcal C_n$ computed above to get the amplitudes of $\mathcal W_{\mathcal C_n}^{-1} \ket\Phi$.
-These amplitudes will again satisfy the orthogonality condition between the $\bs v$-vectors at the first and last sites:
-${\bs v_1^\dagger \bs v_{n-1} = 0}$
-(where now $\bs v_i$ refers to the amplitudes after the $(n-1)$-th step).
-The same argument used above can now be repeated, to compute the coin operator at this step.
-Iterating this procedure we can compute all of the coin operators, with the exception of the first one.
-In fact, the amplitudes after the first step do not satisfy the orthogonality condition like \cref{eq:equations_giving_C} anymore (the only condition on them is the vanishing of the extremal amplitudes), so that the above argument breaks.
-This last (first) coin operator is nevertheless easily solved for by remembering that the only non vanishing amplitudes at this stage of the evolution are $u_{1,\uparrow}$ and $u_{2, \downarrow}$, so that if the initial state is
-${\ket{\Phi_{in}} = u^{(0)}_{1,\uparrow} \ket{1, \uparrow} + u^{(0)}_{1, \downarrow} \ket{1, \downarrow}}$, then the first coin operator must satisfy
-\begin{equation}
-	\begin{pmatrix}
-		u_{1, \uparrow} \\ u_{2,\downarrow}
-	\end{pmatrix}
-	= \mathcal C_1
-	\begin{pmatrix}
-		u^{(0)}_{1, \uparrow} \\ u^{(0)}_{1, \downarrow}
-	\end{pmatrix}.
-\end{equation}
-The values of $u_{1, \uparrow}, u_{2,\downarrow}, u^{(0)}_{1, \uparrow}$ and $u^{(0)}_{1, \downarrow}$ are known, so that this equation is readily solved for the elements of $\mathcal C_1$, for any initial state $\ket{\Phi_{in}}$.
-
-\section{Generalised reachability conditions}
-\label{app:reachability_conditions}
-We here describe a generalised form of the reachability results of~\cref{sec:reachability}.
-In particular, we study the constraints associated to a state $\ket\Phi$ spanning $m+1$ sites, which is the output of at least $n$ steps of quantum walk evolution.
-Note that while in~\cref{sec:reachability} we focused on the common $m=n$ case, we here consider the more general scenario with $m \ge n$.
-Under these assumptions, $\ket\Phi$ is written as: 
-\begin{equation}
-	\ket\Phi =
-	\mathcal W_{\mathcal C_{1}} \mathcal W_{\mathcal C_{2}} ... \mathcal W_{\mathcal C_{n}}
-	\ket{\Phi_{in}},
-	\label{eq:starting_point}
-\end{equation}
-for some set of coin operators $\{\mathcal C_i \}$ and initial state $\ket{\Phi_{in}}$.
-We are here not imposing constraints on the form of $\ket{\Phi_{in}}$, which in particular does not have to satisfy any reachability condition of its own.
-We want to show that, for any set of coin operators $\{\mathcal C_i \}$, \cref{eq:starting_point} implies that the amplitudes of $\ket\Phi$ satisfy the following set of equations:
+for some set of coin operators $\{\calC_i \}$ and initial state $\ket{\Psi^{(0)}}$.
+Here, $\ket{\Psi^{(0)}}$ is an arbitrary state spanning $n$ positions (and which in particular is not required to satisfy any reachability condition of its own).
+We want to show that, for any set of coin operators $\{\calC_i \}$, \cref{eq:qw_starting_point} implies that the amplitudes of $\ket\Psi$ satisfy the following conditions:
+\par\highlight{FIX FROM HEREEEE}\par
 % \begin{equation}
 \begin{gather}
-	u_{1,\downarrow} = u_{m+1, \uparrow} = 0,
+	\Psi_{1,\downarrow} = \Psi_{n+m, \uparrow} = 0,
 	\label{eq:vanishing_amplitudes}
 	\\
 	\sum_{i=1}^s \bs v_i^\dagger \bs v_{m-s+i} = 0,
@@ -588,9 +460,9 @@ where $\bs v_{i}$ is defined as
 	\end{pmatrix}.
 \end{equation*}
 % \end{equation}
-The cases $n=2$ and $n=3$ were explicitly computed in~\cref{sec:reachability},
+The cases $n=2$ and $n=3$ were explicitly computed in~\cref{sec:qw_reachability},
 so let us assume the statement to be true for $n$ and show that this implies it for $n+1$.
-The main idea is to see how each one of the equations in \cref{eq:orthogonality_conditions_for_vs} transforms after one step.
+The main idea is to see how each one of the equations in \cref{eq:qw_orthogonality_conditions_for_vs} transforms after one step.
 Let us denote the amplitudes after one step with $u'_{i,\alpha}$.
 The relation between primed and unprimed amplitudes is therefore given by
 \begin{equation*}
@@ -689,6 +561,124 @@ satisfies the set of $n-1$ constraints:
 To complete the proof, we only miss to show that \cref{eq:general_orthogonality_almost_finished} also holds for $s=1$, that is, that
 $\bs v^{\prime\dagger}_1 \bs v^\prime_m = 0$.
 But this follows immediately from the vanishing amplitudes of $\ket\Phi$ at first and $m$-th site, as already shown in~\cref{sec:2step_reachability}.
+
+\subsection{\texorpdfstring{$n$-step}{n-step} reachability conditions}
+The same technique used in the above sections, applied iteratively, leads to the following set of conditions characterising the amplitudes of a $\ket*{\Psi}$ output of $n$ steps:
+\begin{equation}
+	\sum_{i=1}^s \bs v_i^{(n)\dagger} \bs v^{(n)}_{n-s+i} = 0,
+	\text{ for every } s=1,..,n-1,
+	\label{eq:qw_general_reachability_conditions}
+\end{equation}
+plus the vanishing conditions on the extremal elements.
+Indeed, if $\ket*{\Psi^{(n)}}$ is the output of $n$ steps, then $\ket*{\Psi^{(n)}} = \mathcal W_{\mathcal C}\ket*{\Psi^{(n-1)}}$ with the amplitudes of $\ket*{\Psi^{(n-1)}}$ satisfying
+$\sum_{i=1}^s \bs v_i^{(n-1)\dagger} \bs v_{(n-1)-s+i}^{(n-1)} = 0$
+for all $s=1,...,n-2$,
+and $u_{1,\downarrow}^{(n-1)} = u_{n, \uparrow}^{(n-1)} = 0$.
+These last two conditions give, following the same reasoning used in~\cref{sec:2step_reachability}, the orthogonality condition $\bs v_1^{(n)\dagger} \bs v_n^{(n)} = 0$.
+On the other hand, the same reasoning used in~\cref{sec:3step_reachability} can be used to derive the $(s+1)$-th equation in~\cref{eq:qw_general_reachability_conditions} from the $s$-th one on $\ket*{\Psi^{(n-1)}}$.
+
+While in the above we considered only the case of a quantum walk in which the initial walker state was $\ket1$, 
+the results hold in the more general case of a generic initial walker state, possibly spanning more than one position.
+Indeed,~\cref{eq:qw_general_reachability_conditions} is equivalent to stating that $\ket*{\Psi^{(n)}}$ is the output of (at least) $n$ steps of quantum walk evolution, \textit{regardless of the initial state}.
+We refer to~\cref{app:reachability_conditions} for a more detailed discussion about this more general case.
+
+In~\cref{table:constraints} we give a summary of the conditions characterising the states at different steps.
+The total number of (real) degrees of freedom of a walker state after $n$ steps, considering the two vanishing extremal amplitudes, is $4n - 2$.
+Additionally, the set of constraints in \cref{eq:qw_general_reachability_conditions} amounts to $2(n-1)$ real conditions.
+It follows that the space of reachable states $\ket*{\Psi^{(n)}}$ has dimension $2n$, to compare with the number of degrees of freedom of a general state living in the same Hilbert space, that is, $4n + 2$.
+%Note how this is consistent with our finding that when computing the coin operator generating a state, the phase difference between its columns can be freely chosen. Therefore, the number of parameters characterising all the possible SU(2) coin operators for $n$ steps is $2n$, being each coin operator characterised by only two parameters.
+
+\subsection{Set of coin operators generating a state}
+\label{sec:coin_operators_generating_state}
+We conclude our analysis of the global reachability conditions by remarking that \cref{eq:qw_general_reachability_conditions} completely characterises the set of quantum states reachable after $n$ steps.
+In other words, not only every state that is the result of a quantum walk evolution satisfies it, but also for every state $\ket*{\Phi}$ that satisfies \cref{eq:qw_general_reachability_conditions}, there is a set of coin operators $\{ \mathcal C_i \}_{i=1}^n$ and an initial state $\ket{\Phi_{in}}$ such that
+$\ket\Phi = 
+	\mathcal W_{\mathcal C_n} \cdots \mathcal W_{\mathcal C_1}
+	\ket{\Phi_{in}}$.
+In fact, given the state $\ket\Phi$, this set of coin operators is efficiently computable.
+This was already sketched in a previous section, but we will here give a more detailed and general description of the computation.
+% Let $\ket\Phi$ be a quantum state spanning $n + 1$ sites, with amplitudes satisfying~\cref{eq:general_reachability_conditions}.
+% We want to prove the existence of a set $\{ \mathcal C_i \}_{i=1}^n$ of unitary coin operators such that, for some initial state $\ket{\Phi_{in}}$, we have
+% $\ket\Phi =
+% \mathcal W_{\mathcal C_{n}} \cdots \mathcal W_{\mathcal C_{1}}
+% \ket{\Phi_{in}}.$
+% \begin{equation}
+% 	\ket\Phi =
+% 	\mathcal W_{\mathcal C_{1}} \mathcal W_{\mathcal C_{2}} ... \mathcal W_{\mathcal C_{n}}
+% 	\ket{\Phi_{in}}.
+% \end{equation}
+We start by noting that,
+denoting with $\bs v_i$ the $\bs v$-vectors built from the amplitudes of a generic $\ket{\Phi}$ satisfying~\cref{eq:qw_general_reachability_conditions}, we have $\bs v_1^\dagger \bs v_n = 0$.
+This immediately implies the existence of a $2\times2$ unitary matrix $\calC_n$, and complex numbers $a$ and $b$, such that
+\begin{equation}
+	\bs v_1 = \mathcal C_n
+	\begin{pmatrix} a \\ 0 \end{pmatrix},
+	\qquad
+	\bs v_n = \mathcal C_n
+	\begin{pmatrix} 0 \\ b \end{pmatrix}.
+	\label{eq:equations_giving_C}
+\end{equation}
+The first of the above equations implies that the second row of $\mathcal C_n^{-1}$ is orthogonal to $\bs v_1$, that is,
+% \begin{equation}
+$
+	- c_{21} u_{1, \uparrow} + c_{11} u_{2, \downarrow} = 0.
+$
+This condition is enough, together with the constraint of the columns of a unitary matrix being normalised, to determine the first column of $\mathcal C_n$ up to a phase.
+The orthonormality constraint that $\mathcal C_n$ must satisfy then determines the elements of the second column, again up to a phase.
+This leaves the freedom to choose two different phases for the two columns.
+Finally, remembering that the global phase of $\mathcal C_n$ does not have physical consequences, we conclude that $\mathcal C_n$ is determined up to a phase difference between the two columns.
+More explicitly, the above argument tells us that the coin operators generating a walker state spanning $n+1$ sites are all and only the unitaries of the form
+\begin{equation*}
+\begin{aligned}
+	\mathcal C_n
+	&= N \begin{pmatrix}
+		u_{1,\uparrow} & e^{i\alpha} u_{\makebox[0pt][l]{$\scriptstyle n$}\phantom{n+1},\uparrow} \\
+		u_{2,\downarrow} & e^{i\alpha} u_{n+1,\downarrow}
+	\end{pmatrix} = N \begin{pmatrix}
+		u_{1,\uparrow} & -e^{i\alpha} u_{2,\downarrow}^* \\
+		u_{2,\downarrow} & \phantom{-}e^{i\alpha} u_{1,\uparrow}^*
+	\end{pmatrix},
+\end{aligned}
+\end{equation*}
+with $\alpha$ arbitrary and $N$ normalization constant.
+This coin operator can then be written, using for example the parametrization of~\cite{chandrashekar2008optimizing}, as
+\begin{equation}
+	\mathcal C_n = 
+	\begin{pmatrix}
+		e^{i\xi} \cos\theta &
+		e^{i\zeta} \sin\theta \\
+		-e^{-i\zeta}\sin\theta & e^{-i\xi}\cos\theta
+	\end{pmatrix},
+	\label{eq:su2_coin_matrix}
+\end{equation}
+with $\theta\in [0, \pi/2]$, $\xi$ and $\zeta$ satisfying
+$\tan\theta = \lvert u_{2,\downarrow} \rvert/\lvert u_{1,\uparrow} \rvert$
+and
+$\xi + \zeta \pm \pi = \arg\left(u_{1, \uparrow}/u_{2, \downarrow}\right)$.
+The freedom in $\alpha$ is here translated into the phase difference $\zeta - \xi$ not being uniquely determined.
+More explicitly, when tracing back the evolution of the walker one can at every step write the coin operator as in \cref{eq:su2_coin_matrix} with $\xi \to \xi + \varphi$ and $\zeta \to \zeta - \varphi$ for an arbitrary $\varphi\in \mathbb R$.
+Trivial modifications must be applied to the above formulae when $u_{2,\downarrow} = 0$.
+
+To obtain the coin operators at the previous steps, we use the $\mathcal C_n$ computed above to get the amplitudes of $\mathcal W_{\mathcal C_n}^{-1} \ket\Phi$.
+These amplitudes will again satisfy the orthogonality condition between the $\bs v$-vectors at the first and last sites:
+${\bs v_1^\dagger \bs v_{n-1} = 0}$
+(where now $\bs v_i$ refers to the amplitudes after the $(n-1)$-th step).
+The same argument used above can now be repeated, to compute the coin operator at this step.
+Iterating this procedure we can compute all of the coin operators, with the exception of the first one.
+In fact, the amplitudes after the first step do not satisfy the orthogonality condition like \cref{eq:equations_giving_C} anymore (the only condition on them is the vanishing of the extremal amplitudes), so that the above argument breaks.
+This last (first) coin operator is nevertheless easily solved for by remembering that the only non vanishing amplitudes at this stage of the evolution are $u_{1,\uparrow}$ and $u_{2, \downarrow}$, so that if the initial state is
+${\ket{\Phi_{in}} = u^{(0)}_{1,\uparrow} \ket{1, \uparrow} + u^{(0)}_{1, \downarrow} \ket{1, \downarrow}}$, then the first coin operator must satisfy
+\begin{equation}
+	\begin{pmatrix}
+		u_{1, \uparrow} \\ u_{2,\downarrow}
+	\end{pmatrix}
+	= \mathcal C_1
+	\begin{pmatrix}
+		u^{(0)}_{1, \uparrow} \\ u^{(0)}_{1, \downarrow}
+	\end{pmatrix}.
+\end{equation}
+The values of $u_{1, \uparrow}, u_{2,\downarrow}, u^{(0)}_{1, \uparrow}$ and $u^{(0)}_{1, \downarrow}$ are known, so that this equation is readily solved for the elements of $\mathcal C_1$, for any initial state $\ket{\Phi_{in}}$.
+
 \section{Focusing on walker states}
 \label{sec:focusing_walker_states}
 
@@ -707,7 +697,7 @@ We want to find a reachable walker state $\ket\Phi$, in the full walker+coin spa
 $\ket{+}_c \!\braket{+}{\Phi} \propto \ket\phi \!\otimes\! \ket+$.
 Denoting with $u_{i,s}$ the amplitudes of $\ket\Phi$, this amounts to finding a set of amplitudes $\{u_{i,s}\}$ that simultaneously satisfies
 ${N(u_{i,\uparrow}+u_{i,\downarrow})= u_i}$
-and the reachability conditions of~\cref{eq:general_reachability_conditions}.
+and the reachability conditions of~\cref{eq:qw_general_reachability_conditions}.
 To do this, we parametrize the set of all walker states $\ket\Phi$ whose amplitudes give the target after projection as
 \begin{equation}
 \begin{aligned}
@@ -721,8 +711,8 @@ To do this, we parametrize the set of all walker states $\ket\Phi$ whose amplitu
 \end{equation}
 where $\{ d_i \}_{i=2}^n$ is a set of parameters to be determined, and $N$ is a normalization constant.
 Projecting \cref{eq:parametrized_state_with_ds} over the coin state $\ket+$ gives the correct result for all values of $d_i$.
-The problem is therefore reduced to that of finding a set $\{d_i\}_i$ corresponding to a reachable state as per \cref{eq:general_reachability_conditions}.
-Direct substitution of \cref{eq:parametrized_state_with_ds} into \cref{eq:general_reachability_conditions} gives the set of conditions that these parameters have to satisfy
+The problem is therefore reduced to that of finding a set $\{d_i\}_i$ corresponding to a reachable state as per \cref{eq:qw_general_reachability_conditions}.
+Direct substitution of \cref{eq:parametrized_state_with_ds} into \cref{eq:qw_general_reachability_conditions} gives the set of conditions that these parameters have to satisfy
 \begin{equation}
 	\sum_{i=1}^s
 	(u_i - d_i)^*
@@ -854,8 +844,8 @@ In this approach, the coin is implemented in the polarization degree of freedom,
 while the shift operator is performed by introducing a spatial displacement of the optical mode conditionally to the polarization state of the photon.
 Other approaches include integrated linear interferometers~\cite{sansoni2012twoparticle, crespi2013anderson, harris2015bosonic, pitsios2016photonic}, and fiber-loops architectures~\cite{schreiber2010photons, schreiber2012a, boutari2016large}. As mentioned, besides purely optical settings, one could envisage to adapt the present protocol to other physical systems that can host quantum walks \cite{manouchehri2014physical}, such as trapped atoms \cite{karski2009quantum} and ions \cite{schmitz2009quantum, zhringer2010realization} as well as cold atoms in lattices \cite{weitenberg2011singlespin, fukuhara2013microscopic, preiss2015strongly}.
 
-\section{Conclusions} We provided a set of equations characterizing the states reachable by a coined quantum walk evolution, when letting the coin operation change from step to step.
-We then derived a set of conditions characterizing the quantum states, spanning only the walker's positions, that are probabilistically reachable after projection of the coin at the end of the walk.
+\section{Conclusions} We provided a set of equations characterising the states reachable by a coined quantum walk evolution, when letting the coin operation change from step to step.
+We then derived a set of conditions characterising the quantum states, spanning only the walker's positions, that are probabilistically reachable after projection of the coin at the end of the walk.
 Finally, we proposed a protocol to experimentally implement the quantum state engineering scheme with linear optics, using orbital and spin angular momentum of a photon to encode spatial and coin degrees of freedom of the walker.
 Given the ubiquity of quantum walks, our approach should facilitate the engineering of high-dimensional quantum states in a wide range of physical systems.
 

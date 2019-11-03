@@ -288,7 +288,7 @@ A generic generator for the CNOT can thus be written as
 It is worth stressing how the set of viable generators $\calH$ has both a discrete and a continuous degree of freedom.
 \end{example}
 
-In the rest of the thesis, we will focus on the case $f(A)\equiv e^{iA}$, which is case of relevance to find Hamiltonians generating target unitaries.
+In the rest of the thesis, we will focus on the case $f(A)\equiv e^{iA}$, which is the case of relevance to find Hamiltonian generators of target unitaries.
 
 \section{Adding physical practical constraints}
 \label{sec:constraints_on_interaction_pars}
@@ -342,12 +342,12 @@ Let us write down explicitly the decompositions of these projectors in terms of 
 \end{cases}
 \end{equation}
 where we made a canonical choice for the $\tildePP_i$.
-Without exploiting the freedom given by the degeneracies, it is straightforward to see that it is not possible to find values for the $n_j\in\ZZ$ such annihilate the two qubit interaction terms, due to the $1/2$ factor in~\cref{eq:cnotex_general_H_expr}.
+Without exploiting the freedom given by the degeneracies, it is straightforward to see that it is not possible to find values for the $n_j\in\ZZ$ that annihilate all of the two-qubit interaction terms, due to the $1/2$ factor in~\cref{eq:cnotex_general_H_expr}.
 Indeed, expanding~\cref{eq:cnotex_general_H_expr} and focusing on the two-qubit interaction terms, we get
 \begin{equation}
     \calH = (...) + \frac{2\pi}{4}\left[
     (n_1 - n_2) Z_1 Z_2 +
-    (n_4/2 - n_3) Z_1 X_2
+    (1/2 + n_4 - n_3) Z_1 X_2
     \right].
 \end{equation}
 Remarkably, this shows how the $Z_1 X_2$ seems to be a necessary part of a generator, as there is no choice of $n_3,n_4\in\ZZ$ such that $n_4-2 n_3=0$.
