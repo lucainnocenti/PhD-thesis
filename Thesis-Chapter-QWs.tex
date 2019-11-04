@@ -598,6 +598,7 @@ This condition follows however directly following the analysis in~\cref{sec:qw_2
             1/\sqrt2 & 1 \\
             0 & -1/\sqrt2
         \end{pmatrix}.
+        \label{eq:qw_example_psi'}
     \end{equation}
     The vectors $\bs v'$ then equal $\bs v'_1=(1/\sqrt2, 1/\sqrt2)$ and
     $\bs v'_4=(1/\sqrt2, -1/\sqrt2)$,
@@ -607,72 +608,90 @@ This condition follows however directly following the analysis in~\cref{sec:qw_2
     \begin{equation}
         \ket{\Psi''} = \frac{1}{4}
         \begin{pmatrix}
-            \sqrt2 & 0 \\
-            2 + i\sqrt2 & i\sqrt2 \\
-            0 & \sqrt2 + 2i \\
-            \sqrt2 + 2i & 0 \\
-            -i\sqrt2 & 2 + i\sqrt2 \\
-            0 & -\sqrt2
+            1 & 0 \\
+            i + \sqrt2 & i \\
+            0 & 1 + i\sqrt2 \\
+            1 + i\sqrt2 & 0 \\
+            -i & i + \sqrt2 \\
+            0 & -1
         \end{pmatrix}.
     \end{equation}
     The relevant $\bs v''$ vectors are for this state
     \begin{equation}
     \begin{aligned}
-        &\bs v''_1 = \frac{\sqrt2}{4}\begin{pmatrix} 1 \\ i \end{pmatrix},
-        &&\bs v''_2 = \frac{\sqrt2}{4}\begin{pmatrix} \sqrt2 + i \\ 1 + i\sqrt2 \end{pmatrix}, \\
-        &\bs v''_4 = \frac{\sqrt2}{4}\begin{pmatrix} 1 + i\sqrt2\\ \sqrt2 + i \end{pmatrix},
-        &&\bs v''_5 = \frac{\sqrt2}{4}\begin{pmatrix} -i \\ -1 \end{pmatrix},
+        &\bs v''_1 = \frac{1}{4}\begin{pmatrix} 1 \\ i \end{pmatrix},
+        &&\bs v''_2 = \frac{1}{4}\begin{pmatrix} \sqrt2 + i \\ 1 + i\sqrt2 \end{pmatrix}, \\
+        &\bs v''_4 = \frac{1}{4}\begin{pmatrix} 1 + i\sqrt2\\ \sqrt2 + i \end{pmatrix},
+        &&\bs v''_5 = \frac{1}{4}\begin{pmatrix} -i \\ -1 \end{pmatrix},
     \end{aligned}
     \end{equation}
     It is then straightforward to verify that
-    $\bs v_1^{\prime\prime\dagger}\bs v_5'' = 0$.
+    $\bs v_1^{\dprime\dagger}\bs v_5'' = 0$.
     Furthermore,
-    $\bs v_1^{\prime\prime\dagger}\bs v_4'' = 1/4$
-    and $\bs v_2^{\prime\prime\dagger}\bs v_5'' = -1/4$,
+    $\bs v_1^{\dprime\dagger}\bs v_4'' = 1/8$
+    and $\bs v_2^{\prime\prime\dagger}\bs v_5'' = -1/8$,
     thus 
-    $\bs v_1^{\prime\prime\dagger}\bs v_4'' + \bs v_2^{\prime\prime\dagger}\bs v_5'' = 0$,
+    $\bs v_1^{\dprime\dagger}\bs v_4'' + \bs v_2^{\dprime\dagger}\bs v_5'' = 0$,
     again consistently with the results of~\cref{sec:qw_3step_reachability}.
     As a last remark, let us show how we would go in recovering the coin operators generating $\ket{\Psi''}$, assuming we are only given this state without further knowledge.
-    The idea behind such reconstruction is to observe that if $\calC$ is such that $\calW_{\calC}\ket{\Phi}=\ket{\Psi''}$ for some $\ket\Phi$, then $\calC^\dagger \bs v_1''\simeq(1,0)^T$ and $\calC^\dagger \bs v_5''\simeq(0,1)^T$, and thus
+    The idea behind such reconstruction is to observe that if $\tilde\calC$ is such that $\calW_{\tilde\calC_1}\ket{\Phi'}=\ket{\Psi''}$ for some $\ket{\Phi'}$, then $\tilde\calC_1^\dagger \bs v_1''\simeq(1,0)^T$ and $\tilde\calC_1^\dagger \bs v_5''\simeq(0,1)^T$, and thus
     \begin{equation}
-        \calC = \begin{pmatrix}
-            N_1 \bs v_1'' & N_2 e^{i\phi} \bs v_5''
-        \end{pmatrix} = \frac{1}{\sqrt2}
-        \begin{pmatrix}
-            1 & e^{i\phi}i \\
-            i & e^{i\phi}1
-        \end{pmatrix}
+        \tilde\calC_1 =
+        % \begin{pmatrix}
+        %     N_1 \bs v_1'' & N_2 e^{i\phi} \bs v_5''
+        % \end{pmatrix} = \frac{1}{\sqrt2}
+        \frac{1}{\sqrt2} \begin{pmatrix}
+            1 & e^{i\phi_1}i \\
+            i & e^{i\phi_1}1
+        \end{pmatrix},
     \end{equation}
+    for any $\phi_1\in\RR$. This is clearly consistent with the coin we used being $\frac{1}{\sqrt2}(I+iX)$, but also shows that multiple initial states are compatible with the output. The corresponding $\ket{\Phi'}$ is then
+    \begin{equation}
+        \ket{\Phi'} = \frac{1}{2\sqrt2}
+        \begin{pmatrix}
+            1 & 0 \\
+            \sqrt2 & e^{-i\phi_1} \\
+            0 & 0 \\
+            1 & \sqrt2 e^{-i\phi_1} \\
+            0 & -e^{-i\phi_1}
+        \end{pmatrix},
+    \end{equation}
+    consistently with~\cref{eq:qw_example_psi'}.
+    Going further back, we use $\bs v_1'\simeq(1,e^{-i\phi_1})^T$ and $\bs v_4'\simeq(1,-e^{-i\phi_1})^T$ to find the previous possible coins $\tilde\calC_2$ to be of the form
+    \begin{equation}
+        \tilde\calC_2 = \frac{1}{\sqrt2} \begin{pmatrix}
+            1 & e^{i\phi_2} \\
+            e^{-i\phi_1} & -e^{i(\phi_2-\phi_1)}
+        \end{pmatrix},
+    \end{equation}
+    for all $\phi_2\in\RR$. The reconstructed initial state $\ket\Phi$ is then found to have the form
+    \begin{equation}
+        \ket\Phi = \frac{1}{2\sqrt2}
+        \begin{pmatrix}
+            \sqrt2 & 0 \\
+            1 & e^{-i\phi_2} \\
+            1 & -e^{-i\phi_2} \\
+            0 & \sqrt2 e^{-i\phi_2}
+        \end{pmatrix}.
+    \end{equation}
+    An interesting feature emerging from this example is that the freedom in the choice of the coin operations does not ``cumulate'', in the sense that the possible states producing a target after a number of steps are still uniquely defined up to only a phase difference between the two coin states.
 \end{example}
 
-\subsection{Starting on single site}
-\label{sec:qw_starting_on_single_site}
+\subsection{Dimension of space of reachable states}
+\label{sec:qw_reachable_space}
 
-While the results of~\cref{sec:qw_reachability_conditions} hold for arbitrary initial states, in the following we will restrict to the special condition of initial states of the form $\ket{1,\alpha}$, that is, with a fixed initial position.
-In this section, we will specialise the conditions to this special case.
-
-
-
-The same technique used in the above sections, applied iteratively, leads to the following set of conditions characterising the amplitudes of a $\ket*{\Psi}$ output of $n$ steps:
+The results of~\cref{sec:qw_reachability_conditions} hold for arbitrary initial states. In this section, we will specialise the equations for the cases with initial states with a fixed initial position, of the form $\ket{1,\alpha}$.
+From~\cref{sec:qw_reachability_conditions}, we know that $\ket{\Psi}$ is a possible output of $n$ steps with initial state $\ket{1,\alpha}$ \textit{if and only} the following $n-1$ conditions are met:
 \begin{equation}
-	\sum_{i=1}^s \bs v_i^{(n)\dagger} \bs v^{(n)}_{n-s+i} = 0,
+	\sum_{i=1}^s \bs v_i^{\dagger} \bs v_{n-s+i} = 0,
 	\text{ for every } s=1,..,n-1,
 	\label{eq:qw_general_reachability_conditions}
 \end{equation}
-plus the vanishing conditions on the extremal elements.
-Indeed, if $\ket*{\Psi^{(n)}}$ is the output of $n$ steps, then $\ket*{\Psi^{(n)}} = \mathcal W_{\mathcal C}\ket*{\Psi^{(n-1)}}$ with the amplitudes of $\ket*{\Psi^{(n-1)}}$ satisfying
-$\sum_{i=1}^s \bs v_i^{(n-1)\dagger} \bs v_{(n-1)-s+i}^{(n-1)} = 0$
-for all $s=1,...,n-2$,
-and $u_{1,\downarrow}^{(n-1)} = u_{n, \uparrow}^{(n-1)} = 0$.
-These last two conditions give, following the same reasoning used in~\cref{sec:2step_reachability}, the orthogonality condition $\bs v_1^{(n)\dagger} \bs v_n^{(n)} = 0$.
-On the other hand, the same reasoning used in~\cref{sec:3step_reachability} can be used to derive the $(s+1)$-th equation in~\cref{eq:qw_general_reachability_conditions} from the $s$-th one on $\ket*{\Psi^{(n-1)}}$.
+plus the vanishing conditions on the extremal elements.\highlight{(do we need the previous paragraph?)}
 
-While in the above we considered only the case of a quantum walk in which the initial walker state was $\ket1$, 
-the results hold in the more general case of a generic initial walker state, possibly spanning more than one position.
-Indeed,~\cref{eq:qw_general_reachability_conditions} is equivalent to stating that $\ket*{\Psi^{(n)}}$ is the output of (at least) $n$ steps of quantum walk evolution, \textit{regardless of the initial state}.
-We refer to~\cref{app:reachability_conditions} for a more detailed discussion about this more general case.
+Given the full characterisation of outputs of~\acp{DTQW}, a natural next question is: \textit{fixing a number of steps $n$, what portion of the space of $n\times 2$-dimensional states can be obtained with this kind of dynamic?}
+The first things to notice is that we are not talking of \textit{linear} spaces here: linear combinations of 
 
-In~\cref{table:constraints} we give a summary of the conditions characterising the states at different steps.
 The total number of (real) degrees of freedom of a walker state after $n$ steps, considering the two vanishing extremal amplitudes, is $4n - 2$.
 Additionally, the set of constraints in \cref{eq:qw_general_reachability_conditions} amounts to $2(n-1)$ real conditions.
 It follows that the space of reachable states $\ket*{\Psi^{(n)}}$ has dimension $2n$, to compare with the number of degrees of freedom of a general state living in the same Hilbert space, that is, $4n + 2$.
@@ -680,6 +699,7 @@ It follows that the space of reachable states $\ket*{\Psi^{(n)}}$ has dimension 
 
 \subsection{Set of coin operators generating a state}
 \label{sec:coin_operators_generating_state}
+\highlight{(We can probably remove this section)}
 We conclude our analysis of the global reachability conditions by remarking that \cref{eq:qw_general_reachability_conditions} completely characterises the set of quantum states reachable after $n$ steps.
 In other words, not only every state that is the result of a quantum walk evolution satisfies it, but also for every state $\ket*{\Phi}$ that satisfies \cref{eq:qw_general_reachability_conditions}, there is a set of coin operators $\{ \mathcal C_i \}_{i=1}^n$ and an initial state $\ket{\Phi_{in}}$ such that
 $\ket\Phi = 
