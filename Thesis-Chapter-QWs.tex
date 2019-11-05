@@ -118,7 +118,78 @@ We thus write $\ket\Psi$ as the $n\times2$ matrix
     \label{eq:qw_matrix_notation}
 \end{equation}
 In this notation, the coin operation only introduces coherence between amplitudes on the same row, while the shift $\calS$ acts by simply moving the amplitudes around.
-This notation will prove useful to derive the results in the next sections.
+This notation will prove useful in the next sections.
+
+\begin{example}[label={ex:qw_bimatrix_notation}]
+    Here, we give explicit expressions for the states produced by a \ac{DTQW} after a few steps, using the matrix notation introduced in~\cref{eq:qw_matrix_notation}. Let the initial state be $\ket{\Psi^{(0)}}\equiv\ket{1,\uparrow}$, and denote with $\calC_i$ be the coin operation at the $i$-th step, with elements $(\calC_i)_{jk}\equiv c^{(i)}_{jk}$.
+    After a single step, we thus have
+    \begin{equation}
+        \ket{\Psi^{(1)}} =
+        \begin{pmatrix}
+            c^{(1)}_{11} & 0 \\
+            0 & c^{(1)}_{21}
+        \end{pmatrix}.
+    \end{equation}
+    After the second and third steps, we have
+    \begin{equation}
+        \ket{\Psi^{(2)}} =
+        \begin{pmatrix}
+            c^{(2)}_{11} c^{(1)}_{11} & 0 \\[0.4em]
+            c^{(2)}_{12} c^{(1)}_{21} & c^{(2)}_{21} c^{(1)}_{11} \\[0.4em]
+            0 & c^{(2)}_{22} c^{(1)}_{21} \\[0.4em]
+        \end{pmatrix},
+    \end{equation}
+    \begin{equation}
+        \ket{\Psi^{(3)}} =
+        \begin{pmatrix}
+            c^{(3)}_{11} c^{(2)}_{11} c^{(1)}_{11} & 0 \\[0.4em]
+            c^{(3)}_{11} c^{(2)}_{12} c^{(1)}_{21} +
+            c^{(3)}_{12} c^{(2)}_{21} c^{(1)}_{11} &
+            c^{(3)}_{21} c^{(2)}_{11} c^{(1)}_{11} \\[0.4em]
+            c^{(3)}_{12} c^{(2)}_{22} c^{(1)}_{21} &
+            c^{(3)}_{21} c^{(2)}_{12} c^{(1)}_{21} +
+            c^{(3)}_{22} c^{(2)}_{21} c^{(1)}_{11} \\[0.4em]
+            0 & c^{(3)}_{22} c^{(2)}_{22} c^{(1)}_{21} \\[0.4em]
+        \end{pmatrix}.
+    \end{equation}
+    While we do not give the explicit expressions for larger number of steps, we note how even from these first few expressions a very noticeable pattern emerges from the structure of the coefficients. For example, if we focus on the pedices of each element of these matrices, and read them from the right to the left, we get the following expression:
+    \begin{equation}
+        \begin{pmatrix}
+            (11)(11)(11) & 0 \\
+            (11)(12)(21) + (12)(21)(11) & (11)(11)(12) \\
+            (12)(22)(21) & (11)(12)(22) + (12)(21)(12) \\
+            0 & (12)(22)(22)
+        \end{pmatrix},
+    \end{equation}
+    where the ``$+$'' symbols is here to be interpreted as a pure formal character, rather than as an actual sum. From this expression we can see how the following patterns emerge:
+    \begin{itemize}
+        \item Each sequence starts with a $1$ on the left, and ends with with a $1$ for the first column, or with a $2$ for the second column. The fact that each column starts with a $1$ is due to the initial coin state being $\uparrow$, and would have been a $2$ if we instead started with a coin state $\downarrow$.
+        \item Between each pair of integers, the middle numbers are always identical (e.g. we never have something like $(11)(21)$). This is because each pair $(ij)$ represents the matrix component of a corresponding step changing the coin state from $i$ to $j$.
+        \item In each entry, the number of $2$s on the right component of each pair equals the number of steps forward that the walker. For example, in the third row, we always have exactly two pairs with a $2$ on the right, consistently with the third row corresponding to output states of the form $\ket{3,\alpha}$.
+    \end{itemize}
+    These observations tell us that the initial and final number in each sequence, as well as the elements in between each pair, are redundant information. We can then represent the same state more efficiently by replacing each pair with its second element. We thus get
+    \begin{equation}
+        \begin{pmatrix}
+            111 & 0 \\
+            211 + 121 & 112 \\
+            221 & 212 + 122 \\
+            0 & 222
+        \end{pmatrix}.
+    \end{equation}
+    This expression shows how finding the output amplitude corresponding to each one of the output modes is reduced to a purely combinatorial problem: starting with coin state $\ket\uparrow$ and evolving for $n$ steps, the output amplitude corresponding to the mode $\ket{k,s}$ with $s\in\{1,2\}$ has a number of contributions equal to the number of bitstrings of length $n$ that end with $s$ and have a number of $2$s equal to $i-1$.
+    Once the set of bitstrings associated with a given output amplitude has been found, recovering the corresponding matrix elements of the coin operations, and thus the overall amplitude, is straightforward.
+
+    As an example, suppose we are interested in knowing the probability amplitude associated with the walker evolving from $\ket{1,\uparrow}$ to $\ket{3,\downarrow}$ after $n=4$ steps. Following the above reasoning, we don't need to actually evolve the initial state through the associated unitary evolution matrices, but can instead immediately see that the amplitude is the one associated with the following four bitstrings:
+    \begin{equation}
+        1122, \quad 1212, \quad 2112,
+    \end{equation}
+    which are the possible bitstrings of four elements with two $1$s and ending with a $1$. The amplitude is therefore equal to
+    \begin{equation}
+        c^{(4)}_{22} c^{(3)}_{21} c^{(2)}_{11} c^{(1)}_{11} +
+        c^{(4)}_{21} c^{(3)}_{12} c^{(2)}_{21} c^{(1)}_{11} +
+        c^{(4)}_{21} c^{(3)}_{11} c^{(2)}_{12} c^{(1)}_{21}.
+    \end{equation}
+\end{example}
 
 
 \section{Analytical results}
@@ -690,7 +761,10 @@ From~\cref{sec:qw_reachability_conditions}, we know that $\ket{\Psi}$ is a possi
 plus the vanishing conditions on the extremal elements.\highlight{(do we need the previous paragraph?)}
 
 Given the full characterisation of outputs of~\acp{DTQW}, a natural next question is: \textit{fixing a number of steps $n$, what portion of the space of $n\times 2$-dimensional states can be obtained with this kind of dynamic?}
-The first things to notice is that we are not talking of \textit{linear} spaces here: linear combinations of 
+The set of all (pure) states over $n+1$ sites and with a two-dimensional coin is a $[2\times2(n+1)-2]=(4n+2)$-dimensional real manifold.
+
+Consider two possible sets of coin operations $(\calC_i)_i$ and $(\tilde\calC_i)_i$. Given a fixed initial state $\ket{\Psi}$, when do we have $\prod\calW_i\ket\Psi=\prod\tilde\calW_i\ket\Psi$?
+\highlight{(??????)}
 
 The total number of (real) degrees of freedom of a walker state after $n$ steps, considering the two vanishing extremal amplitudes, is $4n - 2$.
 Additionally, the set of constraints in \cref{eq:qw_general_reachability_conditions} amounts to $2(n-1)$ real conditions.
@@ -698,7 +772,7 @@ It follows that the space of reachable states $\ket*{\Psi^{(n)}}$ has dimension 
 %Note how this is consistent with our finding that when computing the coin operator generating a state, the phase difference between its columns can be freely chosen. Therefore, the number of parameters characterising all the possible SU(2) coin operators for $n$ steps is $2n$, being each coin operator characterised by only two parameters.
 
 \subsection{Set of coin operators generating a state}
-\label{sec:coin_operators_generating_state}
+\label{sec:qw_coin_operators_generating_state}
 \highlight{(We can probably remove this section)}
 We conclude our analysis of the global reachability conditions by remarking that \cref{eq:qw_general_reachability_conditions} completely characterises the set of quantum states reachable after $n$ steps.
 In other words, not only every state that is the result of a quantum walk evolution satisfies it, but also for every state $\ket*{\Phi}$ that satisfies \cref{eq:qw_general_reachability_conditions}, there is a set of coin operators $\{ \mathcal C_i \}_{i=1}^n$ and an initial state $\ket{\Phi_{in}}$ such that
@@ -750,7 +824,7 @@ More explicitly, the above argument tells us that the coin operators generating 
 	\end{pmatrix},
 \end{aligned}
 \end{equation*}
-with $\alpha$ arbitrary and $N$ normalization constant.
+with $\alpha$ arbitrary and $N$ normalisation constant.
 This coin operator can then be written, using for example the parametrization of~\cite{chandrashekar2008optimizing}, as
 \begin{equation}
 	\mathcal C_n = 
@@ -790,39 +864,41 @@ ${\ket{\Phi_{in}} = u^{(0)}_{1,\uparrow} \ket{1, \uparrow} + u^{(0)}_{1, \downar
 The values of $u_{1, \uparrow}, u_{2,\downarrow}, u^{(0)}_{1, \uparrow}$ and $u^{(0)}_{1, \downarrow}$ are known, so that this equation is readily solved for the elements of $\mathcal C_1$, for any initial state $\ket{\Phi_{in}}$.
 
 \section{Focusing on walker states}
-\label{sec:focusing_walker_states}
+\label{sec:qw_focusing_walker_states}
 
-\Cref{sec:reachability} focused on characterising the set of quantum states that can be generated by a quantum walk evolution.
-We here instead consider a different scenario, in which one is interested in generating a target \emph{qudit} state over the walker's degree of freedom, as opposite to wanting to generate a target quantum state in the full walker+coin space.
-In other words, we fix a number of steps $n$ and a target superposition over the sites $\ket\phi=\sum_{i=1}^{n+1} u_i\ket i$, and ask whether there is a combination of coin operators $\{\mathcal C_i\}_{i=1}^{n}$, a coin state $\ket\gamma$, and an initial state $\ket{\Psi_0}=\ket{1, \alpha}$ for some initial coin state $\ket\alpha$, such that (up to a normalisation factor)
-$\mel{\gamma}{\mathcal W_{\mathcal C_{n}} \cdots\mathcal W_{\mathcal C_{1}}}{\Psi_0} = \ket\phi$.
-In particular, we are interested in finding whether an arbitrarily chosen superposition of sites $\ket\phi$ can be generated in this way.
-The main tool that will be used to answer this question is the set of conditions developed in~\cref{sec:reachability}.
-We will find the answer to be always positive, provided special degenerate conditions are satisfied.
-For the analytical results we will focus on the case of the coin being projected over $\ket+$,
+In~\cref{sec:qw_reachability_conditions} we characterised the set of quantum states that can be generated via \ac{DTQW} evolutions.
+Here, we consider the scenario in which one is interested in generating a target \emph{qudit} state over solely the walker's degree of freedom, as opposed to generating a target quantum state in the full walker and coin space.
+In other words, we fix a number of steps $n$ and a target superposition over the sites $\ket\phi=\sum_{i=1}^{n+1} u_i\ket i$, and ask whether there is a combination of coins $\{\calC_i\}_{i=1}^{n}$, a final coin state $\ket\gamma$, and an initial state $\ket{\Psi_0}=\ket{1, \alpha}$ for some initial coin state $\ket\alpha$, such that, up to a normalisation factor,
+\begin{equation}
+    \mel{\gamma}{\calW_{\calC_{n}} \cdots\calW_{\calC_{1}}}{\Psi_0} = \ket\phi.
+\end{equation}
+Such protocols are clearly probabilistic in general, but this is not a big hurdle provided the projection probabilities are good enough for the considered application.
+In particular, we are interested in finding whether arbitrary $\ket\phi$ can be generated in this way.
+The main tool that will be used to answer this question is the set of conditions given in~\cref{sec:reachability_conditions}.
+We will find the answer to be positive, modulo a few degenerate conditions that the $\ket\phi$ needs to satisfy.
+For the analytical results, we focus on the case of the coin being projected over $\ket+$,
 and provide numerical results for the more general case.
 
 Let $\ket\phi$ be an arbitrary superposition of $n+1$ walker sites with amplitudes $u_k \equiv \braket{k}{\phi}$.
-We want to find a reachable walker state $\ket\Phi$, in the full walker+coin space, such that
+We want to find a reachable walker state $\ket\Phi$, in the full walker and coin space, such that
 $\ket{+}_c \!\braket{+}{\Phi} \propto \ket\phi \!\otimes\! \ket+$.
-Denoting with $u_{i,s}$ the amplitudes of $\ket\Phi$, this amounts to finding a set of amplitudes $\{u_{i,s}\}$ that simultaneously satisfies
-${N(u_{i,\uparrow}+u_{i,\downarrow})= u_i}$
-and the reachability conditions of~\cref{eq:qw_general_reachability_conditions}.
-To do this, we parametrize the set of all walker states $\ket\Phi$ whose amplitudes give the target after projection as
+Denoting with $\Phi_{i,s}$ the amplitudes of $\ket\Phi$, this amounts to finding a $\ket\Phi$ whose amplitudes simultaneously satisfy, on top of the reachability conditions of~\cref{eq:qw_general_reachability_conditions}, the relations
+${N(\Phi_{i,\uparrow}+\Phi_{i,\downarrow})= u_i}$ for all $i$.
+In order to do this, we parametrize the set of all walker states $\ket\Phi$ whose amplitudes give the target after projection as
 \begin{equation}
 \begin{aligned}
-	\ket\Phi &= N \Big( u_1 \ket{1,\uparrow} + u_{n+1} \ket{n+1,\downarrow} \\
-	&+ \sum_{i=2}^n \big[
+	\ket\Phi &= N \left( u_1 \ket{1,\uparrow} + u_{n+1} \ket{n+1,\downarrow}
+	+ \sum_{i=2}^n \left[
 		(u_i - d_i) \ket{i, \uparrow} +
 		d_i \ket{i, \downarrow}
-	\big] \Big),
+	\right] \right),
 \end{aligned}
-\label{eq:parametrized_state_with_ds}
+\label{eq:qw_parametrized_state_with_ds}
 \end{equation}
-where $\{ d_i \}_{i=2}^n$ is a set of parameters to be determined, and $N$ is a normalization constant.
-Projecting \cref{eq:parametrized_state_with_ds} over the coin state $\ket+$ gives the correct result for all values of $d_i$.
-The problem is therefore reduced to that of finding a set $\{d_i\}_i$ corresponding to a reachable state as per \cref{eq:qw_general_reachability_conditions}.
-Direct substitution of \cref{eq:parametrized_state_with_ds} into \cref{eq:qw_general_reachability_conditions} gives the set of conditions that these parameters have to satisfy
+where $(d_i)_{i=2}^n$ are complex parameters to be determined, and $N\in\RR$ is the normalisation constant.
+Projecting \cref{eq:qw_parametrized_state_with_ds} over the coin state $\ket+$ gives the correct result for any choice of $d_i$.
+The problem is thus reduced to finding $(d_i)_i$ corresponding to a reachable state.
+Direct substitution of \cref{eq:qw_parametrized_state_with_ds} into \cref{eq:qw_general_reachability_conditions} gives the set of conditions that these parameters have to satisfy
 \begin{equation}
 	\sum_{i=1}^s
 	(u_i - d_i)^*
@@ -830,46 +906,148 @@ Direct substitution of \cref{eq:parametrized_state_with_ds} into \cref{eq:qw_gen
 	+
 	d_{i+1}^* d_{n-s+i+1}
 	= 0,
-	\label{eq:conditions_for_ds}
+	\label{eq:qw_conditions_for_ds}
 \end{equation}
 for every $s=1,...,n-1$,
 with $d_1=0$ and $d_{n+1}=u_{n+1}$.
-Splitting real and imaginary parts, \cref{eq:conditions_for_ds} is equivalent to a system of $2(n-1)$ real quadratic equations in $2(n-1)$ real variables.
-It follows that~\cref{eq:conditions_for_ds} has solutions for almost all target states, except for a subset of states of measure zero.
-In the simplest case $n=2$ an explicit solution can be written as
+Splitting in real and imaginary components, \cref{eq:qw_conditions_for_ds} becomes a system of $2(n-1)$ real quadratic equations in $2(n-1)$ real variables.
+It follows that~\cref{eq:qw_conditions_for_ds} has solutions for almost all target states, except for a subset of states of measure zero.
+In the simplest case, $n=2$, an explicit solution can be written as
 \begin{equation}
 	d_2 = \frac{
 		u_1(u_1^* u_2 + u_2^* u_3)
 	}{
 		\lvert u_1 \rvert^2 - \lvert u_3 \rvert^2
 	}~\text{ for}~\lvert u_1 \rvert \neq \lvert u_3 \rvert.
-	\label{eq:solution_for_d2}
+	\label{eq:qw_solution_for_d2}
 \end{equation}
-Note that this does not imply that for $\lvert u_1 \rvert = \lvert u_3 \rvert$ there is no solution for $d_2$, but only that \cref{eq:solution_for_d2} does not apply in that case.
-More generally, \cref{eq:conditions_for_ds}
+Note that this does not imply that for $\lvert u_1 \rvert = \lvert u_3 \rvert$ there is no solution for $d_2$, but only that \cref{eq:qw_solution_for_d2} does not apply in that case.
+More generally, \cref{eq:qw_conditions_for_ds}
 can be solved numerically with ease for small $n$, giving multiple solutions for any randomly selected target state.
-As remarked above for the general case, it is still possible for a solution of~\cref{eq:conditions_for_ds} to not exist, provided some specific degenerate conditions are met.
-Further analysis of the analytical solution for two steps is provided in~\cref{app:analytical_sol_2steps}.
+As remarked above for the general case, it is still possible for a solution of~\cref{eq:qw_conditions_for_ds} to not exist, provided some specific degenerate conditions are met.
+Further analysis of the analytical solution for two steps is provided in~\cref{sec:qw_analytical_sol_2steps}.
 
-A solution of~\cref{eq:conditions_for_ds}, once found, can be used to compute the coin parameters producing a target $\ket\Phi$ as shown in~\cref{sec:coin_operators_generating_state}.
+A solution of~\cref{eq:qw_conditions_for_ds}, once found, can be used to compute the coin parameters producing a target $\ket\Phi$ as shown in~\cref{sec:qw_coin_operators_generating_state}.
 This effectively allows to generate superpositions of $n+1$ sites using $n$ steps of quantum walk evolution, via projection of the coin state over $\ket+$ at the end of walk.
 However, the projection makes this scheme probabilistic, so it is important to ensure that the generation probabilities are not vanishingly small.
-We tested this with up to 5 steps analysing the solutions of \cref{eq:conditions_for_ds}, and with up to 20 steps finding the coin parameters generating target states using a more general numerical maximization algorithm.
-The results of these analyses are given in~\cref{sec:numerical_solution_reachability_conditions,sec:numerical_fid_max},
+We tested this with up to 5 steps analysing the solutions of \cref{eq:qw_conditions_for_ds}, and with up to 20 steps finding the coin parameters generating target states using a more general numerical maximization algorithm.
+The results of these analyses are given in~\cref{sec:qw_numerical_solution_reachability_conditions,sec:qw_numerical_fid_max},
 where we also consider the approximate (namely, with fidelity smaller than 1) engineering of target states,
 and the robustness of the method with respect to imperfections of the coin parameters.
 We will also find that in the vast majority of instances the numerical maximization identifies coin parameters able to generate arbitrary target states with both high probabilities and fidelities.
 \footnote{The code used to produce these results is freely available at \href{https://github.com/lucainnocenti/QSE-with-QW-code}{https://github.com/lucainnocenti/QSE-with-QW-code}.}
 
+\subsection{Analytical solutions for two steps}
+\label{sec:qw_analytical_sol_2steps}
+In this section we study the solutions obtained in the case of 2 steps, asking which states are reachable and with what probabilities, as well as the stability of these solutions with respect to small perturbations of the coin parameters.
+
+As already mentioned in~\cref{sec:qw_focusing_walker_states}, for 2 steps the reachability conditions read
+\begin{equation}
+	u_1^* (u_2 - d_2) + d_2^* u_3 = 0,
+	\label{eq:qw_reachability_condition_2steps}
+\end{equation}
+which in the $\lvert u_1 \rvert \neq \lvert u_3 \rvert$ case has solution:
+\begin{equation}
+	d_2 = \frac{
+		u_1(u_1^* u_2 + u_2^* u_3)
+	}{
+		\lvert u_1 \rvert^2 - \lvert u_3 \rvert^2
+	}.
+	\label{app:eq:qw_solution_for_d2}
+\end{equation}
+Using the above expression we can compute the projection probability of reaching a specific target state.
+For example, in the special case of $u_1, u_2, u_3 \in \mathbb R$, $u_3 \ge 0$, this probability is
+\begin{equation}
+\begin{aligned}
+	p &= \frac{1}{2} \left[ u_1^2 + (u_2 - d_2)^2 + d_2^2 + u_3^2 \right]^{-1} \\
+	&= \frac{
+		\left( u_1 - u_3 \right)^2
+	}{
+		2(1 - u_2^2)(1 - 2 u_1 u_3)
+	}
+\end{aligned}
+\label{eq:proj_prob_2steps}
+\end{equation}
+with $u_3 = \sqrt{1 - u_1^2 - u_2^2}$.
+\Cref{fig:proj_prob_landscape_plot3d,fig:proj_prob_landscape_slices} show how this probability varies with $u_1$ and $u_2$.
+Already in this simple case some interesting features emerge. For example, $p$ vanishes for $u_1 = u_3$.
+On the other hand, for $u_1 = -u_3$, the probability does not vanish, which may be puzzling because in this case \cref{app:eq:qw_solution_for_d2} itself is singular.
+A more careful analysis of \cref{app:eq:qw_solution_for_d2} shows however that $u_1 = -u_3$ corresponds to a removable singularity, consistently with the corresponding non-vanishing projection probability.
+
+When the $\lvert u_1 \rvert \neq \lvert u_3 \rvert$ condition is not met, the solution space changes significantly.
+We here consider for example the case $u_1 = u_3 \neq 0$. Substituting this into \cref{eq:qw_reachability_condition_2steps} we get the conditions
+\begin{equation*}
+	\begin{dcases}
+		u_{1R}u_{2R} + u_{1I} u_{2I} = 0, \\
+		u_{1R} (2d_I - u_{2I})
+		+ u_{1I} (-2 d_R + u_{2R}) = 0,
+	\end{dcases}
+\end{equation*}
+where $u_{iR}$ and $u_{iI}$ denote the real and imaginary parts of $u_i$, respectively.
+A possible class of solutions of the above, obtained in the case $u_{1R} = 0$, is
+\begin{equation}
+	\scalemath{0.86}{
+	\begin{pmatrix}
+		i u_{1I} & 0 \\
+		\frac{u_{2R}}{2}-i d_I & \frac{u_{2R}}{2} + i d_I \\
+		0 & i u_{1I}
+	\end{pmatrix}},\,\,
+	u_{1R} = u_{2I} = 0,\,\, d_I \in \mathbb R.
+	\label{eq:state_degenerate_case}
+\end{equation}
+Apart from the constraints we have to impose on the target $\bs u$ (implying that not all targets are reachable when these degenerate conditions are met), it is interesting to note that there is here an infinity of possible solutions, as $d_I$ can have any value.
+However, these solutions correspond to different projection probabilities, which in the above case can be computed to be
+\begin{equation*}
+	p = \frac{1}{2\left( 2 u_{1I}^2 + u_{2R}^2/2 + 2 d_I^2 \right)},
+\end{equation*}
+the value of which ranges from 0, when $d_I \to \infty$, to a maximum of $1/2(2u_{1I}^2 + u_{2R}^2 / 2)$ when $d_I = 0$.
+These different solutions also present different degrees of stability with respect to small changes of the coin parameters.
+To illustrate this, in~\cref{fig:fid_vs_eps_varying_d} is shown how the fidelity varies when perturbing one of the coin parameters generating a state of the form \cref{eq:state_degenerate_case}, for various values of $d_I$.
+
+\begin{figure}[tb]
+	\centering
+	\includegraphics[width=.5\linewidth]{projProbLandscape_2steps_allreal2.pdf}
+	\caption{
+		Probability given by~\cref{eq:proj_prob_2steps} plotted against $u_1$ and $u_2$, for the special case of $u_1, u_2 \in \RR$.
+	}
+	\label{fig:proj_prob_landscape_plot3d}
+\end{figure}
+\begin{figure}[tb]
+	\centering
+	\begin{tikzpicture}
+		\node (img) {\includegraphics[width=.5\columnwidth]%
+			{projProbLandscape_2steps_allreal_slices}
+		};
+		% \node [overlay] (x-axis) at (-.45, -2.4) {\scalebox{1.2}{$u_2$}};
+		% \node [overlay] (x-axis) at (-.2, 2.3) {\scalebox{1.2}{$p$}};
+	\end{tikzpicture}
+	\caption{
+		Probability given by~\cref{eq:proj_prob_2steps} plotted against $u_2$, for various choices of $u_1$.
+		Each line corresponds to a slice taken from \cref{fig:proj_prob_landscape_plot3d}.}
+	\label{fig:proj_prob_landscape_slices}
+\end{figure}
+\begin{figure}[tb]
+	\centering
+	\includegraphics[width=.5\linewidth]{fidelityVsEpsVaryingD_2steps.pdf}
+	\caption{
+		Fidelity vs a relative change of the value of a coin parameter, for different values of $d_I$.
+		Starting from \cref{eq:state_degenerate_case}, we use as target state the normalised vector
+		$\bs u = N (0.5 i, 0.2, 0.5 i)$, and for various values of $d_I$ we compute the coin parameters generating the full state shown in \cref{eq:state_degenerate_case}.
+		We then take a single coin parameter, the parameter $\theta$ in the first step, and substitute it with $\epsilon \theta$, plotting the resulting fidelity between target and generated states as a function of $\epsilon$.
+		Larger values of $d_I$ clearly correspond to higher instability.
+	}
+	\label{fig:fid_vs_eps_varying_d}
+\end{figure}
+
 \subsection{Numerical solution of reachability conditions}
-\label{sec:numerical_solution_reachability_conditions}
-We solved numerically~\cref{eq:conditions_for_ds} for $n=2,3,4$ and $5$ steps, for a number of random target states sampled from the uniform Haar distribution.
+\label{sec:qw_numerical_solution_reachability_conditions}
+We solved numerically~\cref{eq:qw_conditions_for_ds} for $n=2,3,4$ and $5$ steps, for a number of random target states sampled from the uniform Haar distribution.
 These equations resulted in a varying number of solutions for different target states and number of steps:
 always $1$ solution for 2 steps, $2$ or $4$ solutions for 3 steps, $3, 5, 7$ or $9$ solutions for 4 steps,
 and $6, 8, 10, 12, 14$ or $16$ solutions for 5 steps.
 Different solutions for the same target state correspond to different dynamics before the projection and different projection probabilities.
 This point is illustrated in \cref{fig:minmax_probabilities}, where we reported maximum and minimum projection probabilities for each randomly generated target state.
-From these results the advantage of solving~\cref{eq:conditions_for_ds} is clear: having the whole set of solutions we can choose the more convenient one in terms of projection probability.
+From these results the advantage of solving~\cref{eq:qw_conditions_for_ds} is clear: having the whole set of solutions we can choose the more convenient one in terms of projection probability.
 Having access to the various solutions generating a given target state, we can also study their stability properties.
 As shown in \cref{fig:stabilities_5steps}, a general trend is that sets of coin parameters associated to smaller projection probabilities are also less stable, in the sense that a small perturbation of a coin parameter leads to a state significantly different than the target one.
 As an example, we can use this method to generate a balanced superposition over 4 sites (using therefore 3 steps): $\ket\phi = (1, 1, 1, 1) / 2$.
@@ -890,17 +1068,13 @@ The same procedure applied to a balanced superposition over 6 sites (5 steps) re
 It is worth noting that while the projection probabilities over balanced superpositions over $n$ sites seem to vanish with $1/2n$, a simple phase change of an element can radically change this probability.
 As an example, again the case of 6 sites, if the target state is instead $\ket\phi \simeq (1,1,1,1,1,-1)$ the maximum projection probability becomes $\simeq 0.35$.
 The stability of the above solutions for balanced states when a small perturbation is applied to the coin parameters is shown in \cref{fig:stabilities_3and5steps_balanced_target}.
-% An intuitive understanding of the observed relation between projection probabilities and stability of the solutions can be obtained noting that a low projection probability means that the target state is ``well hidden'' in the full state, in the sense of the full state $\ket{\Psi}$ being of the form
-% $\ket{\Psi}\simeq \sqrt{p} \ket{\phi_{\on{target}}}\ket{\gamma} + \sqrt{1 - p^2} \ket{\tilde{\phi}}\ket{\gamma^\perp}$
-% with $\gamma$ the coin state over which we are projecting, $\ket{\tilde{\phi}}$ some walker state, and the projection probability $p$ is small.
-% It is therefore natural that the smaller $p$ is, the larger an effect a variation on $\ket{\Psi}$ has on $\braket{\gamma}{\Psi}$.
 
-\subsection{Numerical maximization of  fidelity}
-\label{sec:numerical_fid_max}
-The numerical solution of~\cref{eq:conditions_for_ds} for more than 5 steps is computationally difficult, due to the complexity of the resulting system of equations,
+\subsection{Numerical maximization of fidelity}
+\label{sec:qw_numerical_fid_max}
+The numerical solution of~\cref{eq:qw_conditions_for_ds} for more than 5 steps is computationally difficult, due to the complexity of the resulting system of equations,
 and we therefore employed a different numerical technique for this regime.
 We wrote the fidelity for a given target state as a function of the coin parameters, and found the set of parameters maximizing such fidelity using a standard optimization algorithm.
-In this way we could probe instances with up to 20 steps much more efficiently than we could have done by solving~\cref{eq:conditions_for_ds}.
+In this way we could probe instances with up to 20 steps much more efficiently than we could have done by solving~\cref{eq:qw_conditions_for_ds}.
 Furthermore, this method eases the study of different final projections, and allows to include the parameters of the projection itself in the optimization.
 
 The results of this approach are reported in \cref{fig:prob_histograms_nmaximize}, where we randomly generate a sample of target states, and find through numerical optimization the set of coin parameters and projections generating them.
@@ -933,11 +1107,13 @@ by properly fine-tuning the optimization algorithm.
 }
 \label{fig:proposal_exp}
 \end{figure*}
-\section{Linear optical experimental implementation} The state engineering protocol here proposed can be tested with a DTQW in \ac{OAM} and \ac{SAM} of a photon.
+
+\section{Linear optical experimental implementation}
+The state engineering protocol here proposed can be tested with a DTQW in \ac{OAM} and \ac{SAM} of a photon.
 The main feature of this scheme is that the evolution of the system lies in a single optical path~\cite{zhang2010implementation}, allowing for an implementation using a single photon.
-The complete scheme is shown in Fig.~\ref{fig:proposal_exp}.
+The complete scheme is shown in~\cref{fig:proposal_exp}.
 Position and coin degrees of freedom are encoded respectively in \ac{OAM} and \ac{SAM} of the photon,
-with the walker's site described by the quantum number $m$ $\in$ $\mathbb{Z}$, eigenvalue of the \ac{OAM} along the propagation axis, and the coin state is encoded in left $\ket L$ and right $\ket R$ polarization states of the photon.
+with the walker's site described by the quantum number $m\in\ZZ$, eigenvalue of the \ac{OAM} along the propagation axis, and the coin state is encoded in left $\ket L$ and right $\ket R$ polarization states of the photon.
 With this encoding, arbitrary coin operations are implemented propagating the photon through quarter (QWP) and half (HWP) wave plates.
 The controlled shift operations are instead realized with q-plates (QP):
 a birefringent liquid-crystal medium that rises and lowers the value of $m$ conditionally to the polarization state~\cite{marrucci2006optical},
@@ -999,7 +1175,7 @@ Given the ubiquity of quantum walks, our approach should facilitate the engineer
 		\end{tikzpicture}
 	\end{minipage}
 	\caption{
-		Distribution of projection probabilities computed 1) solving~\cref{eq:conditions_for_ds} for the parameters $d_i$,
+		Distribution of projection probabilities computed 1) solving~\cref{eq:qw_conditions_for_ds} for the parameters $d_i$,
 		2) computing the projection probabilities associated to each full state given by one such solution set, and
 		3) picking the solution set for the $\{d_i\}$ associated to lowest and highest projection probabilities.
 		The shown data is for the cases of 2, 3, 4 and 5 steps.
@@ -1037,7 +1213,7 @@ Given the ubiquity of quantum walks, our approach should facilitate the engineer
 			{{fidVsParameters_5stepsAnalytical_100thState_prob0.398078}.pdf}
 	\end{minipage}
 	\caption{
-		Behaviour of projection probability of the solutions found solving~\cref{eq:conditions_for_ds} for the target state $\ket\phi \simeq (0.053, -0.078 + 0.603i, -0.524 + 0.189i, -0.302 + 0.363i, 0.182 + 0.099i, 0.042 - 0.224i)$.
+		Behaviour of projection probability of the solutions found solving~\cref{eq:qw_conditions_for_ds} for the target state $\ket\phi \simeq (0.053, -0.078 + 0.603i, -0.524 + 0.189i, -0.302 + 0.363i, 0.182 + 0.099i, 0.042 - 0.224i)$.
 		In each of the plots, the final fidelity is plotted against many coin parameters, each time fixing the value of all of them except for one, whose value is changed by an absolute value $\epsilon$ (x-axis).
 		The 6 figures correspond to the 6 solutions for this target state, having respectively the projection probabilities:
 		$0.0014$ (top left), $0.0020$ (top right),
@@ -1102,7 +1278,7 @@ Given the ubiquity of quantum walks, our approach should facilitate the engineer
 		\end{tikzpicture}
 	\end{minipage}
 	\caption{
-		Distribution of projection probabilities for randomly sampled states, computed with the numerical maximization described in~\cref{sec:numerical_fid_max}.
+		Distribution of projection probabilities for randomly sampled states, computed with the numerical maximization described in~\cref{sec:qw_numerical_fid_max}.
 		Both plots show the probabilities associated to a set of 3000 target states sampled from the uniform Haar distribution, for 15 and 20 steps.
 		The light orange (upper) histograms represent the total number of target states found to correspond to a given range of probability.
 		Starting from these datasets, we progressively removed the states that were found to reproduce the target states with fidelity less than $1 - 10^{-t}$, for various values of the threshold $t$.
@@ -1117,107 +1293,6 @@ Given the ubiquity of quantum walks, our approach should facilitate the engineer
 \end{figure*}
 
 
-\section{Analytical solutions for two steps}
-\label{app:analytical_sol_2steps}
-We will in this section study the solutions obtained in the simplest case of 2 steps, focusing on what states are reachable, with what probabilities, and the stability of these solutions with respect to small perturbations of the coin parameters.
-
-As already shown in~\cref{sec:focusing_walker_states}, for 2 steps the reachability conditions become
-\begin{equation}
-	u_1^* (u_2 - d_2) + d_2^* u_3 = 0,
-	\label{eq:reachability_condition_2steps}
-\end{equation}
-which in the $\lvert u_1 \rvert \neq \lvert u_3 \rvert$ case has solution:
-\begin{equation}
-	d_2 = \frac{
-		u_1(u_1^* u_2 + u_2^* u_3)
-	}{
-		\lvert u_1 \rvert^2 - \lvert u_3 \rvert^2
-	}.
-	\label{app:eq:solution_for_d2}
-\end{equation}
-Using the above expression we can compute the projection probability of reaching a specific target state.
-For example, in the special case of $u_1, u_2, u_3 \in \mathbb R$, $u_3 \ge 0$, this probability is
-\begin{equation}
-\begin{aligned}
-	p &= \frac{1}{2} \left[ u_1^2 + (u_2 - d_2)^2 + d_2^2 + u_3^2 \right]^{-1} \\
-	&= \frac{
-		\left( u_1 - u_3 \right)^2
-	}{
-		2(1 - u_2^2)(1 - 2 u_1 u_3)
-	}
-\end{aligned}
-\label{eq:proj_prob_2steps}
-\end{equation}
-with $u_3 = \sqrt{1 - u_1^2 - u_2^2}$.
-\Cref{fig:proj_prob_landscape_plot3d,fig:proj_prob_landscape_slices} show how this probability varies with $u_1$ and $u_2$.
-Already in this simple case some interesting features emerge. For example, $p$ vanishes for $u_1 = u_3$.
-On the other hand, for $u_1 = -u_3$, the probability does not vanish, which may be puzzling because in this case \cref{app:eq:solution_for_d2} itself is singular.
-A more careful analysis of \cref{app:eq:solution_for_d2} shows however that $u_1 = -u_3$ corresponds to a removable singularity, consistently with the corresponding non-vanishing projection probability.
-
-When the $\lvert u_1 \rvert \neq \lvert u_3 \rvert$ condition is not met, the solution space changes significantly.
-We here consider for example the case $u_1 = u_3 \neq 0$. Substituting this into \cref{eq:reachability_condition_2steps} we get the conditions
-\begin{equation*}
-	\begin{dcases}
-		u_{1R}u_{2R} + u_{1I} u_{2I} = 0, \\
-		u_{1R} (2d_I - u_{2I})
-		+ u_{1I} (-2 d_R + u_{2R}) = 0,
-	\end{dcases}
-\end{equation*}
-where $u_{iR}$ and $u_{iI}$ denote the real and imaginary parts of $u_i$, respectively.
-A possible class of solutions of the above, obtained in the case $u_{1R} = 0$, is
-\begin{equation}
-	\scalemath{0.86}{
-	\begin{pmatrix}
-		i u_{1I} & 0 \\
-		\frac{u_{2R}}{2}-i d_I & \frac{u_{2R}}{2} + i d_I \\
-		0 & i u_{1I}
-	\end{pmatrix}},\,\,
-	u_{1R} = u_{2I} = 0,\,\, d_I \in \mathbb R.
-	\label{eq:state_degenerate_case}
-\end{equation}
-Apart from the constraints we have to impose on the target $\bs u$ (implying that not all targets are reachable when these degenerate conditions are met), it is interesting to note that there is here an infinity of possible solutions, as $d_I$ can have any value.
-However, these solutions correspond to different projection probabilities, which in the above case can be computed to be
-\begin{equation*}
-	p = \frac{1}{2\left( 2 u_{1I}^2 + u_{2R}^2/2 + 2 d_I^2 \right)},
-\end{equation*}
-the value of which ranges from 0, when $d_I \to \infty$, to a maximum of $1/2(2u_{1I}^2 + u_{2R}^2 / 2)$ when $d_I = 0$.
-These different solutions also present different degrees of stability with respect to small changes of the coin parameters.
-To illustrate this, in~\cref{fig:fid_vs_eps_varying_d} is shown how the fidelity varies when perturbing one of the coin parameters generating a state of the form \cref{eq:state_degenerate_case}, for various values of $d_I$.
-
-\begin{figure}[tb]
-	\centering
-	\includegraphics[width=.5\linewidth]{projProbLandscape_2steps_allreal2.pdf}
-	\caption{
-		Probability given by \cref{eq:proj_prob_2steps} plotted against $u_1$ and $u_2$, for the special case of $u_1, u_2 \in \mathbb R$.
-	}
-	\label{fig:proj_prob_landscape_plot3d}
-\end{figure}
-\begin{figure}[tb]
-	\centering
-	\begin{tikzpicture}
-		\node (img) {\includegraphics[width=.5\columnwidth]%
-			{projProbLandscape_2steps_allreal_slices}
-		};
-		% \node [overlay] (x-axis) at (-.45, -2.4) {\scalebox{1.2}{$u_2$}};
-		% \node [overlay] (x-axis) at (-.2, 2.3) {\scalebox{1.2}{$p$}};
-	\end{tikzpicture}
-	\caption{
-		Probability given by~\cref{eq:proj_prob_2steps} plotted against $u_2$, for various choices of $u_1$.
-		Each line corresponds to a slice taken from \cref{fig:proj_prob_landscape_plot3d}.}
-	\label{fig:proj_prob_landscape_slices}
-\end{figure}
-\begin{figure}[tb]
-	\centering
-	\includegraphics[width=.5\linewidth]{fidelityVsEpsVaryingD_2steps.pdf}
-	\caption{
-		Fidelity vs a relative change of the value of a coin parameter, for different values of $d_I$.
-		Starting from \cref{eq:state_degenerate_case}, we use as target state the normalized vector
-		$\bs u = N (0.5 i, 0.2, 0.5 i)$, and for various values of $d_I$ we compute the coin parameters generating the full state shown in \cref{eq:state_degenerate_case}.
-		We then take a single coin parameter, the parameter $\theta$ in the first step, and substitute it with $\epsilon \theta$, plotting the resulting fidelity between target and generated states as a function of $\epsilon$.
-		Larger values of $d_I$ clearly correspond to higher instability.
-	}
-	\label{fig:fid_vs_eps_varying_d}
-\end{figure}
 
 \section{Synthesizable states characterisation work}
 \section{VVB characterisation work}
