@@ -872,7 +872,7 @@ In other words, we fix a number of steps $n$ and a target superposition over the
 \begin{equation}
     \mel{\gamma}{\calW_{\calC_{n}} \cdots\calW_{\calC_{1}}}{\Psi_0} = \ket\phi.
 \end{equation}
-Such protocols are clearly probabilistic in general, but this is not a big hurdle provided the projection probabilities are good enough for the considered application.
+Such protocols are clearly probabilistic in general, but this is not a big hurdle provided the projection probabilities are vanishingly small.
 In particular, we are interested in finding whether arbitrary $\ket\phi$ can be generated in this way.
 The main tool that will be used to answer this question is the set of conditions given in~\cref{sec:reachability_conditions}.
 We will find the answer to be positive, modulo a few degenerate conditions that the $\ket\phi$ needs to satisfy.
@@ -898,18 +898,54 @@ In order to do this, we parametrize the set of all walker states $\ket\Phi$ whos
 where $(d_i)_{i=2}^n$ are complex parameters to be determined, and $N\in\RR$ is the normalisation constant.
 Projecting \cref{eq:qw_parametrized_state_with_ds} over the coin state $\ket+$ gives the correct result for any choice of $d_i$.
 The problem is thus reduced to finding $(d_i)_i$ corresponding to a reachable state.
-Direct substitution of \cref{eq:qw_parametrized_state_with_ds} into \cref{eq:qw_general_reachability_conditions} gives the set of conditions that these parameters have to satisfy
+From~\cref{sec:qw_reachability_conditions}, we know that $\ket\Phi$ is reachable \textit{if and only if}~\cref{eq:qw_general_reachability_conditions} is satisfied. Together with~\cref{eq:qw_parametrized_state_with_ds} these conditions translate into requiring $\sum_{i=1}^{s} \bs v_i^\dagger \bs v_{n-s+i}=0$ for all $s=1,\dots,n-1$, where
 \begin{equation}
-	\sum_{i=1}^s
-	(u_i - d_i)^*
-	(u_{n-s+i} - d_{n-s+i})
-	+
-	d_{i+1}^* d_{n-s+i+1}
+    \bs v_i = \begin{pmatrix}
+        u_i - d_i \\ d_{i+1}
+    \end{pmatrix},
+    \text{ with } d_1 = 0 \text{ and } d_{n+1}=u_{n+1}.
+\end{equation}
+Explicitly, we then get the following conditions on the parameters $d_i$:
+\begin{equation}
+	\sum_{i=1}^s \left[
+	  (u_i - d_i)^*
+	  (u_{n-s+i} - d_{n-s+i})
+	  +
+      d_{i+1}^* d_{n-s+i+1}
+    \right]
 	= 0,
 	\label{eq:qw_conditions_for_ds}
 \end{equation}
-for every $s=1,...,n-1$,
+for every $s=1,\dots,n-1$,
 with $d_1=0$ and $d_{n+1}=u_{n+1}$.
+Isolating the unknown from the rest of the parameters, we rewrite~\cref{eq:qw_conditions_for_ds} as
+\begin{equation}
+    2\sum_{i=2}^s d_i^* d_{n-s+i} + \sum_{i=1}^s u_i^* u_{n-s+i}
+    - \sum_{i=n-s+1}^{n} u_{i-n+s}^* d_i
+    - \sum_{i=2}^{s+1} u_{n-s+i} d_i^* = 0.
+\end{equation}
+Then, defining
+\begin{equation}
+\begin{gathered}
+    Q_s = 2\sum_{i=2}^s \ketbra{i}{n-s+i}, \\
+    \bs\alpha_s = -\sum_{i=n-s+1}^n u_{i-(n-s)}\ket{i},
+    \qquad
+    \bs\beta_s = -\sum_{i=2}^{s+1} u_{i+(n-s)}\ket{i}, \\
+    C_s = \sum_{i=1}^s u_i^* u_{n-s+i},
+    \qquad
+    \tilde{\bs d} = (\bs d, 1)^T,
+\end{gathered}
+\end{equation}
+\begin{equation}
+    \tilde{\bs d}^\dagger
+    \begin{pmatrix}
+        Q_s & \bs\alpha_s^\dagger \\ 
+        \bs\beta_s & C_s
+    \end{pmatrix}
+    \tilde{\bs d} = 0.
+\end{equation}
+This shows that the conditions in~\cref{eq:qw_conditions_for_ds} are equivalent to a system of quadratic equations of the form $\tilde{\bs d}^\dagger M_s \tilde{\bs d}=0$ for all $s=1,\dots,n-1$.
+\highlight{(comments about results, elimination theory, etc.)}
 Splitting in real and imaginary components, \cref{eq:qw_conditions_for_ds} becomes a system of $2(n-1)$ real quadratic equations in $2(n-1)$ real variables.
 It follows that~\cref{eq:qw_conditions_for_ds} has solutions for almost all target states, except for a subset of states of measure zero.
 In the simplest case, $n=2$, an explicit solution can be written as
