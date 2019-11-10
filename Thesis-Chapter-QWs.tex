@@ -909,9 +909,9 @@ Explicitly, we then get the following conditions on the parameters $d_i$:
 \begin{equation}
 	\sum_{i=1}^s \left[
 	  (u_i - d_i)^*
-	  (u_{n-s+i} - d_{n-s+i})
+      (u_{i+(n-s)} - d_{i+(n-s)})
 	  +
-      d_{i+1}^* d_{n-s+i+1}
+      d_{i+1}^* d_{i+(n-s)+1}
     \right]
 	= 0,
 	\label{eq:qw_conditions_for_ds}
@@ -919,45 +919,40 @@ Explicitly, we then get the following conditions on the parameters $d_i$:
 for every $s=1,\dots,n-1$,
 with $d_1=0$ and $d_{n+1}=u_{n+1}$.
 Isolating the unknown from the rest of the parameters, we rewrite~\cref{eq:qw_conditions_for_ds} as
-\begin{equation}
-    2\sum_{i=2}^s d_i^* d_{n-s+i} + \sum_{i=1}^s u_i^* u_{n-s+i}
-    - \sum_{i=n-s+1}^{n} u_{i-n+s}^* d_i
-    - \sum_{i=2}^{s+1} u_{n-s+i} d_i^* = 0.
+\begin{equation}\footnotesize
+    2\sum_{i=2}^s d_i^* d_{i+(n-s)}
+    + \sum_{i=1}^s u_i^* u_{i+(n-s)}
+    - \sum_{i=n-s+1}^{n} u_{i-(n-s)}^* d_i
+    - \sum_{i=2}^{s} u_{i+(n-s)} d_i^*
+    + u_{n+1} d_{s+1}^* 
+    = 0.
 \end{equation}
 Then, defining
 \begin{equation}
 \begin{gathered}
-    Q_s = 2\sum_{i=2}^s \ketbra{i}{n-s+i}, \\
-    \bs\alpha_s = -\sum_{i=n-s+1}^n u_{i-(n-s)}\ket{i},
+    Q_s \equiv 2\sum_{i=2}^s \ketbra{i}{i+(n-s)},
     \qquad
-    \bs\beta_s = -\sum_{i=2}^{s+1} u_{i+(n-s)}\ket{i}, \\
-    C_s = \sum_{i=1}^s u_i^* u_{n-s+i},
+    C_s \equiv \sum_{i=1}^s u_i^* u_{i+(n-s)},
     \qquad
-    \tilde{\bs d} = (\bs d, 1)^T,
+    \tilde{\bs d} \equiv (\bs d, 1)^T, \\
+    \bs\alpha_s \equiv -\sum_{i=1+(n-s)}^n u_{i-(n-s)}\ket{i},
+    \qquad
+    \bs\beta_s \equiv -\sum_{i=2}^{s} u_{i+(n-s)}\ket{i} + u_{n+1} \ket{s+1},
 \end{gathered}
 \end{equation}
+we can rewrite the conditions as the following system of quadratic equations:
 \begin{equation}
     \tilde{\bs d}^\dagger
     \begin{pmatrix}
-        Q_s & \bs\alpha_s^\dagger \\ 
-        \bs\beta_s & C_s
+        Q_s & \bs\beta_s \\
+        \bs\alpha_s^\dagger & C_s
     \end{pmatrix}
     \tilde{\bs d} = 0.
 \end{equation}
 This shows that the conditions in~\cref{eq:qw_conditions_for_ds} are equivalent to a system of quadratic equations of the form $\tilde{\bs d}^\dagger M_s \tilde{\bs d}=0$ for all $s=1,\dots,n-1$.
 \highlight{(comments about results, elimination theory, etc.)}
-Splitting in real and imaginary components, \cref{eq:qw_conditions_for_ds} becomes a system of $2(n-1)$ real quadratic equations in $2(n-1)$ real variables.
+Splitting in real and imaginary components,~\cref{eq:qw_conditions_for_ds} becomes a system of $2(n-1)$ real quadratic equations in $2(n-1)$ real variables.
 It follows that~\cref{eq:qw_conditions_for_ds} has solutions for almost all target states, except for a subset of states of measure zero.
-In the simplest case, $n=2$, an explicit solution can be written as
-\begin{equation}
-	d_2 = \frac{
-		u_1(u_1^* u_2 + u_2^* u_3)
-	}{
-		\lvert u_1 \rvert^2 - \lvert u_3 \rvert^2
-	}~\text{ for}~\lvert u_1 \rvert \neq \lvert u_3 \rvert.
-	\label{eq:qw_solution_for_d2}
-\end{equation}
-Note that this does not imply that for $\lvert u_1 \rvert = \lvert u_3 \rvert$ there is no solution for $d_2$, but only that \cref{eq:qw_solution_for_d2} does not apply in that case.
 More generally, \cref{eq:qw_conditions_for_ds}
 can be solved numerically with ease for small $n$, giving multiple solutions for any randomly selected target state.
 As remarked above for the general case, it is still possible for a solution of~\cref{eq:qw_conditions_for_ds} to not exist, provided some specific degenerate conditions are met.
@@ -975,28 +970,62 @@ We will also find that in the vast majority of instances the numerical maximizat
 
 \subsection{Analytical solutions for two steps}
 \label{sec:qw_analytical_sol_2steps}
+
 In this section we study the solutions obtained in the case of 2 steps, asking which states are reachable and with what probabilities, as well as the stability of these solutions with respect to small perturbations of the coin parameters.
 
-As already mentioned in~\cref{sec:qw_focusing_walker_states}, for 2 steps the reachability conditions read
+In the simplest case, $n=2$,~\cref{eq:qw_conditions_for_ds} reduces to a single equation to solve:
 \begin{equation}
-	u_1^* (u_2 - d_2) + d_2^* u_3 = 0,
-	\label{eq:qw_reachability_condition_2steps}
+    u_1^* d_2 - u_3 d_2^* = u_1^* u_2.
 \end{equation}
-which in the $\lvert u_1 \rvert \neq \lvert u_3 \rvert$ case has solution:
+Splitting into real and imaginary components, we see that this is equivalent to
+\begin{equation}
+    \begin{dcases}
+        (u_{1R} - u_{3R})d_{2R} + (u_{1I} - u_{3I})d_{2I} &=
+        u_{1R}u_{2R} + u_{1I} u_{2I} \\
+        (u_{1R} + u_{3R}) d_{2I} - (u_{1I} + u_{3I}) d_{2R} &=
+        u_{1R} u_{2I} - u_{1I} u_{2R},
+    \end{dcases}
+\end{equation}
+where $u_{iR}$ and $u_{iI}$ denote the real and imaginary parts of $u_i$, respectively.
+In matrix notation, this corresponds to the linear system
+\begin{equation}
+    \begin{pmatrix}
+        u_{1R} - u_{3R} & u_{1I} - u_{3I} \\
+        -u_{1I} - u_{3I} & u_{1R} + u_{3R}
+    \end{pmatrix}
+    \begin{pmatrix}
+        d_{2R} \\ d_{2I}
+    \end{pmatrix} =
+    \begin{pmatrix}
+        u_{1R}u_{2R} + u_{1I} u_{2I} \\
+        u_{1R} u_{2I} - u_{1I} u_{2R}
+    \end{pmatrix}.
+\end{equation}
+The determinant of the matrix on the left hand side is $\abs{u_1}^2-\abs{u_3}^2$, and thus, for $\abs{u_1}\neq\abs{u_3}$, the system is invertible, and the solution happens to be writable again in complex form as
 \begin{equation}
 	d_2 = \frac{
 		u_1(u_1^* u_2 + u_2^* u_3)
 	}{
 		\lvert u_1 \rvert^2 - \lvert u_3 \rvert^2
-	}.
-	\label{app:eq:qw_solution_for_d2}
+	}~\text{ for}~\lvert u_1 \rvert \neq \lvert u_3 \rvert.
+	\label{eq:qw_solution_for_d2}
 \end{equation}
+What this means is that any state of the form
+\begin{equation}
+    \begin{pmatrix}
+        u_1 & 0 \\
+        \frac{u_3(u_3^* u_2 + u_2^* u_1)}{\abs{u_3}^2 - \abs{u_1}^2} &
+        \frac{u_1(u_1^* u_2 + u_2^* u_3)}{-\abs{u_3}^2 + \abs{u_1}^2} \\
+        0 & u_3
+    \end{pmatrix}
+\end{equation}
+can be generated with two steps of quantum walk evolution, and when projected onto the $\ket+$ coin state gives the target state $u_1\ket1+u_2\ket2+u_3\ket3$.
 Using the above expression we can compute the projection probability of reaching a specific target state.
-For example, in the special case of $u_1, u_2, u_3 \in \mathbb R$, $u_3 \ge 0$, this probability is
+For example, in the special case of $u_1, u_2, u_3 \in \RR$, $u_3 \ge 0$, this probability is
 \begin{equation}
 \begin{aligned}
-	p &= \frac{1}{2} \left[ u_1^2 + (u_2 - d_2)^2 + d_2^2 + u_3^2 \right]^{-1} \\
-	&= \frac{
+	p = \frac{1}{2} \left[ u_1^2 + (u_2 - d_2)^2 + d_2^2 + u_3^2 \right]^{-1}
+	= \frac{
 		\left( u_1 - u_3 \right)^2
 	}{
 		2(1 - u_2^2)(1 - 2 u_1 u_3)
@@ -1007,19 +1036,20 @@ For example, in the special case of $u_1, u_2, u_3 \in \mathbb R$, $u_3 \ge 0$, 
 with $u_3 = \sqrt{1 - u_1^2 - u_2^2}$.
 \Cref{fig:proj_prob_landscape_plot3d,fig:proj_prob_landscape_slices} show how this probability varies with $u_1$ and $u_2$.
 Already in this simple case some interesting features emerge. For example, $p$ vanishes for $u_1 = u_3$.
-On the other hand, for $u_1 = -u_3$, the probability does not vanish, which may be puzzling because in this case \cref{app:eq:qw_solution_for_d2} itself is singular.
-A more careful analysis of \cref{app:eq:qw_solution_for_d2} shows however that $u_1 = -u_3$ corresponds to a removable singularity, consistently with the corresponding non-vanishing projection probability.
+On the other hand, for $u_1 = -u_3$, the probability does not vanish, which may appear puzzling because in this case~\cref{eq:qw_solution_for_d2} itself is singular.
+A more careful analysis of~\cref{eq:qw_solution_for_d2} shows however that $u_1 = -u_3$ corresponds to a removable singularity, consistently with the corresponding non-vanishing projection probability.
 
 When the $\lvert u_1 \rvert \neq \lvert u_3 \rvert$ condition is not met, the solution space changes significantly.
-We here consider for example the case $u_1 = u_3 \neq 0$. Substituting this into \cref{eq:qw_reachability_condition_2steps} we get the conditions
-\begin{equation*}
+Consider for example the case $u_1 = u_3 \neq 0$. Substituting this into~\cref{eq:qw_solution_for_d2} we get the conditions:
+\begin{equation}
 	\begin{dcases}
 		u_{1R}u_{2R} + u_{1I} u_{2I} = 0, \\
 		u_{1R} (2d_I - u_{2I})
-		+ u_{1I} (-2 d_R + u_{2R}) = 0,
+		+ u_{1I} (-2 d_R + u_{2R}) = 0.
 	\end{dcases}
-\end{equation*}
-where $u_{iR}$ and $u_{iI}$ denote the real and imaginary parts of $u_i$, respectively.
+    \label{eq:qw_ds2steps_u1nequ2}
+\end{equation}
+For $u_{1R}=0$,~\cref{eq:qw_ds2steps_u1nequ2} implies that either $u_{1I}=0$, 
 A possible class of solutions of the above, obtained in the case $u_{1R} = 0$, is
 \begin{equation}
 	\scalemath{0.86}{
@@ -1029,16 +1059,18 @@ A possible class of solutions of the above, obtained in the case $u_{1R} = 0$, i
 		0 & i u_{1I}
 	\end{pmatrix}},\,\,
 	u_{1R} = u_{2I} = 0,\,\, d_I \in \mathbb R.
-	\label{eq:state_degenerate_case}
+	\label{eq:qw_state_degenerate_case}
 \end{equation}
-Apart from the constraints we have to impose on the target $\bs u$ (implying that not all targets are reachable when these degenerate conditions are met), it is interesting to note that there is here an infinity of possible solutions, as $d_I$ can have any value.
+
+Apart from the constraints we have to impose on the target $\bs u$ (implying that not all targets are reachable when these degenerate conditions are met), it is interesting to note that while there is here in principle an infinite number of possible solutions, as $d_I$ can have any real value, the physical constraint of the corresponding set of amplitudes making up a normalised state forces the value of $d_I$ to satisfy
+$d_I^2 = 1/2 - u_{1I}^2 - u_{2R}^2/4$.
 However, these solutions correspond to different projection probabilities, which in the above case can be computed to be
 \begin{equation*}
 	p = \frac{1}{2\left( 2 u_{1I}^2 + u_{2R}^2/2 + 2 d_I^2 \right)},
 \end{equation*}
 the value of which ranges from 0, when $d_I \to \infty$, to a maximum of $1/2(2u_{1I}^2 + u_{2R}^2 / 2)$ when $d_I = 0$.
 These different solutions also present different degrees of stability with respect to small changes of the coin parameters.
-To illustrate this, in~\cref{fig:fid_vs_eps_varying_d} is shown how the fidelity varies when perturbing one of the coin parameters generating a state of the form \cref{eq:state_degenerate_case}, for various values of $d_I$.
+To illustrate this, in~\cref{fig:fid_vs_eps_varying_d} shows how the fidelity varies when perturbing one of the coin parameters generating a state of the form \cref{eq:qw_state_degenerate_case}, for various values of $d_I$.
 
 \begin{figure}[tb]
 	\centering
@@ -1067,8 +1099,8 @@ To illustrate this, in~\cref{fig:fid_vs_eps_varying_d} is shown how the fidelity
 	\includegraphics[width=.5\linewidth]{fidelityVsEpsVaryingD_2steps.pdf}
 	\caption{
 		Fidelity vs a relative change of the value of a coin parameter, for different values of $d_I$.
-		Starting from \cref{eq:state_degenerate_case}, we use as target state the normalised vector
-		$\bs u = N (0.5 i, 0.2, 0.5 i)$, and for various values of $d_I$ we compute the coin parameters generating the full state shown in \cref{eq:state_degenerate_case}.
+		Starting from \cref{eq:qw_state_degenerate_case}, we use as target state the normalised vector
+		$\bs u = N (0.5 i, 0.2, 0.5 i)$, and for various values of $d_I$ we compute the coin parameters generating the full state shown in \cref{eq:qw_state_degenerate_case}.
 		We then take a single coin parameter, the parameter $\theta$ in the first step, and substitute it with $\epsilon \theta$, plotting the resulting fidelity between target and generated states as a function of $\epsilon$.
 		Larger values of $d_I$ clearly correspond to higher instability.
 	}
