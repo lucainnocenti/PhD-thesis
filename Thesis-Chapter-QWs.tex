@@ -887,7 +887,7 @@ ${N(\Phi_{i,\uparrow}+\Phi_{i,\downarrow})= u_i}$ for all $i$.
 In order to do this, we parametrize the set of all walker states $\ket\Phi$ whose amplitudes give the target after projection as
 \begin{equation}
 \begin{aligned}
-	\ket\Phi &= N \left( u_1 \ket{1,\uparrow} + u_{n+1} \ket{n+1,\downarrow}
+    \ket\Phi &= N^{-1/2} \left( u_1 \ket{1,\uparrow} + u_{n+1} \ket{n+1,\downarrow}
 	+ \sum_{i=2}^n \left[
 		(u_i - d_i) \ket{i, \uparrow} +
 		d_i \ket{i, \downarrow}
@@ -895,12 +895,14 @@ In order to do this, we parametrize the set of all walker states $\ket\Phi$ whos
 \end{aligned}
 \label{eq:qw_parametrized_state_with_ds}
 \end{equation}
-where $(d_i)_{i=2}^n$ are complex parameters to be determined, and $N\in\RR$ is the normalisation constant.
+where $(d_i)_{i=2}^n$ are complex parameters to be determined, and $N\in\RR$ ensures the normalisation.
 Projecting \cref{eq:qw_parametrized_state_with_ds} over the coin state $\ket+$ gives the correct result for any choice of $d_i$.
 The problem is thus reduced to finding $(d_i)_i$ corresponding to a reachable state.
-From~\cref{sec:qw_reachability_conditions}, we know that $\ket\Phi$ is reachable \textit{if and only if}~\cref{eq:qw_general_reachability_conditions} is satisfied. Together with~\cref{eq:qw_parametrized_state_with_ds} these conditions translate into requiring $\sum_{i=1}^{s} \bs v_i^\dagger \bs v_{n-s+i}=0$ for all $s=1,\dots,n-1$, where
+If a set of coefficients $(d_i)_i$ is then found to generate a (normalised) target state $\sum_i u_i \ket i$, the associated projection probability is
+$\|\braket{+_c}{\Phi}\|^2=1/2N$.
+From~\cref{sec:qw_reachability_conditions}, we know that $\ket\Phi$ is reachable \textit{if and only if}~\cref{eq:qw_general_reachability_conditions} is satisfied. Together with~\cref{eq:qw_parametrized_state_with_ds} these conditions translate into $\sum_{i=1}^{s} \bs v_i^\dagger \bs v_{n-s+i}=0$ for all $s=1,\dots,n-1$, where
 \begin{equation}
-    \bs v_i = \begin{pmatrix}
+    \bs v_i \equiv \begin{pmatrix}
         u_i - d_i \\ d_{i+1}
     \end{pmatrix},
     \text{ with } d_1 = 0 \text{ and } d_{n+1}=u_{n+1}.
@@ -918,7 +920,7 @@ Explicitly, we then get the following conditions on the parameters $d_i$:
 \end{equation}
 for every $s=1,\dots,n-1$,
 with $d_1=0$ and $d_{n+1}=u_{n+1}$.
-Isolating the unknown from the rest of the parameters, we rewrite~\cref{eq:qw_conditions_for_ds} as
+Isolating the unknowns from the rest of the parameters, we rewrite~\cref{eq:qw_conditions_for_ds} as
 \begin{equation}\footnotesize
     2\sum_{i=2}^s d_i^* d_{i+(n-s)}
     + \sum_{i=1}^s u_i^* u_{i+(n-s)}
@@ -940,7 +942,7 @@ Then, defining
     \bs\beta_s \equiv -\sum_{i=2}^{s} u_{i+(n-s)}\ket{i} + u_{n+1} \ket{s+1},
 \end{gathered}
 \end{equation}
-we can rewrite the conditions as the following system of quadratic equations:
+we obtain the following system of quadratic equations:
 \begin{equation}
     \tilde{\bs d}^\dagger
     \begin{pmatrix}
@@ -1012,16 +1014,31 @@ The determinant of the matrix on the left hand side is $\abs{u_1}^2-\abs{u_3}^2$
 \end{equation}
 What this means is that any state of the form
 \begin{equation}
-    \begin{pmatrix}
+    N^{-1/2} \begin{pmatrix}
         u_1 & 0 \\
         \frac{u_3(u_3^* u_2 + u_2^* u_1)}{\abs{u_3}^2 - \abs{u_1}^2} &
         \frac{u_1(u_1^* u_2 + u_2^* u_3)}{-\abs{u_3}^2 + \abs{u_1}^2} \\
         0 & u_3
-    \end{pmatrix}
+    \end{pmatrix},
+    \label{eq:qw_solution_for_d2_fullstate_matrixform}
 \end{equation}
+for a suitable normalisation constant $N$,
 can be generated with two steps of quantum walk evolution, and when projected onto the $\ket+$ coin state gives the target state $u_1\ket1+u_2\ket2+u_3\ket3$.
-Using the above expression we can compute the projection probability of reaching a specific target state.
-For example, in the special case of $u_1, u_2, u_3 \in \RR$, $u_3 \ge 0$, this probability is
+Using the above expression we can compute the projection probability of reaching a specific target state, which, as remarked before, equals $1/2N$.
+In this case $N$ is given by
+\begin{equation}
+\begin{aligned}
+    N =
+    \abs{u_1}^2 +\abs{u_3}^2 + \abs{u_2-d_2}^2 + \abs{d_2}^2 =
+    (\lvert u_1\rvert^2 +\lvert u_3\rvert^2)\left[
+        1 +
+        \frac{
+            \abs{u_3^* u_2 + u_2^* u_1}^2
+        }{(\lvert u_3\rvert^2-\lvert u_1\rvert^2)^2}
+\right].
+\end{aligned}
+\end{equation}
+In the special case of $u_1, u_2, u_3 \in \RR$, $u_3 \ge 0$, this probability becomes
 \begin{equation}
 \begin{aligned}
 	p = \frac{1}{2} \left[ u_1^2 + (u_2 - d_2)^2 + d_2^2 + u_3^2 \right]^{-1}
@@ -1029,12 +1046,12 @@ For example, in the special case of $u_1, u_2, u_3 \in \RR$, $u_3 \ge 0$, this p
 		\left( u_1 - u_3 \right)^2
 	}{
 		2(1 - u_2^2)(1 - 2 u_1 u_3)
-	}
+	},
 \end{aligned}
 \label{eq:proj_prob_2steps}
 \end{equation}
 with $u_3 = \sqrt{1 - u_1^2 - u_2^2}$.
-\Cref{fig:proj_prob_landscape_plot3d,fig:proj_prob_landscape_slices} show how this probability varies with $u_1$ and $u_2$.
+\Cref{fig:proj_prob_landscape_plot3d,fig:proj_prob_landscape_slices} show how this probability depends on $u_1$ and $u_2$.
 Already in this simple case some interesting features emerge. For example, $p$ vanishes for $u_1 = u_3$.
 On the other hand, for $u_1 = -u_3$, the probability does not vanish, which may appear puzzling because in this case~\cref{eq:qw_solution_for_d2} itself is singular.
 A more careful analysis of~\cref{eq:qw_solution_for_d2} shows however that $u_1 = -u_3$ corresponds to a removable singularity, consistently with the corresponding non-vanishing projection probability.
@@ -1049,26 +1066,56 @@ Consider for example the case $u_1 = u_3 \neq 0$. Substituting this into~\cref{e
 	\end{dcases}
     \label{eq:qw_ds2steps_u1nequ2}
 \end{equation}
-For $u_{1R}=0$,~\cref{eq:qw_ds2steps_u1nequ2} implies that either $u_{1I}=0$, 
-A possible class of solutions of the above, obtained in the case $u_{1R} = 0$, is
+For $u_{1R}=0$,~\cref{eq:qw_ds2steps_u1nequ2} implies that either $u_{1I}=0$,
+or $u_{1I}\neq0$ and $u_{2I}=u_{2R}-2d_R=0$.
+In the former case, where $u_{1R}=u_{1I}=u_3=0$ and thus also $u_2=e^{i\alpha}$, the state before the projection is then
 \begin{equation}
-	\scalemath{0.86}{
+    \frac{1}{[1 + 2\lvert d_2\rvert^2 - 2\Re(d_2e^{-i\alpha})]^{1/2}}
+    \begin{pmatrix}
+        0 & 0 \\
+        e^{i\alpha} - d_2 & d_2 \\
+        0 & 0
+    \end{pmatrix}.
+\end{equation}
+An interesting feature of this solutions is that it shows that there can be many possible reachable states giving a target after projection, as any value of $d_2$ gives a valid different solution, with different solutions corresponding to different projection probabilities. This was not the case for~\cref{eq:qw_solution_for_d2_fullstate_matrixform}, in which the projection probability was univocally determined by the choice of target state.
+The coins generating these states when the initial state is $\ket{1,\uparrow}$ are
+\begin{equation}
+\scalemath{0.95}{
+    \calC^{(2)} = \begin{pmatrix}
+        0 & e^{i\theta_1} \\ e^{i\theta_2} & 0
+    \end{pmatrix},
+    \quad
+    \calC^{(1)} =
+    \frac{1}{[1 + 2\lvert d_2\rvert^2 - 2\Re(d_2e^{-i\alpha})]^{1/2}}
+    \begin{pmatrix}
+        e^{-i\theta_2} (e^{i\alpha} - d_2) & \bullet \\
+        e^{-i\theta_1} d_2 & \bullet
+    \end{pmatrix}
+},
+\end{equation}
+where the second column of $\calC^{(1)}$ is chosen in order to make the overall matrix unitary.
+The probabilities of these solutions are then
+$1/2[1 + 2\lvert d_2\rvert^2 - 2\Re(d_2e^{-i\alpha})]$.
+The maximal probability is then easily seen to be $1$, corresponding to $d_2=e^{i\alpha}/2$.
+When $u_{1I}\neq0$, we must have $u_{2I}=u_{2R}-2d_R=0$, which correspond to the following full output states:
+\begin{equation}
+	\scalemath{0.96}{
+    \frac{1}{[2u_{1I}^2 + u_{2R}^2/2 + 2 d_I^2]^{1/2}}
 	\begin{pmatrix}
 		i u_{1I} & 0 \\
 		\frac{u_{2R}}{2}-i d_I & \frac{u_{2R}}{2} + i d_I \\
 		0 & i u_{1I}
-	\end{pmatrix}},\,\,
-	u_{1R} = u_{2I} = 0,\,\, d_I \in \mathbb R.
+	\end{pmatrix}}.
 	\label{eq:qw_state_degenerate_case}
 \end{equation}
-
-Apart from the constraints we have to impose on the target $\bs u$ (implying that not all targets are reachable when these degenerate conditions are met), it is interesting to note that while there is here in principle an infinite number of possible solutions, as $d_I$ can have any real value, the physical constraint of the corresponding set of amplitudes making up a normalised state forces the value of $d_I$ to satisfy
-$d_I^2 = 1/2 - u_{1I}^2 - u_{2R}^2/4$.
-However, these solutions correspond to different projection probabilities, which in the above case can be computed to be
-\begin{equation*}
-	p = \frac{1}{2\left( 2 u_{1I}^2 + u_{2R}^2/2 + 2 d_I^2 \right)},
-\end{equation*}
-the value of which ranges from 0, when $d_I \to \infty$, to a maximum of $1/2(2u_{1I}^2 + u_{2R}^2 / 2)$ when $d_I = 0$.
+We find again that multiple solutions are possible to generate targets states of the form
+$(iu_{1I},u_{2R},i u_{1I})$,
+with different projection probabilities corresponding to different solutions.
+The probabilities in this case are given by
+$1/[2\left( 2 u_{1I}^2 + u_{2R}^2/2 + 2 d_I^2 \right)]$,
+the value of which ranges from 0, when $d_I \to \infty$, to a maximum of
+$1/[2(2u_{1I}^2 + u_{2R}^2 / 2)]$ when $d_I = 0$.
+Unlikely the $u_{1I}=0$ case, we thus find that these types of target states cannot be generated deterministically with this type of dynamic.
 These different solutions also present different degrees of stability with respect to small changes of the coin parameters.
 To illustrate this, in~\cref{fig:fid_vs_eps_varying_d} shows how the fidelity varies when perturbing one of the coin parameters generating a state of the form \cref{eq:qw_state_degenerate_case}, for various values of $d_I$.
 
@@ -1193,7 +1240,7 @@ Therefore, the DTQW is made up of consecutive optical units composed of wave pla
 The number of optical elements scales polynomially with the number of steps, making this scheme scalable.
 Finally, a SLM can be also employed before the quantum walk architecture to prepare the initial walker state spanning $n$ sites.
 
-Among other possible architectures to implement the quantum state engineering are intrinsically-stable bulk interferometric schemes~\cite{broome2010discrete,kitagawa2012observation,vitelli2013joining}.
+Among other possible architectures for quantum state engineering are intrinsically-stable bulk interferometric schemes~\cite{broome2010discrete,kitagawa2012observation,vitelli2013joining}.
 In this approach, the coin is implemented in the polarization degree of freedom,
 while the shift operator is performed by introducing a spatial displacement of the optical mode conditionally to the polarization state of the photon.
 Other approaches include integrated linear interferometers~\cite{sansoni2012twoparticle, crespi2013anderson, harris2015bosonic, pitsios2016photonic}, and fiber-loops architectures~\cite{schreiber2010photons, schreiber2012a, boutari2016large}. As mentioned, besides purely optical settings, one could envisage to adapt the present protocol to other physical systems that can host quantum walks \cite{manouchehri2014physical}, such as trapped atoms \cite{karski2009quantum} and ions \cite{schmitz2009quantum, zhringer2010realization} as well as cold atoms in lattices \cite{weitenberg2011singlespin, fukuhara2013microscopic, preiss2015strongly}.
