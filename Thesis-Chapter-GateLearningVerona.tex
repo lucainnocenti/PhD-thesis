@@ -1,0 +1,191 @@
+%!TEX root = ./Thesis.tex
+
+\newcommand{\bsw}{{\bs{w}}}
+\newcommand{\Utarget}{{\calU_{target}}}
+
+
+\chapter{Porco dio}
+
+
+\section{Introduction}
+Machine learning techniques find fruitful application in several branches of quantum information theory~\cite{mehta2018highbias,spears2017contemporary,biamonte,petruccione,ciliberto2017quantum,perdomoortiz2017opportunities}.
+Supervised learning, in particular, provides powerful tools to build algorithms able to pick up patterns from sets of pre-labelled data.
+In the context of quantum information science, machine learning techniques have been showcased as a flexible tool to solve complex optimisation tasks in different areas~\cite{zdeborov2017machine,carrasquilla2017machine,carleo2017solving,van2017learning,schoenholz2016structural,torlai2018neural,rocchetto2017experimental,melnikov2018active,banchi2016quantum,fujita2018construction,innocenti2018supervised}.
+In particular, supervised learning techniques were recently demonstrated to solve \emph{gate design} problems~\cite{banchi2016quantum,innocenti2018supervised}.
+
+Here, by \emph{gate design problem} we mean the task of identifying a time-independent Hamiltonian generating a target evolution, under a series of restrictions imposed on the allowed Hamiltonian terms.
+This problem is well suited for machine learning techniques because, while mathematically well-defined, it presents a complex and strongly context-depend phenomenology.
+At the same time, the ability to implement non-trivial gates using time-independent dynamics and experimentally-feasible interactions is potentially of great interest for practical implementations of quantum algorithms.
+It was recently shown in Ref.~\cite{innocenti2018supervised} that, by exploiting supervised learning techniques and ideas, it is possible to flexibly tackle arbitrary gate design problems.  A mathematical framework to further improve the efficiency of the numerics by providing improved ansatz for the optimisations can be formalised and used.
+In this paper, we illustrate the methodology sketched in Ref.~\cite{innocenti2018supervised} and give further examples of time-independent Hamiltonians found via supervised learning optimisation, exploring cases in which ancillary qubits are used to catalyse the evolution, but are traced out at the end of the dynamics in such a way that the effective evolution over the system qubits is the desired one.
+
+The remainder of this paper is organized as follows. In Sec.~\ref{sec:optimisation} we introduce the context of the problem that we address, stating the mathematical conditions that qualify a successful gate design (or synthesis). Sec.~\ref{learning} is dedicated to the illustration of the supervised learning approach that we use to tackle our problem. In Sec.~\ref{details} we discuss in details the stochastic momentum gradient descent approach that we choose to ensure the fulfilment of the mathematical conditions for gate design. Such methods are used in Sec.~\ref{results} to address quantitatively the training of a qubit network for the synthesis of three non-trivial three-qubit gates, including a half-adder and a quantum Fourier transform. We demonstrate that extremely high-quality gates can be synthesised using only evolutions coupling at most two qubits per time. Moreover, such restricted-resource designs are relatively stable against variations in the controlled parameters of the synthesis, which makes our approach robust, and potentially very interesting for implementation in a number of context, from superconducting quantum systems to trapped ions.
+Finally, in Sec.~\ref{concl} we draw our conclusions.
+
+\section{Optimisation of qubit networks}
+\label{sec:optimisation}
+
+
+Consider a set of qubits whose dynamics is described by the time-independent Hamiltonian $\HH_\bslambda=\sum_k \lambda_k A_k$, which is specified by the set of real parameters $\bslambda=\{\lambda_1,\lambda_2,\dots,\lambda_k,\dots\}$ and has been decomposed over the (Hermitian) operatorial basis $\{A_k\}$.
+We consider some of the qubits of the set, say the first $M$ ones, as composing the \emph{system} ${\cal S}$ under investigation. The others embody a set  ${\cal A}$ of \emph{ancillary qubits}, whose collective initial state is set to be $\ket{\phi}_{\cal A}$.
+We call $\ket\psi_{\cal S}$ the initial state of the system qubits, which we assume to be uncorrelated to the set of ancillae and will thus evolve as
+\begin{equation}
+	% \ketbra{\psi_{\on{out}}(t,\bslambda)} =
+	\rho^{\cal S}_{\on{out}}(t, \bslambda) = %\rho_{\on{out}}(t\bslambda) =
+	\Tr_\calA\left[\exp(it\HH_\bslambda)(\psi\otimes\phi)\right],
+\end{equation}
+where $\Tr_\calA$ denotes the partial trace of the ancillary qubits and we have used the shortcut notation
+\begin{equation}
+\exp(it\HH_\bslambda)(\psi\otimes\phi)=e^{it\HH_\bslambda}(\ket{\psi}\bra{\psi}_{\cal S}\otimes\ket{\phi}\bra{\phi}_{\cal A})e^{-it\HH_\bslambda}.
+\end{equation}
+Without loss of generality, in the following we can assume units such that $t=1$, so that the evolution time can be incorporated into a suitable rescaling of the the Hamiltonian parameters $\bslambda$. The evolved system state will henceforth be written as $\rho^{\cal S}_{\on{out}}(t,\bslambda)\equiv \rho^{\cal S}_{\on{out}}(\bslambda)$. Our goal is to find a set of parameters $\bslambda_0$ such that, for a given target evolution $\Utarget$, we have the successful gate synthesis $\Utarget=\exp(i\HH_{\bslambda_0})$.
+This is equivalent to having
+\begin{equation}
+	% \ketbra{\psi_{\on{out}}(\bslambda)}=
+	\rho^{\cal S}_{\on{out}}(\bslambda_0) =
+	\Utarget(\ket{\psi}\bra{\psi}_{\cal S})\calU^\dagger_{target},\qquad \forall\ket{\psi}_{\cal S}.
+\end{equation}
+A natural way to quantify how much a given $\bslambda$ is close to the needed set $\bslambda_0$ is to use the state fidelity %function defined as
+\begin{equation}
+	\calF_\bslambda(\psi) ={}_{\cal S}\!\mel{\psi}{\calU_{target}^\dagger \rho_{\on{out}}^{\mathcal S}(\bslambda) \Utarget}{\psi}_{\cal S}.
+	\label{eq:fidelity_definition}
+\end{equation}
+It then follows that
+\begin{equation}
+\label{condition}
+\calF_{\bslambda_0}(\psi)=1\quad \forall\ket\psi \Leftrightarrow \exp(i\HH_{\bslambda_0})=\Utarget.
+\end{equation}
+Restricting ourselves to Hamiltonians having at most pairwise interactions, which are easier to implement in many experimental architectures, we can consider the following decomposition over the Pauli basis
+\begin{equation}
+	\HLambda = h_0 \mathds 1 + \sum h^\alpha_{i} \sigma_i^\alpha + \sum J_{ij}^{\alpha\beta} \sigma_i^\alpha \sigma_j^\beta.
+	\label{eq:hamiltonian_atmostpairwise}
+\end{equation}
+Here, $i, j=1,...,N$ are indices for the qubits of the overall set (system and ancillae), $\alpha, \beta\in\{1,2,3\}$ identify the element of the Pauli vector ${\bm\sigma}=(\sigma^1,\sigma^2,\sigma^3)$ being considered (we use the correspondence $\sigma^1\rightarrow\sigma^x, \sigma^2\rightarrow\sigma^y, \sigma^3\rightarrow\sigma^z$), $J_{ij}^{\alpha\beta}$ is a coupling strength, and $\bslambda=\{h_0, h^\alpha_{i}, J_{ij}^{\alpha\beta}\}$.
+
+Note that, for a given choice of $\Utarget$ and $\HLambda$, it is not known whether a solution to the question posed by Eq.~\eqref{condition} even exists.
+% For example, it was until recently assumed that nontrivial three-qubit gates such as Toffoli and Fredkin could not be implemented with a time-independent dynamics without making use of ancillary qubits or higher-dimensional spaces~\cite{banchi2016quantum,zahedinejad2015highfidelity,zahedinejad2015highfidelity} (check).
+Indeed, a simple parameter-counting argument shows it does not in general: not all possible evolutions produced using higher-order interactions can be generated when only one- and two-qubit couplings are available. A concrete example of the gate-synthesis problem discussed here is given by the implementation of a Toffoli gate~\cite{shi2002both} over a three-qubit network with a restricted set of interactions. Yet, Ref.~\cite{banchi2016quantum} has shown that the use of a single ancillary qubit catalyses the synthesis of three-qubit gates with the restricted resources mentioned above. Moreover,  it was recently shown~\cite{innocenti2018supervised} that the same task can be achieved \emph{without} ancillary qubits and under the stronger restriction of having available only \emph{diagonal} pairwise interactions. Whether a given gate can be realized with a specific time-independent set of operations remains an open question.
+
+\section{Supervised learning of the Hamiltonian parameters}
+\label{learning}
+
+A standard approach to the design of Hamiltonians producing a target gate is the direct optimization of the average fidelity $\barF_\bslambda\equiv \int \calF_\psi \,d\psi$,
+where the integral is performed over the set of all pure states $\ket\psi$.
+Explicit closed expressions for $\barF_\bslambda$ are known~\cite{banchi2011nonperturbative,magesan2011gate,pedersen2007fidelity}, so that global optimisation algorithms can be applied directly.
+However, the resulting complex parameter landscape makes such optimization inefficient. In order to avoid  the issues associated with global optimisation techniques, we thus resort to a different approach.
+
+Instead of directly optimising $\barF_\bslambda$, we focus on single input states and optimise $\calF_\bslambda(\psi)$ for many different $\ket\psi$.
+Formulated in this manner, the problem can be phrased in terms of supervised machine learning tasks, akin to the training of a neural network model.
+Indeed, qubit networks can be trained to implement target evolutions just as neural network are trained to implement desired functional relationships.
+
+One of the most used techniques to train neural network models is the so-called \ac{SGD}~\cite{wengert1964a,ruder2016an},
+a workhorse of many state-of-the-art machine learning algorithms.
+Given a parametrised functional relation $f_\bsw(\bsx)$, \ac{SGD} looks for sets of parameters $\bs w_0$ such that $f_{\bsw_0}(\bsx)$ is minimised for all $\bsx$.
+This is done via the following iterative procedure: 1) choose a random input $\bsx_0$, 2) perform a few gradient descent steps over $\bsw$, and 3) go back to the first step, until a good result is obtained.
+In this way some of the difficulties associated with local optimisation are avoided, because for every input $\bsx$ one has a different parameter landscape $\bsw\mapsto f_\bsw(\bsx)$ over which the gradient descent is performed.
+This new parameter landscape does not in general have the same local minima as the previous ones, while on the other hand the global minimum is bound to be a minimum for all $\bsx$.
+In the qubit network scenario that we are tackling, this translates into the fidelity being unitary for all $\ket\psi_{\cal S}$ only for the sets $\bslambda$ such that $\exp(i\HH_\bslambda)=\Utarget$.
+
+Following the large body of research that the area of machine learning has seen in recent years~\cite{lecun2015deep,silver2016mastering}, a number of well-honed tools to efficiently tackle these kinds of tasks has been developed and made freely available.
+In particular, software frameworks such as Theano~\cite{team2016theano}, TensorFlow~\cite{tensorflow2015-whitepaper} and PyTorch~\cite{paszke2017automatic} allow to efficiently train arbitrarily built models with state-of-the-art \ac{SGD} algorithms.
+One particular aspect of these frameworks which allows to further speed-up the training procedure is that they allow to perform \emph{automatic differentiation}~\cite{wengert1964a,bartholomewbiggs2000automatic,baydin2015automatic} of arbitrary computations.
+Automatic differentiation is a technique to efficiently compute, numerically, the gradient of an arbitrary multivalued function $f(\bs x)$, without using numerical approximation methods nor requiring the analytical expression of the gradient.
+Such technique is especially valuable to speed-up \ac{SGD} optimisations, as it significantly decreases the cost of computing $\grad_\bsw f$.
+
+\section{Implementation details}
+\label{details}
+
+We implement supervised learning of arbitrary qubit networks using Theano\cite{team2016theano}, a Python library for machine learning of widespread use.
+More specifically, we use Theano to perform momentum-\ac{SGD}~\cite{ruder2016an} over the network parameters $\bslambda$, exploiting the automatic differentiation capabilities provided by Theano to speed-up the optimisation.
+The implemented protocol can be summarized in the following steps
+\begin{enumerate}
+	\item Choose an initial set of parameters $\bs\lambda$.
+	\item Generate a random set of input states $\ket{\psi_k}$, $k=1,..., N_b$, with $N_b$ the size of the mini-batches chosen beforehand.
+	\item For each $k$, compute $\grad_{\bs\lambda} \mathcal F_{\bs\lambda}(\psi_k)$ using the automatic differentiation capabilities offered by Theano.
+	\item Change the coupling strengths $\bs\lambda$ according to the chosen updating rule. A standard choice, adopted in this work, is momentum-SGD, which is characterised by the following updating rule:
+	\begin{equation}
+	\begin{aligned}
+		\bs v &\to \gamma \bs v + \eta \grad_{\bs\lambda} \mathcal F_{\bs\lambda}(\psi_k), \\
+		\bs\lambda &\to \bs\lambda + \bs v,
+	\end{aligned}
+	\end{equation}
+	where the \emph{learning rate} $\eta$ and the \emph{momentum term} $\gamma$ are \emph{hyperparameters} that define the optimisation protocol.
+	The value of the learning rate is also chosen to be decreasing with the iteration number.
+	\item Return to point (2), until a satisfactory value of the fidelity is obtained.
+\end{enumerate}
+For the cost function $\mathcal F_\bslambda$ we use the expression given in~\cref{eq:fidelity_definition}, with a general Hamiltonian model with at most pairwise interactions, as given in~\cref{eq:hamiltonian_atmostpairwise}.
+This means that, for example, to train the four-qubit networks implementing Half-adder and TofFredkin gates, we start with a general Hamiltonian like in~\cref{eq:hamiltonian_atmostpairwise} with $9$ parameters $h_i^\alpha$ for the single-qubit fields, plus $3\times9$ parameters $J_{ij}^{\alpha\beta}$ for the two-qubit interactions, amounting to a total of $36$ parameters to be trained.
+The $h_0$ parameter can be left out of the training as it only amounts to an unobservable global phase.
+A similar calculation tells us that for the $3+5$ network used to train the \ac{QFT} gate, a total amount of $276$ parameters are trained.
+
+All the codes used to generate the results reported in this paper are freely available from Ref.~\cite{lucaarchivio}
+
+
+
+\section{Results}
+\label{results}
+We trained qubit networks of various sizes to generate the \acf{QFT} over three qubits, a special doubly-controlled gate that shares characteristics with both Toffoli and Fredkin gate, to which we will refer to as \emph{TofFredkin} in the following, and the half-adder gate~\cite{barbosa2006quantum}.
+
+The three-qubit \ac{QFT} transformation can be written as
+\begin{equation}
+\ac{QFT}\ket{a}_1\ket{b}_2\ket{c}_3=\frac{1}{\sqrt 8}\left(\ket0+e^{i\pi c}\ket1\right)_1\left(\ket0+e^{i\pi (b+\frac{c}{2})}\ket1\right)_2\left(\ket0+e^{i\pi (a+\frac{b}{2}+\frac{c}{4})}\ket1\right)_3
+\end{equation}
+with $\ket{k}_j$ the states of the system qubit $j=1,2,3$ ($k=a,b,c=0,1$).
+
+We define the TofFredkin gate as the three-qubit transformation
+\begin{equation}
+{\cal U}_{\rm TF}=\ket{0}\bra{0}_1\otimes{\rm CNOT}_{23}+\ket{1}\bra{1}_1\otimes{\rm SWAP}_{23},
+\end{equation}
+which thus performs a CNOT (SWAP) gate on qubits $2$ and $3$, akin to a quantum Toffoli (Fredkin) gate, when the state of the control qubit 1 is $\ket{0}_1$ ($\ket{1}_1$).
+
+Finally, the half-adder acts on a register of three qubits as
+\begin{equation}
+{\cal U}_{HA}={\rm CNOT}_{12}{\rm CCNOT}_{123},
+\end{equation}
+where ${\rm CCNOT}_{123}$ stands for the quantum Toffoli gate. When applied to a logical state $\ket{a}_1\ket b_2\ket c_3$, the half adder returns the state $\ket a_1\ket{a\oplus b}_2\ket{c\oplus{\rm carry}}_3$ with carry=0,1 the carry over of $a\oplus b$.
+
+To assess the quality of the obtained gates we use the averaged gate fidelity $\barF(\mathcal E,\mathcal U)$, defined as
+\begin{equation}
+	\barF(\mathcal E, \calU) =
+	\int d\psi \mel{\psi}{\calU^\dagger \mathcal E(\ketbra\psi)\calU}{\psi}.
+	\label{eq:fidelity_definition}
+\end{equation}
+This quantity is used to characterize how close the action of a map $\mathcal E$ is to the action of a unitary $\U$.
+The map is in our case the operation corresponding to the action of a unitary in the enlarged system+ancillae space, followed by tracing the ancillary qubits.
+In our case, if $\tilde{\mathcal U}$ is the unitary acting on the full system+ancillae space, obtained from the learning procedure, then the map is defined as
+${\mathcal E(\rho) = \Tr_A[\tilde{\mathcal U}(\rho\otimes\ketbra{0}) \tilde{\mathcal U}^\dagger]}$,
+where $\ketbra{0}_A$ is the initial state of the ancillary system.
+\Cref{eq:fidelity_definition} can be explicitly computed as
+\begin{equation}
+	\barF(\mathcal E,\U) = \frac{1}{d+1} \left[
+		1 + \frac{1}{d}\sum_{ij}\mel{i}{\calU^\dagger \mathcal E(\ketbra{i}{j})\calU}{j}
+	\right].
+	\label{eq:fidelity_explicit_expr}
+\end{equation}
+In what follows, we use of~\cref{eq:fidelity_explicit_expr} to assess the quality of the reported results.
+
+\Cref{fig:parameters} shows the sets of Hamiltonian parameters that were obtained through the training procedure, for each of these operations.
+The TofFredkin gate was found with unit fidelity, up to numerical precision, using a single ancillary qubit. In~\cref{fig:toffredkin_fidVSpars} is shown how the fidelity varies with the Hamiltonian parameters. Fig.~\ref{fig:toffredkin_finalmatrix} reports the final matrix over the full four-qubit network.
+
+In the case of the \ac{QFT}, we performed a series of training procedures with different sizes for the ancillary system, from the case of no ancilla to a maximum of five ancillary qubits being used.
+We observed the best results when using 0, 3, and 5 ancillae, the average fidelities being $0.987$, $0.991$, and $0.988$ respectively.
+It is important to note that due to the heuristic nature of the optimization method we employed, better results could be possible by using different initial conditions or  optimization parameters.
+In~\cref{fig:parameters,fig:qft3q+5a_fidVSpars} we show the final parameters, and variation of final fidelities against the parameters, for the case of 5 ancillary qubits~\cite{seeRepoForQFTDetails}.
+
+Finally, the half-adder gate was realized with average fidelity $\barF\simeq0.999997$ with a single ancilla.
+Again, in~\cref{fig:halfadder_fidVSpars} is reported the behaviour of $\calF_\bslambda$ upon variations of $\bslambda$, and in~\cref{fig:halfadder_finalmatrix} we show the final unitary gate implemented over the full four-qubit network.
+
+\Cref{fig:toffredkin_fidVSpars,fig:halfadder_fidVSpars,fig:qft3q+5a_fidVSpars} show the relative stability of the gates with respect to changes of the Hamiltonian parameters.
+In particular, for TofFredkin and \ac{QFT}, the fidelity remains above $95\%$ upon a $25\%$ variation of the evolution time.
+The half-adder appears to be less stable, but this is only consequence of the larger values of its interactions, as shown in~\cref{fig:parameters}(c).
+Indeed, the hardness of tuning the Hamiltonian parameters with sufficient precision will vary strongly between different gates, as well as between different implementation of the same gate, and between different parameters in any given implementation.
+
+These results provide further evidence in support of the power and flexibility of the supervised learning approach presented in~\cite{innocenti2018supervised,banchi2016quantum}, which clearly applies to the cases where ancillary degrees of freedom are exploited during the evolution.
+
+
+\section{Conclusions}
+\label{concl}
+
+We have reported on strategies for supervised learning-assisted synthesis of multi-qubit quantum gates. The general scheme of our gate design is based on the use of a limited set of resources (such as two-qubit gates) that, in general, would not be sufficient for arbitrary gate design. However, the catalyst effect brought about by the use of machine learning -- specifically, stochastic momentum gradient descent -- is sufficient to overcome the limitation of our resources and deliver high-quality complex quantum gates. We have demonstrated the performance of our scheme by addressing the significant cases of a half-adder and a \ac{QFT} circuit. Moreover, we have shown the flexibility of our approach by addressing a novel type of gate that puts together the paradigmatic quantum Toffoli and Fredkin gates.
+
+We believe that the proposed methodology will be able to significantly help in the task of designing complex evolutions suitable for the simulation of the dynamics of networks of information carriers, lowering the complexity associated with gate decomposition, and simply adopting well-known techniques of classical machine learning.
