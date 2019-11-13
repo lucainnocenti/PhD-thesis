@@ -118,8 +118,8 @@ In the following table we report the summary of target states engineered during 
 The protocol and the experimental platforms are tested firstly with the elements of the computational basis corresponding to the eigenstates of the OAM, here denoted as $\{\ket{m} \}=\{\ket{\pm5}, \ket{\pm3},\ket{\pm1} \}$. We then consider superpositions of two computational basis states, and then proceed with more complex states such as spin-coherent states, the elements of the Fourier basis, and lastly random states. The quantum state fidelities are calculated measuring the target state on an orthonormal basis, generated via Gram-Schmidt orthogonalization, which contains the state itself.
 
 Let us clarify the notation used in Table~\ref{table1}. For the Fourier basis the convention employed is the following: $\ket{QFT_k}=\frac{1}{\sqrt{6}}\sum_{j=1}^{6}e^{\frac{ i \pi jk }{3}}\ket{j}$, where $\{\ket{j}\}$ stands for the logical basis that in our case corresponds to the OAM eigenstates $\{\ket{m} \}$. The notation $\ket{r_k}$ and $\ket{c_k}$ refers to real and complex random states respectively. Amplitudes of real states have been sampled uniformly in the range $\left[0,1\right]$ and then normalized. In the case of complex states we have sampled the real and imaginary part separately in the range $\left[-0.5,0.5\right]$. In Table~\ref{table2} we report the resulting amplitudes.
-\begin{table*}[h!]
-\centering
+\begin{table}[h!]
+\centering\footnotesize
 \begin{tabular}{lcc|lcc}
 \toprule
 Target State & $Probability$  & $\mathcal{F}_{exp}$  & Target State & $Probability$  & $\mathcal{F}_{exp}$ \\
@@ -145,10 +145,10 @@ $\quad\frac{1}{\sqrt{2}}\left(\ket{S_1}+i\ket{S_2}\right)$ & $0.23$ & $0.964 \pm
 \end{tabular}
 \caption{Summary of the measured states with relative generation probabilities and experimental quantum state fidelities. }
 \label{table1}
-\end{table*}
+\end{table}
 
-\begin{table*}[bh!]
-\centering
+\begin{table}[bh!]
+\centering\footnotesize
 \begin{tabular}{cc}
 \toprule
 State & Amplitudes \\
@@ -167,7 +167,7 @@ $\qquad\ket{c_5}\qquad$& $\left( 0.07+0.14i, 0.48-0.34i, -0.41-0.18i, -0.41-0.09
 \end{tabular}
 \caption{Amplitudes of random states.}
 \label{table2}
-\end{table*}
+\end{table}
 
 
 \subsection{Scalability of the platform}

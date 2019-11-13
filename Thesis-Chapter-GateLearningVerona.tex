@@ -2,9 +2,10 @@
 
 \newcommand{\bsw}{{\bs{w}}}
 \newcommand{\Utarget}{{\calU_{target}}}
+\newcommand{\HLambda}{{\calH}_{\bslambda}}
 
 
-\chapter{Porco dio}
+\chapter{Gate learning with ancillary qubits}
 
 
 \section{Introduction}
@@ -47,7 +48,7 @@ This is equivalent to having
 \end{equation}
 A natural way to quantify how much a given $\bslambda$ is close to the needed set $\bslambda_0$ is to use the state fidelity %function defined as
 \begin{equation}
-	\calF_\bslambda(\psi) ={}_{\cal S}\!\mel{\psi}{\calU_{target}^\dagger \rho_{\on{out}}^{\mathcal S}(\bslambda) \Utarget}{\psi}_{\cal S}.
+	\calF_\bslambda(\psi) ={}_{\cal S}\!\mel{\psi}{\calU_{target}^\dagger \rho_{\on{out}}^{\calS}(\bslambda) \Utarget}{\psi}_{\cal S}.
 	\label{eq:fidelity_definition}
 \end{equation}
 It then follows that
@@ -57,10 +58,10 @@ It then follows that
 \end{equation}
 Restricting ourselves to Hamiltonians having at most pairwise interactions, which are easier to implement in many experimental architectures, we can consider the following decomposition over the Pauli basis
 \begin{equation}
-	\HLambda = h_0 \mathds 1 + \sum h^\alpha_{i} \sigma_i^\alpha + \sum J_{ij}^{\alpha\beta} \sigma_i^\alpha \sigma_j^\beta.
+	\HLambda = h_0 I + \sum h^\alpha_{i} \sigma_i^\alpha + \sum J_{ij}^{\alpha\beta} \sigma_i^\alpha \sigma_j^\beta.
 	\label{eq:hamiltonian_atmostpairwise}
 \end{equation}
-Here, $i, j=1,...,N$ are indices for the qubits of the overall set (system and ancillae), $\alpha, \beta\in\{1,2,3\}$ identify the element of the Pauli vector ${\bm\sigma}=(\sigma^1,\sigma^2,\sigma^3)$ being considered (we use the correspondence $\sigma^1\rightarrow\sigma^x, \sigma^2\rightarrow\sigma^y, \sigma^3\rightarrow\sigma^z$), $J_{ij}^{\alpha\beta}$ is a coupling strength, and $\bslambda=\{h_0, h^\alpha_{i}, J_{ij}^{\alpha\beta}\}$.
+Here, $i, j=1,...,N$ are indices for the qubits of the overall set (system and ancillae), $\alpha, \beta\in\{1,2,3\}$ identify the element of the Pauli vector ${\bs\sigma}=(\sigma^1,\sigma^2,\sigma^3)$ being considered (we use the correspondence $\sigma^1\rightarrow\sigma^x, \sigma^2\rightarrow\sigma^y, \sigma^3\rightarrow\sigma^z$), $J_{ij}^{\alpha\beta}$ is a coupling strength, and $\bslambda=\{h_0, h^\alpha_{i}, J_{ij}^{\alpha\beta}\}$.
 
 Note that, for a given choice of $\Utarget$ and $\HLambda$, it is not known whether a solution to the question posed by Eq.~\eqref{condition} even exists.
 % For example, it was until recently assumed that nontrivial three-qubit gates such as Toffoli and Fredkin could not be implemented with a time-independent dynamics without making use of ancillary qubits or higher-dimensional spaces~\cite{banchi2016quantum,zahedinejad2015highfidelity,zahedinejad2015highfidelity} (check).
@@ -101,11 +102,11 @@ The implemented protocol can be summarized in the following steps
 \begin{enumerate}
 	\item Choose an initial set of parameters $\bs\lambda$.
 	\item Generate a random set of input states $\ket{\psi_k}$, $k=1,..., N_b$, with $N_b$ the size of the mini-batches chosen beforehand.
-	\item For each $k$, compute $\grad_{\bs\lambda} \mathcal F_{\bs\lambda}(\psi_k)$ using the automatic differentiation capabilities offered by Theano.
+	\item For each $k$, compute $\grad_{\bs\lambda} \calF_{\bs\lambda}(\psi_k)$ using the automatic differentiation capabilities offered by Theano.
 	\item Change the coupling strengths $\bs\lambda$ according to the chosen updating rule. A standard choice, adopted in this work, is momentum-SGD, which is characterised by the following updating rule:
 	\begin{equation}
 	\begin{aligned}
-		\bs v &\to \gamma \bs v + \eta \grad_{\bs\lambda} \mathcal F_{\bs\lambda}(\psi_k), \\
+		\bs v &\to \gamma \bs v + \eta \grad_{\bs\lambda} \calF_{\bs\lambda}(\psi_k), \\
 		\bs\lambda &\to \bs\lambda + \bs v,
 	\end{aligned}
 	\end{equation}
@@ -113,7 +114,7 @@ The implemented protocol can be summarized in the following steps
 	The value of the learning rate is also chosen to be decreasing with the iteration number.
 	\item Return to point (2), until a satisfactory value of the fidelity is obtained.
 \end{enumerate}
-For the cost function $\mathcal F_\bslambda$ we use the expression given in~\cref{eq:fidelity_definition}, with a general Hamiltonian model with at most pairwise interactions, as given in~\cref{eq:hamiltonian_atmostpairwise}.
+For the cost function $\calF_\bslambda$ we use the expression given in~\cref{eq:fidelity_definition}, with a general Hamiltonian model with at most pairwise interactions, as given in~\cref{eq:hamiltonian_atmostpairwise}.
 This means that, for example, to train the four-qubit networks implementing Half-adder and TofFredkin gates, we start with a general Hamiltonian like in~\cref{eq:hamiltonian_atmostpairwise} with $9$ parameters $h_i^\alpha$ for the single-qubit fields, plus $3\times9$ parameters $J_{ij}^{\alpha\beta}$ for the two-qubit interactions, amounting to a total of $36$ parameters to be trained.
 The $h_0$ parameter can be left out of the training as it only amounts to an unobservable global phase.
 A similar calculation tells us that for the $3+5$ network used to train the \ac{QFT} gate, a total amount of $276$ parameters are trained.
@@ -134,31 +135,31 @@ with $\ket{k}_j$ the states of the system qubit $j=1,2,3$ ($k=a,b,c=0,1$).
 
 We define the TofFredkin gate as the three-qubit transformation
 \begin{equation}
-{\cal U}_{\rm TF}=\ket{0}\bra{0}_1\otimes{\rm CNOT}_{23}+\ket{1}\bra{1}_1\otimes{\rm SWAP}_{23},
+\calU_{\rm TF}=\ket{0}\bra{0}_1\otimes{\rm CNOT}_{23}+\ket{1}\bra{1}_1\otimes{\rm SWAP}_{23},
 \end{equation}
 which thus performs a CNOT (SWAP) gate on qubits $2$ and $3$, akin to a quantum Toffoli (Fredkin) gate, when the state of the control qubit 1 is $\ket{0}_1$ ($\ket{1}_1$).
 
 Finally, the half-adder acts on a register of three qubits as
 \begin{equation}
-{\cal U}_{HA}={\rm CNOT}_{12}{\rm CCNOT}_{123},
+{\calU}_{HA}={\rm CNOT}_{12}{\rm CCNOT}_{123},
 \end{equation}
 where ${\rm CCNOT}_{123}$ stands for the quantum Toffoli gate. When applied to a logical state $\ket{a}_1\ket b_2\ket c_3$, the half adder returns the state $\ket a_1\ket{a\oplus b}_2\ket{c\oplus{\rm carry}}_3$ with carry=0,1 the carry over of $a\oplus b$.
 
-To assess the quality of the obtained gates we use the averaged gate fidelity $\barF(\mathcal E,\mathcal U)$, defined as
+To assess the quality of the obtained gates we use the averaged gate fidelity $\barF(\calE,\calU)$, defined as
 \begin{equation}
-	\barF(\mathcal E, \calU) =
-	\int d\psi \mel{\psi}{\calU^\dagger \mathcal E(\ketbra\psi)\calU}{\psi}.
+	\barF(\calE, \calU) =
+	\int d\psi \mel{\psi}{\calU^\dagger \calE(\ketbra\psi)\calU}{\psi}.
 	\label{eq:fidelity_definition}
 \end{equation}
-This quantity is used to characterize how close the action of a map $\mathcal E$ is to the action of a unitary $\U$.
+This quantity is used to characterize how close the action of a map $\calE$ is to the action of a unitary $\calU$.
 The map is in our case the operation corresponding to the action of a unitary in the enlarged system+ancillae space, followed by tracing the ancillary qubits.
-In our case, if $\tilde{\mathcal U}$ is the unitary acting on the full system+ancillae space, obtained from the learning procedure, then the map is defined as
-${\mathcal E(\rho) = \Tr_A[\tilde{\mathcal U}(\rho\otimes\ketbra{0}) \tilde{\mathcal U}^\dagger]}$,
+In our case, if $\tilde{\calU}$ is the unitary acting on the full system+ancillae space, obtained from the learning procedure, then the map is defined as
+${\calE(\rho) = \Tr_A[\tilde{\calU}(\rho\otimes\ketbra{0}) \tilde{\calU}^\dagger]}$,
 where $\ketbra{0}_A$ is the initial state of the ancillary system.
 \Cref{eq:fidelity_definition} can be explicitly computed as
 \begin{equation}
-	\barF(\mathcal E,\U) = \frac{1}{d+1} \left[
-		1 + \frac{1}{d}\sum_{ij}\mel{i}{\calU^\dagger \mathcal E(\ketbra{i}{j})\calU}{j}
+	\barF(\calE,\calU) = \frac{1}{d+1} \left[
+		1 + \frac{1}{d}\sum_{ij}\mel{i}{\calU^\dagger \calE(\ketbra{i}{j})\calU}{j}
 	\right].
 	\label{eq:fidelity_explicit_expr}
 \end{equation}
