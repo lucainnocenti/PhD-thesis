@@ -36,19 +36,6 @@
     year = {2003}
 }
 
-@article{agarwal1997atomic,
-    author = {Agarwal, G. and Puri, R. and Singh, R.},
-    doi = {10.1103/PhysRevA.56.2249},
-    journal = {Physical Review A},
-    month = {Sep},
-    number = {3},
-    pages = {2249–2254},
-    publisher = {American Physical Society (APS)},
-    title = {Atomic Schrödinger cat states},
-    volume = {56},
-    year = {1997}
-}
-
 @article{aharonov1993quantum,
     author = {Aharonov, Y. and Davidovich, L. and Zagury, N.},
     doi = {10.1103/PhysRevA.48.1687},
@@ -104,19 +91,6 @@ Computation},
     title = {Adiabatic quantum computation},
     volume = {90},
     year = {2018}
-}
-
-@article{allen1992orbital,
-    author = {Allen, L. and Beijersbergen, M. W. and Spreeuw, R. J. C. and Woerdman, J. P.},
-    doi = {10.1103/PhysRevA.45.8185},
-    journal = {Physical Review A},
-    month = {Jun},
-    number = {11},
-    pages = {8185–8189},
-    publisher = {American Physical Society (APS)},
-    title = {Orbital angular momentum of light and the transformation of Laguerre-Gaussian laser modes},
-    volume = {45},
-    year = {1992}
 }
 
 @inproceedings{ambainis2001onedimensional,
@@ -237,43 +211,6 @@ amplification},
     year = {2015}
 }
 
-@article{anderson2015accurate,
-    author = {Anderson, B. E. and Sosa-Martinez, H. and Riofrío, C. A. and Deutsch, Ivan H. and Jessen, Poul S.},
-    doi = {10.1103/PhysRevLett.114.240401},
-    journal = {Physical Review Letters},
-    month = {Jun},
-    number = {24},
-    publisher = {American Physical Society (APS)},
-    title = {Accurate and Robust Unitary Transformations of a High-Dimensional Quantum System},
-    volume = {114},
-    year = {2015}
-}
-
-@article{anderson2015accurate,
-    author = {Anderson, B. E. and Sosa-Martinez, H. and Riofrío, C. A. and Deutsch, Ivan H. and Jessen, Poul S.},
-    doi = {10.1103/PhysRevLett.114.240401},
-    journal = {Physical Review Letters},
-    month = {Jun},
-    number = {24},
-    publisher = {American Physical Society (APS)},
-    title = {Accurate and Robust Unitary Transformations of a High-Dimensional Quantum System},
-    volume = {114},
-    year = {2015}
-}
-
-@article{arecchi1972atomic,
-    author = {Arecchi, F. T. and Courtens, Eric and Gilmore, Robert and Thomas, Harry},
-    doi = {10.1103/PhysRevA.6.2211},
-    journal = {Physical Review A},
-    month = {Dec},
-    number = {6},
-    pages = {2211–2237},
-    publisher = {American Physical Society (APS)},
-    title = {Atomic Coherent States in Quantum Optics},
-    volume = {6},
-    year = {1972}
-}
-
 @article{arute2019quantum,
     author = {Arute, Frank and Arya, Kunal and Babbush, Ryan and Bacon, Dave and Bardin, Joseph C. and Barends, Rami and Biswas, Rupak and Boixo, Sergio and Brandao, Fernando G. S. L. and Buell, David A. and et al.},
     doi = {10.1038/s41586-019-1666-5},
@@ -285,19 +222,6 @@ amplification},
     title = {Quantum supremacy using a programmable superconducting processor},
     volume = {574},
     year = {2019}
-}
-
-@article{banaszek2013focus,
-    author = {Banaszek, K and Cramer, M and Gross, D},
-    doi = {10.1088/1367-2630/15/12/125020},
-    journal = {New Journal of Physics},
-    month = {Dec},
-    number = {12},
-    pages = {125020},
-    publisher = {IOP Publishing},
-    title = {Focus on quantum tomography},
-    volume = {15},
-    year = {2013}
 }
 
 @article{banchi2011nonperturbative,
@@ -329,6 +253,7 @@ amplification},
     year = {2015}
 }
 
+
 @article{banchi2016quantum,
     author = {Banchi, Leonardo and Pancotti, Nicola and Bose, Sougato},
     journal = {npj Quantum Information},
@@ -339,17 +264,6 @@ amplification},
     url = {http://dx.doi.org/10.1038/npjqi.2016.19},
     volume = {2},
     year = {2016}
-}
-
-@article{bandyopadhyay2002new,
-    author = {Bandyopadhyay, Somshubhro and Boykin, P Oscar and Roychowdhury, Vwani and Vatan, Farrokh},
-    journal = {Algorithmica},
-    number = {4},
-    pages = {512--528},
-    publisher = {Springer},
-    title = {A new proof for the existence of mutually unbiased bases},
-    volume = {34},
-    year = {2002}
 }
 
 @article{barenco1995elementary,
@@ -391,6 +305,7 @@ amplification},
     year = {2000}
 }
 
+
 @article{bartlett2002quantum,
     author = {Bartlett, Stephen D. and Guise, Hubert de and Sanders, Barry C.},
     doi = {10.1103/physreva.65.052316},
@@ -403,19 +318,6 @@ amplification},
     url = {http://dx.doi.org/10.1103/physreva.65.052316},
     volume = {65},
     year = {2002}
-}
-
-@article{bauer2013nanointerferometric,
-    author = {Bauer, Thomas and Orlov, Sergej and Peschel, Ulf and Banzer, Peter and Leuchs, Gerd},
-    doi = {10.1038/NPHOTON.2013.289},
-    journal = {Nature Photonics},
-    month = {Nov},
-    number = {1},
-    pages = {23–27},
-    publisher = {Springer Science and Business Media LLC},
-    title = {Nanointerferometric amplitude and phase reconstruction of tightly focused vector beams},
-    volume = {8},
-    year = {2013}
 }
 
 @article{bauls2006quantum,
@@ -481,18 +383,6 @@ amplification},
     year = {2014}
 }
 
-@article{berkhout2010efficient,
-    author = {Berkhout, Gregorius C. G. and Lavery, Martin P. J. and Courtial, Johannes and Beijersbergen, Marco W. and Padgett, Miles J.},
-    doi = {10.1103/PhysRevLett.105.153601},
-    journal = {Physical Review Letters},
-    month = {Oct},
-    number = {15},
-    publisher = {American Physical Society (APS)},
-    title = {Efficient Sorting of Orbital Angular Momentum States of Light},
-    volume = {105},
-    year = {2010}
-}
-
 @article{bernhard2013shaping,
     author = {Bernhard, Christof and Bessire, Bänz and Feurer, Thomas and Stefanov, André},
     doi = {10.1103/physreva.88.032322},
@@ -531,19 +421,6 @@ amplification},
     url = {http://dx.doi.org/10.1088/1367-2630/16/3/033017},
     volume = {16},
     year = {2014}
-}
-
-@article{biamonte2017quantum,
-    author = {Biamonte, Jacob and Wittek, Peter and Pancotti, Nicola and Rebentrost, Patrick and Wiebe, Nathan and Lloyd, Seth},
-    doi = {10.1038/nature23474},
-    journal = {Nature},
-    month = {Sep},
-    number = {7671},
-    pages = {195–202},
-    publisher = {Springer Science and Business Media LLC},
-    title = {Quantum machine learning},
-    volume = {549},
-    year = {2017}
 }
 
 @book{bischof2008advances,
@@ -611,19 +488,6 @@ amplification},
     title = {Characterizing quantum supremacy in near-term devices},
     volume = {14},
     year = {2018}
-}
-
-@article{bolduc2013exact,
-    author = {Bolduc, Eliot and Bent, Nicolas and Santamato, Enrico and Karimi, Ebrahim and Boyd, Robert W.},
-    doi = {10.1364/OL.38.003546},
-    journal = {Optics Letters},
-    month = {Sep},
-    number = {18},
-    pages = {3546},
-    publisher = {The Optical Society},
-    title = {Exact solution to simultaneous intensity and phase encryption with a single phase-only hologram},
-    volume = {38},
-    year = {2013}
 }
 
 @article{bottou1998online,
@@ -704,18 +568,6 @@ amplification},
     year = {2016}
 }
 
-@article{brierley2009constructing,
-    author = {Brierley, Stephen and Weigert, Stefan},
-    doi = {10.1103/PhysRevA.79.052316},
-    journal = {Physical Review A},
-    month = {May},
-    number = {5},
-    publisher = {American Physical Society (APS)},
-    title = {Constructing mutually unbiased bases in dimension six},
-    volume = {79},
-    year = {2009}
-}
-
 @article{britton2012engineered,
     author = {Britton, Joseph W. and Sawyer, Brian C. and Keith, Adam C. and Wang, C.-C. Joseph and Freericks, James K. and Uys, Hermann and Biercuk, Michael J. and Bollinger, John J.},
     doi = {10.1038/nature10981},
@@ -788,19 +640,6 @@ amplification},
     year = {2002}
 }
 
-@article{brune1992manipulation,
-    author = {Brune, M. and Haroche, S. and Raimond, J. M. and Davidovich, L. and Zagury, N.},
-    doi = {10.1103/PhysRevA.45.5193},
-    journal = {Physical Review A},
-    month = {Apr},
-    number = {7},
-    pages = {5193–5214},
-    publisher = {American Physical Society (APS)},
-    title = {Manipulation of photons in a cavity by dispersive atom-field coupling: Quantum-nondemolition measurements and generation of “‘Schrödinger cat’” states},
-    volume = {45},
-    year = {1992}
-}
-
 @article{brunner2014bell,
     author = {Brunner, Nicolas and Cavalcanti, Daniel and Pironio, Stefano and Scarani, Valerio and Wehner, Stephanie},
     doi = {10.1103/revmodphys.86.419},
@@ -825,32 +664,6 @@ amplification},
     year = {2001}
 }
 
-@article{buluta2009quantum,
-    author = {Buluta, I. and Nori, F.},
-    doi = {10.1126/science.1177838},
-    journal = {Science},
-    month = {Oct},
-    number = {5949},
-    pages = {108–111},
-    publisher = {American Association for the Advancement of Science (AAAS)},
-    title = {Quantum Simulators},
-    volume = {326},
-    year = {2009}
-}
-
-@article{cai2012integrated,
-    author = {Cai, X. and Wang, J. and Strain, M. J. and Johnson-Morris, B. and Zhu, J. and Sorel, M. and O’Brien, J. L. and Thompson, M. G. and Yu, S.},
-    doi = {10.1126/science.1226528},
-    journal = {Science},
-    month = {Oct},
-    number = {6105},
-    pages = {363–366},
-    publisher = {American Association for the Advancement of Science (AAAS)},
-    title = {Integrated Compact Optical Vortex Beam Emitters},
-    volume = {338},
-    year = {2012}
-}
-
 @article{campbell2012magicstate,
     author = {Campbell, Earl T. and Anwar, Hussain and Browne, Dan E.},
     doi = {10.1103/physrevx.2.041021},
@@ -864,7 +677,6 @@ amplification},
     volume = {2},
     year = {2012}
 }
-
 @article{campbell2014enhanced,
     author = {Campbell, Earl T.},
     doi = {10.1103/PhysRevLett.113.230501},
@@ -875,19 +687,6 @@ amplification},
     title = {Enhanced Fault-Tolerant Quantum Computing ind-Level Systems},
     volume = {113},
     year = {2014}
-}
-
-@article{cardano2012polarization,
-    author = {Cardano, Filippo and Karimi, Ebrahim and Slussarenko, Sergei and Marrucci, Lorenzo and de Lisio, Corrado and Santamato, Enrico},
-    doi = {10.1364/AO.51.0000C1},
-    journal = {Applied Optics},
-    month = {Mar},
-    number = {10},
-    pages = {C1},
-    publisher = {The Optical Society},
-    title = {Polarization pattern of vector vortex beams generated by q-plates with different topological charges},
-    volume = {51},
-    year = {2012}
 }
 
 @article{cardano2015quantum,
@@ -929,7 +728,6 @@ amplification},
     volume = {7},
     year = {2016}
 }
-
 @article{cardano2017detection,
     author = {Cardano, Filippo and D’Errico, Alessio and Dauphin, Alexandre and Maffei, Maria and Piccirillo, Bruno and de Lisio, Corrado and De Filippis, Giulio and Cataudella, Vittorio and Santamato, Enrico and Marrucci, Lorenzo and et al.},
     doi = {10.1038/ncomms15516},
@@ -941,6 +739,8 @@ amplification},
     volume = {8},
     year = {2017}
 }
+
+
 
 @article{carleo2017solving,
     author = {Carleo, Giuseppe and Troyer, Matthias},
@@ -967,19 +767,6 @@ amplification},
     url = {http://dx.doi.org/10.1038/nphys4035},
     volume = {13},
     year = {2017}
-}
-
-@article{carrasquilla2019reconstructing,
-    author = {Carrasquilla, Juan and Torlai, Giacomo and Melko, Roger G. and Aolita, Leandro},
-    doi = {10.1038/s42256-019-0028-1},
-    journal = {Nature Machine Intelligence},
-    month = {Mar},
-    number = {3},
-    pages = {155–161},
-    publisher = {Springer Nature},
-    title = {Reconstructing quantum states with generative models},
-    volume = {1},
-    year = {2019}
 }
 
 @article{caruso2016fast,
@@ -1059,18 +846,6 @@ amplification},
     year = {2016}
 }
 
-@article{chen2018mapping,
-    author = {Chen, Yuan and Gao, Jun and Jiao, Zhi-Qiang and Sun, Ke and Shen, Wei-Guan and Qiao, Lu-Feng and Tang, Hao and Lin, Xiao-Feng and Jin, Xian-Min},
-    doi = {10.1103/PhysRevLett.121.233602},
-    journal = {Physical Review Letters},
-    month = {Dec},
-    number = {23},
-    publisher = {American Physical Society (APS)},
-    title = {Mapping Twisted Light into and out of a Photonic Chip},
-    volume = {121},
-    year = {2018}
-}
-
 @article{childs2003exponential,
     archivePrefix = {arXiv},
     author = {Childs, Andrew M. and Cleve, Richard and Deotto, Enrico and Farhi, Edward and Gutmann, Sam and Spielman, Daniel A.},
@@ -1145,35 +920,6 @@ amplification},
     year = {1998}
 }
 
-@article{chu2018creation,
-    archivePrefix = {arXiv},
-    author = {Chu, Yiwen and Kharel, Prashanta and Yoon, Taekwan and Frunzio, Luigi and Rakich, Peter T. and Schoelkopf, Robert J.},
-    doi = {10.1038/s41586-018-0717-7},
-    eprint = {1804.07426},
-    journal = {Nature},
-    month = {Nov},
-    number = {7733},
-    pages = {666–670},
-    primaryClass = {quant-ph},
-    publisher = {Springer Nature},
-    title = {Creation and control of multi-phonon Fock states in a bulk acoustic-wave resonator},
-    volume = {563},
-    year = {2018}
-}
-
-@article{chuang1997bosonic,
-    author = {Chuang, Isaac L. and Leung, Debbie W. and Yamamoto, Yoshihisa},
-    doi = {10.1103/PhysRevA.56.1114},
-    journal = {Physical Review A},
-    month = {Aug},
-    number = {2},
-    pages = {1114–1125},
-    publisher = {American Physical Society (APS)},
-    title = {Bosonic quantum codes for amplitude damping},
-    volume = {56},
-    year = {1997}
-}
-
 @article{cory1998experimental,
     author = {Cory, D. G. and Price, M. D. and Maas, W. and Knill, E. and Laflamme, R. and Zurek, W. H. and Havel, T. F. and Somaroo, S. S.},
     doi = {10.1103/physrevlett.81.2152},
@@ -1188,6 +934,19 @@ amplification},
     year = {1998}
 }
 
+@article{crespi2013anderson,
+    author = {Crespi, Andrea and Osellame, Roberto and Ramponi, Roberta and Giovannetti, Vittorio and Fazio, Rosario and Sansoni, Linda and Nicola, Francesco De and Sciarrino, Fabio and Mataloni, Paolo},
+    doi = {10.1038/nphoton.2013.26},
+    issn = {1749-4885},
+    journal = {Nature Photonics},
+    number = {4},
+    pages = {322--328},
+    title = {Anderson localization of entangled photons in an integrated quantum walk},
+    url = {http://dx.doi.org/10.1038/nphoton.2013.26},
+    volume = {7},
+    year = {2013}
+}
+
 @article{cote2006quantum,
     author = {Côté, Robin and Russell, Alexander and Eyler, Edward E and Gould, Phillip L},
     doi = {10.1088/1367-2630/8/8/156},
@@ -1200,44 +959,6 @@ amplification},
     url = {http://dx.doi.org/10.1088/1367-2630/8/8/156},
     volume = {8},
     year = {2006}
-}
-
-@article{cozzolino2019aircore,
-    author = {Cozzolino, Daniele and Polino, Emanuele and Valeri, Mauro and Carvacho, Gonzalo and Bacco, Davide and Spagnolo, Nicolò and Oxenløwe, Leif K. and Sciarrino, Fabio},
-    doi = {10.1117/1.AP.1.4.046005},
-    journal = {Advanced Photonics},
-    month = {Aug},
-    number = {04},
-    pages = {1},
-    publisher = {SPIE-Intl Soc Optical Eng},
-    title = {Air-core fiber distribution of hybrid vector vortex-polarization entangled states},
-    volume = {1},
-    year = {2019}
-}
-
-@article{cozzolino2019orbital,
-    author = {Cozzolino, Daniele and Bacco, Davide and Da Lio, Beatrice and Ingerslev, Kasper and Ding, Yunhong and Dalgaard, Kjeld and Kristensen, Poul and Galili, Michael and Rottwitt, Karsten and Ramachandran, Siddharth and et al.},
-    doi = {10.1103/PhysRevApplied.11.064058},
-    journal = {Physical Review Applied},
-    month = {Jun},
-    number = {6},
-    publisher = {American Physical Society (APS)},
-    title = {Orbital Angular Momentum States Enabling Fiber-based High-dimensional Quantum Communication},
-    volume = {11},
-    year = {2019}
-}
-
-@article{crespi2013anderson,
-    author = {Crespi, Andrea and Osellame, Roberto and Ramponi, Roberta and Giovannetti, Vittorio and Fazio, Rosario and Sansoni, Linda and Nicola, Francesco De and Sciarrino, Fabio and Mataloni, Paolo},
-    doi = {10.1038/nphoton.2013.26},
-    issn = {1749-4885},
-    journal = {Nature Photonics},
-    number = {4},
-    pages = {322--328},
-    title = {Anderson localization of entangled photons in an integrated quantum walk},
-    url = {http://dx.doi.org/10.1038/nphoton.2013.26},
-    volume = {7},
-    year = {2013}
 }
 
 @article{cubitt2017universal,
@@ -1260,48 +981,11 @@ amplification},
     year = {2015}
 }
 
-@article{dada2011experimental,
-    author = {Dada, Adetunmise C. and Leach, Jonathan and Buller, Gerald S. and Padgett, Miles J. and Andersson, Erika},
-    doi = {10.1038/nphys1996},
-    journal = {Nature Physics},
-    month = {May},
-    number = {9},
-    pages = {677–680},
-    publisher = {Springer Science and Business Media LLC},
-    title = {Experimental high-dimensional two-photon entanglement and violations of generalized Bell inequalities},
-    volume = {7},
-    year = {2011}
-}
-
 @book{dalessandro2007introduction,
     author = {d'Alessandro, Domenico},
     publisher = {CRC press},
     title = {Introduction to quantum control and dynamics},
     year = {2007}
-}
-
-@article{dambrosio2013photonic,
-    author = {D’Ambrosio, Vincenzo and Spagnolo, Nicolò and Del Re, Lorenzo and Slussarenko, Sergei and Li, Ying and Kwek, Leong Chuan and Marrucci, Lorenzo and Walborn, Stephen P. and Aolita, Leandro and Sciarrino, Fabio},
-    doi = {10.1038/ncomms3432},
-    journal = {Nature Communications},
-    month = {Sep},
-    number = {1},
-    publisher = {Springer Science and Business Media LLC},
-    title = {Photonic polarization gears for ultra-sensitive angular measurements},
-    volume = {4},
-    year = {2013}
-}
-
-@article{dambrosio2013test,
-    author = {D’Ambrosio, Vincenzo and Cardano, Filippo and Karimi, Ebrahim and Nagali, Eleonora and Santamato, Enrico and Marrucci, Lorenzo and Sciarrino, Fabio},
-    doi = {10.1038/srep02726},
-    journal = {Scientific Reports},
-    month = {Sep},
-    number = {1},
-    publisher = {Springer Science and Business Media LLC},
-    title = {Test of mutually unbiased bases for six-dimensional photonic quantum systems},
-    volume = {3},
-    year = {2013}
 }
 
 @article{debnath2016demonstration,
@@ -1373,7 +1057,7 @@ amplification},
     author = {Dong, Daoyi and Petersen, Ian R},
     doi = {10.1049/iet-cta.2009.0508},
     issn = {1751-8644},
-    journal = {IET Control Theory \& Applications},
+    journal = {IET Control Theory & Applications},
     month = {9},
     number = {12},
     pages = {2651--2671},
@@ -1396,27 +1080,6 @@ amplification},
     year = {2003}
 }
 
-@article{duclos-cianci2013kitaev,
-    author = {Duclos-Cianci, Guillaume and Poulin, David},
-    doi = {10.1103/PhysRevA.87.062338},
-    journal = {Physical Review A},
-    month = {Jun},
-    number = {6},
-    publisher = {American Physical Society (APS)},
-    title = {Kitaev’sZd-code threshold estimates},
-    volume = {87},
-    year = {2013}
-}
-
-@article{dunjko2017machine,
-    archivePrefix = {arXiv},
-    author = {Dunjko, Vedran and Briegel, Hans J.},
-    eprint = {1709.02779},
-    primaryClass = {quant-ph},
-    title = {Machine learning \& artificial intelligence in the quantum domain},
-    year = {2017}
-}
-
 @article{durt2004security,
     author = {Durt, Thomas and Kaszlikowski, Dagomir and Chen, Jing-Ling and Kwek, L. C.},
     doi = {10.1103/physreva.69.032313},
@@ -1431,19 +1094,6 @@ amplification},
     year = {2004}
 }
 
-@article{durt2010mutually,
-    author = {Durt, Thomas and Englert, Berthold-Georg and Bengtsson, Ingemar and Życzkowski, Karol},
-    doi = {10.1142/S0219749910006502},
-    journal = {International Journal of Quantum Information},
-    month = {Jun},
-    number = {04},
-    pages = {535–640},
-    publisher = {World Scientific Pub Co Pte Lt},
-    title = {On mutually unbiased bases},
-    volume = {08},
-    year = {2010}
-}
-
 @article{ekert2002direct,
     author = {Ekert, Artur K and Alves, Carolina Moura and Oi, Daniel KL and Horodecki, Micha{\l} and Horodecki, Pawe{\l} and Kwek, Leong Chuan},
     journal = {Physical review letters},
@@ -1453,19 +1103,6 @@ amplification},
     title = {Direct estimations of linear and nonlinear functionals of a quantum state},
     volume = {88},
     year = {2002}
-}
-
-@article{erhard2017twisted,
-    author = {Erhard, Manuel and Fickler, Robert and Krenn, Mario and Zeilinger, Anton},
-    doi = {10.1038/lsa.2017.146},
-    journal = {Light: Science \& Applications},
-    month = {Oct},
-    number = {3},
-    pages = {17146–17146},
-    publisher = {Springer Science and Business Media LLC},
-    title = {Twisted photons: new quantum perspectives in high dimensions},
-    volume = {7},
-    year = {2017}
 }
 
 @article{farhi1998quantum,
@@ -1508,19 +1145,6 @@ amplification},
     title = {Simulating physics with computers},
     volume = {21},
     year = {1982}
-}
-
-@article{fickler2012quantum,
-    author = {Fickler, R. and Lapkiewicz, R. and Plick, W. N. and Krenn, M. and Schaeff, C. and Ramelow, S. and Zeilinger, A.},
-    doi = {10.1126/science.1227193},
-    journal = {Science},
-    month = {Nov},
-    number = {6107},
-    pages = {640–643},
-    publisher = {American Association for the Advancement of Science (AAAS)},
-    title = {Quantum Entanglement of High Angular Momenta},
-    volume = {338},
-    year = {2012}
 }
 
 @article{fisk1997accurate,
@@ -1651,18 +1275,6 @@ amplification},
     year = {2014}
 }
 
-@article{giordani2018experimental,
-    author = {Giordani, Taira and Flamini, Fulvio and Pompili, Matteo and Viggianiello, Niko and Spagnolo, Nicolò and Crespi, Andrea and Osellame, Roberto and Wiebe, Nathan and Walschaers, Mattia and Buchleitner, Andreas and et al.},
-    doi = {10.1038/s41566-018-0097-4},
-    journal = {Nature Photonics},
-    month = {Feb},
-    number = {3},
-    pages = {173–178},
-    publisher = {Springer Nature},
-    title = {Experimental statistical signature of many-body quantum interference},
-    volume = {12},
-    year = {2018}
-}
 @article{giordani2019experimental,
     archivePrefix = {arXiv},
     author = {Giordani, Taira and Polino, Emanuele and Emiliani, Sabrina and Suprano, Alessia and Innocenti, Luca and Majury, Helena and Marrucci, Lorenzo and Paternostro, Mauro and Ferraro, Alessandro and Spagnolo, Nicolò and et al.},
@@ -1711,18 +1323,6 @@ amplification},
     url = {http://dx.doi.org/10.23915/distill.00006},
     volume = {2},
     year = {2017}
-}
-
-@article{goswami2018indefinite,
-    author = {Goswami, K. and Giarmatzi, C. and Kewming, M. and Costa, F. and Branciard, C. and Romero, J. and White, A. G.},
-    doi = {10.1103/PhysRevLett.121.090503},
-    journal = {Physical Review Letters},
-    month = {Aug},
-    number = {9},
-    publisher = {American Physical Society (APS)},
-    title = {Indefinite Causal Order in a Quantum Switch},
-    volume = {121},
-    year = {2018}
 }
 
 @article{gottesman1998theory,
@@ -1837,31 +1437,6 @@ amplification},
     url = {http://dx.doi.org/10.1109/ijcnn.1989.118638},
     volume = {1},
     year = {1989}
-}
-
-@article{heeres2017implementing,
-    author = {Heeres, Reinier W. and Reinhold, Philip and Ofek, Nissim and Frunzio, Luigi and Jiang, Liang and Devoret, Michel H. and Schoelkopf, Robert J.},
-    doi = {10.1038/s41467-017-00045-1},
-    journal = {Nature Communications},
-    month = {Jul},
-    number = {1},
-    publisher = {Springer Nature},
-    title = {Implementing a universal gate set on a logical qubit encoded in an oscillator},
-    volume = {8},
-    year = {2017}
-}
-
-@article{hofheinz2009synthesizing,
-    author = {Hofheinz, Max and Wang, H. and Ansmann, M. and Bialczak, Radoslaw C. and Lucero, Erik and Neeley, M. and O’Connell, A. D. and Sank, D. and Wenner, J. and Martinis, John M. and et al.},
-    doi = {10.1038/nature08005},
-    journal = {Nature},
-    month = {May},
-    number = {7246},
-    pages = {546–549},
-    publisher = {Springer Science and Business Media LLC},
-    title = {Synthesizing arbitrary quantum states in a superconducting resonator},
-    volume = {459},
-    year = {2009}
 }
 
 @article{horn2005single,
@@ -1992,32 +1567,6 @@ amplification},
     year = {2013}
 }
 
-@article{karimi2009light,
-    author = {Karimi, Ebrahim and Piccirillo, Bruno and Marrucci, Lorenzo and Santamato, Enrico},
-    doi = {10.1364/OL.34.001225},
-    journal = {Optics Letters},
-    month = {Apr},
-    number = {8},
-    pages = {1225},
-    publisher = {The Optical Society},
-    title = {Light propagation in a birefringent plate with topological charge},
-    volume = {34},
-    year = {2009}
-}
-
-@article{karimi2014generating,
-    author = {Karimi, Ebrahim and Schulz, Sebastian A and De Leon, Israel and Qassim, Hammam and Upham, Jeremy and Boyd, Robert W},
-    doi = {10.1038/lsa.2014.48},
-    journal = {Light: Science \& Applications},
-    month = {May},
-    number = {5},
-    pages = {e167–e167},
-    publisher = {Springer Science and Business Media LLC},
-    title = {Generating optical orbital angular momentum at visible wavelengths using a plasmonic metasurface},
-    volume = {3},
-    year = {2014}
-}
-
 @article{karimipour2002quantum,
     author = {Karimipour, Vahid and Bahraminasab, Alireza and Bagherinezhad, Saber},
     doi = {10.1103/physreva.65.052331},
@@ -2031,6 +1580,19 @@ amplification},
     volume = {65},
     year = {2002}
 }
+@article{karimi2014generating,
+    author = {Karimi, Ebrahim and Schulz, Sebastian A and De Leon, Israel and Qassim, Hammam and Upham, Jeremy and Boyd, Robert W},
+    doi = {10.1038/lsa.2014.48},
+    journal = {Light: Science & Applications},
+    month = {May},
+    number = {5},
+    pages = {e167–e167},
+    publisher = {Springer Science and Business Media LLC},
+    title = {Generating optical orbital angular momentum at visible wavelengths using a plasmonic metasurface},
+    volume = {3},
+    year = {2014}
+}
+
 
 @article{karski2009quantum,
     author = {Karski, Michal and Förster, Leonid and Choi, Jai-Min and Steffen, Andreas and Alt, Wolfgang and Meschede, Dieter and Widera, Artur},
@@ -2206,32 +1768,6 @@ random walks},
     volume = {111},
     year = {2014}
 }
-@article{krenn2014communication,
-    author = {Krenn, Mario and Fickler, Robert and Fink, Matthias and Handsteiner, Johannes and Malik, Mehul and Scheidl, Thomas and Ursin, Rupert and Zeilinger, Anton},
-    doi = {10.1088/1367-2630/16/11/113028},
-    journal = {New Journal of Physics},
-    month = {Nov},
-    number = {11},
-    pages = {113028},
-    publisher = {IOP Publishing},
-    title = {Communication with spatially modulated light through turbulent air across Vienna},
-    volume = {16},
-    year = {2014}
-}
-@article{krenn2016twisted,
-    author = {Krenn, Mario and Handsteiner, Johannes and Fink, Matthias and Fickler, Robert and Ursin, Rupert and Malik, Mehul and Zeilinger, Anton},
-    doi = {10.1073/pnas.1612023113},
-    journal = {Proceedings of the National Academy of Sciences},
-    month = {Nov},
-    number = {48},
-    pages = {13648–13653},
-    publisher = {Proceedings of the National Academy of Sciences},
-    title = {Twisted light transmission over 143 km},
-    volume = {113},
-    year = {2016}
-}
-
-
 
 @article{ku1991relative,
     author = {Kuś, Marek and Życzkowski, Karol},
@@ -2275,19 +1811,6 @@ random walks},
     year = {2004}
 }
 
-@article{lanyon2008simplifying,
-    author = {Lanyon, Benjamin P. and Barbieri, Marco and Almeida, Marcelo P. and Jennewein, Thomas and Ralph, Timothy C. and Resch, Kevin J. and Pryde, Geoff J. and O’Brien, Jeremy L. and Gilchrist, Alexei and White, Andrew G.},
-    doi = {10.1038/nphys1150},
-    journal = {Nature Physics},
-    month = {Dec},
-    number = {2},
-    pages = {134–140},
-    publisher = {Springer Science and Business Media LLC},
-    title = {Simplifying quantum logic using higher-dimensional Hilbert spaces},
-    volume = {5},
-    year = {2008}
-}
-
 @article{lanyon2011universal,
     author = {Lanyon, B. P. and Hempel, C. and Nigg, D. and Muller, M. and Gerritsma, R. and Zahringer, F. and Schindler, P. and Barreiro, J. T. and Rambach, M. and Kirchmair, G. and et al.},
     doi = {10.1126/science.1208001},
@@ -2316,18 +1839,6 @@ random walks},
     year = {2011}
 }
 
-@article{leach2002measuring,
-    author = {Leach, Jonathan and Padgett, Miles J. and Barnett, Stephen M. and Franke-Arnold, Sonja and Courtial, Johannes},
-    doi = {10.1103/PhysRevLett.88.257901},
-    journal = {Physical Review Letters},
-    month = {Jun},
-    number = {25},
-    publisher = {American Physical Society (APS)},
-    title = {Measuring the Orbital Angular Momentum of a Single Photon},
-    volume = {88},
-    year = {2002}
-}
-
 @article{lee2014entanglementbased,
     author = {Lee, Catherine and Zhang, Zheshen and Steinbrecher, Gregory R and Zhou, Hongchao and Mower, Jacob and Zhong, Tian and Wang, Ligong and Hu, Xiaolong and Horansky, Robert D and Verma, Varun B and Lita, Adriana E and Mirin, Richard P and Marsili, Francesco and Shaw, Matthew D and Nam, Sae Woo and Wornell, Gregory W and Wong, Franco N C and Shapiro, Jeffrey H and Englund, Dirk},
     doi = {10.1103/physreva.90.062331},
@@ -2342,19 +1853,6 @@ random walks},
     year = {2014}
 }
 
-@article{lee2015visualizing,
-    author = {Lee Loh, Yen and Kim, Monica},
-    doi = {10.1119/1.4898595},
-    journal = {American Journal of Physics},
-    month = {Jan},
-    number = {1},
-    pages = {30–35},
-    publisher = {American Association of Physics Teachers (AAPT)},
-    title = {Visualizing spin states using the spin coherent state representation},
-    volume = {83},
-    year = {2015}
-}
-
 @article{lee2016engineering,
     author = {Lee, A. C. and Smith, J. and Richerme, P. and Neyenhuis, B. and Hess, P. W. and Zhang, J. and Monroe, C.},
     doi = {10.1103/PhysRevA.94.042308},
@@ -2365,19 +1863,6 @@ random walks},
     title = {Engineering large Stark shifts for control of individual clock state qubits},
     volume = {94},
     year = {2016}
-}
-
-@article{leibfried1996experimental,
-    author = {Leibfried, D. and Meekhof, D. M. and King, B. E. and Monroe, C. and Itano, W. M. and Wineland, D. J.},
-    doi = {10.1103/PhysRevLett.77.4281},
-    journal = {Physical Review Letters},
-    month = {Nov},
-    number = {21},
-    pages = {4281–4285},
-    publisher = {American Physical Society (APS)},
-    title = {Experimental Determination of the Motional Quantum State of a Trapped Atom},
-    volume = {77},
-    year = {1996}
 }
 
 @article{leung2016speedup,
@@ -2400,45 +1885,6 @@ random walks},
     title = {Speedup for quantum optimal control from automatic differentiation based on graphics processing units},
     url = {http://dx.doi.org/10.1103/physreva.95.042318},
     volume = {95},
-    year = {2017}
-}
-
-@article{lima2011experimental,
-    author = {Lima, G. and Neves, L. and Guzmán, R. and Gómez, E. S. and Nogueira, W. A. T. and Delgado, A. and Vargas, A. and Saavedra, C.},
-    doi = {10.1364/OE.19.003542},
-    journal = {Optics Express},
-    month = {Feb},
-    number = {4},
-    pages = {3542},
-    publisher = {The Optical Society},
-    title = {Experimental quantum tomography of photonic qudits via mutually unbiased basis},
-    volume = {19},
-    year = {2011}
-}
-
-@article{liu2016generation,
-    author = {Liu, Zhenxing and Liu, Yuanyuan and Ke, Yougang and Liu, Yachao and Shu, Weixing and Luo, Hailu and Wen, Shuangchun},
-    doi = {10.1364/PRJ.5.000015},
-    journal = {Photonics Research},
-    month = {Dec},
-    number = {1},
-    pages = {15},
-    publisher = {The Optical Society},
-    title = {Generation of arbitrary vector vortex beams on hybrid-order Poincaré sphere},
-    volume = {5},
-    year = {2016}
-}
-
-@article{liu2017direct,
-    author = {Liu, Jun and Li, Shi-Mao and Zhu, Long and Wang, An-Dong and Chen, Shi and Klitis, Charalambos and Du, Cheng and Mo, Qi and Sorel, Marc and Yu, Si-Yuan and et al.},
-    doi = {10.1038/lsa.2017.148},
-    journal = {Light: Science \& Applications},
-    month = {Oct},
-    number = {3},
-    pages = {17148–17148},
-    publisher = {Springer Science and Business Media LLC},
-    title = {Direct fiber vector eigenmode multiplexing transmission seeded by integrated optical vortex emitters},
-    volume = {7},
     year = {2017}
 }
 
@@ -2613,31 +2059,6 @@ random walks},
     year = {2018}
 }
 
-@article{malik2014direct,
-    author = {Malik, Mehul and Mirhosseini, Mohammad and Lavery, Martin P. J. and Leach, Jonathan and Padgett, Miles J. and Boyd, Robert W.},
-    doi = {10.1038/ncomms4115},
-    journal = {Nature Communications},
-    month = {Jan},
-    number = {1},
-    publisher = {Springer Science and Business Media LLC},
-    title = {Direct measurement of a 27-dimensional orbital-angular-momentum state vector},
-    volume = {5},
-    year = {2014}
-}
-
-@article{malik2016multiphoton,
-    author = {Malik, Mehul and Erhard, Manuel and Huber, Marcus and Krenn, Mario and Fickler, Robert and Zeilinger, Anton},
-    doi = {10.1038/nphoton.2016.12},
-    journal = {Nature Photonics},
-    month = {Feb},
-    number = {4},
-    pages = {248–252},
-    publisher = {Springer Science and Business Media LLC},
-    title = {Multi-photon entanglement in high dimensions},
-    volume = {10},
-    year = {2016}
-}
-
 @book{manouchehri2014physical,
     author = {Manouchehri, Kia and Wang, Jingbo},
     doi = {10.1007/978-3-642-36014-5},
@@ -2645,18 +2066,6 @@ random walks},
     title = {Physical Implementation of Quantum Walks},
     url = {http://dx.doi.org/10.1007/978-3-642-36014-5},
     year = {2014}
-}
-
-@article{markham2003classicality,
-    author = {Markham, D. and Vedral, V.},
-    doi = {10.1103/PhysRevA.67.042113},
-    journal = {Physical Review A},
-    month = {Apr},
-    number = {4},
-    publisher = {American Physical Society (APS)},
-    title = {Classicality of spin-coherent states via entanglement and distinguishability},
-    volume = {67},
-    year = {2003}
 }
 
 @article{marrucci2006optical,
@@ -2673,7 +2082,6 @@ random walks},
     volume = {96},
     year = {2006}
 }
-
 @article{marrucci2011spintoorbital,
     author = {Marrucci, Lorenzo and Karimi, Ebrahim and Slussarenko, Sergei and Piccirillo, Bruno and Santamato, Enrico and Nagali, Eleonora and Sciarrino, Fabio},
     doi = {10.1088/2040-8978/13/6/064001},
@@ -2686,6 +2094,7 @@ random walks},
     volume = {13},
     year = {2011}
 }
+
 
 @article{martinez2016compiling,
     author = {Martinez, Esteban A and Monz, Thomas and Nigg, Daniel and Schindler, Philipp and Blatt, Rainer},
@@ -2769,55 +2178,6 @@ random walks},
     year = {2012}
 }
 
-@article{meinert2014observation,
-    author = {Meinert, F. and Mark, M. J. and Kirilov, E. and Lauber, K. and Weinmann, P. and Grobner, M. and Daley, A. J. and Nagerl, H.-C.},
-    doi = {10.1126/science.1248402},
-    journal = {Science},
-    month = {Jun},
-    number = {6189},
-    pages = {1259–1262},
-    publisher = {American Association for the Advancement of Science (AAAS)},
-    title = {Observation of many-body dynamics in long-range tunneling after a quantum quench},
-    volume = {344},
-    year = {2014}
-}
-
-@article{michael2016class,
-    author = {Michael, Marios H. and Silveri, Matti and Brierley, R. T. and Albert, Victor V. and Salmilehto, Juha and Jiang, Liang and Girvin, S. M.},
-    doi = {10.1103/PhysRevX.6.031006},
-    journal = {Physical Review X},
-    month = {Jul},
-    number = {3},
-    publisher = {American Physical Society (APS)},
-    title = {New Class of Quantum Error-Correcting Codes for a Bosonic Mode},
-    volume = {6},
-    year = {2016}
-}
-
-@article{militello2006distilling,
-    author = {Militello, B and Messina, A},
-    doi = {10.1007/0-387-31143-2_24},
-    isbn = {0387263322},
-    journal = {Quantum Computing in Solid State Systems},
-    pages = {195–201},
-    publisher = {Springer-Verlag},
-    title = {Distilling Angular Momentum Schrödinger Cats in Trapped Ions},
-    year = {2006}
-}
-
-@article{mirhosseini2015highdimensional,
-    author = {Mirhosseini, Mohammad and Magaña-Loaiza, Omar S and O’Sullivan, Malcolm N and Rodenburg, Brandon and Malik, Mehul and Lavery, Martin P J and Padgett, Miles J and Gauthier, Daniel J and Boyd, Robert W},
-    doi = {10.1088/1367-2630/17/3/033033},
-    journal = {New Journal of Physics},
-    month = {Mar},
-    number = {3},
-    pages = {033033},
-    publisher = {IOP Publishing},
-    title = {High-dimensional quantum cryptography with twisted light},
-    volume = {17},
-    year = {2015}
-}
-
 @book{mohri2012foundations,
     author = {Mohri, Mehryar and Rostamizadeh, Afshin and Talwalkar, Ameet},
     publisher = {MIT press},
@@ -2835,19 +2195,6 @@ random walks},
     url = {https://epubs.siam.org/doi/abs/10.1137/S00361445024180},
     volume = {45},
     year = {2003}
-}
-
-@article{monroe1996schrodinger,
-    author = {Monroe, C. and Meekhof, D. M. and King, B. E. and Wineland, D. J.},
-    doi = {10.1126/science.272.5265.1131},
-    journal = {Science},
-    month = {May},
-    number = {5265},
-    pages = {1131–1136},
-    publisher = {American Association for the Advancement of Science (AAAS)},
-    title = {A ``Schrodinger Cat’’ Superposition State of an Atom},
-    volume = {272},
-    year = {1996}
 }
 
 @article{montero2013unidirectional,
@@ -2994,17 +2341,6 @@ random walks},
     year = {2000}
 }
 
-@article{ndagano2017creation,
-    author = {Ndagano, Bienvenu and Nape, Isaac and Cox, Mitchell A and Rosales-Guzman, Carmelo and Forbes, Andrew},
-    journal = {Journal of Lightwave Technology},
-    number = {2},
-    pages = {292--301},
-    publisher = {IEEE},
-    title = {Creation and detection of vector vortex modes for classical and quantum communication},
-    volume = {36},
-    year = {2017}
-}
-
 @article{nebendahl2009optimal,
     author = {Nebendahl, V. and Häffner, H. and Roos, C. F.},
     doi = {10.1103/PhysRevA.79.012312},
@@ -3014,19 +2350,6 @@ random walks},
     publisher = {American Physical Society (APS)},
     title = {Optimal control of entangling operations for trapped-ion quantum computing},
     volume = {79},
-    year = {2009}
-}
-
-@article{neeley2009emulation,
-    author = {Neeley, M. and Ansmann, M. and Bialczak, R. C. and Hofheinz, M. and Lucero, E. and O’Connell, A. D. and Sank, D. and Wang, H. and Wenner, J. and Cleland, A. N. and et al.},
-    doi = {10.1126/science.1173440},
-    journal = {Science},
-    month = {Aug},
-    number = {5941},
-    pages = {722–725},
-    publisher = {American Association for the Advancement of Science (AAAS)},
-    title = {Emulation of a Quantum Spin with a Superconducting Phase Qudit},
-    volume = {325},
     year = {2009}
 }
 
@@ -3114,7 +2437,7 @@ random walks},
     number = {22},
     pages = {220501},
     pmid = {16090374},
-    title = {Pixel Entanglement: Experimental Realization of Optically Entangledd = {3andd = {6Qudits}}},
+    title = {Pixel Entanglement: Experimental Realization of Optically Entangledd = {3andd=6Qudits}},
     url = {http://dx.doi.org/10.1103/physrevlett.94.220501},
     volume = {94},
     year = {2005}
@@ -3146,29 +2469,6 @@ random walks},
     url = {http://dx.doi.org/10.1088/1367-2630/13/7/075003},
     volume = {13},
     year = {2011}
-}
-
-@article{padgett2004lights,
-    author = {Padgett, Miles and Courtial, Johannes and Allen, Les},
-    doi = {10.1063/1.1768672},
-    journal = {Physics Today},
-    month = {May},
-    number = {5},
-    pages = {35–40},
-    publisher = {AIP Publishing},
-    title = {Light’s Orbital Angular Momentum},
-    volume = {57},
-    year = {2004}
-}
-
-@article{paris2004quantum,
-    author = {Paris, Matteo and Rehacek, Jaroslav},
-    doi = {10.1007/b98673},
-    isbn = {9783540444817},
-    journal = {Lecture Notes in Physics},
-    publisher = {Springer Berlin Heidelberg},
-    title = {Quantum State Estimation},
-    year = {2004}
 }
 
 @article{paszke2017automatic,
@@ -3337,18 +2637,6 @@ random walks},
     year = {2018}
 }
 
-@article{qassim2014limitations,
-    author = {Qassim, Hammam and Miatto, Filippo M. and Torres, Juan P. and Padgett, Miles J. and Karimi, Ebrahim and Boyd, Robert W.},
-    doi = {10.1364/JOSAB.31.000A20},
-    journal = {Journal of the Optical Society of America B},
-    month = {Apr},
-    number = {6},
-    pages = {A20},
-    publisher = {The Optical Society},
-    title = {Limitations to the determination of a Laguerre–Gauss spectrum via projective, phase-flattening measurement},
-    volume = {31},
-    year = {2014}
-}
 
 @article{qiang2016efficient,
     author = {Qiang, Xiaogang and Loke, Thomas and Montanaro, Ashley and Aungskunsiri, Kanin and Zhou, Xiaoqi and O’Brien, Jeremy L. and Wang, Jingbo B. and Matthews, Jonathan C. F.},
@@ -3362,19 +2650,6 @@ random walks},
     url = {http://dx.doi.org/10.1038/ncomms11511},
     volume = {7},
     year = {2016}
-}
-
-@article{radcliffe1971some,
-    author = {Radcliffe, J M},
-    doi = {10.1088/0305-4470/4/3/009},
-    journal = {Journal of Physics A: General Physics},
-    month = {May},
-    number = {3},
-    pages = {313–323},
-    publisher = {IOP Publishing},
-    title = {Some properties of coherent spin states},
-    volume = {4},
-    year = {1971}
 }
 
 @article{ralph2007efficient,
@@ -3435,19 +2710,6 @@ random walks},
     year = {2004}
 }
 
-@article{rohde2011multi,
-    author = {Rohde, Peter P and Schreiber, Andreas and Štefaňák, Martin and Jex, Igor and Silberhorn, Christine},
-    doi = {10.1088/1367-2630/13/1/013001},
-    journal = {New Journal of Physics},
-    month = {Jan},
-    number = {1},
-    pages = {013001},
-    publisher = {IOP Publishing},
-    title = {Multi-walker discrete time quantum walks on arbitrary graphs, their properties and their photonic implementation},
-    volume = {13},
-    year = {2011}
-}
-
 @article{romanelli2009driving,
     author = {Romanelli, A.},
     doi = {10.1103/physreva.80.042332},
@@ -3460,43 +2722,6 @@ random walks},
     url = {http://dx.doi.org/10.1103/physreva.80.042332},
     volume = {80},
     year = {2009}
-}
-
-@article{rosenblum2018cnot,
-    author = {Rosenblum, S. and Gao, Y. Y. and Reinhold, P. and Wang, C. and Axline, C. J. and Frunzio, L. and Girvin, S. M. and Jiang, Liang and Mirrahimi, M. and Devoret, M. H. and et al.},
-    doi = {10.1038/s41467-018-03059-5},
-    journal = {Nature Communications},
-    month = {Feb},
-    number = {1},
-    publisher = {Springer Nature},
-    title = {A CNOT gate between multiphoton qubits encoded in two cavities},
-    volume = {9},
-    year = {2018}
-}
-
-@article{rossi2009multipath,
-    author = {Rossi, Alessandro and Vallone, Giuseppe and Chiuri, Andrea and De Martini, Francesco and Mataloni, Paolo},
-    doi = {10.1103/PhysRevLett.102.153902},
-    journal = {Physical Review Letters},
-    month = {Apr},
-    number = {15},
-    publisher = {American Physical Society (APS)},
-    title = {Multipath Entanglement of Two Photons},
-    volume = {102},
-    year = {2009}
-}
-
-@article{rubinsztein-dunlop2016roadmap,
-    author = {Rubinsztein-Dunlop, Halina and Forbes, Andrew and Berry, M V and Dennis, M R and Andrews, David L and Mansuripur, Masud and Denz, Cornelia and Alpmann, Christina and Banzer, Peter and Bauer, Thomas and et al.},
-    doi = {10.1088/2040-8978/19/1/013001},
-    journal = {Journal of Optics},
-    month = {Nov},
-    number = {1},
-    pages = {013001},
-    publisher = {IOP Publishing},
-    title = {Roadmap on structured light},
-    volume = {19},
-    year = {2016}
 }
 
 @article{ruder2016an,
@@ -3619,32 +2844,6 @@ Xian, April 2008, LNCS 4978, 31-46},
     year = {2012}
 }
 
-@article{schrodinger1935gegenwartige,
-    author = {Schrodinger, E.},
-    doi = {10.1007/BF01491987},
-    journal = {Die Naturwissenschaften},
-    month = {Dec},
-    number = {50},
-    pages = {844–849},
-    publisher = {Springer Science and Business Media LLC},
-    title = {Die gegenwartige Situation in der Quantenmechanik},
-    volume = {23},
-    year = {1935}
-}
-
-@article{schuld2014introduction,
-    author = {Schuld, Maria and Sinayskiy, Ilya and Petruccione, Francesco},
-    doi = {10.1080/00107514.2014.964942},
-    journal = {Contemporary Physics},
-    month = {Oct},
-    number = {2},
-    pages = {172–185},
-    publisher = {Informa UK Limited},
-    title = {An introduction to quantum machine learning},
-    volume = {56},
-    year = {2014}
-}
-
 @article{schwartz2007transport,
     author = {Schwartz, Tal and Bartal, Guy and Fishman, Shmuel and Segev, Mordechai},
     doi = {10.1038/nature05623},
@@ -3672,6 +2871,7 @@ Xian, April 2008, LNCS 4978, 31-46},
     year = {2003}
 }
 
+
 @article{shi2002both,
     author = {Shi, Yaoyun},
     journal = {arXiv:0205115},
@@ -3688,49 +2888,10 @@ Xian, April 2008, LNCS 4978, 31-46},
     month = {Oct},
     number = {5},
     pages = {1484–1509},
-    publisher = {Society for Industrial \& Applied Mathematics (SIAM)},
+    publisher = {Society for Industrial & Applied Mathematics (SIAM)},
     title = {Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer},
     volume = {26},
     year = {1997}
-}
-
-@article{simon1990minimal,
-    author = {Simon, R. and Mukunda, N.},
-    doi = {10.1016/0375-9601(90)90732-4},
-    journal = {Physics Letters A},
-    month = {Jan},
-    number = {4-5},
-    pages = {165–169},
-    publisher = {Elsevier BV},
-    title = {Minimal three-component SU(2) gadget for polarization optics},
-    volume = {143},
-    year = {1990}
-}
-
-@article{sit2017highdimensional,
-    author = {Sit, Alicia and Bouchard, Frédéric and Fickler, Robert and Gagnon-Bischoff, Jérémie and Larocque, Hugo and Heshami, Khabat and Elser, Dominique and Peuntinger, Christian and Günthner, Kevin and Heim, Bettina and et al.},
-    doi = {10.1364/OPTICA.4.001006},
-    journal = {Optica},
-    month = {Aug},
-    number = {9},
-    pages = {1006},
-    publisher = {The Optical Society},
-    title = {High-dimensional intracity quantum cryptography with structured photons},
-    volume = {4},
-    year = {2017}
-}
-
-@article{slussarenko2010polarizing,
-    author = {Slussarenko, S. and D’Ambrosio, V. and Piccirillo, B. and Marrucci, L. and Santamato, E.},
-    doi = {10.1364/OE.18.027205},
-    journal = {Optics Express},
-    month = {Dec},
-    number = {26},
-    pages = {27205},
-    publisher = {The Optical Society},
-    title = {The Polarizing Sagnac Interferometer: a tool for light orbital angular momentum sorting and spin-orbit photon processing},
-    volume = {18},
-    year = {2010}
 }
 
 @article{steane1998quantum,
@@ -3880,17 +3041,6 @@ Xian, April 2008, LNCS 4978, 31-46},
     year = {2008}
 }
 
-@article{ulyanov1999spin,
-    archivePrefix = {arXiv},
-    author = {Ulyanov, V. V. and Zaslavskii, O. B.},
-    eprint = {quant-ph/9902058},
-    journal = {`Group22: Proceedings of the XXII International Colloquium on
-Group Theoretical Methods in Physics', Eds S P Corney, R Delbourgo and P D
-Jarvis (Cambridge, MA: International Press) 1998, pp. 213-217},
-    title = {Spin systems, spin coherent states and quasi-exactly solvable models},
-    year = {1999}
-}
-
 @article{underwood2010universal,
     archivePrefix = {arXiv},
     author = {Underwood, Michael S. and Feder, David L.},
@@ -3904,18 +3054,6 @@ Jarvis (Cambridge, MA: International Press) 1998, pp. 213-217},
     title = {Universal quantum computation by discontinuous quantum walk},
     volume = {82},
     year = {2010}
-}
-
-@article{vallone2014freespace,
-    author = {Vallone, Giuseppe and D’Ambrosio, Vincenzo and Sponselli, Anna and Slussarenko, Sergei and Marrucci, Lorenzo and Sciarrino, Fabio and Villoresi, Paolo},
-    doi = {10.1103/PhysRevLett.113.060503},
-    journal = {Physical Review Letters},
-    month = {Aug},
-    number = {6},
-    publisher = {American Physical Society (APS)},
-    title = {Free-Space Quantum Key Distribution by Rotation-Invariant Twisted Photons},
-    volume = {113},
-    year = {2014}
 }
 
 @article{vandersypen2001experimental,
@@ -3971,30 +3109,6 @@ Jarvis (Cambridge, MA: International Press) 1998, pp. 213-217},
     year = {2013}
 }
 
-@article{vértesi2010closing,
-    author = {Vértesi, Tamás and Pironio, Stefano and Brunner, Nicolas},
-    doi = {10.1103/PhysRevLett.104.060401},
-    journal = {Physical Review Letters},
-    month = {Feb},
-    number = {6},
-    publisher = {American Physical Society (APS)},
-    title = {Closing the Detection Loophole in Bell Experiments Using Qudits},
-    volume = {104},
-    year = {2010}
-}
-
-@article{walborn2006quantum,
-    author = {Walborn, S. P. and Lemelle, D. S. and Almeida, M. P. and Ribeiro, P. H. Souto},
-    doi = {10.1103/PhysRevLett.96.090501},
-    journal = {Physical Review Letters},
-    month = {Mar},
-    number = {9},
-    publisher = {American Physical Society (APS)},
-    title = {Quantum Key Distribution with Higher-Order Alphabets Using Spatially Encoded Qudits},
-    volume = {96},
-    year = {2006}
-}
-
 @article{walmsley2005applied,
     author = {Walmsley, I. A.},
     doi = {10.1126/science.1107451},
@@ -4035,7 +3149,6 @@ Jarvis (Cambridge, MA: International Press) 1998, pp. 213-217},
     volume = {518},
     year = {2015}
 }
-
 @article{wang2016discovering,
     author = {Wang, Lei},
     issn = {2469-9950},
@@ -4045,18 +3158,6 @@ Jarvis (Cambridge, MA: International Press) 1998, pp. 213-217},
     url = {http://dx.doi.org/10.1103/physrevb.94.195105},
     volume = {94},
     year = {2016}
-}
-@article{wang2017experimental,
-    author = {Wang, Jianwei and Paesani, Stefano and Santagati, Raffaele and Knauer, Sebastian and Gentile, Antonio A. and Wiebe, Nathan and Petruzzella, Maurangelo and O’Brien, Jeremy L. and Rarity, John G. and Laing, Anthony and et al.},
-    doi = {10.1038/nphys4074},
-    journal = {Nature Physics},
-    month = {Mar},
-    number = {6},
-    pages = {551–555},
-    publisher = {Springer Science and Business Media LLC},
-    title = {Experimental quantum Hamiltonian learning},
-    volume = {13},
-    year = {2017}
 }
 
 @article{wang2019integrated,
@@ -4068,6 +3169,7 @@ Jarvis (Cambridge, MA: International Press) 1998, pp. 213-217},
     title = {Integrated photonic quantum technologies},
     year = {2019}
 }
+
 
 @book{watrous2018theory,
     author = {Watrous, John},
@@ -4104,19 +3206,6 @@ Jarvis (Cambridge, MA: International Press) 1998, pp. 213-217},
     year = {1964}
 }
 
-@article{willner2015optical,
-    author = {Willner, A. E. and Huang, H. and Yan, Y. and Ren, Y. and Ahmed, N. and Xie, G. and Bao, C. and Li, L. and Cao, Y. and Zhao, Z. and et al.},
-    doi = {10.1364/AOP.7.000066},
-    journal = {Advances in Optics and Photonics},
-    month = {Mar},
-    number = {1},
-    pages = {66},
-    publisher = {The Optical Society},
-    title = {Optical communications using orbital angular momentum beams},
-    volume = {7},
-    year = {2015}
-}
-
 @article{wjcik2004quasiperiodic,
     author = {Wójcik, Antoni and Łuczak, Tomasz and Kurzyński, Paweł and Grudka, Andrzej and Bednarska, Małgorzata},
     doi = {10.1103/physrevlett.93.180601},
@@ -4132,19 +3221,6 @@ Jarvis (Cambridge, MA: International Press) 1998, pp. 213-217},
     year = {2004}
 }
 
-@article{yue2016vector,
-    author = {Yue, Fuyong and Wen, Dandan and Xin, Jingtao and Gerardot, Brian D. and Li, Jensen and Chen, Xianzhong},
-    doi = {10.1021/acsphotonics.6b00392},
-    journal = {ACS Photonics},
-    month = {Jul},
-    number = {9},
-    pages = {1558–1563},
-    publisher = {American Chemical Society (ACS)},
-    title = {Vector Vortex Beam Generation with a Single Plasmonic Metasurface},
-    volume = {3},
-    year = {2016}
-}
-
 @article{yung2005perfect,
     author = {Yung, Man-Hong and Bose, Sougato},
     doi = {10.1103/physreva.71.032310},
@@ -4158,6 +3234,7 @@ Jarvis (Cambridge, MA: International Press) 1998, pp. 213-217},
     volume = {71},
     year = {2005}
 }
+
 
 @article{zahedinejad2015designing,
     author = {Zahedinejad, Ehsan and Ghosh, Joydip and Sanders, Barry C},
@@ -4278,194 +3355,840 @@ Jarvis (Cambridge, MA: International Press) 1998, pp. 213-217},
     year = {2010}
 }
 
-
-@article{agresti2019pattern,
-    author = {Agresti, Iris and Viggianiello, Niko and Flamini, Fulvio and Spagnolo, Nicolò and Crespi, Andrea and Osellame, Roberto and Wiebe, Nathan and Sciarrino, Fabio},
-    doi = {10.1103/PhysRevX.9.011013},
-    journal = {Physical Review X},
-    month = {Jan},
-    number = {1},
-    publisher = {American Physical Society (APS)},
-    title = {Pattern Recognition Techniques for Boson Sampling Validation},
-    volume = {9},
-    year = {2019}
-}
-
-@article{lumino2018experimental,
-    author = {Lumino, Alessandro and Polino, Emanuele and Rab, Adil S. and Milani, Giorgio and Spagnolo, Nicolò and Wiebe, Nathan and Sciarrino, Fabio},
-    doi = {10.1103/PhysRevApplied.10.044033},
-    journal = {Physical Review Applied},
-    month = {Oct},
-    number = {4},
-    publisher = {American Physical Society (APS)},
-    title = {Experimental Phase Estimation Enhanced by Machine Learning},
-    volume = {10},
-    year = {2018}
-}
-
-@article{rocchetto2019experimental,
-    author = {Rocchetto, Andrea and Aaronson, Scott and Severini, Simone and Carvacho, Gonzalo and Poderini, Davide and Agresti, Iris and Bentivegna, Marco and Sciarrino, Fabio},
-    doi = {10.1126/sciadv.aau1946},
-    journal = {Science Advances},
-    month = {Mar},
-    number = {3},
-    pages = {eaau1946},
-    publisher = {American Association for the Advancement of Science (AAAS)},
-    title = {Experimental learning of quantum states},
-    volume = {5},
-    year = {2019}
-}
-
-@article{butler2018machine,
-    author = {Butler, Keith T. and Davies, Daniel W. and Cartwright, Hugh and Isayev, Olexandr and Walsh, Aron},
-    doi = {10.1038/s41586-018-0337-2},
-    journal = {Nature},
-    month = {Jul},
-    number = {7715},
-    pages = {547–555},
-    publisher = {Springer Science and Business Media LLC},
-    title = {Machine learning for molecular and materials science},
-    volume = {559},
-    year = {2018}
-}
-
-@article{fischer2006predicting,
-    author = {Fischer, Christopher C. and Tibbetts, Kevin J. and Morgan, Dane and Ceder, Gerbrand},
-    doi = {10.1038/nmat1691},
-    journal = {Nature Materials},
-    month = {Jul},
-    number = {8},
-    pages = {641–646},
-    publisher = {Springer Nature},
-    title = {Predicting crystal structure by merging data mining with quantum mechanics},
-    volume = {5},
-    year = {2006}
-}
-
-@article{melnikov2018active,
-    author = {Melnikov, Alexey A. and Poulsen Nautrup, Hendrik and Krenn, Mario and Dunjko, Vedran and Tiersch, Markus and Zeilinger, Anton and Briegel, Hans J.},
-    doi = {10.1073/pnas.1714936115},
-    journal = {Proceedings of the National Academy of Sciences},
-    month = {Jan},
-    number = {6},
-    pages = {1221–1226},
-    publisher = {Proceedings of the National Academy of Sciences},
-    title = {Active learning machine learns to create new quantum experiments},
-    volume = {115},
-    year = {2018}
-}
-
-
-@article{doster2017machine,
-    author = {Doster, Timothy and Watnik, Abbie T.},
-    doi = {10.1364/AO.56.003386},
-    journal = {Applied Optics},
-    month = {Apr},
-    number = {12},
-    pages = {3386},
-    publisher = {The Optical Society},
-    title = {Machine learning approach to OAM beam demultiplexing via convolutional neural networks},
-    volume = {56},
-    year = {2017}
-}
-
-@article{park2018demultiplexing,
-    author = {Park, Se Rim and Cattell, Liam and Nichols, Jonathan M. and Watnik, Abbie and Doster, Timothy and Rohde, Gustavo K},
-    doi = {10.1364/OE.26.004004},
-    journal = {Optics Express},
-    month = {Feb},
-    number = {4},
-    pages = {4004},
-    publisher = {The Optical Society},
-    title = {De-multiplexing vortex modes in optical communications using transport-based pattern recognition},
-    volume = {26},
-    year = {2018}
-}
-
-@article{lohani2018turbulence,
-    author = {Lohani, Sanjaya and Glasser, Ryan T.},
-    doi = {10.1364/OL.43.002611},
-    journal = {Optics Letters},
-    month = {May},
-    number = {11},
-    pages = {2611},
-    publisher = {The Optical Society},
-    title = {Turbulence correction with artificial neural networks},
-    volume = {43},
-    year = {2018}
-}
-
-@article{li2018joint,
-    author = {Li, Jin and Zhang, Min and Wang, Danshi and Wu, Shaojun and Zhan, Yueying},
-    doi = {10.1364/OE.26.010494},
-    journal = {Optics Express},
-    month = {Apr},
-    number = {8},
-    pages = {10494},
-    publisher = {The Optical Society},
-    title = {Joint atmospheric turbulence detection and adaptive demodulation technique using the CNN for the OAM-FSO communication},
-    volume = {26},
-    year = {2018}
-}
-
-@article{milione2011higherorder,
-    author = {Milione, Giovanni and Sztul, H. I. and Nolan, D. A. and Alfano, R. R.},
-    doi = {10.1103/PhysRevLett.107.053601},
+@article{vértesi2010closing,
+    author = {Vértesi, Tamás and Pironio, Stefano and Brunner, Nicolas},
+    doi = {10.1103/PhysRevLett.104.060401},
     journal = {Physical Review Letters},
-    month = {Jul},
-    number = {5},
+    month = {Feb},
+    number = {6},
     publisher = {American Physical Society (APS)},
-    title = {Higher-Order Poincaré Sphere, Stokes Parameters, and the Angular Momentum of Light},
-    volume = {107},
-    year = {2011}
+    title = {Closing the Detection Loophole in Bell Experiments Using Qudits},
+    volume = {104},
+    year = {2010}
 }
 
-@article{simard2003best,
-    ISBN = {0769519601},
-    author = {Simard, Patrice Y and Steinkraus, David and Platt, John C and others},
-    doi = {10.1109/ICDAR.2003.1227801},
-    journal = {Seventh International Conference on Document Analysis and Recognition, 2003. Proceedings.},
-    publisher = {IEEE Comput. Soc},
-    title = {Best practices for convolutional neural networks applied to visual document analysis},
-    year = {2003}
+@article{buluta2009quantum,
+    author = {Buluta, I. and Nori, F.},
+    doi = {10.1126/science.1177838},
+    journal = {Science},
+    month = {Oct},
+    number = {5949},
+    pages = {108–111},
+    publisher = {American Association for the Advancement of Science (AAAS)},
+    title = {Quantum Simulators},
+    volume = {326},
+    year = {2009}
+}
+@article{neeley2009emulation,
+    author = {Neeley, M. and Ansmann, M. and Bialczak, R. C. and Hofheinz, M. and Lucero, E. and O’Connell, A. D. and Sank, D. and Wang, H. and Wenner, J. and Cleland, A. N. and et al.},
+    doi = {10.1126/science.1173440},
+    journal = {Science},
+    month = {Aug},
+    number = {5941},
+    pages = {722–725},
+    publisher = {American Association for the Advancement of Science (AAAS)},
+    title = {Emulation of a Quantum Spin with a Superconducting Phase Qudit},
+    volume = {325},
+    year = {2009}
 }
 
-@inproceedings{ciresan2011flexible,
-  title={Flexible, high performance convolutional neural networks for image classification},
-  author={Ciresan, Dan Claudiu and Meier, Ueli and Masci, Jonathan and Gambardella, Luca Maria and Schmidhuber, J{\"u}rgen},
-  booktitle={Twenty-Second International Joint Conference on Artificial Intelligence},
-  year={2011},
-  doi = {10.1109/ICDAR.2003.1227801}
+@article{chuang1997bosonic,
+    author = {Chuang, Isaac L. and Leung, Debbie W. and Yamamoto, Yoshihisa},
+    doi = {10.1103/PhysRevA.56.1114},
+    journal = {Physical Review A},
+    month = {Aug},
+    number = {2},
+    pages = {1114–1125},
+    publisher = {American Physical Society (APS)},
+    title = {Bosonic quantum codes for amplitude damping},
+    volume = {56},
+    year = {1997}
 }
-@article{matsugu2003subject,
-    author = {Matsugu, Masakazu and Mori, Katsuhiko and Mitari, Yusuke and Kaneda, Yuji},
-    doi = {10.1016/S0893-6080(03)00115-1},
-    journal = {Neural Networks},
+
+@article{duclos-cianci2013kitaev,
+    author = {Duclos-Cianci, Guillaume and Poulin, David},
+    doi = {10.1103/PhysRevA.87.062338},
+    journal = {Physical Review A},
     month = {Jun},
-    number = {5-6},
-    pages = {555–559},
-    publisher = {Elsevier BV},
-    title = {Subject independent facial expression recognition with robust face detection using a convolutional neural network},
-    volume = {16},
-    year = {2003}
+    number = {6},
+    publisher = {American Physical Society (APS)},
+    title = {Kitaev’sZd-code threshold estimates},
+    volume = {87},
+    year = {2013}
 }
 
-@article{cord2008machine,
-    ISBN = {9783540751717},
-    author = {Cord, Matthieu and Cunningham, P{\'a}},
-    doi = {10.1007/978-3-540-75171-7},
-    journal = {Cognitive Technologies},
-    publisher = {Springer Berlin Heidelberg},
-    title = {Machine Learning Techniques for Multimedia},
+@article{michael2016class,
+    author = {Michael, Marios H. and Silveri, Matti and Brierley, R. T. and Albert, Victor V. and Salmilehto, Juha and Jiang, Liang and Girvin, S. M.},
+    doi = {10.1103/PhysRevX.6.031006},
+    journal = {Physical Review X},
+    month = {Jul},
+    number = {3},
+    publisher = {American Physical Society (APS)},
+    title = {New Class of Quantum Error-Correcting Codes for a Bosonic Mode},
+    volume = {6},
+    year = {2016}
+}
+
+@article{lanyon2008simplifying,
+    author = {Lanyon, Benjamin P. and Barbieri, Marco and Almeida, Marcelo P. and Jennewein, Thomas and Ralph, Timothy C. and Resch, Kevin J. and Pryde, Geoff J. and O’Brien, Jeremy L. and Gilchrist, Alexei and White, Andrew G.},
+    doi = {10.1038/nphys1150},
+    journal = {Nature Physics},
+    month = {Dec},
+    number = {2},
+    pages = {134–140},
+    publisher = {Springer Science and Business Media LLC},
+    title = {Simplifying quantum logic using higher-dimensional Hilbert spaces},
+    volume = {5},
     year = {2008}
 }
 
-@article{fodor2002survey,
-    author = {Fodor, I K},
-    doi = {10.2172/15002155},
+
+@article{schuld2014introduction,
+    author = {Schuld, Maria and Sinayskiy, Ilya and Petruccione, Francesco},
+    doi = {10.1080/00107514.2014.964942},
+    journal = {Contemporary Physics},
+    month = {Oct},
+    number = {2},
+    pages = {172–185},
+    publisher = {Informa UK Limited},
+    title = {An introduction to quantum machine learning},
+    volume = {56},
+    year = {2014}
+}
+
+@article{dunjko2017machine,
+    archiveprefix = {arXiv},
+    author = {Dunjko, Vedran and Briegel, Hans J.},
+    eprint = {1709.02779},
+    primaryclass = {quant-ph},
+    title = {Machine learning \& artificial intelligence in the quantum domain},
+    year = {2017}
+}
+
+@article{biamonte2017quantum,
+    author = {Biamonte, Jacob and Wittek, Peter and Pancotti, Nicola and Rebentrost, Patrick and Wiebe, Nathan and Lloyd, Seth},
+    doi = {10.1038/nature23474},
+    journal = {Nature},
+    month = {Sep},
+    number = {7671},
+    pages = {195–202},
+    publisher = {Springer Science and Business Media LLC},
+    title = {Quantum machine learning},
+    volume = {549},
+    year = {2017}
+}
+
+@article{leibfried1996experimental,
+    author = {Leibfried, D. and Meekhof, D. M. and King, B. E. and Monroe, C. and Itano, W. M. and Wineland, D. J.},
+    doi = {10.1103/PhysRevLett.77.4281},
+    journal = {Physical Review Letters},
+    month = {Nov},
+    number = {21},
+    pages = {4281–4285},
+    publisher = {American Physical Society (APS)},
+    title = {Experimental Determination of the Motional Quantum State of a Trapped Atom},
+    volume = {77},
+    year = {1996}
+}
+
+@article{hofheinz2009synthesizing,
+    author = {Hofheinz, Max and Wang, H. and Ansmann, M. and Bialczak, Radoslaw C. and Lucero, Erik and Neeley, M. and O’Connell, A. D. and Sank, D. and Wenner, J. and Martinis, John M. and et al.},
+    doi = {10.1038/nature08005},
+    journal = {Nature},
     month = {May},
-    publisher = {Office of Scientific and Technical Information  (OSTI)},
-    title = {A Survey of Dimension Reduction Techniques},
+    number = {7246},
+    pages = {546–549},
+    publisher = {Springer Science and Business Media LLC},
+    title = {Synthesizing arbitrary quantum states in a superconducting resonator},
+    volume = {459},
+    year = {2009}
+}
+
+@article{anderson2015accurate,
+    author = {Anderson, B. E. and Sosa-Martinez, H. and Riofrío, C. A. and Deutsch, Ivan H. and Jessen, Poul S.},
+    doi = {10.1103/PhysRevLett.114.240401},
+    journal = {Physical Review Letters},
+    month = {Jun},
+    number = {24},
+    publisher = {American Physical Society (APS)},
+    title = {Accurate and Robust Unitary Transformations of a High-Dimensional Quantum System},
+    volume = {114},
+    year = {2015}
+}
+
+@article{walborn2006quantum,
+    author = {Walborn, S. P. and Lemelle, D. S. and Almeida, M. P. and Ribeiro, P. H. Souto},
+    doi = {10.1103/PhysRevLett.96.090501},
+    journal = {Physical Review Letters},
+    month = {Mar},
+    number = {9},
+    publisher = {American Physical Society (APS)},
+    title = {Quantum Key Distribution with Higher-Order Alphabets Using Spatially Encoded Qudits},
+    volume = {96},
+    year = {2006}
+}
+
+@article{lima2011experimental,
+    author = {Lima, G. and Neves, L. and Guzmán, R. and Gómez, E. S. and Nogueira, W. A. T. and Delgado, A. and Vargas, A. and Saavedra, C.},
+    doi = {10.1364/OE.19.003542},
+    journal = {Optics Express},
+    month = {Feb},
+    number = {4},
+    pages = {3542},
+    publisher = {The Optical Society},
+    title = {Experimental quantum tomography of photonic qudits via mutually unbiased basis},
+    volume = {19},
+    year = {2011}
+}
+
+@article{rossi2009multipath,
+    author = {Rossi, Alessandro and Vallone, Giuseppe and Chiuri, Andrea and De Martini, Francesco and Mataloni, Paolo},
+    doi = {10.1103/PhysRevLett.102.153902},
+    journal = {Physical Review Letters},
+    month = {Apr},
+    number = {15},
+    publisher = {American Physical Society (APS)},
+    title = {Multipath Entanglement of Two Photons},
+    volume = {102},
+    year = {2009}
+}
+
+@article{dada2011experimental,
+    author = {Dada, Adetunmise C. and Leach, Jonathan and Buller, Gerald S. and Padgett, Miles J. and Andersson, Erika},
+    doi = {10.1038/nphys1996},
+    journal = {Nature Physics},
+    month = {May},
+    number = {9},
+    pages = {677–680},
+    publisher = {Springer Science and Business Media LLC},
+    title = {Experimental high-dimensional two-photon entanglement and violations of generalized Bell inequalities},
+    volume = {7},
+    year = {2011}
+}
+
+@article{anderson2015accurate,
+    author = {Anderson, B. E. and Sosa-Martinez, H. and Riofrío, C. A. and Deutsch, Ivan H. and Jessen, Poul S.},
+    doi = {10.1103/PhysRevLett.114.240401},
+    journal = {Physical Review Letters},
+    month = {Jun},
+    number = {24},
+    publisher = {American Physical Society (APS)},
+    title = {Accurate and Robust Unitary Transformations of a High-Dimensional Quantum System},
+    volume = {114},
+    year = {2015}
+}
+
+@article{heeres2017implementing,
+    author = {Heeres, Reinier W. and Reinhold, Philip and Ofek, Nissim and Frunzio, Luigi and Jiang, Liang and Devoret, Michel H. and Schoelkopf, Robert J.},
+    doi = {10.1038/s41467-017-00045-1},
+    journal = {Nature Communications},
+    month = {Jul},
+    number = {1},
+    publisher = {Springer Nature},
+    title = {Implementing a universal gate set on a logical qubit encoded in an oscillator},
+    volume = {8},
+    year = {2017}
+}
+
+@article{rosenblum2018cnot,
+    author = {Rosenblum, S. and Gao, Y. Y. and Reinhold, P. and Wang, C. and Axline, C. J. and Frunzio, L. and Girvin, S. M. and Jiang, Liang and Mirrahimi, M. and Devoret, M. H. and et al.},
+    doi = {10.1038/s41467-018-03059-5},
+    journal = {Nature Communications},
+    month = {Feb},
+    number = {1},
+    publisher = {Springer Nature},
+    title = {A CNOT gate between multiphoton qubits encoded in two cavities},
+    volume = {9},
+    year = {2018}
+}
+
+@article{chu2018creation,
+    archiveprefix = {arXiv},
+    author = {Chu, Yiwen and Kharel, Prashanta and Yoon, Taekwan and Frunzio, Luigi and Rakich, Peter T. and Schoelkopf, Robert J.},
+    doi = {10.1038/s41586-018-0717-7},
+    eprint = {1804.07426},
+    journal = {Nature},
+    month = {Nov},
+    number = {7733},
+    pages = {666–670},
+    primaryclass = {quant-ph},
+    publisher = {Springer Nature},
+    title = {Creation and control of multi-phonon Fock states in a bulk acoustic-wave resonator},
+    volume = {563},
+    year = {2018}
+}
+
+@article{rohde2011multi,
+    author = {Rohde, Peter P and Schreiber, Andreas and Štefaňák, Martin and Jex, Igor and Silberhorn, Christine},
+    doi = {10.1088/1367-2630/13/1/013001},
+    journal = {New Journal of Physics},
+    month = {Jan},
+    number = {1},
+    pages = {013001},
+    publisher = {IOP Publishing},
+    title = {Multi-walker discrete time quantum walks on arbitrary graphs, their properties and their photonic implementation},
+    volume = {13},
+    year = {2011}
+}
+
+@article{meinert2014observation,
+    author = {Meinert, F. and Mark, M. J. and Kirilov, E. and Lauber, K. and Weinmann, P. and Grobner, M. and Daley, A. J. and Nagerl, H.-C.},
+    doi = {10.1126/science.1248402},
+    journal = {Science},
+    month = {Jun},
+    number = {6189},
+    pages = {1259–1262},
+    publisher = {American Association for the Advancement of Science (AAAS)},
+    title = {Observation of many-body dynamics in long-range tunneling after a quantum quench},
+    volume = {344},
+    year = {2014}
+}
+
+@article{brune1992manipulation,
+    author = {Brune, M. and Haroche, S. and Raimond, J. M. and Davidovich, L. and Zagury, N.},
+    doi = {10.1103/PhysRevA.45.5193},
+    journal = {Physical Review A},
+    month = {Apr},
+    number = {7},
+    pages = {5193–5214},
+    publisher = {American Physical Society (APS)},
+    title = {Manipulation of photons in a cavity by dispersive atom-field coupling: Quantum-nondemolition measurements and generation of “‘Schrödinger cat’” states},
+    volume = {45},
+    year = {1992}
+}
+
+@article{monroe1996schrodinger,
+    author = {Monroe, C. and Meekhof, D. M. and King, B. E. and Wineland, D. J.},
+    doi = {10.1126/science.272.5265.1131},
+    journal = {Science},
+    month = {May},
+    number = {5265},
+    pages = {1131–1136},
+    publisher = {American Association for the Advancement of Science (AAAS)},
+    title = {A ``Schrodinger Cat’’ Superposition State of an Atom},
+    volume = {272},
+    year = {1996}
+}
+
+@article{agarwal1997atomic,
+    author = {Agarwal, G. and Puri, R. and Singh, R.},
+    doi = {10.1103/PhysRevA.56.2249},
+    journal = {Physical Review A},
+    month = {Sep},
+    number = {3},
+    pages = {2249–2254},
+    publisher = {American Physical Society (APS)},
+    title = {Atomic Schrödinger cat states},
+    volume = {56},
+    year = {1997}
+}
+
+@article{schrodinger1935gegenwartige,
+    author = {Schrodinger, E.},
+    doi = {10.1007/BF01491987},
+    journal = {Die Naturwissenschaften},
+    month = {Dec},
+    number = {50},
+    pages = {844–849},
+    publisher = {Springer Science and Business Media LLC},
+    title = {Die gegenwartige Situation in der Quantenmechanik},
+    volume = {23},
+    year = {1935}
+}
+
+@article{militello2006distilling,
+    ISBN = {0387263322},
+    author = {Militello, B and Messina, A},
+    doi = {10.1007/0-387-31143-2_24},
+    journal = {Quantum Computing in Solid State Systems},
+    pages = {195–201},
+    publisher = {Springer-Verlag},
+    title = {Distilling Angular Momentum Schrödinger Cats in Trapped Ions},
+    year = {2006}
+}
+
+@article{ulyanov1999spin,
+    author = {Ulyanov, V. V. and Zaslavskii, O. B.},
+    eprint = {quant-ph/9902058},
+    journal = {`Group22: Proceedings of the XXII International Colloquium on
+  Group Theoretical Methods in Physics', Eds S P Corney, R Delbourgo and P D
+  Jarvis (Cambridge, MA: International Press) 1998, pp. 213-217},
+    title = {Spin systems, spin coherent states and quasi-exactly solvable models},
+    year = {1999}
+}
+
+@article{simon1990minimal,
+    author = {Simon, R. and Mukunda, N.},
+    doi = {10.1016/0375-9601(90)90732-4},
+    journal = {Physics Letters A},
+    month = {Jan},
+    number = {4-5},
+    pages = {165–169},
+    publisher = {Elsevier BV},
+    title = {Minimal three-component SU(2) gadget for polarization optics},
+    volume = {143},
+    year = {1990}
+}
+
+@article{bolduc2013exact,
+    author = {Bolduc, Eliot and Bent, Nicolas and Santamato, Enrico and Karimi, Ebrahim and Boyd, Robert W.},
+    doi = {10.1364/OL.38.003546},
+    journal = {Optics Letters},
+    month = {Sep},
+    number = {18},
+    pages = {3546},
+    publisher = {The Optical Society},
+    title = {Exact solution to simultaneous intensity and phase encryption with a single phase-only hologram},
+    volume = {38},
+    year = {2013}
+}
+
+@article{dambrosio2013test,
+    author = {D’Ambrosio, Vincenzo and Cardano, Filippo and Karimi, Ebrahim and Nagali, Eleonora and Santamato, Enrico and Marrucci, Lorenzo and Sciarrino, Fabio},
+    doi = {10.1038/srep02726},
+    journal = {Scientific Reports},
+    month = {Sep},
+    number = {1},
+    publisher = {Springer Science and Business Media LLC},
+    title = {Test of mutually unbiased bases for six-dimensional photonic quantum systems},
+    volume = {3},
+    year = {2013}
+}
+@article{dambrosio2013photonic,
+    author = {D’Ambrosio, Vincenzo and Spagnolo, Nicolò and Del Re, Lorenzo and Slussarenko, Sergei and Li, Ying and Kwek, Leong Chuan and Marrucci, Lorenzo and Walborn, Stephen P. and Aolita, Leandro and Sciarrino, Fabio},
+    doi = {10.1038/ncomms3432},
+    journal = {Nature Communications},
+    month = {Sep},
+    number = {1},
+    publisher = {Springer Science and Business Media LLC},
+    title = {Photonic polarization gears for ultra-sensitive angular measurements},
+    volume = {4},
+    year = {2013}
+}
+
+
+@article{fickler2012quantum,
+    author = {Fickler, R. and Lapkiewicz, R. and Plick, W. N. and Krenn, M. and Schaeff, C. and Ramelow, S. and Zeilinger, A.},
+    doi = {10.1126/science.1227193},
+    journal = {Science},
+    month = {Nov},
+    number = {6107},
+    pages = {640–643},
+    publisher = {American Association for the Advancement of Science (AAAS)},
+    title = {Quantum Entanglement of High Angular Momenta},
+    volume = {338},
+    year = {2012}
+}
+
+@article{radcliffe1971some,
+    author = {Radcliffe, J M},
+    doi = {10.1088/0305-4470/4/3/009},
+    journal = {Journal of Physics A: General Physics},
+    month = {May},
+    number = {3},
+    pages = {313–323},
+    publisher = {IOP Publishing},
+    title = {Some properties of coherent spin states},
+    volume = {4},
+    year = {1971}
+}
+
+@article{arecchi1972atomic,
+    author = {Arecchi, F. T. and Courtens, Eric and Gilmore, Robert and Thomas, Harry},
+    doi = {10.1103/PhysRevA.6.2211},
+    journal = {Physical Review A},
+    month = {Dec},
+    number = {6},
+    pages = {2211–2237},
+    publisher = {American Physical Society (APS)},
+    title = {Atomic Coherent States in Quantum Optics},
+    volume = {6},
+    year = {1972}
+}
+
+@article{markham2003classicality,
+    author = {Markham, D. and Vedral, V.},
+    doi = {10.1103/PhysRevA.67.042113},
+    journal = {Physical Review A},
+    month = {Apr},
+    number = {4},
+    publisher = {American Physical Society (APS)},
+    title = {Classicality of spin-coherent states via entanglement and distinguishability},
+    volume = {67},
+    year = {2003}
+}
+
+@article{lee2015visualizing,
+    author = {Lee Loh, Yen and Kim, Monica},
+    doi = {10.1119/1.4898595},
+    journal = {American Journal of Physics},
+    month = {Jan},
+    number = {1},
+    pages = {30–35},
+    publisher = {American Association of Physics Teachers (AAPT)},
+    title = {Visualizing spin states using the spin coherent state representation},
+    volume = {83},
+    year = {2015}
+}
+
+@article{durt2010mutually,
+    author = {Durt, Thomas and Englert, Berthold-Georg and Bengtsson, Ingemar and Życzkowski, Karol},
+    doi = {10.1142/S0219749910006502},
+    journal = {International Journal of Quantum Information},
+    month = {Jun},
+    number = {04},
+    pages = {535–640},
+    publisher = {World Scientific Pub Co Pte Lt},
+    title = {On mutually unbiased bases},
+    volume = {08},
+    year = {2010}
+}
+
+@article{bandyopadhyay2002new,
+  title={A new proof for the existence of mutually unbiased bases},
+  author={Bandyopadhyay, Somshubhro and Boykin, P Oscar and Roychowdhury, Vwani and Vatan, Farrokh},
+  journal={Algorithmica},
+  volume={34},
+  number={4},
+  pages={512--528},
+  year={2002},
+  publisher={Springer}
+}
+
+@article{brierley2009constructing,
+    author = {Brierley, Stephen and Weigert, Stefan},
+    doi = {10.1103/PhysRevA.79.052316},
+    journal = {Physical Review A},
+    month = {May},
+    number = {5},
+    publisher = {American Physical Society (APS)},
+    title = {Constructing mutually unbiased bases in dimension six},
+    volume = {79},
+    year = {2009}
+}
+
+@article{allen1992orbital,
+    author = {Allen, L. and Beijersbergen, M. W. and Spreeuw, R. J. C. and Woerdman, J. P.},
+    doi = {10.1103/PhysRevA.45.8185},
+    journal = {Physical Review A},
+    month = {Jun},
+    number = {11},
+    pages = {8185–8189},
+    publisher = {American Physical Society (APS)},
+    title = {Orbital angular momentum of light and the transformation of Laguerre-Gaussian laser modes},
+    volume = {45},
+    year = {1992}
+}
+
+@article{padgett2004lights,
+    author = {Padgett, Miles and Courtial, Johannes and Allen, Les},
+    doi = {10.1063/1.1768672},
+    journal = {Physics Today},
+    month = {May},
+    number = {5},
+    pages = {35–40},
+    publisher = {AIP Publishing},
+    title = {Light’s Orbital Angular Momentum},
+    volume = {57},
+    year = {2004}
+}
+
+@article{erhard2017twisted,
+    author = {Erhard, Manuel and Fickler, Robert and Krenn, Mario and Zeilinger, Anton},
+    doi = {10.1038/lsa.2017.146},
+    journal = {Light: Science & Applications},
+    month = {Oct},
+    number = {3},
+    pages = {17146–17146},
+    publisher = {Springer Science and Business Media LLC},
+    title = {Twisted photons: new quantum perspectives in high dimensions},
+    volume = {7},
+    year = {2017}
+}
+
+@article{rubinsztein-dunlop2016roadmap,
+    author = {Rubinsztein-Dunlop, Halina and Forbes, Andrew and Berry, M V and Dennis, M R and Andrews, David L and Mansuripur, Masud and Denz, Cornelia and Alpmann, Christina and Banzer, Peter and Bauer, Thomas and et al.},
+    doi = {10.1088/2040-8978/19/1/013001},
+    journal = {Journal of Optics},
+    month = {Nov},
+    number = {1},
+    pages = {013001},
+    publisher = {IOP Publishing},
+    title = {Roadmap on structured light},
+    volume = {19},
+    year = {2016}
+}
+
+@article{willner2015optical,
+    author = {Willner, A. E. and Huang, H. and Yan, Y. and Ren, Y. and Ahmed, N. and Xie, G. and Bao, C. and Li, L. and Cao, Y. and Zhao, Z. and et al.},
+    doi = {10.1364/AOP.7.000066},
+    journal = {Advances in Optics and Photonics},
+    month = {Mar},
+    number = {1},
+    pages = {66},
+    publisher = {The Optical Society},
+    title = {Optical communications using orbital angular momentum beams},
+    volume = {7},
+    year = {2015}
+}
+
+@article{cozzolino2019aircore,
+    author = {Cozzolino, Daniele and Polino, Emanuele and Valeri, Mauro and Carvacho, Gonzalo and Bacco, Davide and Spagnolo, Nicolò and Oxenløwe, Leif K. and Sciarrino, Fabio},
+    doi = {10.1117/1.AP.1.4.046005},
+    journal = {Advanced Photonics},
+    month = {Aug},
+    number = {04},
+    pages = {1},
+    publisher = {SPIE-Intl Soc Optical Eng},
+    title = {Air-core fiber distribution of hybrid vector vortex-polarization entangled states},
+    volume = {1},
+    year = {2019}
+}
+
+@article{cozzolino2019orbital,
+    author = {Cozzolino, Daniele and Bacco, Davide and Da Lio, Beatrice and Ingerslev, Kasper and Ding, Yunhong and Dalgaard, Kjeld and Kristensen, Poul and Galili, Michael and Rottwitt, Karsten and Ramachandran, Siddharth and et al.},
+    doi = {10.1103/PhysRevApplied.11.064058},
+    journal = {Physical Review Applied},
+    month = {Jun},
+    number = {6},
+    publisher = {American Physical Society (APS)},
+    title = {Orbital Angular Momentum States Enabling Fiber-based High-dimensional Quantum Communication},
+    volume = {11},
+    year = {2019}
+}
+
+@article{goswami2018indefinite,
+    author = {Goswami, K. and Giarmatzi, C. and Kewming, M. and Costa, F. and Branciard, C. and Romero, J. and White, A. G.},
+    doi = {10.1103/PhysRevLett.121.090503},
+    journal = {Physical Review Letters},
+    month = {Aug},
+    number = {9},
+    publisher = {American Physical Society (APS)},
+    title = {Indefinite Causal Order in a Quantum Switch},
+    volume = {121},
+    year = {2018}
+}
+
+@article{vallone2014freespace,
+    author = {Vallone, Giuseppe and D’Ambrosio, Vincenzo and Sponselli, Anna and Slussarenko, Sergei and Marrucci, Lorenzo and Sciarrino, Fabio and Villoresi, Paolo},
+    doi = {10.1103/PhysRevLett.113.060503},
+    journal = {Physical Review Letters},
+    month = {Aug},
+    number = {6},
+    publisher = {American Physical Society (APS)},
+    title = {Free-Space Quantum Key Distribution by Rotation-Invariant Twisted Photons},
+    volume = {113},
+    year = {2014}
+}
+
+@article{mirhosseini2015highdimensional,
+    author = {Mirhosseini, Mohammad and Magaña-Loaiza, Omar S and O’Sullivan, Malcolm N and Rodenburg, Brandon and Malik, Mehul and Lavery, Martin P J and Padgett, Miles J and Gauthier, Daniel J and Boyd, Robert W},
+    doi = {10.1088/1367-2630/17/3/033033},
+    journal = {New Journal of Physics},
+    month = {Mar},
+    number = {3},
+    pages = {033033},
+    publisher = {IOP Publishing},
+    title = {High-dimensional quantum cryptography with twisted light},
+    volume = {17},
+    year = {2015}
+}
+
+@article{malik2014direct,
+    author = {Malik, Mehul and Mirhosseini, Mohammad and Lavery, Martin P. J. and Leach, Jonathan and Padgett, Miles J. and Boyd, Robert W.},
+    doi = {10.1038/ncomms4115},
+    journal = {Nature Communications},
+    month = {Jan},
+    number = {1},
+    publisher = {Springer Science and Business Media LLC},
+    title = {Direct measurement of a 27-dimensional orbital-angular-momentum state vector},
+    volume = {5},
+    year = {2014}
+}
+@article{malik2016multiphoton,
+    author = {Malik, Mehul and Erhard, Manuel and Huber, Marcus and Krenn, Mario and Fickler, Robert and Zeilinger, Anton},
+    doi = {10.1038/nphoton.2016.12},
+    journal = {Nature Photonics},
+    month = {Feb},
+    number = {4},
+    pages = {248–252},
+    publisher = {Springer Science and Business Media LLC},
+    title = {Multi-photon entanglement in high dimensions},
+    volume = {10},
+    year = {2016}
+}
+
+@article{sit2017highdimensional,
+    author = {Sit, Alicia and Bouchard, Frédéric and Fickler, Robert and Gagnon-Bischoff, Jérémie and Larocque, Hugo and Heshami, Khabat and Elser, Dominique and Peuntinger, Christian and Günthner, Kevin and Heim, Bettina and et al.},
+    doi = {10.1364/OPTICA.4.001006},
+    journal = {Optica},
+    month = {Aug},
+    number = {9},
+    pages = {1006},
+    publisher = {The Optical Society},
+    title = {High-dimensional intracity quantum cryptography with structured photons},
+    volume = {4},
+    year = {2017}
+}
+
+@article{leach2002measuring,
+    author = {Leach, Jonathan and Padgett, Miles J. and Barnett, Stephen M. and Franke-Arnold, Sonja and Courtial, Johannes},
+    doi = {10.1103/PhysRevLett.88.257901},
+    journal = {Physical Review Letters},
+    month = {Jun},
+    number = {25},
+    publisher = {American Physical Society (APS)},
+    title = {Measuring the Orbital Angular Momentum of a Single Photon},
+    volume = {88},
     year = {2002}
+}
+
+@article{slussarenko2010polarizing,
+    author = {Slussarenko, S. and D’Ambrosio, V. and Piccirillo, B. and Marrucci, L. and Santamato, E.},
+    doi = {10.1364/OE.18.027205},
+    journal = {Optics Express},
+    month = {Dec},
+    number = {26},
+    pages = {27205},
+    publisher = {The Optical Society},
+    title = {The Polarizing Sagnac Interferometer: a tool for light orbital angular momentum sorting and spin-orbit photon processing},
+    volume = {18},
+    year = {2010}
+}
+
+@article{bauer2013nanointerferometric,
+    author = {Bauer, Thomas and Orlov, Sergej and Peschel, Ulf and Banzer, Peter and Leuchs, Gerd},
+    doi = {10.1038/NPHOTON.2013.289},
+    journal = {Nature Photonics},
+    month = {Nov},
+    number = {1},
+    pages = {23–27},
+    publisher = {Springer Science and Business Media LLC},
+    title = {Nanointerferometric amplitude and phase reconstruction of tightly focused vector beams},
+    volume = {8},
+    year = {2013}
+}
+
+@article{berkhout2010efficient,
+    author = {Berkhout, Gregorius C. G. and Lavery, Martin P. J. and Courtial, Johannes and Beijersbergen, Marco W. and Padgett, Miles J.},
+    doi = {10.1103/PhysRevLett.105.153601},
+    journal = {Physical Review Letters},
+    month = {Oct},
+    number = {15},
+    publisher = {American Physical Society (APS)},
+    title = {Efficient Sorting of Orbital Angular Momentum States of Light},
+    volume = {105},
+    year = {2010}
+}
+
+
+@article{qassim2014limitations,
+    author = {Qassim, Hammam and Miatto, Filippo M. and Torres, Juan P. and Padgett, Miles J. and Karimi, Ebrahim and Boyd, Robert W.},
+    doi = {10.1364/JOSAB.31.000A20},
+    journal = {Journal of the Optical Society of America B},
+    month = {Apr},
+    number = {6},
+    pages = {A20},
+    publisher = {The Optical Society},
+    title = {Limitations to the determination of a Laguerre–Gauss spectrum via projective, phase-flattening measurement},
+    volume = {31},
+    year = {2014}
+}
+
+@article{paris2004quantum,
+    ISBN = {9783540444817},
+    author = {Paris, Matteo and Rehacek, Jaroslav},
+    doi = {10.1007/b98673},
+    journal = {Lecture Notes in Physics},
+    publisher = {Springer Berlin Heidelberg},
+    title = {Quantum State Estimation},
+    year = {2004}
+}
+
+@article{banaszek2013focus,
+    author = {Banaszek, K and Cramer, M and Gross, D},
+    doi = {10.1088/1367-2630/15/12/125020},
+    journal = {New Journal of Physics},
+    month = {Dec},
+    number = {12},
+    pages = {125020},
+    publisher = {IOP Publishing},
+    title = {Focus on quantum tomography},
+    volume = {15},
+    year = {2013}
+}
+
+@article{liu2016generation,
+    author = {Liu, Zhenxing and Liu, Yuanyuan and Ke, Yougang and Liu, Yachao and Shu, Weixing and Luo, Hailu and Wen, Shuangchun},
+    doi = {10.1364/PRJ.5.000015},
+    journal = {Photonics Research},
+    month = {Dec},
+    number = {1},
+    pages = {15},
+    publisher = {The Optical Society},
+    title = {Generation of arbitrary vector vortex beams on hybrid-order Poincaré sphere},
+    volume = {5},
+    year = {2016}
+}
+@article{liu2017direct,
+    author = {Liu, Jun and Li, Shi-Mao and Zhu, Long and Wang, An-Dong and Chen, Shi and Klitis, Charalambos and Du, Cheng and Mo, Qi and Sorel, Marc and Yu, Si-Yuan and et al.},
+    doi = {10.1038/lsa.2017.148},
+    journal = {Light: Science & Applications},
+    month = {Oct},
+    number = {3},
+    pages = {17148–17148},
+    publisher = {Springer Science and Business Media LLC},
+    title = {Direct fiber vector eigenmode multiplexing transmission seeded by integrated optical vortex emitters},
+    volume = {7},
+    year = {2017}
+}
+
+
+@article{ndagano2017creation,
+  title={Creation and detection of vector vortex modes for classical and quantum communication},
+  author={Ndagano, Bienvenu and Nape, Isaac and Cox, Mitchell A and Rosales-Guzman, Carmelo and Forbes, Andrew},
+  journal={Journal of Lightwave Technology},
+  volume={36},
+  number={2},
+  pages={292--301},
+  year={2017},
+  publisher={IEEE}
+}
+@article{chen2018mapping,
+    author = {Chen, Yuan and Gao, Jun and Jiao, Zhi-Qiang and Sun, Ke and Shen, Wei-Guan and Qiao, Lu-Feng and Tang, Hao and Lin, Xiao-Feng and Jin, Xian-Min},
+    doi = {10.1103/PhysRevLett.121.233602},
+    journal = {Physical Review Letters},
+    month = {Dec},
+    number = {23},
+    publisher = {American Physical Society (APS)},
+    title = {Mapping Twisted Light into and out of a Photonic Chip},
+    volume = {121},
+    year = {2018}
+}
+
+@article{cai2012integrated,
+    author = {Cai, X. and Wang, J. and Strain, M. J. and Johnson-Morris, B. and Zhu, J. and Sorel, M. and O’Brien, J. L. and Thompson, M. G. and Yu, S.},
+    doi = {10.1126/science.1226528},
+    journal = {Science},
+    month = {Oct},
+    number = {6105},
+    pages = {363–366},
+    publisher = {American Association for the Advancement of Science (AAAS)},
+    title = {Integrated Compact Optical Vortex Beam Emitters},
+    volume = {338},
+    year = {2012}
+}
+
+@article{yue2016vector,
+    author = {Yue, Fuyong and Wen, Dandan and Xin, Jingtao and Gerardot, Brian D. and Li, Jensen and Chen, Xianzhong},
+    doi = {10.1021/acsphotonics.6b00392},
+    journal = {ACS Photonics},
+    month = {Jul},
+    number = {9},
+    pages = {1558–1563},
+    publisher = {American Chemical Society (ACS)},
+    title = {Vector Vortex Beam Generation with a Single Plasmonic Metasurface},
+    volume = {3},
+    year = {2016}
 }
 
