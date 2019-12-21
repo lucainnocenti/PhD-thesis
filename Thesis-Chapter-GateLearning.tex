@@ -3,38 +3,41 @@
 \chapter{Quantum Gate Learning}
 \label{Section:GateLearning}
 
-Synthesising target quantum operations is pivotal is a number of contexts in quantum information science, for example in quantum simulation~\cite{feynman1982simulating,lloyd1996universal}, quantum computation~\cite{feynman1982simulating,deutsch1985quantum,gottesman1998theory,nielsen2002quantum,ladd2010quantum}.
-In particular, unitary gates play a key role in the majority of schemes for quantum computation and quantum algorithms, and more generally are a fundamental component of most quantum information protocols.
+Synthesising target quantum operations is pivotal in a variety of contexts in quantum information science, for example in quantum simulation~\cite{feynman1982simulating,lloyd1996universal}, and quantum computation~\cite{feynman1982simulating,deutsch1985quantum,gottesman1998theory,nielsen2002quantum,ladd2010quantum}.
+In particular, \emph{unitary} gates play a key role in the majority of schemes and algorithms for quantum computation, and are more generally a fundamental component of most quantum information protocols.
 
-Implementing a given target unitary gate can however often be a daunting task. Different techiniques can be used to achieve this, depending on the particular experimental context and constraints.
-For example, in a photonics context, one often has access to a toolbox of elementary components, such as beamsplitters and phaseshifters, which are used to build up more complex operations.
-In this context, to built a complex operation $U$, one is tasked with finding a suitable combination of such elementary (generally unitary) operations $G_i$ such that $U=\prod_i G_i$. Given a fixed set of \textit{elementary gates} $\{G_i\}_i$, finding a suitable combination of these gates that results in the target operation $U$ is highly nontrivial, and is a task often referred to as the \textit{gate compilation} or \textit{gate synthesis} problem~\cite{mottonen2004quantum,nielsen2006quantum,loke2014optqc,loke2016optqc,nakajima2009synthesis,maslov2017basic,swaddle2017generating}. \highlight{(add more citations)}
+Implementing a target unitary gate is however often a daunting task. Different techniques can be used to achieve this, depending on the specifics of the experimental context and other constraints of the problem under consideration.
+For example, in a photonics context one often has access to a toolbox of elementary components, such as beamsplitters and phaseshifters, which are used to build up more complex operations.
+In this context, to built a complex operation $\calU$, one is tasked with finding a suitable combination of elementary (generally unitary) operations $\calG_i$ such that $\calU=\prod_i \calG_i$. Given a fixed set of such \textit{elementary gates} $\{\calG_i\}_i$, finding such a combination of gates is highly nontrivial. This task is often referred to as \textit{gate compilation}, or \textit{gate synthesis}~\cite{mottonen2004quantum,nielsen2006quantum,loke2014optqc,loke2016optqc,nakajima2009synthesis,maslov2017basic,swaddle2017generating}. \highlight{(add more citations)}
 \highlight{are there other experimental contexts in which it is common to have such \textit{black boxes} that are composed together?}
-Solving gate compilation problems is especially important in the light of the recent significant experimental advances in the construction of experimental quantum devices, especially superconducting~\cite{devoret2013superconducting} and ion trap~\cite{blatt2008entangled,debnath2016demonstration} architectures.
+Solving gate compilation problems is especially important in the light of the recent significant experimental advances in the construction of experimental quantum devices, especially superconducting~\cite{devoret2013superconducting} and ion trap~\cite{blatt2008entangled,debnath2016demonstration} architectures \highlight{probably add sycamore paper ref}.
 
-A completely different type of problem is the one faced when, instead of a discrete set of gates, one is able to tune continuous parameters of an underlying dynamics.
-In other words, it can be the case that the experimenter has access to some parameters $\bs\lambda$ of the system \textit{Hamiltonian} $H_{\bs\lambda}$, and wants to find the values of $\bs\lambda$ to achieve some target dynamics.
-One might for example be interested in driving a fixed input to a fixed target output, or in obtaining a full effective evolution via tuning the dynamics.
-In this kind of scenario, it is also common to allow for \textit{time-dependent} dynamics. This makes it much easier, in general, to achieve different types of evolutions, but at the same times makes the resulting optimisation problem that much harder, as one then has to look for an optimal \textit{function} $t\mapsto\bs\lambda(t)$, rather than just an optimal value $\bs\lambda\in\mathbb R^n$.
-This types of problems are usually referred to as \textit{quantum (optimal) control} problems.
-\highlight{quantum control refs}
+A different type of problem is the one faced when, instead of a discrete set of gates, one is able to tune continuous parameters of an underlying dynamics.
+In this scenario, the experimenter has only access to some parameters $\bs\lambda\equiv(\lambda_1,...,\lambda_k)$ of the system \textit{Hamiltonian} $\calH_{\bs\lambda}$, and wants to find the values of $\bs\lambda$ that achieve a target dynamics.
+One might for example be interested in driving a fixed input to a target output.
+In this scenario, it is common to allow for \textit{time-dependent} dynamics. This makes it easier, in general, to achieve different types of evolutions, but at the same times also makes for a significantly harder optimisation problem, as one then has to look for an optimal \textit{function} $t\mapsto\bs\lambda(t)$, rather than just an optimal value $\bs\lambda\in\mathbb R^n$.
+This types of problems are usually referred to as \textit{quantum (optimal) control} problems~\cite{dalessandro2007introduction,dong2010quantum,werschnik2007quantum}.
+\highlight{maybe something more about this}
 
 
+In this chapter, we will consider a gate engineering strategy that avoids implementing a target operation using a sequence of other gates, but at the same time does not require time-dependent dynamics. Both of these properties are desirable, as requiring to use multiple gates to implement a single one increases complexity and coherence times of a quantum circuit, while a time-dependent dynamics requires to interact with the system to a larger degree, and can be more complex to implement \highlight{This sentence sucks}.
+A first step in this direction was presented in~\cite{banchi2016quantum}.
+The idea was there to look for time-\emph{independent} few-qubit Hamiltonians $\calH$ producing a target unitary gate after a fixed time. They in particular considered the cases of the three-qubit Toffoli and Fredkin gates as target, and admitted \emph{four} qubits in the evolution, one of which was traced out at the end.
+They showed that, using three-qubits, plus an ancillary qubit traced out at the end of the evolution, nontrivial tree-qubit gates such as the Toffoli and Fredkin gates can be implemented.
+This was achieved by solving numerically for the values of the interaction parameters, in a given Hamiltonian ansatz, resulting in the target evolution.
+To work around the complexity of the associated optimisation problem, a technique inspired by the way many \ac{ML} models are trained, namely, \ac{SGD}, was used.
 
-\begin{itemize}
-    \item \textbf{\textit{You can also mix these types of problems together, and/or add ancillary resources.}}
-    \item The third situation is ours: we want to tune the dynamics to getter better black boxes.
-    \item What's the advantages of doing it our way?
-\end{itemize}
 
-We are \cite{innocenti2018supervised}.
+Building upon~\cite{banchi2016quantum}, we show that the gate learning strategy presented there can be significantly improved, both from an algorithmic and from a fundamental perspective~\cite{innocenti2018supervised}.
+On the one hand, by integrating \ac{AD} techniques into the optimisation routine, we can speed-up dramatically the numerical optimisation routine, thus making testing and looking for solutions to specific problems significantly easier.
+On the other hand, by improving our understanding of the underlying mathematical problem, we propose a solution framework that allows to further speed-up the numerics exploiting the symmetries of the target gates, and in some cases even allows to derive exact solutions without the need of the numerical apparatus.
 
-Open problems and solutions, literature.
+In~\cref{sec:GL:problem_details} we explain in detail the mathematics underlying gate learning problems, and how physical constraints on the possible Hamiltonian parameters can be brought into the discussion. In~\cref{sec:GL:solution_framework} we finally provide one of the main results of the chapter, in the form of a solution framework that will prove useful both to solve gate learning problems exactly and to speed-up the numerical optimisations when needed. In~\cref{sec:GL:toffoli} we present the analytical results on the implementability of the Toffoli gate, while in~\cref{sec:GL:fredkin} those concerning the Fredkin gate. We continue in~\cref{sec:GL:numerical_approach} by discussing how the problem can be massaged to make it solvable via a numerical optimisation approach, and finally in~\cref{sec:GL:supervised_learning} we show how \ac{ML} techniques can be used to obtain even further efficiency improvements.
+Further results using the same numerical apparatus will be given in~\cref{chapter:gate_learning_verona}
 
-\section{Standard techniques for gate engineering, previous work}
-\highlight{I'm not actually sure we want this section}
 
 \section{Time-independent dynamics for target gates}
+\label{sec:GL:problem_details}
 
 Here, we explore a different approach to devise target unitary evolutions. More specifically, we ask the following question: is there a way to implement a given target gate \textit{without} decomposing it as a sequence of simpler gates, \textit{and} without using a time-dependent dynamics, \textit{and} without the aid of additional ancillary resources?
 In other words, given a target operation $\calU$, and a set of possible candidate Hamiltonians $\calH[\bullet]\equiv \{\calH_{\bs\lambda}\}_{\bs\lambda}\subseteq\on{Herm}$\footnote{Here, $\on{Herm}\equiv\on{Herm}(N)$ is the set of Hermitian $N\times N$ matrices with complex entries, for some integer $N\ge2$. The dimension $N$ will be taken to be understood from the context.},
@@ -91,7 +94,7 @@ Given the decomposition of~\cref{eq:cnot_eigdecomp_with_paulis}, it is natural t
 Finding $\bs\lambda\equiv(\lambda_1,\lambda_2,\lambda_3)$ such that $e^{i\calH}=\CNOT$ is then quite easy: just use $\lambda_1=\lambda_2=0$ and $\lambda_3=2\pi$. Indeed, as it is easy to check, $e^{\pi i Z_1^- X_2^-} = \CNOT$.
 The natural next question is then: is this the \textbf{only} such $\calH$? It is straightforward to see that the answer is negative: for example, it is also true that $e^{\pi i n Z_1^- X_2^-}=\CNOT$ for any $n\in\ZZ$.
 It is less trivial to get a complete characterisation of the solution set.
-Indeed, as will be shown in~\cref{sec:solutions_matrix_equation_f(A)=B}, there is a rich set of solutions for these types of matrix equations.
+Indeed, as will be shown in~\cref{sec:GL:solutions_matrix_equation_f(A)=B}, there is a rich set of solutions for these types of matrix equations.
 \end{example}
 
 \begin{example}[label={ex:eigendecomposition_Toffoli}]
@@ -136,17 +139,17 @@ It is then natural to wonder about whether this is a \textbf{necessary} feature 
 As will be shown in the following sections, the answer is in fact that yes, it is possible to find time-independent Hamiltonians that generate a Toffoli gate \textbf{and} only use up to two-qubit interactions.
 \end{example}
 
-As shown in~\cref{ex:eigendecomposition_cnot,ex:eigendecomposition_Toffoli}, looking for Hermitian generators of few-qubit gates is not a fairly straightforward task. There are, however, two notable issues with the type of analysis conducted so far:
+As shown in~\cref{ex:eigendecomposition_cnot,ex:eigendecomposition_Toffoli}, looking for Hermitian generators of few-qubit gates appears to be a fairly straightforward task. There are, however, two notable issues with the type of analysis conducted so far:
 \begin{enumerate}
     \item It lacks in generality: while finding specific generators essentially amounts to computing the eigendecomposition of the target $\calU$, and then the logarithm of the eigenvalues, this says nothing about whether such procedure provides the most general kind of Hamiltonian generator for the given gate. In other words, can \textit{all} generators $\calH$ be obtained this way?
     \item We have no control over the kind of generators that we obtain with this procedure. For example, in~\cref{ex:eigendecomposition_cnot} we obtained generators containing two-qubit interactions of the form $Z_1 X_2$. Does this mean that this type of interaction term is \textit{necessary} to generate a CNOT? Or is there instead some Hamiltonian that can still generate the CNOT without using such terms?
     Similar questions arise in~\cref{ex:eigendecomposition_Toffoli}.
 \end{enumerate}
-To address these issues, we will study the underlying mathematical problem in more depth. As it turns out, we can divide such analysis in two parts. In~\cref{sec:solutions_matrix_equation_f(A)=B}, we show how to find general solutions to inverse matrix equations of the form $f(A)=B$. Then, in~\cref{sec:constraints_on_interaction_pars}, we present a way to bring additional constraints on the interaction terms into the discussion.
+To address these issues, we will study the underlying mathematical problem in more depth. As it turns out, we can divide such analysis in two parts. In~\cref{sec:GL:solutions_matrix_equation_f(A)=B}, we show how to find general solutions to inverse matrix equations of the form $f(A)=B$. Then, in~\cref{sec:GL:constraints_on_interaction_pars}, we present a way to bring additional constraints on the interaction terms into the discussion.
 \highlight{to review this part probably}
 
-\section{Solutions of the matrix equation \texorpdfstring{$f(A)=B$}{f(A)=B}}
-\label{sec:solutions_matrix_equation_f(A)=B}
+\subsection{Solutions of the matrix equation \texorpdfstring{$f(A)=B$}{f(A)=B}}
+\label{sec:GL:solutions_matrix_equation_f(A)=B}
 Let $A,B$ be normal matrices such that $f(A)=B$ for some function $f$ (assumed to be regular on the spectrum of $A$), with $f(A)$ defined as usual on the eigenvalues of $A$.
 In this section we will provide a full characterisation of the set of solutions $A\in f^{-1}(B)$ .
 
@@ -290,10 +293,10 @@ It is worth stressing how the set of viable generators $\calH$ has both a discre
 
 In the rest of the thesis, we will focus on the case $f(A)\equiv e^{iA}$, which is the case of relevance to find Hamiltonian generators of target unitaries.
 
-\section{Adding physical practical constraints}
-\label{sec:constraints_on_interaction_pars}
+\subsection{Adding physical practical constraints}
+\label{sec:GL:constraints_on_interaction_pars}
 
-In~\cref{sec:solutions_matrix_equation_f(A)=B} we described how to write the full set of solution for a matrix equation of the form $f(A)=B$.
+In~\cref{sec:GL:solutions_matrix_equation_f(A)=B} we described how to write the full set of solution for a matrix equation of the form $f(A)=B$.
 In this section we will show how introducing further constraints on the type of interaction terms allowed in the final generator reveals a particularly daunting task.
 
 To restrict the type of interaction terms allowed in the final generator, means to fix some set $\calP$ comprised of orthogonal Hermitian operators $\sigma_i$, and ask for a generator $\calH\in f^{-1}(\calU)$ such that $\calH$ is in the span of $\{\sigma_i\}_i$:
@@ -353,7 +356,7 @@ Indeed, expanding~\cref{eq:cnotex_general_H_expr} and focusing on the two-qubit 
 Remarkably, this shows how the $Z_1 X_2$ seems to be a necessary part of a generator, as there is no choice of $n_3,n_4\in\ZZ$ such that $n_4-2 n_3=0$.
 Still, this does not rule out the possibility that for some other choice of $\tildePP_j$ it is possible.
 The difficulty in showing this in full generality arises from the lack of a nice general expression for a arbitrary unitary rotations in more than two dimensions \highlight{maybe make sure this is actually true. What about Jarlskogwhateverthefuckitscalled decomposition?}.
-In~\cref{sec:gatelearning_solution_framework} we will provide a way to answer these questions more easily.
+In~\cref{sec:GL:solution_framework} we will provide a way to answer these questions more easily.
 \end{example}
 
 \begin{example}[label={ex:toffoli_physical_constraints}]
@@ -391,15 +394,15 @@ Similarly to what we found in~\cref{ex:cnot_physical_constraints}, we have here 
 % \end{equation}
 There is, however, a marked difference between the present case and~\cref{ex:cnot_physical_constraints}: while for the CNOT we have strong physical reasons to believe that it is impossible to obtain the gate without two-qubit interaction terms, this is not the case for the Toffoli.
 Indeed, while it is in principle possible to achieve a three-qubit entangling gate without using three-qubit interaction terms, although the veracity of this claim is not obvious.
-Indeed, we will show in~\cref{sec:gatelearning_solution_framework} how, by appropriately rotating the degenerate eigenspace, it \textit{is} possible to achieve such a feat.
+Indeed, we will show in~\cref{sec:GL:solution_framework} how, by appropriately rotating the degenerate eigenspace, it \textit{is} possible to achieve such a feat.
 \end{example}
 
 \section{A solution framework}
-\label{sec:gatelearning_solution_framework}
-As demonstrated in~\cref{sec:constraints_on_interaction_pars}, injecting physical constraints into the problem makes it significantly harder to solve.
+\label{sec:GL:solution_framework}
+As demonstrated in~\cref{sec:GL:constraints_on_interaction_pars}, injecting physical constraints into the problem makes it significantly harder to solve.
 Nevertheless, we will show in this section how a few observations can be exploited to significantly simplify the task.
 
-Piggybacking on the results of~\cref{sec:solutions_matrix_equation_f(A)=B}, consider the general problem of looking for generators $\calH$ such that $e^{i\calH}=\calU$ for a given unitary $\calU$.
+Piggybacking on the results of~\cref{sec:GL:solutions_matrix_equation_f(A)=B}, consider the general problem of looking for generators $\calH$ such that $e^{i\calH}=\calU$ for a given unitary $\calU$.
 While, as previously discussed, there are in general many possible such $\calH$, there \textit{is} one ``natural'' choice that can be considered as \textit{canonical} in this context.
 Indeed, while a generic $\calH$ can break the degeneracies of $\calU$, let us denote with $\calH_{\calU}$ a \textit{canonical generator}, which is one that preserves the degeneracies of $\calU$.
 Note that computing such a generator is generally a straightforward task.
@@ -414,7 +417,7 @@ We will show in this section that the following two conditions must be always sa
 \end{itemize}
 
 Indeed, assume that $\calH$ and $\calH_{\calU}$ satisfy these two conditions.
-% Then, as shown in~\cref{sec:solutions_matrix_equation_f(A)=B}, 
+% Then, as shown in~\cref{sec:GL:solutions_matrix_equation_f(A)=B}, 
 While, in general, two Hamiltonians $\calH_1,\calH_2$ with $e^{i\calH_1}=e^{i\calH_2}=\calU$ need not commute with each other, this must be the case when one of the two is a canonical generator $\calH_{\calU}$. In other words, we must always have $[\calH,\calH_{\calU}]=0$.
 This is for the same reason why, for any generator $\calH$, we must have $[\calH,\calU]=0$.
 Moreover, $[\calH,\calH_{\calU}]=0$ implies that
@@ -528,7 +531,7 @@ Nevertheless, this example is interesting to show how the technique suggested by
 \highlight{Is there a way to do a reasoning like the above for a generic two-qubit gate?}
 
 \section{Toffoli gate}
-\label{sec:gatelearning_toffoli}
+\label{sec:GL:toffoli}
 Consider now the Toffoli gate $\UToff$, and let $\calP_{\le2}$ be the set of one- and two-qubit Pauli matrices. In this section we ask the question: \textit{\textbf{is there a time-independent $\HTildeToff\in\spanR(\calP_{\le2})$ such that $\exponential(i\HTildeToff)=\UToff$?}}
 
 A canonical generator for $\UToff$ is $\HToff=\pi Z_1^- Z_2^- X_3^-$.
@@ -1086,7 +1089,7 @@ For example, a similar reasoning as above, starting however from the assumptions
 \end{equation}
 
 \subsection{\textit{A posteriori} alternative derivation}
-\label{sec:toffoli_posteriori_derivation}
+\label{sec:GL:toffoli_posteriori_derivation}
 
 We will here show a line of thought that could have conceivably led to \cref{SM:eq:toffoli_generator_nu4} (in the case $\nu_4=1$), by direct analysis, and without using any of the previously used techniques.
 It will be useful to keep in mind the expressions of $Z_1 \pm Z_2$:
@@ -1144,10 +1147,10 @@ $\pi\alpha(Z_2-Z_1)O_3$ for any $O_3 = a Y_3 + b Z_3$ and $a^2 + b^2 = 1$.
 The above reasoning explains the origin of the weird $\sqrt{15}$ factor: it comes as the coordinate necessary to make the vector unitary: for $X/4 + x Z / 4$ to be normalized, $x = \sqrt{15}$ must be satisfied.
 
 \section{Fredkin gate}
-\label{sec:gatelearning_fredkin}
+\label{sec:GL:fredkin}
 % BEGIN FREDKIN
 
-We show here how to use the framework given in~\cref{sec:gatelearning_solution_framework} to find a Hamiltonian that does not contain three-qubit interaction terms, and generates the Fredkin gate at $t=1$.
+We show here how to use the framework given in~\cref{sec:GL:solution_framework} to find a Hamiltonian that does not contain three-qubit interaction terms, and generates the Fredkin gate at $t=1$.
 The quantum Fredkin gate $\UFred$ is the three-qubit gate which swaps the first two qubits conditionally to the third one being in the state $\ket1$.
 This gate finds widespread use for a number of quantum information protocols~\cite{patel2016quantum,loft2018quantum}.
 \highlight{probably more uses?}
@@ -1487,9 +1490,9 @@ This, on the other hand, means that for all three-qubit interaction terms $\bs\s
 
 
 \section{Numerical approach}
-\label{sec:numerical_approach}
+\label{sec:GL:numerical_approach}
 
-As per the analysis presented in~\cref{sec:gatelearning_toffoli,sec:gatelearning_fredkin}, finding time-independent Hamiltonians for target gates can be a rather nontrivial task. 
+As per the analysis presented in~\cref{sec:GL:toffoli,sec:GL:fredkin}, finding time-independent Hamiltonians for target gates can be a rather nontrivial task. 
 Moreover, the fact that each gate presents a complex problem of its own right, hinders the extendibility of the results.
 It is therefore desirable to have a more flexible method to solve gate learning problems with more ease and generality, even if at the cost of just getting numerical results.
 
@@ -1541,32 +1544,31 @@ Given a parametrised Hamiltonian $\calH_{\bslambda}$, define the set of unitarie
 
 
 \section{Supervised learning}
-\label{sec:supervised_learning}
+\label{sec:GL:supervised_learning}
 
-As discussed in~\cref{sec:numerical_approach}, while the problem can be approached in some cases with standard numerical optimisation techniques, this has in general limited success.
-The problem lies in the mapping $\bslambda\mapsto\abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2$ being not convex, which makes finding the global maximum a very hard task in general.
+As discussed in~\cref{sec:GL:numerical_approach}, while the problem \emph{can} in some cases be approached with standard numerical optimisation techniques, this has in general limited success.
+The problem lies in the mapping $\bslambda\mapsto\abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2$ being not convex, which makes finding the global maximum a generally quite involved task\highlight{(not sure we should be this explicit as to the reasons of the complexity here)}.
+By borrowing from ideas commonly used in the context of supervised \ac{ML}, we show here how to devise a technique to tackle gate design problems more efficiently, thus extending and improving on the ideas presented in Ref.~\cite{banchi2016quantum}.
+In particular, the use of \ac{AD}~\cite{baydin2015automatic,bartholomewbiggs2000automatic,wengert1964a,bischof2008advances} brings dramatic improvements, efficiency-wise, thus allowing to explore a variety of different scenarios, and optimising over potentially hundreds of Hamiltonian parameters.
+On top of this, the conditions given in~\cref{sec:GL:solution_framework} further speed-up the numerical training, removing many interaction parameters that are known not to lead to the target gate.
 
-We show here how, by borrowing from ideas that find widespread use in the context of supervised \ac{ML}, we can devise a technique to tackle the gate design problem more efficiently.
-We present a supervised learning approach to numerically solve this problem, considerably extending the ideas presented in Ref.~\cite{banchi2016quantum}.
-Thanks to a number of numerical optimisation techniques, and in particular the use of \ac{AD}~\cite{baydin2015automatic,bartholomewbiggs2000automatic,wengert1964a,bischof2008advances}, we can explore a variety of different scenarios, optimising over potentially hundreds of Hamiltonian parameters.
-On top of this, condition (1b) in the main text is used to further speed-up the numerical training, removing many interaction parameters that are known not to lead to the target gate.
-
-Supervised learning is the task of inferring or approximating a function, given a set of pre-labeled data~\cite{bishop2006pattern,mohri2012foundations}.
+Supervised learning is the task of inferring or approximating a function, given a dataset of pre-labelled data~\cite{bishop2006pattern,mohri2012foundations}.
 A supervised learning algorithm starts with some \emph{model} --- a functional relation $g_{\bs\lambda}$ parametrised by a set of parameters $\bs\lambda$ --- and finds a $\bs\lambda_0$ making $g_{\bs\lambda_0}$ as close as possible to a target function $f$.
 To do this, a set of pre-labeled \emph{training data} $\{ (x_1, y_1), (x_2,y_2), ...\}$ is used,
 where here $y_k=f(x_k)$ is the output that we want the algorithm to associate to the input $x_k$.
 
-Among the most used supervised learning models are \acp{NN}~\cite{hechtnielsen1989theory,haykin1998neural}.
-These are parametric non-linear models which play a prominent role in many machine learning tasks, such as dimensionality reduction, classification, and feature extraction~\cite{hechtnielsen1989theory,haykin1998neural}.
-\acp{NN} have also recently proven useful for several problems in quantum many-body theory~\cite{amin2016quantum,wang2016discovering,hush2017machine,carleo2017solving,carrasquilla2017machine,torlai2017manybody,broecker2017quantum,deng2017quantum},
-quantum compilation~\cite{swaddle2017generating}, quantum stabilizer codes~\cite{krastanov2017deep} and entanglement quantification~\cite{gray2017measuring}.
+An important class of supervised learning models are the so-called \acp{NN}~\cite{hechtnielsen1989theory,haykin1998neural}.
+These are parametric non-linear models which play a prominent role in many machine learning tasks, such as dimensionality reduction, classification, and feature extraction~\cite{hechtnielsen1989theory,haykin1998neural}\highlight{check refs}.
+\acp{NN} have also recently proven useful in the context of quantum many-body theory~\cite{amin2016quantum,wang2016discovering,hush2017machine,carleo2017solving,carrasquilla2017machine,torlai2017manybody,broecker2017quantum,deng2017quantum},
+quantum compilation~\cite{swaddle2017generating}, quantum stabilizer codes~\cite{krastanov2017deep} and entanglement quantification~\cite{gray2017measuring}\highlight{(definitely more refs)}.
 
 A \ac{NN} is \emph{trained} by optimising its parameters using a dataset of pre-labelled data.
 % A common such method is the so-called \ac{SGD}~\cite{bishop2006pattern}.
-A common  way to do this is use variations of a gradient-descent-based technique named \ac{SGD}.
-Gradient descent algorithms aim to optimize a problem function $f(\bs x)$, starting from an initial point $\bs x_0$ and performing a number of small steps towards the direction of maximum slope (that is, $\grad f(\bs x)$).
+A common  way to do this is use variations of a gradient-descent-based technique named \acf{SGD}.
+Gradient-descent-based algorithms optimise a given cost function $f(\bs x)$ by iteratively changing $\bs x$ in the direction of maximum increase/decrease of $f$.
+% Starting from an initial point $\bs x_0$, a number of small steps following the direction of maximum slope, $\grad f(\bs x)$, allow to follow the local gradient and thus reach a local maximum/minimum of the function.
 The optimal point $\bsx_{\on{opt}}$ is thus obtained via a sequence of small perturbations of the point $\bsx$, which starting from $\bsx_0$ reaches the nearest local stationary point by following the slope.
-In the simplest version of the algorithm, the update rule is simply $\bs x \to \bs x - \eta \grad f(\bs x)$, with $\eta$ a small real parameter commonly referred to as \emph{learning rate}.
+In its simplest form, the algorithm's update rule is $\bs x \to \bs x - \eta \grad f(\bs x)$, with $\eta$ a small real parameter commonly referred to as \emph{learning rate}.
 \ac{SGD}, on the other hand, is suitable for a situation in which one is given a parametrised functional relationship of the form $f(\bs x; \bs w)$, and asked for a set of ``parameters'' $\bs w_0$ such that $f(\bs x; \bs w_0)$ is minimum (maximum) for all \emph{inputs} $\bs x$.
 Such a case can be handled via \ac{SGD}, which in its simplest form involves picking a random $\bs x_1$, executing a number of gradient descent iterations over $\bs w$, then picking a new $\bs x_2$ and iterating the procedure.
 The updating rule for \ac{SGD} is therefore of the form
@@ -1596,7 +1598,7 @@ This works particularly well in this case, because we know that the sets of para
 
 A crucial step, efficiency-wise, in gradient descent algorithms, is the evaluation of the gradient.
 Numerically approximating the gradient, as done in previous works~\cite{banchi2016quantum}, is generally inefficient and scales badly with the number of optimised parameters.
-Here we will instead make use of the powerful technique of \acf{AD}~\cite{bartholomewbiggs2000automatic,bischof2008advances}, described in~\cref{subsec:backpropagation}.
+Here we will instead make use of the powerful technique of \acf{AD}~\cite{bartholomewbiggs2000automatic,bischof2008advances}, described in~\cref{subsec:GL:backpropagation}.
 \ac{AD} dramatically improves the training efficiency, allowing to explore a richer variety of circumstances.
 
 % Another recent application of a machine learning technique to a quantum control problem,
@@ -1608,7 +1610,7 @@ Here we will instead make use of the powerful technique of \acf{AD}~\cite{bartho
 
 
 \subsection{Backpropagation}
-\label{subsec:backpropagation}
+\label{subsec:GL:backpropagation}
 The gradient evaluation phase is efficiency-wise crucial for the training of a neural network.
 % In fact, large networks contain many weight parameters $w_k$, and the computation of the gradient $\grad E(\bs w^{(t)})$ requires the computation of $\partial_{w_k} E(\bs w^{(t)})$ for all such $k$.
 Computing the partial derivatives of the cost function with a standard method, like finite differences, has a complexity $\mathcal O(N_{\bs w}^3)$, with $N_{\bs w}$ the number of parameters to differentiate~\cite{bishop2006pattern}.
@@ -1687,7 +1689,7 @@ For quantum states, the fidelity between these turns out to work well.
 \end{figure}
 
 \subsection{Implementation details}
-\label{subsec:implementation_details}
+\label{subsec:GL:implementation_details}
 
 % Following the surge of interest in machine learning, and in particular deep learning, in the recent years
 We used python as language of choice for the implementation of the supervised learning.
@@ -1746,9 +1748,9 @@ More specifically, the employed algorithm involves the following steps:
 \end{enumerate}
 
 \subsection{Results}
-\label{subsec:numerical_results}
+\label{subsec:GL:numerical_results}
 
-A sample of training results for Toffoli, Fredkin, and "double Fredkin" gates are given in Fig. 1 (a), (b), and (c) in the main text.
+A sample of training results for Toffoli, Fredkin, and "double Fredkin" gates are given in~\cref{fig:toffoli_fidVSpars,fig:fredkin_fidVSpars,fig:doublefredkin_fidVSpars}.
 In~\cref{fig:toffoli_diagonal_parhistories,fig:fredkin_diagonal_parhistories,fig:doublefredkin_diagonal_parhistories} are shown the training histories of the parameters for eight different solutions for Toffoli, Fredkin and \emph{double Fredkin}, respectively.
 These illustrate how quickly the networks converge for different initial values of the parameters.
 In all the shown cases the target gates are obtained with unit fidelity up to numerical precision (that is, all fidelities are between $1-10^{-16}$ and $1$).
@@ -1856,7 +1858,7 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
  		\textbf{(c)} Plot of $\calF_\bslambda(\psi)$ against \emph{absolute} variations of a single element of $\bslambda$, in this case the first one, i.e. we take $\lambda_1\in[-10,10]$.
  		\textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
  	}
- %\label{fig:toffoli_fidVSpars}
+    \label{fig:toffoli_fidVSpars}
 \end{figure}
 
 \renewcommand{\graphicswithlabel}[3]{%
