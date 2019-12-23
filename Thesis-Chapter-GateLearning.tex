@@ -303,8 +303,8 @@ To restrict the type of interaction terms allowed in the final Hamiltonian, mean
 \begin{equation}
     \calH \in f^{-1}(\calU) \cap \on{Span}\calP.
 \end{equation}
-We will focus here on the case  $f(A)\equiv e^{iA}$. \highlight{probably need to specify what is $f$ here}
-A typical (but not necessary) choice for the $\sigma_i$ is the set of one- and two-qubit interaction terms $\calP_{\le2}$, defined as
+We will focus here on the case  $f(A)\equiv e^{iA}$.
+A typical choice for the $\sigma_i$ is the set of one- and two-qubit interaction terms:
 \begin{equation}
     \calP_{\le2} \equiv \{ I, X_i,Y_i,Z_i, X_i Y_j, X_i Z_j, Y_i Z_j : \,\,i,j=1,2,3 \}.
 \end{equation}
@@ -1492,12 +1492,12 @@ This, on the other hand, means that for all three-qubit interaction terms $\bs\s
 \section{Numerical approach}
 \label{sec:GL:numerical_approach}
 
-As per the analysis presented in~\cref{sec:GL:toffoli,sec:GL:fredkin}, finding time-independent Hamiltonians for target gates can be a rather nontrivial task. 
-Moreover, the fact that each gate presents a complex problem of its own right, hinders the extendibility of the results.
-It is therefore desirable to have a more flexible method to solve gate learning problems with more ease and generality, even if at the cost of just getting numerical results.
+As discussed in~\cref{sec:GL:toffoli,sec:GL:fredkin}, finding time-independent Hamiltonians with constrained interactions generating target gates can be a nontrivial task. 
+Moreover, the fact that each gate presents a challenge of its own right, hinders the extendibility of the results.
+It is therefore desirable to also have a more flexible approach to solve gate learning problems with more ease and generality, even if at the cost of just getting numerical results.
 
-A natural approach to do this is to transform the problem into a numerical optimisation task, by defining a suitable cost function whose maximum corresponds to a solution to the original problem.
-Indeed, if $\calU$ is the target gate we want to implement, and $\calH_\bslambda$ is a parametrised Hamiltonian containing the allowed interaction terms, then the problem becomes that of finding values $\bslambda_0$ such that $\exponential(i\calH_{\bslambda_0})=\calU$.
+A natural way to do this is to transform the problem into a numerical optimisation task, by defining a suitable cost function whose maximum corresponds to a solution to the original problem.
+Indeed, if $\calU$ is the target gate we want to implement, and $\calH_\bslambda$ is a parametrised Hamiltonian containing the allowed interaction terms, then the gate learning problem is equivalent to that of finding parameters $\bslambda_0$ such that $\exponential(i\calH_{\bslambda_0})=\calU$.
 In turn, this can be made into a numerical optimisation problem by introducing some function $f(U, V)$ that quantifies the distance between $U$ and $V$, and looking for the solution to the problem
 \begin{equation}
     \argmin_\lambda f(\calU, \exponential(i\calH_{\bslambda})).
@@ -1513,7 +1513,7 @@ $
     \calF(\calE, \calU, \psi) \equiv
     \mel*{\psi}{\calU^\dagger \calE(\PP\psi)\calU}{\psi}.
 $% \end{equation}
-The integration can be evaluated explicitly in terms of the matrix elements of (the natural representation of) the channel~\cite{banchi2011nonperturbative,magesan2011gate,pedersen2007fidelity}, giving the expression~\cite{banchi2016quantum}:
+The integration can be carried out explicitly, obtaining an expression for the fidelity in terms of the matrix elements of (the natural representation of the channel~\cite{banchi2011nonperturbative,magesan2011gate,pedersen2007fidelity}, giving the expression~\cite{banchi2016quantum}:
 \begin{equation}
     (D+1) \barcalF(\calE,\calU) =
     1 + \frac{1}{D}\sum_{ijk\ell}\calU^*_{ik} \calU_{j\ell}K(\calE)_{ij,k\ell}
