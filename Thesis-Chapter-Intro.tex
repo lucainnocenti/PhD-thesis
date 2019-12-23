@@ -1,4 +1,8 @@
+%!TEX root = ./Thesis.tex
+
 \chapter{Introduction}
+\label{chapter:introduction}
+
 Quantum information science~\cite{nielsen2006quantum,watrous2018theory} studies how information behaves and can be manipulated at the quantum level.
 The reason for studying this is manyfold. One the one hand, quantum mechanics challenged our previously naive way of understanding how information behaves, telling us that the standard rules of probability theory cease to apply in some realms of the real world.
 On the other hand, from a more practical point of view, there is much to gain from such a deeper understanding of how information can be manipulated. Indeed, so much of the modern age relying on the capability to manipulate ever vaster heaps of data, it is only natural that an insight telling us that quantum physics allows to process information dramatically faster than what standard probability theory concedes would gain so much traction.
@@ -23,8 +27,9 @@ Integrated photonics~\cite{wang2019integrated,flamini2018photonic}.
 \section{Quantum information}
 
 \section{Quantum walks}
+\label{sec:intro:QWs}
 
-An interesting type of computational model that has been the subject of much study is the so-called \textit{quantum walk} model~\cite{aharonov2000quantum,kempe2003quantum,venegas-andraca2012quantum,portugal2013quantum}.
+An interesting type of computational model that has been the subject of much study is the so-called \textit{quantum walk} model~\cite{aharonov2000quantum,kempe2003quantum,venegasandraca2012quantum,portugal2013quantum}.
 
 Classical random walks are a type of stochastic processes which have proven to be a powerful technique for the development of stochastic algorithms~\cite{motwani1995randomized,schoning1999probabilistic}, and are used across several different branches of science.
 Quantum walks have been introduced in 1993 by Aharonov et al.~\cite{aharonov1993quantum}.
@@ -39,10 +44,17 @@ One can define random walks more generally on undirected \textit{graphs}
 , by having the walker jump at every step from one vertex to one of the neighboring ones with some probability.
 Denoting with $v_t$ the position of the walker at the $t$-th step, for some $t\in\NN$, the probability of finding the walker in the $i$-th vertex at time $t$ is given by the probability
 $P_t(i)=\Prob(v_t=i)$. The random walk is then defined by the set of \textit{transition probabilities} $p_{ij}$, which give the probability of a walker in the position $i$ at a time $t$ jumping into the position $j$ at time $t+1$.
-\begin{wrapfigure}{r}{10cm}
-    \includegraphics[width=\linewidth]{Figures/quantum-walks/3d-randomwalk.png}
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Figures/quantum-walks/3d-randomwalk.png}
     \caption{Example of three random walks on $\ZZ^3$.}
-\end{wrapfigure}
+    \label{fig:intro:3DQWs}
+\end{figure}
+% \begin{wrapfigure}{r}{10cm}
+%     \includegraphics[width=\linewidth]{Figures/quantum-walks/3d-randomwalk.png}
+%     \caption{Example of three random walks on $\ZZ^3$.}
+% \end{wrapfigure}
 % conversionRules = {1 -> {1, 0}, 2 -> {0, 1}, 3 -> {-1, 0}, 
 %    4 -> {0, -1}};
 % conversionRules3D = {1 -> {1, 0, 0}, 2 -> {0, 1, 0}, 3 -> {0, 0, 1}, 
@@ -105,7 +117,7 @@ A different model is the so-called \ac{CTQW}. Here, the dynamics is instead gove
 
 \highlight{(What actual algorithms are QWs used for?)}
 Quantum walks have also been proven to be useful to develop quantum algorithms, and it was recently proved that quantum walks are universal for quantum compuation~\cite{childs2009universal,childs2003exponential,lovett2010universal,lovett2018quantum,underwood2010universal}.
-Reviews of QW-based quantum search algorithms~\cite{ambainis2011search,ambainis2008quantum,ambainis2010developments,kempe2003quantum,kendon2006random,santha2008quantum,venegas-andraca2012quantum,Venegas-Andraca2008quantum}.
+Reviews of QW-based quantum search algorithms~\cite{ambainis2011search,ambainis2008quantum,ambainis2010developments,kempe2003quantum,kendon2006random,santha2008quantum,venegasandraca2012quantum,venegasandraca2008quantum}.
 
 \subsection{DTQWs}
 
@@ -219,5 +231,9 @@ This notation, while somewhat nonstandard, has proven useful to derive some resu
 \section{Machine Learning}
 
 
-
+\highlight{(paragraph taken from Verona stuff)}
+Machine learning techniques find fruitful application in several branches of quantum information theory~\cite{mehta2019highbias,spears2018deep,biamonte2017quantum,schuld2014introduction,ciliberto2018quantum,perdomo-ortiz2018opportunities}.
+Supervised learning, in particular, provides powerful tools to build algorithms able to pick up patterns from sets of pre-labelled data.
+In the context of quantum information science, machine learning techniques have been showcased as a flexible tool to solve complex optimisation tasks in different areas~\cite{zdeborov2017machine,carrasquilla2017machine,carleo2017solving,van2017learning,schoenholz2016structural,torlai2017manybody,rocchetto2019experimental,melnikov2018active,banchi2016quantum,fujita2018construction,innocenti2018supervised}.
+In particular, supervised learning techniques were recently demonstrated to solve \emph{gate design} problems~\cite{banchi2016quantum,innocenti2018supervised}.
 

@@ -7,7 +7,7 @@ Synthesising target quantum operations is pivotal in a variety of contexts in qu
 In particular, \emph{unitary} gates play a key role in the majority of schemes and algorithms for quantum computation, and are more generally a fundamental component of most quantum information protocols.
 
 Implementing a target unitary gate is however often a daunting task. Different techniques can be used to achieve this, depending on the specifics of the experimental context and other constraints of the problem under consideration.
-For example, in a photonics context one often has access to a toolbox of elementary components, such as beamsplitters and phaseshifters, which are used to build up more complex operations.
+For example, in photonics architectures, one often has only access to a toolbox of ``elementary'' components such as beamsplitters and phaseshifters, which are then used to build up more complex operations.
 In this context, to built a complex operation $\calU$, one is tasked with finding a suitable combination of elementary (generally unitary) operations $\calG_i$ such that $\calU=\prod_i \calG_i$. Given a fixed set of such \textit{elementary gates} $\{\calG_i\}_i$, finding such a combination of gates is highly nontrivial. This task is often referred to as \textit{gate compilation}, or \textit{gate synthesis}~\cite{mottonen2004quantum,nielsen2006quantum,loke2014optqc,loke2016optqc,nakajima2009synthesis,maslov2017basic,swaddle2017generating}. \highlight{(add more citations)}
 \highlight{are there other experimental contexts in which it is common to have such \textit{black boxes} that are composed together?}
 Solving gate compilation problems is especially important in the light of the recent significant experimental advances in the construction of experimental quantum devices, especially superconducting~\cite{devoret2013superconducting} and ion trap~\cite{blatt2008entangled,debnath2016demonstration} architectures \highlight{probably add sycamore paper ref}.
@@ -296,14 +296,14 @@ In the rest of the thesis, we will focus on the case $f(A)\equiv e^{iA}$, which 
 \subsection{Adding physical practical constraints}
 \label{sec:GL:constraints_on_interaction_pars}
 
-In~\cref{sec:GL:solutions_matrix_equation_f(A)=B} we described how to write the full set of solution for a matrix equation of the form $f(A)=B$.
+In~\cref{sec:GL:solutions_matrix_equation_f(A)=B} we described how to write the full set of solution of a matrix equation of the form $f(A)=B$.
 In this section we will show how introducing further constraints on the type of interaction terms allowed in the final generator reveals a particularly daunting task.
 
-To restrict the type of interaction terms allowed in the final generator, means to fix some set $\calP$ comprised of orthogonal Hermitian operators $\sigma_i$, and ask for a generator $\calH\in f^{-1}(\calU)$ such that $\calH$ is in the span of $\{\sigma_i\}_i$:
+To restrict the type of interaction terms allowed in the final Hamiltonian, means to fix some set of orthogonal Hermitian operators $\calP\equiv\{\sigma_i\}_i$, and ask for a generator Hamiltonian $\calH\in f^{-1}(\calU)$ such that $\calH$ is in the span of $\calP$:
 \begin{equation}
     \calH \in f^{-1}(\calU) \cap \on{Span}\calP.
 \end{equation}
-In the following, we will focus on the case  $f(A)\equiv e^{iA}$. \highlight{probably need to specify what is $f$ here}
+We will focus here on the case  $f(A)\equiv e^{iA}$. \highlight{probably need to specify what is $f$ here}
 A typical (but not necessary) choice for the $\sigma_i$ is the set of one- and two-qubit interaction terms $\calP_{\le2}$, defined as
 \begin{equation}
     \calP_{\le2} \equiv \{ I, X_i,Y_i,Z_i, X_i Y_j, X_i Z_j, Y_i Z_j : \,\,i,j=1,2,3 \}.
@@ -1549,7 +1549,7 @@ Given a parametrised Hamiltonian $\calH_{\bslambda}$, define the set of unitarie
 As discussed in~\cref{sec:GL:numerical_approach}, while the problem \emph{can} in some cases be approached with standard numerical optimisation techniques, this has in general limited success.
 The problem lies in the mapping $\bslambda\mapsto\abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2$ being not convex, which makes finding the global maximum a generally quite involved task\highlight{(not sure we should be this explicit as to the reasons of the complexity here)}.
 By borrowing from ideas commonly used in the context of supervised \ac{ML}, we show here how to devise a technique to tackle gate design problems more efficiently, thus extending and improving on the ideas presented in Ref.~\cite{banchi2016quantum}.
-In particular, the use of \ac{AD}~\cite{baydin2015automatic,bartholomewbiggs2000automatic,wengert1964a,bischof2008advances} brings dramatic improvements, efficiency-wise, thus allowing to explore a variety of different scenarios, and optimising over potentially hundreds of Hamiltonian parameters.
+In particular, the use of \ac{AD}~\cite{baydin2018automatic,bartholomewbiggs2000automatic,wengert1964a,bischof2008advances} brings dramatic improvements, efficiency-wise, thus allowing to explore a variety of different scenarios, and optimising over potentially hundreds of Hamiltonian parameters.
 On top of this, the conditions given in~\cref{sec:GL:solution_framework} further speed-up the numerical training, removing many interaction parameters that are known not to lead to the target gate.
 
 Supervised learning is the task of inferring or approximating a function, given a dataset of pre-labelled data~\cite{bishop2006pattern,mohri2012foundations}.
@@ -1565,40 +1565,42 @@ quantum compilation~\cite{swaddle2017generating}, quantum stabilizer codes~\cite
 A \ac{NN} is \emph{trained} by optimising its parameters using a dataset of pre-labelled data.
 % A common such method is the so-called \ac{SGD}~\cite{bishop2006pattern}.
 A common  way to do this is use variations of a gradient-descent-based technique named \acf{SGD}.
-Gradient-descent-based algorithms optimise a given cost function $f(\bs x)$ by iteratively changing $\bs x$ in the direction of maximum increase/decrease of $f$.
+Gradient-descent-based algorithms minimise a given cost function $f(\bs x)$ by iteratively changing $\bs x$ in the direction of maximum decrease of $f$, via the updating rule $\bs x\mapsto\bs x-\eta\grad f(\bs x)$.
+The parameter $\eta$ is, in this context, commonly referred to as \emph{learning rate}.
 % Starting from an initial point $\bs x_0$, a number of small steps following the direction of maximum slope, $\grad f(\bs x)$, allow to follow the local gradient and thus reach a local maximum/minimum of the function.
-The optimal point $\bsx_{\on{opt}}$ is thus obtained via a sequence of small perturbations of the point $\bsx$, which starting from $\bsx_0$ reaches the nearest local stationary point by following the slope.
-In its simplest form, the algorithm's update rule is $\bs x \to \bs x - \eta \grad f(\bs x)$, with $\eta$ a small real parameter commonly referred to as \emph{learning rate}.
-\ac{SGD}, on the other hand, is suitable for a situation in which one is given a parametrised functional relationship of the form $f(\bs x; \bs w)$, and asked for a set of ``parameters'' $\bs w_0$ such that $f(\bs x; \bs w_0)$ is minimum (maximum) for all \emph{inputs} $\bs x$.
-Such a case can be handled via \ac{SGD}, which in its simplest form involves picking a random $\bs x_1$, executing a number of gradient descent iterations over $\bs w$, then picking a new $\bs x_2$ and iterating the procedure.
-The updating rule for \ac{SGD} is therefore of the form
+\emph{Stochastic} gradient descent is, on the other hand, used when the goal is to optimise over \emph{functional relations}. In other words, rather then trying to minimise a single cost function $f$, the goal is now to minimise a function $f(\bsx,\bs w)$ with respect to its second input $\bs w$, for each value of $\bs x$.
+The prototypical context in which this kind of problem arises is when $\bs w$ are parameters representing a functional relationship $f_{\bs w}$, for example the coefficients defining a certain state of a \ac{NN}.
+% \ac{SGD}, on the other hand, is suitable for a situation in which one is given a parametrised functional relationship of the form $f(\bs x; \bs w)$, and asked for a set of ``parameters'' $\bs w_0$ such that $f(\bs x; \bs w_0)$ is minimum (maximum) for all \emph{inputs} $\bs x$.
+Such a case can be handled via \ac{SGD}, which in its simplest form involves starting with a random $\bs x_1$, executing a number of gradient descent iterations over $\bs w$, then picking a new $\bs x_2$ and iterating the procedure.
+This corresponds to an updating rule of the form
 \begin{equation}
 	\bs w \to \bs w - \eta\grad_{\bs w}f(\bs x;\bs w).
-	\label{eq:updating_rule}
+	\label{eq:GL:updating_rule}
 \end{equation}
-While standard gradient descent, being a local optimisation algorithm, is liable to getting stuck in local minima, \ac{SGD} can at least partially avoid this issue, in that generally a local minimum for an input $\bs x$ is not a local minimum for a different input $\bs x'$.
+While standard gradient descent, being a local optimisation algorithm, is liable to getting stuck in local minima, \ac{SGD} is generally more robust, in that a local minimum for an input $\bs x$ is often not a local minimum for a different input $\bs x'$.
 Many variations of \ac{SGD} are used in different circumstances.
 For example, in the so-called \emph{mini-batch} \ac{SGD}, instead of updating with a single input $\bs x$, one uses a \emph{batch} of inputs $\{\bs x_1,...,\bs x_M\}$, and updates the parameters using the averaged gradient:
 $\bs w\to\bs w-\eta\sum_{k=1}^M\grad_{\bs w}f(\bs x_k; \bs w)/M$.
 More sophisticated updating rules are used to increase the training efficiency in different circumstances.
 Common techniques involve dynamically updating the learning rate, or using \emph{momentum gradient descent}~\cite{goh2017momentum,ruder2016overview} techniques.
 
-To see how this class of optimisation problems is relevant to us, consider the fidelity function $\calF$ defined as
+To see how this class of optimisation problems is relevant to gate design problems, consider the fidelity function $\calF$ defined as
 \begin{equation}
-	\calF(\bs\lambda, \psi) \equiv \mel{\psi}{\calG^\dagger \exp(i \calH(\bs\lambda)) \calG}{\psi},
+	\calF(\bs\lambda, \psi) \equiv \mel{\psi}{\calG^\dagger \exp(i \calH(\bs\lambda))}{\psi},
 	\label{eq:def_fidelity}
 \end{equation}
 with $\calG$ the target gate, $\bs\lambda$ the set of parameters, and $\psi$ an input state.
 The gate design problem is then equivalent to finding $\bs\lambda$ such that $\calF(\bs\lambda, \psi)$ is maximised (that is, equal to 1) for all $\psi$.
 One possibility to solve this problem is to consider the average fidelity $\bar{\calF}(\bs\lambda)$, for which explicit formulas are known~\cite{banchi2011nonperturbative,pedersen2007fidelity,magesan2011gate}.
 Standard optimisation methods, like standard gradient descent or differential evolution, can be applied directly on $\bar{\calF}(\bs\lambda)$.
-This, however, reveals to be impractical, due to the complexity of the associated parameter landscapes.
-On the other hand, \ac{SGD} allows to use a simple and efficient local maximisation method, while at the same time being less prone to getting stuck in local maxima.
+This, however, reveals to be often impractical, due to the complexity of the associated parameter landscapes.
+On the other hand, \ac{SGD} allows to apply a simple and efficient local maximisation method, while at the same time being less prone to getting stuck in local maxima.
 This works particularly well in this case, because we know that the sets of parameters corresponding to the target gate are \emph{all and only} those such that \emph{for all inputs $\psi$} the fidelity is unitary.
 
-A crucial step, efficiency-wise, in gradient descent algorithms, is the evaluation of the gradient.
+Efficiency-wise, a critical step in gradient descent algorithms is the evaluation of the gradient.
 Numerically approximating the gradient, as done in previous works~\cite{banchi2016quantum}, is generally inefficient and scales badly with the number of optimised parameters.
-Here we will instead make use of the powerful technique of \acf{AD}~\cite{bartholomewbiggs2000automatic,bischof2008advances}, described in~\cref{subsec:GL:backpropagation}.
+An alternative to numerical differentiation is \emph{symbolic differentiation}: computing the expressions for the derivatives analytically and then directly use the corresponding expressions in the algorithm. This can give significant improvements over numerical differentiation, but comes with its own set of problems: deriving these expressions manually would make the algorithm less flexible and requiring to be changed for each different cost function; moreover, the expression for the derivative can get very convoluted.
+Here we will instead make use of \acf{AD}~\cite{bartholomewbiggs2000automatic,bischof2008advances,baydin2018automatic}, a technique to compute numerically derivatives of arbitrary functions described in~\cref{subsec:GL:backpropagation}.
 \ac{AD} dramatically improves the training efficiency, allowing to explore a richer variety of circumstances.
 
 % Another recent application of a machine learning technique to a quantum control problem,
@@ -1611,6 +1613,7 @@ Here we will instead make use of the powerful technique of \acf{AD}~\cite{bartho
 
 \subsection{Backpropagation}
 \label{subsec:GL:backpropagation}
+
 The gradient evaluation phase is efficiency-wise crucial for the training of a neural network.
 % In fact, large networks contain many weight parameters $w_k$, and the computation of the gradient $\grad E(\bs w^{(t)})$ requires the computation of $\partial_{w_k} E(\bs w^{(t)})$ for all such $k$.
 Computing the partial derivatives of the cost function with a standard method, like finite differences, has a complexity $\mathcal O(N_{\bs w}^3)$, with $N_{\bs w}$ the number of parameters to differentiate~\cite{bishop2006pattern}.
@@ -1619,7 +1622,7 @@ With this technique, the complexity of the gradient evaluation phase can be cut 
 This works by first decomposing the cost function of the model in terms of elementary operations, that is, functions the gradient of which is known analytically.
 In this way the \emph{computational graph} representing the functional relation between input and output is built.
 A computational graph is a directed acyclic graph, whose nodes represent the operations, and edges the flowing direction of inputs into outputs (see~\cref{fig:automatic-differentiation}).
-Once the computational graph is built, the gradients with respect to the model parameters can be computed efficiently.
+Once the computational graph is built, the derivatives with respect to the model parameters can be computed efficiently.
 This happens in two stages, as schematically illustrated in~\cref{fig:automatic-differentiation}.
 At first, every node of the computational graph is progressively computed, starting from the inputs (the current values of the model parameters) up to the final value of the error function.
 During this process, the intermediate values of the elementary operations are cached.
@@ -1705,14 +1708,14 @@ The goal of the algorithm is, given a target gate $\mathcal G$ and a parametrisa
 We use for the purpose mini-batch \ac{SGD} with momentum.
 The \emph{mini-batch} version of \ac{SGD} involves computing the gradient, at every iteration, averaging over the gradients computed for a number of states.
 Making such \emph{batches} of states larger or smaller allows to enhance or decrease the variance of the gradients with respect to the input state.
-The use of \emph{momentum}~\cite{ruder2016overview,goh2017momentum} involves using a modified version of~\cref{eq:updating_rule}.
+The use of \emph{momentum}~\cite{ruder2016overview,goh2017momentum} involves using a modified version of~\cref{eq:GL:updating_rule}.
 The updating rule is instead given by
 \begin{equation}
 \begin{aligned}
 	\bs v &\to \gamma \bs v + \eta \grad_{\bs\lambda} \calF(\psi, \bs\lambda), \\
 	\bs\lambda &\to \bs\lambda + \bs v,
 \end{aligned}
-\label{eq:updating_rule_momentum}
+\label{eq:GL:updating_rule_momentum}
 \end{equation}
 where here $\eta$ is the \emph{learning rate} and $\gamma$ the \emph{momentum}.
 The use of the auxiliary parameter $\bs v$ during the training discourages sudden changes of direction, and can make the training significantly more efficient~\cite{goh2017momentum}.
@@ -1742,7 +1745,7 @@ More specifically, the employed algorithm involves the following steps:
 	\begin{enumerate}
 		\item Pick $N_b$ of the $N_e$ training states.
 		\item Forward-propagate each state of the sample, and then backpropagate the gradients, thus computing the average gradient over the mini-batch $\grad_{\bs\lambda} \calF(\bs\lambda)$.
-		\item Update the coupling strengths $\lambda$ as per~\cref{eq:updating_rule_momentum}.
+		\item Update the coupling strengths $\lambda$ as per~\cref{eq:GL:updating_rule_momentum}.
 		\item Return to point (a).
 	\end{enumerate}
 \end{enumerate}
