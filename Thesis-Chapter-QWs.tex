@@ -987,11 +987,11 @@ Further analysis of the analytical solution for two steps is provided in~\cref{s
 A solution of~\cref{eq:qw_conditions_for_ds}, once found, can be used to compute the coin parameters producing a target $\ket\Phi$ as shown in~\cref{sec:qw_coin_operators_generating_state}.
 This effectively allows to generate superpositions of $n+1$ sites using $n$ steps of quantum walk evolution, via projection of the coin state over $\ket+$ at the end of walk.
 However, the projection makes this scheme probabilistic, so it is important to ensure that the generation probabilities are not vanishingly small.
-We tested this with up to 5 steps analysing the solutions of \cref{eq:qw_conditions_for_ds}, and with up to 20 steps finding the coin parameters generating target states using a more general numerical maximization algorithm.
+We tested this with up to 5 steps analysing the solutions of \cref{eq:qw_conditions_for_ds}, and with up to 20 steps finding the coin parameters generating target states using a more general numerical maximisation algorithm.
 The results of these analyses are given in~\cref{sec:qw_numerical_solution_reachability_conditions,sec:qw_numerical_fid_max},
 where we also consider the approximate (namely, with fidelity smaller than 1) engineering of target states,
 and the robustness of the method with respect to imperfections of the coin parameters.
-We will also find that in the vast majority of instances the numerical maximization identifies coin parameters able to generate arbitrary target states with both high probabilities and fidelities.
+We will also find that in the vast majority of instances the numerical maximisation identifies coin parameters able to generate arbitrary target states with both high probabilities and fidelities.
 \footnote{The code used to produce these results is freely available at \href{https://github.com/lucainnocenti/QSE-with-QW-code}{https://github.com/lucainnocenti/QSE-with-QW-code}.}
 
 \subsection{Analytical solutions for two steps}
@@ -1181,17 +1181,16 @@ To illustrate this, in~\cref{fig:fid_vs_eps_varying_d} shows how the fidelity va
 \subsection{Numerical solution of reachability conditions}
 \label{sec:qw_numerical_solution_reachability_conditions}
 
-While, as shown in~\cref{sec:qw_analytical_sol_2steps}, the $n=2$ case can be fully explored analytically, this turns out to be significantly more complicated for larger numbers of steps. Nonetheless,~\cref{eq:qw_conditions_for_ds} can still be tackled, albeit numerically, for $n=2,3,4,5$.
-In this section, we present the results of solving numerically~\cref{eq:qw_conditions_for_ds} for $n=2,3,4$ and $5$ steps for a number of random target states sampled uniformly at random.
-\Cref{eq:qw_conditions_for_ds} results in a varying number of solutions for different target states and number of steps:
-there is always a single solution for $2$ steps, two or four solutions for $3$ steps, $3, 5, 7$ or $9$ solutions for $4$ steps,
-and $6, 8, 10, 12, 14$ or $16$ solutions for $5$ steps.
+While, as shown in~\cref{sec:qw_analytical_sol_2steps}, the $n=2$ case can be fully explored analytically, this is significantly more complicated for larger numbers of steps. Nonetheless,~\cref{eq:qw_conditions_for_ds} can still be tackled, albeit numerically, for $n=2,3,4,5$.
+In this section, we present the results of doing so for a number of random target states sampled uniformly at random.
+\Cref{eq:qw_conditions_for_ds} gives different numbers of solutions for different target states and number of steps:
+there is always a single solution for $2$ steps, two or four solutions for $3$ steps, $3, 5, 7$ or $9$ solutions for $4$ steps, and $6, 8, 10, 12, 14$ or $16$ solutions for $5$ steps.
 Different solutions for the same target state correspond to different dynamics before the projection, and therefore different projection probabilities.
-This can be seen in~\cref{fig:minmax_probabilities}, where we reported maximum and minimum projection probabilities for each randomly generated target state.
+This can be seen in~\cref{fig:minmax_probabilities}, where we report maximum and minimum projection probabilities for each randomly generated target state.
 These results highlight the advantages of solving~\cref{eq:qw_conditions_for_ds}: having access to the whole set of solutions, we can choose the more convenient one in terms of projection probability.
 Moreover, having access to the various solutions generating a given target state, we can study their stability properties.
-As shown in~\cref{fig:stabilities_5steps}, a general trend is that sets of coin parameters associated to smaller projection probabilities are also stable, in the sense that a small perturbation of a coin parameter leads to a state significantly different than the target one.
-As an example, we can use this method to generate a balanced superposition over 4 sites (using therefore 3 steps): $\ket\phi = (1, 1, 1, 1) / 2$.
+As shown in~\cref{fig:stabilities_5steps}, a general trend is that sets of coin parameters associated to smaller projection probabilities are also less stable, in the sense that a small perturbation of a coin parameter can lead to a state significantly different than the target one.
+As an example, we can use this method to generate a balanced superposition over $4$ sites (using therefore $3$ steps): $\ket\phi = (1, 1, 1, 1) / 2$.
 This results in two solutions for the $d$: $\bs d = (-i, 1+i)/2$ and $\bs d = (i, 1 - i)/2$,
 corresponding to the full states
 \begin{equation*}
@@ -1210,17 +1209,141 @@ It is worth noting that while the projection probabilities over balanced superpo
 As an example, again the case of 6 sites, if the target state is instead $\ket\phi \simeq (1,1,1,1,1,-1)$ the maximum projection probability becomes $\simeq 0.35$.
 The stability of the above solutions for balanced states when a small perturbation is applied to the coin parameters is shown in \cref{fig:stabilities_3and5steps_balanced_target}.
 
-\subsection{Numerical maximization of fidelity}
-\label{sec:qw_numerical_fid_max}
-The numerical solution of~\cref{eq:qw_conditions_for_ds} for more than 5 steps is computationally difficult, due to the complexity of the resulting system of equations,
-and we therefore employed a different numerical technique for this regime.
-We wrote the fidelity for a given target state as a function of the coin parameters, and found the set of parameters maximizing such fidelity using a standard optimization algorithm.
-In this way we could probe instances with up to 20 steps much more efficiently than we could have done by solving~\cref{eq:qw_conditions_for_ds}.
-Furthermore, this method eases the study of different final projections, and allows to include the parameters of the projection itself in the optimization.
 
-The results of this approach are reported in \cref{fig:prob_histograms_nmaximize}, where we randomly generate a sample of target states, and find through numerical optimization the set of coin parameters and projections generating them.
-It is worth noting that in this procedure we fixed the maximum number of iterations allowed for the maximization, not the precision with which the final fidelities are to be found.
-This is done for the sake of efficiency, as some solutions are found to be more numerically unstable and hard to obtain with very high precisions through numerical optimization.
+\begin{figure}[]
+    \centering
+    \begin{minipage}[b]{0.5\textwidth}
+        \begin{tikzpicture}
+            \node (img) {\includegraphics[width=\columnwidth]%
+                {projectionProbabilities_2steps_20000states_histogram40binsProbability}
+            };
+            \node [overlay] (x-axis) at (3.6, -2.6) {\scalebox{1.2}{$p$}};
+            \node [overlay] at (0, 2) {\fbox{2 steps}};
+        \end{tikzpicture}
+    \end{minipage}%
+    \begin{minipage}[b]{0.5\textwidth}
+        \begin{tikzpicture}
+            \node (img) {\includegraphics[width=\columnwidth]%
+                {minMaxProjectionProbabilities_3steps_20000states_histogram40binsProbability}
+            };
+            \node [overlay] (x-axis) at (4, -2.6) {\scalebox{1.2}{$p$}};
+            \node [overlay] at (.2, 2) {\fbox{3 steps}};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}[b]{0.5\textwidth}
+        \begin{tikzpicture}
+            \node (img) {\includegraphics[width=\columnwidth]%
+                {minMaxProjectionProbabilities_4steps_20000states_histogram40binsProbability}
+            };
+            \node [overlay] (x-axis) at (4.2, -2.6) {\scalebox{1.2}{$p$}};
+            \node [overlay] at (0, 2) {\fbox{4 steps}};
+        \end{tikzpicture}
+    \end{minipage}%
+    \begin{minipage}[b]{0.5\textwidth}
+        \begin{tikzpicture}
+            \node (img) {\includegraphics[width=\columnwidth]%
+                {minMaxProjectionProbabilities_5steps_6000states_histogram40binsProbability}
+            };
+            \node [overlay] (x-axis) at (4, -2.6    ) {\scalebox{1.2}{$p$}};
+            \node [overlay] at (0, 2) {\fbox{5\,\, steps}};
+        \end{tikzpicture}
+    \end{minipage}
+    \caption{
+        Distribution of projection probabilities computed 1) solving~\cref{eq:qw_conditions_for_ds} for the parameters $d_i$,
+        2) computing the projection probabilities associated to each full state given by one such solution set, and
+        3) picking the solution set for the $\{d_i\}$ associated to lowest and highest projection probabilities.
+        The shown data is for the cases of 2, 3, 4 and 5 steps.
+        For 2, 3 and 4 steps the data shows the distribution of probabilities from a sample set of 20000 target states, drawn according to the uniform Haar measure over the set of target states.
+        For 5 steps only 6000 states were used (being this case much more computationally expensive).
+        On the $y$-axis is shown the fraction of target states in a given bin.
+    }
+    \label{fig:minmax_probabilities}
+\end{figure}
+
+\begin{figure}[tbp]
+    \centering
+    \begin{minipage}[b]{0.5\textwidth}
+        \includegraphics[width=\columnwidth]
+            {{fidVsParameters_5stepsAnalytical_100thState_prob0.00137738}.pdf}
+    \end{minipage}%
+    \begin{minipage}[b]{0.5\textwidth}
+        \includegraphics[width=\columnwidth]
+            {{fidVsParameters_5stepsAnalytical_100thState_prob0.00196137}.pdf}
+    \end{minipage}
+    \begin{minipage}[b]{0.5\textwidth}
+        \includegraphics[width=\columnwidth]
+            {{fidVsParameters_5stepsAnalytical_100thState_prob0.00360411}.pdf}
+    \end{minipage}%
+    \begin{minipage}[b]{0.5\textwidth}
+        \includegraphics[width=\columnwidth]
+            {{fidVsParameters_5stepsAnalytical_100thState_prob0.00379377}.pdf}
+    \end{minipage}
+    \begin{minipage}[b]{0.5\textwidth}
+        \includegraphics[width=\columnwidth]
+            {{fidVsParameters_5stepsAnalytical_100thState_prob0.142292}.pdf}
+    \end{minipage}%
+    \begin{minipage}[b]{0.5\textwidth}
+        \includegraphics[width=\columnwidth]
+            {{fidVsParameters_5stepsAnalytical_100thState_prob0.398078}.pdf}
+    \end{minipage}
+    \caption{
+        Behaviour of projection probability of the solutions found solving~\cref{eq:qw_conditions_for_ds} for the target state $\ket\phi \simeq (0.053, -0.078 + 0.603i, -0.524 + 0.189i, -0.302 + 0.363i, 0.182 + 0.099i, 0.042 - 0.224i)$.
+        In each of the plots, the final fidelity is plotted against many coin parameters, each time fixing the value of all of them except for one, whose value is changed by an absolute value $\epsilon$ (x-axis).
+        The 6 figures correspond to the 6 solutions for this target state, having respectively the projection probabilities:
+        $0.0014$ (top left), $0.0020$ (top right),
+        $0.0036$ (middle left), $0.0038$ (middle right),
+        $0.14$ (bottom left) and $0.398$ (bottom right).
+        As clearly illustrated in this case, solutions with low projection probabilities tend to present an higher degree of instability with respect to small changes of the coin parameters.
+    }
+    \label{fig:stabilities_5steps}
+\end{figure}
+
+\begin{figure}[]
+    \centering
+    \begin{minipage}[b]{0.5\textwidth}
+        \begin{tikzpicture}
+            \node (img) {\includegraphics[width=\columnwidth]%
+                {{fidVsParameters_3stepsBalanced_prob0.25}.pdf}
+            };
+            \node [overlay] (F) at (-3.8, 2.8) {\scalebox{1.2}{$\mathcal F$}};
+        \end{tikzpicture}
+    \end{minipage}%
+    % \begin{minipage}[b]{0.5\textwidth}
+    %   \includegraphics[width=\columnwidth]
+    %       {{fidVsParameters_3stepsBalanced_prob0.25}.pdf}
+    % \end{minipage}%
+    \begin{minipage}[b]{0.5\textwidth}
+        \begin{tikzpicture}
+            \node (img) {\includegraphics[width=\columnwidth]%
+                {{fidVsParameters_5stepsBalanced_prob0.667}.pdf}
+            };
+            \node [overlay] (F) at (-3.8, 2.8) {\scalebox{1.2}{$\mathcal F$}};
+        \end{tikzpicture}
+    \end{minipage}
+    % \begin{minipage}[b]{\columnwidth}
+    %   \includegraphics[width=\columnwidth]
+    %       {{fidVsParameters_5stepsBalanced_prob0.667}.pdf}
+    % \end{minipage}
+    \caption{
+        Fidelity varying the various coin parameters for 3 (left) and 5 (right) steps, when the target is the completely balanced superposition over 4 and 6 modes, respectively.
+        The variation of the coin parameters is here shown in percentage: the edges of the plots correspond to a variation of 10\% of a single parameter with the others kept fixed at their optimal value.
+    }
+    \label{fig:stabilities_3and5steps_balanced_target}
+\end{figure}
+
+\FloatBarrier
+\subsection{Numerical maximisation of fidelity}
+\label{sec:qw_numerical_fid_max}
+
+Solving numerically~\cref{eq:qw_conditions_for_ds} for more than $5$ steps is computationally difficult, due to the complexity of the resulting system of equations.
+We therefore use a different numerical technique for higher numbers of steps:
+we write the fidelity for a given target state as a function of the coin parameters, and find the set of parameters maximizing such fidelity using a numerical optimisation algorithm.
+We manage in this way to find solutions for up to $20$ steps much more efficiently than we could have done by directly solving~\cref{eq:qw_conditions_for_ds}.
+% Furthermore, this method eases the study of different final projections, and allows to include the parameters of the projection itself in the optimisation.
+
+The results of this approach are reported in \cref{fig:prob_histograms_nmaximize}, where we randomly generate a sample of target states, and find through numerical optimisation the set of coin parameters and projections generating them.
+It is worth noting that in this procedure we fixed the maximum number of iterations allowed for the maximisation, not the precision with which the final fidelities are to be found.
+This is done for the sake of efficiency, as some solutions are found to be more numerically unstable and hard to obtain with very high precisions through numerical optimisation.
 As a consequence, as reported in \cref{fig:prob_histograms_nmaximize}, some of the solutions are achieved with relatively low fidelities.
 \Cref{fig:prob_histograms_nmaximize} also hints at a correlation between the more numerically unstable solutions and low projection probabilities:
 almost all of the solutions that were reached with non-optimal fidelities (that is, fidelity less than 0.99) were also found to correspond to low projection probabilities.
@@ -1230,29 +1353,49 @@ that the lower probability solutions are more unstable with respect to variation
 % Given the results of~\cref{fig:minmax_probabilities,fig:prob_histograms_nmaximize},
 % we believe that this can be sensibly improved by tuning the algorithm.
 It is worth noting that --- given the sharp difference between minimum and maximum probabilities reported in \cref{fig:minmax_probabilities}, and the above reasoning substantiated by \cref{fig:fid_vs_eps_varying_d,fig:prob_histograms_nmaximize} ---
-% there are strong reasons to believe that even better results can be obtained by properly fine-tuning the optimization algorithm.
+% there are strong reasons to believe that even better results can be obtained by properly fine-tuning the optimisation algorithm.
 there are strong reasons to believe that almost all target states can be achieved with both high fidelities and probabilities,
-by properly fine-tuning the optimization algorithm.
+by properly fine-tuning the optimisation algorithm.
 
-\begin{figure*}[ht!]
-\centering
-\includegraphics[width=0.99\textwidth]{experimental_apparatus_scheme.pdf}
-\caption{
-	Scheme for the proposed implementation of the quantum walk state engineering protocol using Orbital Angular Momentum (OAM) and Spin Angular Momentum of a photon.
-	The input state is prepared in a superposition of $n$ modes with a Spatial Light Modulator (SLM).
-	At each step, the coin operation is then realised in polarization with a sequence of a Quarter Wave Plate (QWP), a Half Wave Plate (HWP) and a second QWP, arranged to implement an arbitrary transformation.
-	The shift operation in OAM space is implemented with a q-plate (QP), which shifts the OAM of $\pm 2q$ conditionally to the polarization state of the photon.
-	For $q=1/2$, the shift is equal to $\pm 1$, with the corresponding evolution is  schematically shown in the lower box.
-	Finally, the coin is projected in the $\vert + \rangle$ state by means of a HWP and a polarizing beam splitter (PBS).
-	A second SLM followed by a single-mode fiber performs the measurement of the output state.
-}
-\label{fig:proposal_exp}
-\end{figure*}
+\begin{figure}[]
+    \centering
+    \begin{minipage}[b]{0.5\textwidth}
+        \begin{tikzpicture}
+            \node (img) {\includegraphics[width=\columnwidth]%
+                {probsHistogram_15steps_manyThresholds}
+            };
+            \node [overlay] (x-axis) at (3.8, -2.8) {\scalebox{1.2}{$p$}};
+            \node [overlay] at (0, 2) {\fbox{15 steps}};
+        \end{tikzpicture}
+    \end{minipage}%
+    \begin{minipage}[b]{0.5\textwidth}
+        \begin{tikzpicture}
+            \node (img) {\includegraphics[width=\columnwidth]%
+                {probsHistogram_20steps_manyThresholds}
+            };
+            \node [overlay] (x-axis) at (4, -2.8) {\scalebox{1.2}{$p$}};
+            \node [overlay] at (.2, 2) {\fbox{20 steps}};
+        \end{tikzpicture}
+    \end{minipage}
+    \caption{
+        Distribution of projection probabilities for randomly sampled states, computed with the numerical maximisation described in~\cref{sec:qw_numerical_fid_max}.
+        Both plots show the probabilities associated to a set of 3000 target states sampled from the uniform Haar distribution, for 15 and 20 steps.
+        The light orange (upper) histograms represent the total number of target states found to correspond to a given range of probability.
+        Starting from these datasets, we progressively removed the states that were found to reproduce the target states with fidelity less than $1 - 10^{-t}$, for various values of the threshold $t$.
+        Light orange, grey, green, dark orange and purple (from top to bottom) histograms correspond to thresholds of respectively $t = 0, 2, 5, 10, 12$ (higher thresholds correspond to only a handful of states and are therefore omitted).
+        This data further suggests a connection between the instability of the found solutions with respect to perturbations of the coin parameters, and the projection probability, as already hinted in \cref{fig:stabilities_5steps}:
+        it is harder to find numerically with very good fidelity solutions corresponding to low projection probabilities because of their more unstable nature.
+        It is also important to note that the solutions shown here are generally not the optimal ones,
+        as the optimisation algorithm only seeks to optimize the final fidelity,
+        regardless of the corresponding projection probability.
+    }
+    \label{fig:prob_histograms_nmaximize}
+\end{figure}
 
 \section{Linear optical experimental implementation}
 The state engineering protocol here proposed can be tested with a DTQW in \ac{OAM} and \ac{SAM} of a photon.
 The main feature of this scheme is that the evolution of the system lies in a single optical path~\cite{zhang2010implementation}, allowing for an implementation using a single photon.
-The complete scheme is shown in~\cref{fig:proposal_exp}.
+The complete scheme is shown in~\cref{fig:QWs:proposal_exp}.
 Position and coin degrees of freedom are encoded respectively in \ac{OAM} and \ac{SAM} of the photon,
 with the walker's site described by the quantum number $m\in\ZZ$, eigenvalue of the \ac{OAM} along the propagation axis, and the coin state is encoded in left $\ket L$ and right $\ket R$ polarization states of the photon.
 With this encoding, arbitrary coin operations are implemented propagating the photon through quarter (QWP) and half (HWP) wave plates.
@@ -1271,165 +1414,26 @@ In this approach, the coin is implemented in the polarization degree of freedom,
 while the shift operator is performed by introducing a spatial displacement of the optical mode conditionally to the polarization state of the photon.
 Other approaches include integrated linear interferometers~\cite{sansoni2012twoparticle, crespi2013anderson, harris2015bosonic, pitsios2016photonic}, and fiber-loops architectures~\cite{schreiber2010photons, schreiber2012a, boutari2016large}. As mentioned, besides purely optical settings, one could envisage to adapt the present protocol to other physical systems that can host quantum walks \cite{manouchehri2014physical}, such as trapped atoms \cite{karski2009quantum} and ions \cite{schmitz2009quantum, zhringer2010realization} as well as cold atoms in lattices \cite{weitenberg2011singlespin, fukuhara2013microscopic, preiss2015strongly}.
 
-\section{Conclusions} We provided a set of equations characterising the states reachable by a coined quantum walk evolution, when letting the coin operation change from step to step.
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.99\textwidth]{experimental_apparatus_scheme.pdf}
+\caption{\highlight{to fix}
+    Scheme for the proposed implementation of the quantum walk state engineering protocol using Orbital Angular Momentum (OAM) and Spin Angular Momentum of a photon.
+    The input state is prepared in a superposition of $n$ modes with a Spatial Light Modulator (SLM).
+    At each step, the coin operation is then realised in polarization with a sequence of a Quarter Wave Plate (QWP), a Half Wave Plate (HWP) and a second QWP, arranged to implement an arbitrary transformation.
+    The shift operation in OAM space is implemented with a q-plate (QP), which shifts the OAM of $\pm 2q$ conditionally to the polarization state of the photon.
+    For $q=1/2$, the shift is equal to $\pm 1$, with the corresponding evolution is  schematically shown in the lower box.
+    Finally, the coin is projected in the $\vert + \rangle$ state by means of a HWP and a polarizing beam splitter (PBS).
+    A second SLM followed by a single-mode fiber performs the measurement of the output state.
+}
+\label{fig:QWs:proposal_exp}
+\end{figure}
+
+\section{Conclusions}
+\label{sec:QWs:conclusions}
+We provided a set of equations characterising the states reachable by a coined quantum walk evolution, when letting the coin operation change from step to step.
 We then derived a set of conditions characterising the quantum states, spanning only the walker's positions, that are probabilistically reachable after projection of the coin at the end of the walk.
 Finally, we proposed a protocol to experimentally implement the quantum state engineering scheme with linear optics, using orbital and spin angular momentum of a photon to encode spatial and coin degrees of freedom of the walker.
 Given the ubiquity of quantum walks, our approach should facilitate the engineering of high-dimensional quantum states in a wide range of physical systems.
 
-
-\begin{figure*}[]
-	\centering
-	\begin{minipage}[b]{0.5\textwidth}
-		\begin{tikzpicture}
-			\node (img) {\includegraphics[width=\columnwidth]%
-				{projectionProbabilities_2steps_20000states_histogram40binsProbability}
-			};
-			\node [overlay] (x-axis) at (3.6, -2.6) {\scalebox{1.2}{$p$}};
-			\node [overlay] at (0, 2) {\fbox{2 steps}};
-		\end{tikzpicture}
-	\end{minipage}%
-	\begin{minipage}[b]{0.5\textwidth}
-		\begin{tikzpicture}
-			\node (img) {\includegraphics[width=\columnwidth]%
-				{minMaxProjectionProbabilities_3steps_20000states_histogram40binsProbability}
-			};
-			\node [overlay] (x-axis) at (4, -2.6) {\scalebox{1.2}{$p$}};
-			\node [overlay] at (.2, 2) {\fbox{3 steps}};
-		\end{tikzpicture}
-	\end{minipage}
-	\begin{minipage}[b]{0.5\textwidth}
-		\begin{tikzpicture}
-			\node (img) {\includegraphics[width=\columnwidth]%
-				{minMaxProjectionProbabilities_4steps_20000states_histogram40binsProbability}
-			};
-			\node [overlay] (x-axis) at (4.2, -2.6) {\scalebox{1.2}{$p$}};
-			\node [overlay] at (0, 2) {\fbox{4 steps}};
-		\end{tikzpicture}
-	\end{minipage}%
-	\begin{minipage}[b]{0.5\textwidth}
-		\begin{tikzpicture}
-			\node (img) {\includegraphics[width=\columnwidth]%
-				{minMaxProjectionProbabilities_5steps_6000states_histogram40binsProbability}
-			};
-			\node [overlay] (x-axis) at (4, -2.6	) {\scalebox{1.2}{$p$}};
-			\node [overlay] at (0, 2) {\fbox{5\,\, steps}};
-		\end{tikzpicture}
-	\end{minipage}
-	\caption{
-		Distribution of projection probabilities computed 1) solving~\cref{eq:qw_conditions_for_ds} for the parameters $d_i$,
-		2) computing the projection probabilities associated to each full state given by one such solution set, and
-		3) picking the solution set for the $\{d_i\}$ associated to lowest and highest projection probabilities.
-		The shown data is for the cases of 2, 3, 4 and 5 steps.
-		For 2, 3 and 4 steps the data shows the distribution of probabilities from a sample set of 20000 target states, drawn according to the uniform Haar measure over the set of target states.
-		For 5 steps only 6000 states were used (being this case much more computationally expensive).
-		On the $y$-axis is shown the fraction of target states in a given bin.
-	}
-	\label{fig:minmax_probabilities}
-\end{figure*}
-
-\begin{figure*}[tbp]
-	\centering
-	\begin{minipage}[b]{0.5\textwidth}
-		\includegraphics[width=\columnwidth]
-			{{fidVsParameters_5stepsAnalytical_100thState_prob0.00137738}.pdf}
-	\end{minipage}%
-	\begin{minipage}[b]{0.5\textwidth}
-		\includegraphics[width=\columnwidth]
-			{{fidVsParameters_5stepsAnalytical_100thState_prob0.00196137}.pdf}
-	\end{minipage}
-	\begin{minipage}[b]{0.5\textwidth}
-		\includegraphics[width=\columnwidth]
-			{{fidVsParameters_5stepsAnalytical_100thState_prob0.00360411}.pdf}
-	\end{minipage}%
-	\begin{minipage}[b]{0.5\textwidth}
-		\includegraphics[width=\columnwidth]
-			{{fidVsParameters_5stepsAnalytical_100thState_prob0.00379377}.pdf}
-	\end{minipage}
-	\begin{minipage}[b]{0.5\textwidth}
-		\includegraphics[width=\columnwidth]
-			{{fidVsParameters_5stepsAnalytical_100thState_prob0.142292}.pdf}
-	\end{minipage}%
-	\begin{minipage}[b]{0.5\textwidth}
-		\includegraphics[width=\columnwidth]
-			{{fidVsParameters_5stepsAnalytical_100thState_prob0.398078}.pdf}
-	\end{minipage}
-	\caption{
-		Behaviour of projection probability of the solutions found solving~\cref{eq:qw_conditions_for_ds} for the target state $\ket\phi \simeq (0.053, -0.078 + 0.603i, -0.524 + 0.189i, -0.302 + 0.363i, 0.182 + 0.099i, 0.042 - 0.224i)$.
-		In each of the plots, the final fidelity is plotted against many coin parameters, each time fixing the value of all of them except for one, whose value is changed by an absolute value $\epsilon$ (x-axis).
-		The 6 figures correspond to the 6 solutions for this target state, having respectively the projection probabilities:
-		$0.0014$ (top left), $0.0020$ (top right),
-		$0.0036$ (middle left), $0.0038$ (middle right),
-		$0.14$ (bottom left) and $0.398$ (bottom right).
-		As clearly illustrated in this case, solutions with low projection probabilities tend to present an higher degree of instability with respect to small changes of the coin parameters.
-	}
-	\label{fig:stabilities_5steps}
-\end{figure*}
-
-\begin{figure*}[]
-	\centering
-	\begin{minipage}[b]{0.5\textwidth}
-		\begin{tikzpicture}
-			\node (img) {\includegraphics[width=\columnwidth]%
-				{{fidVsParameters_3stepsBalanced_prob0.25}.pdf}
-			};
-			\node [overlay] (F) at (-3.8, 2.8) {\scalebox{1.2}{$\mathcal F$}};
-		\end{tikzpicture}
-	\end{minipage}%
-	% \begin{minipage}[b]{0.5\textwidth}
-	% 	\includegraphics[width=\columnwidth]
-	% 		{{fidVsParameters_3stepsBalanced_prob0.25}.pdf}
-	% \end{minipage}%
-	\begin{minipage}[b]{0.5\textwidth}
-		\begin{tikzpicture}
-			\node (img) {\includegraphics[width=\columnwidth]%
-				{{fidVsParameters_5stepsBalanced_prob0.667}.pdf}
-			};
-			\node [overlay] (F) at (-3.8, 2.8) {\scalebox{1.2}{$\mathcal F$}};
-		\end{tikzpicture}
-	\end{minipage}
-	% \begin{minipage}[b]{\columnwidth}
-	% 	\includegraphics[width=\columnwidth]
-	% 		{{fidVsParameters_5stepsBalanced_prob0.667}.pdf}
-	% \end{minipage}
-	\caption{
-		Fidelity varying the various coin parameters for 3 (left) and 5 (right) steps, when the target is the completely balanced superposition over 4 and 6 modes, respectively.
-		The variation of the coin parameters is here shown in percentage: the edges of the plots correspond to a variation of 10\% of a single parameter with the others kept fixed at their optimal value.
-	}
-	\label{fig:stabilities_3and5steps_balanced_target}
-\end{figure*}
-
-\begin{figure*}[]
-	\centering
-	\begin{minipage}[b]{0.5\textwidth}
-		\begin{tikzpicture}
-			\node (img) {\includegraphics[width=\columnwidth]%
-				{probsHistogram_15steps_manyThresholds}
-			};
-			\node [overlay] (x-axis) at (3.8, -2.8) {\scalebox{1.2}{$p$}};
-			\node [overlay] at (0, 2) {\fbox{15 steps}};
-		\end{tikzpicture}
-	\end{minipage}%
-	\begin{minipage}[b]{0.5\textwidth}
-		\begin{tikzpicture}
-			\node (img) {\includegraphics[width=\columnwidth]%
-				{probsHistogram_20steps_manyThresholds}
-			};
-			\node [overlay] (x-axis) at (4, -2.8) {\scalebox{1.2}{$p$}};
-			\node [overlay] at (.2, 2) {\fbox{20 steps}};
-		\end{tikzpicture}
-	\end{minipage}
-	\caption{
-		Distribution of projection probabilities for randomly sampled states, computed with the numerical maximization described in~\cref{sec:qw_numerical_fid_max}.
-		Both plots show the probabilities associated to a set of 3000 target states sampled from the uniform Haar distribution, for 15 and 20 steps.
-		The light orange (upper) histograms represent the total number of target states found to correspond to a given range of probability.
-		Starting from these datasets, we progressively removed the states that were found to reproduce the target states with fidelity less than $1 - 10^{-t}$, for various values of the threshold $t$.
-		Light orange, grey, green, dark orange and purple (from top to bottom) histograms correspond to thresholds of respectively $t = 0, 2, 5, 10, 12$ (higher thresholds correspond to only a handful of states and are therefore omitted).
-		This data further suggests a connection between the instability of the found solutions with respect to perturbations of the coin parameters, and the projection probability, as already hinted in \cref{fig:stabilities_5steps}:
-		it is harder to find numerically with very good fidelity solutions corresponding to low projection probabilities because of their more unstable nature.
-		It is also important to note that the solutions shown here are generally not the optimal ones,
-		as the optimization algorithm only seeks to optimize the final fidelity,
-		regardless of the corresponding projection probability.
-	}
-	\label{fig:prob_histograms_nmaximize}
-\end{figure*}
 
