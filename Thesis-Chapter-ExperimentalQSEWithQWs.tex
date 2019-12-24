@@ -25,7 +25,7 @@ In~\cref{sec:expQWs:engineeringQWs} we review the results obtained in~\cref{chap
 $\{S_i\}$. The detection stage consists of a PBS followed by a spatial light modulator (SLM), 
 a SMF and an avalanche photodiode detector (APD), for projection onto $\ket{+} \otimes \ket{\psi}$. %Displaying different holograms on SLM we are able to measure OAM components in the target state. 
 {\bf c)} Pictures of OAM modes of the output states after PBS, obtained with coherent light. From right: OAM eigenstate corresponding to $m=5$; balanced superposition of $m=\pm 5$; balanced superposition of all OAM components covered by 5-step \ac{QW} $m=\{\pm 5, \pm 3, \pm 1\}$. }
-\label{app}
+\label{fig:expQWs:schematics}
 \end{figure}
 
 \section{State engineering protocol}
@@ -62,7 +62,7 @@ To demonstrate the effectiveness of this approach to engineer high-dimensional q
 \section{Experimental apparatus}
 \label{sec:expQWs:experimental_apparatus}
 
-We have implemented a discrete-time \ac{QW} with $n=5$ steps, using the angular momentum states of light $\{|m\rangle_w\}$ ($m=\pm 5, \pm 3, \pm 1$) as the physical embodiment of the walker, while logical states of the coin are encoded in circular-polarisation states $\{|R\rangle, |L\rangle\}$. We dub such degree of freedom as {\it spin angular momentum} (SAM) to mark the difference with OAM. Our experimental setup, which is shown schematically in Fig.~\ref{app} and follows Refs.~\cite{cardano2015quantum,cardano2016statistical}, allows for the full coin-walk evolution to take place in a single light beam, thus avoiding a nonlinear growth of optical paths as in previous interferometric implementations~\cite{zhang2010implementation,goyal2013implementing,cardano2015quantum}. Such scheme guarantees a linear scaling of the number of optical elements needed to implement a $n$-step QW (see Ref.~\cite{SI}). Arbitrary coin operators are achieved through a sequence of suitably arranged and oriented quarter- and half-waveplates~\cite{simon1990minimal}. The shift operator $\calS$ is instead implemented using a \emph{Q-plate} (QP)~\cite{marrucci2006optical}, an active device that uses an inhomogeneous birefringent medium to convert SAM into OAM  and that can conditionally change the values of the OAM by a quantity $2q$ (here $q$ is the topological charge of the device) according to transformations 
+We implement a discrete-time \ac{QW} with $n=5$ steps, using the \ac{OAM} as the physical embodiment of the \emph{walker}, and the polarisation as the \emph{coin}.  are encoded in circular-polarisation states $\{|R\rangle, |L\rangle\}$. We dub such degree of freedom as \ac{SAM} to mark the difference with OAM. Our experimental setup, which is shown schematically in Fig.~\ref{fig:expQWs:schematics} and follows Refs.~\cite{cardano2015quantum,cardano2016statistical}, allows for the full coin-walk evolution to take place in a single light beam, thus avoiding a nonlinear growth of optical paths as in previous interferometric implementations~\cite{zhang2010implementation,goyal2013implementing,cardano2015quantum}. Such scheme guarantees a linear scaling of the number of optical elements needed to implement a $n$-step QW (see Ref.~\cite{SI}). Arbitrary coin operators are achieved through a sequence of suitably arranged and oriented quarter- and half-waveplates~\cite{simon1990minimal}. The shift operator $\calS$ is instead implemented using a \emph{Q-plate} (QP)~\cite{marrucci2006optical}, an active device that uses an inhomogeneous birefringent medium to convert SAM into OAM  and that can conditionally change the values of the OAM by a quantity $2q$ (here $q$ is the topological charge of the device) according to transformations 
 \begin{equation}
 \begin{aligned}
 |L,m\rangle&\stackrel{\text{QP}}{\longrightarrow} \cos{ \frac{\delta}{2}}|L,m\rangle + i e^{2 i \alpha_0}\sin{\frac{\delta}{2}}|R,m+2q\rangle,\\
@@ -83,8 +83,8 @@ The additional phase $\alpha_0$ between the two polarisations is compensated by 
 \label{figSpin}
 \end{figure*}
 
-Single-photon states are generated via a type-II, collinear spontaneous-parametric-down-conversion source [cf. Fig.~\ref{app}]. 
-The photons emitted by the source are separated with a polarizing beam splitter (PBS) and coupled to two single-mode fibers (SMF). One photon acts as the trigger signal, while the other one undergoes the \ac{QW} evolution. After the propagation in the SMF and the first PBS, the initial state of the walker and coin is prepared in $\ket{\psi_0}_{wc}=\ket{0}_w \otimes \ket{+}_c$ with $\ket{+}_c=(\ket{{\uparrow}}_c+\ket{{\downarrow}}_c)/\sqrt2$. At the end of an $n$-step \ac{QW}, the protocol involves a projection of the coin state onto $|+\rangle_c$. This is experimentally implemented by a final PBS. The OAM analysis is performed through a \emph{spatial-light modulator} (SLM) followed by coupling into a single-mode fiber, which allows for the measurement of arbitrary superposition of OAM components with high accuracy~\cite{bolduc2013exact,dambrosio2013test}. The quantum state fidelity between the actual state of the walker and the target $(n+1)$-dimensional state is estimated by projecting the OAM state onto a basis that contains the given target state [cf. Fig.\ref{app}]. 
+Single-photon states are generated via a type-II, collinear spontaneous-parametric-down-conversion source [cf. Fig.~\ref{fig:expQWs:schematics}]. 
+The photons emitted by the source are separated with a polarizing beam splitter (PBS) and coupled to two single-mode fibers (SMF). One photon acts as the trigger signal, while the other one undergoes the \ac{QW} evolution. After the propagation in the SMF and the first PBS, the initial state of the walker and coin is prepared in $\ket{\psi_0}_{wc}=\ket{0}_w \otimes \ket{+}_c$ with $\ket{+}_c=(\ket{{\uparrow}}_c+\ket{{\downarrow}}_c)/\sqrt2$. At the end of an $n$-step \ac{QW}, the protocol involves a projection of the coin state onto $|+\rangle_c$. This is experimentally implemented by a final PBS. The OAM analysis is performed through a \emph{spatial-light modulator} (SLM) followed by coupling into a single-mode fiber, which allows for the measurement of arbitrary superposition of OAM components with high accuracy~\cite{bolduc2013exact,dambrosio2013test}. The quantum state fidelity between the actual state of the walker and the target $(n+1)$-dimensional state is estimated by projecting the OAM state onto a basis that contains the given target state [cf. Fig.\ref{fig:expQWs:schematics}]. 
 
 
 \section{Engineering arbitrary qudits}
@@ -172,6 +172,41 @@ Such interference term exhibits 10 equally separated lobes, and is clearly displ
 \end{equation}
 which thus quantifies the effect of quantum coherence as the deviation of $Q_j(\alpha,\beta)$ from $1$, whose representation in the chosen spherical polar space is a sphere of unit radius. When making use of such figure of merit, we find Fig.~\ref{insieme} {\bf (b)}, which shows a lobate behavior significantly different from the (incoherent) spherical trend. 
 
+\section{Scalability of the platform}
+\label{sec:expQWs:scalability}
+
+
+The encoding of quantum dynamics in the angular momentum degree of freedom has several advantages, including the possibility to generate and manipulate quantum states in high dimensions~\cite{fickler2012quantum,dambrosio2013photonic}. In the context of quantum walks, encoding of coin and position in the spin (SAM) and orbital angular momentum (OAM) respectively, has the crucial property to avoid the requirement of an interferometric scheme. This guarantees an intrinsic phase stability, since all the evolution is inside the same light beam. Furthermore, the approach employed in this platform leads to a linear scaling in the number of optical elements with respect to the number of steps, and thus to the Hilbert space dimension~\cite{cardano2015quantum}.
+
+Experimental limitations in the maximum achievable number of steps 
+%and possible slightly deviation from the linear scaling
+are due to the generation process of OAM eigenstates by the q-plates. To prevent coupling between radial and azimuthal part of the beam during the propagation in free space, all evolution has to be in the near-field regime~\cite{karimi2009light, cardano2015quantum}. This means that the distance $l$ between consecutive q-plates has to be chosen such that the quantity $\xi=\frac{l}{z_R}< < 1 $, where $z_R$ is the Rayleigh range.
+In our setup the employed beam waist $w_0$  ensures a $z_R> 30 m$ at wavelength $\lambda=808 nm$. Two adjacent q-plates are separated by a distance $l \sim 15 cm$ (such distance is needed to insert, between the q-plates, the waveplates implementing the coin), such that the condition on $\xi$ is satisfied.  Furthermore, in this regime also the Gouy phase can be neglected allowing a good control of the coherence between different OAM components, and, consequently, on the output states. However, in the perspective of higher number of steps, the requirement to have a $z_R$ large at least as the total length $L$ of the platform also implies a large beam waist, thus limiting the maximum amount of steps that can be implemented. An alternative strategy can be provided by a loop-scheme, where consecutive steps are performed by likewise passes through the same q-plates and waveplates~\cite{goyal2013implementing}. In this alternative setup, a suitable $4f$ lens system is necessary to image the output of the q-plate at the input of the next step, being such approach equivalent to work in the near-field regime.  
+In this combined OAM-loop scheme, experimental challenges arise at the measurement stage, that in spin-OAM setup involves a spatial light modulator (SLM). When integrating such encoding in a loop-architecture, issues may arise due to their slow response time.
+
+
+\section{Behaviour of projection probabilities}
+\label{sec:expQWs:projection_probs}
+
+In this section we provide a qualitative discussion about the relationship between projection probabilities and the quantum walk steps~\cite{innocenti2017quantum}.
+
+It is first of all important to note that, for each target state, there is in general more than one quantum walk dynamic that, after suitable projection of the coin, produces the desired state.
+These different solutions can correspond to different projection probabilities.
+However, for more than five steps, a general method to compute the full set of solutions is not known, and solutions have to be found via a numerical optimisation method~\cite{innocenti2017quantum}.
+This method, while computationally more efficient than attempting to recover the full set of solutions, has the downside of only producing one of the possible solutions, and thus not necessarily the solutions corresponding to the optimal projection probability.
+Nonetheless, we find that the projections probabilities obtained by running such numerical optimisation remain $\ge 15\%$ for up to 20 steps of our protocol. 
+
+In Figure~\ref{fig:avgProbabilitiesVsStepNumber} we show the \textit{average} projection probability as a function of the number of steps. These probabilities are calculated by averaging the projection probabilities obtained by running the optimisation algorithm over uniformly sampled random states, for various numbers of steps. In this data, the average projection probability is observed to decrease roughly linearly with the number of steps. If we assume this linear decrease to be mantained for larger numbers of steps, the average projection probablity would be dropping to $\sim 0.1$ at around $25$ steps, that is, for target qudit states of dimension $26$.
+It is, however, important to note that this data grossly underestimates the real average probabilities. Indeed, as already mentioned, the optimisation method used here only finds one among many solutions for a given target, and thus generally not the optimal one. Moreover, increasing the step number also increases the number of paths with which a state can be generated, which means that, with this method, we can expect the underestimation to be even more significant for larger step numbers.
+Further evidence suggesting that this method underestimates the real average probabilities is obtained by computing the full set of solutions and taking the optimal one, which can be done for up to five steps. Indeed, as shown in~\cite{innocenti2017quantum}, with this method we can see that the real optimal average probabilities for three, four, and five steps are consistently $\sim 0.33$, with no detectable decreasing behaviour.
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{experimentalQSE-averagesAndVariances_rerundata_manysteps.pdf}
+    \caption{\add{Average projection probability obtained for randomly sampled target states for different step numbers. Each point corresponds to an average taken using a sample of $2000$ uniformly random target states of the given dimension. For each such target state, an optimisation algorithm~\cite{innocenti2017quantum} is used to find a solution producing it. The error bars represent the standard deviation associated with the point. The red dashed line shows the result of a linear fit over the data. As discussed in the main text, this data provides only a lower bound to the real average probabilities.}}
+    \label{fig:avgProbabilitiesVsStepNumber}
+\end{figure}
+
+
 \section{Summary of the states engineered}
 
 In the following table we report the summary of target states engineered during the experiment, with corresponding quantum state fidelities and generation probabilities. The latter are provided by the algorithm developed in Ref.~\cite{innocenti2017quantum}, together with the coin operators needed in the engineering process.
@@ -233,40 +268,6 @@ $\qquad\ket{c_5}\qquad$& $\left( 0.07+0.14i, 0.48-0.34i, -0.41-0.18i, -0.41-0.09
 \label{table2}
 \end{table}
 
-
-\section{Scalability of the platform}
-\label{sec:expQWs:scalability}
-
-
-The encoding of quantum dynamics in the angular momentum degree of freedom has several advantages, including the possibility to generate and manipulate quantum states in high dimensions~\cite{fickler2012quantum,dambrosio2013photonic}. In the context of quantum walks, encoding of coin and position in the spin (SAM) and orbital angular momentum (OAM) respectively, has the crucial property to avoid the requirement of an interferometric scheme. This guarantees an intrinsic phase stability, since all the evolution is inside the same light beam. Furthermore, the approach employed in this platform leads to a linear scaling in the number of optical elements with respect to the number of steps, and thus to the Hilbert space dimension~\cite{cardano2015quantum}.
-
-Experimental limitations in the maximum achievable number of steps 
-%and possible slightly deviation from the linear scaling
-are due to the generation process of OAM eigenstates by the q-plates. To prevent coupling between radial and azimuthal part of the beam during the propagation in free space, all evolution has to be in the near-field regime~\cite{karimi2009light, cardano2015quantum}. This means that the distance $l$ between consecutive q-plates has to be chosen such that the quantity $\xi=\frac{l}{z_R}< < 1 $, where $z_R$ is the Rayleigh range.
-In our setup the employed beam waist $w_0$  ensures a $z_R> 30 m$ at wavelength $\lambda=808 nm$. Two adjacent q-plates are separated by a distance $l \sim 15 cm$ (such distance is needed to insert, between the q-plates, the waveplates implementing the coin), such that the condition on $\xi$ is satisfied.  Furthermore, in this regime also the Gouy phase can be neglected allowing a good control of the coherence between different OAM components, and, consequently, on the output states. However, in the perspective of higher number of steps, the requirement to have a $z_R$ large at least as the total length $L$ of the platform also implies a large beam waist, thus limiting the maximum amount of steps that can be implemented. An alternative strategy can be provided by a loop-scheme, where consecutive steps are performed by likewise passes through the same q-plates and waveplates~\cite{goyal2013implementing}. In this alternative setup, a suitable $4f$ lens system is necessary to image the output of the q-plate at the input of the next step, being such approach equivalent to work in the near-field regime.  
-In this combined OAM-loop scheme, experimental challenges arise at the measurement stage, that in spin-OAM setup involves a spatial light modulator (SLM). When integrating such encoding in a loop-architecture, issues may arise due to their slow response time.
-
-
-\section{Behaviour of projection probabilities}
-\label{sec:expQWs:projection_probs}
-
-In this section we provide a qualitative discussion about the relationship between projection probabilities and the quantum walk steps~\cite{innocenti2017quantum}.
-
-It is first of all important to note that, for each target state, there is in general more than one quantum walk dynamic that, after suitable projection of the coin, produces the desired state.
-These different solutions can correspond to different projection probabilities.
-However, for more than five steps, a general method to compute the full set of solutions is not known, and solutions have to be found via a numerical optimisation method~\cite{innocenti2017quantum}.
-This method, while computationally more efficient than attempting to recover the full set of solutions, has the downside of only producing one of the possible solutions, and thus not necessarily the solutions corresponding to the optimal projection probability.
-Nonetheless, we find that the projections probabilities obtained by running such numerical optimisation remain $\ge 15\%$ for up to 20 steps of our protocol. 
-
-In Figure~\ref{fig:avgProbabilitiesVsStepNumber} we show the \textit{average} projection probability as a function of the number of steps. These probabilities are calculated by averaging the projection probabilities obtained by running the optimisation algorithm over uniformly sampled random states, for various numbers of steps. In this data, the average projection probability is observed to decrease roughly linearly with the number of steps. If we assume this linear decrease to be mantained for larger numbers of steps, the average projection probablity would be dropping to $\sim 0.1$ at around $25$ steps, that is, for target qudit states of dimension $26$.
-It is, however, important to note that this data grossly underestimates the real average probabilities. Indeed, as already mentioned, the optimisation method used here only finds one among many solutions for a given target, and thus generally not the optimal one. Moreover, increasing the step number also increases the number of paths with which a state can be generated, which means that, with this method, we can expect the underestimation to be even more significant for larger step numbers.
-Further evidence suggesting that this method underestimates the real average probabilities is obtained by computing the full set of solutions and taking the optimal one, which can be done for up to five steps. Indeed, as shown in~\cite{innocenti2017quantum}, with this method we can see that the real optimal average probabilities for three, four, and five steps are consistently $\sim 0.33$, with no detectable decreasing behaviour.
-\begin{figure}[ht!]
-    \centering
-    \includegraphics[width=0.7\linewidth]{experimentalQSE-averagesAndVariances_rerundata_manysteps.pdf}
-    \caption{\add{Average projection probability obtained for randomly sampled target states for different step numbers. Each point corresponds to an average taken using a sample of $2000$ uniformly random target states of the given dimension. For each such target state, an optimisation algorithm~\cite{innocenti2017quantum} is used to find a solution producing it. The error bars represent the standard deviation associated with the point. The red dashed line shows the result of a linear fit over the data. As discussed in the main text, this data provides only a lower bound to the real average probabilities.}}
-    \label{fig:avgProbabilitiesVsStepNumber}
-\end{figure}
 
 \section{Conclusions}
 \label{sec:expQWs:conclusions}
