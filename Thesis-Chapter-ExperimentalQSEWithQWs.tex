@@ -3,30 +3,36 @@
 \chapter{Experimental engineering of qudit states}
 \label{chapter:experimental_engineering_qudits}
 
-\tmpHeading{What is the chapter about} In this section, we present an experimental implementation of the scheme explained in~\cref{chapter:quantum_walks} to engineer arbitrary qudit states exploiting the time-dependent \ac{QW} dynamics.
-In particular, we use an experimental apparatus implementing time-dependent \acp{QW} in the polarisation and \ac{OAM} degrees of freedom~\cite{zhang2010implementation,goyal2013implementing,cardano2015quantum}, to engineer qudit state in the \ac{OAM} degree of freedom.
+\tmpHeading{What is this chapter about} In this section we present an experimental implementation of the state-engineering scheme explained in~\cref{chapter:quantum_walks}, leveraging the \emph{coin space} of a quantum walk as an auxiliary degree of freedom to engineer arbitrary qudit states.
+In particular, we use an experimental apparatus implementing time-dependent \acp{QW} in the polarisation and \ac{OAM} degrees of freedom~\cite{zhang2010implementation,goyal2013implementing,cardano2015quantum}, as made possible by the use of \acp{QP}~\cite{marrucci2006optical}, to engineer qudit state in the \ac{OAM} degree of freedom of single photons.
 The work described in this chapter is also found in~\cite{giordani2019experimental}.
 
-\tmpHeading{Why OAM-polarisation architecture} \ac{OAM}-based experiments offer the possibility to explore Hilbert spaces of large dimensions in light of the favourable (linear) scaling of the number of optical elements with the size of the walk. Moreover, the scheme allows for the full control of the coin operation that is key to the walk implementation of the walk.
+\tmpHeading{Why \ac{OAM}-polarisation architecture} \ac{OAM}-based experiments offer the possibility to explore Hilbert spaces of large dimensions in \emph{light} of the favourable scaling of the number of optical elements with the size of the walk~\cite{reck1994experimental,clements2016optimal}. Moreover, the scheme allows for the full control of the coin operation that is key to the walk implementation of the walk.
 \highlight{should comment more about coolness of OAM}
 
-\tmpHeading{What we do more in particular}
+\tmpHeading{More specifically...}
 To showcase the versatility of the scheme, we demonstrate the state engineering of fully balanced, completely random, and \emph{spin-coherent} states~\cite{brune1992manipulation,monroe1996schrodinger}.
 
 The quality of the generated states and the feasibility of the experimental protocol that we have put in place, demonstrate the effectiveness of a hybrid platform for quantum state engineering. Such platform holds together a programmable quantum system, the photonic \ac{QW} in the angular momentum, and classical optimization algorithms to effectively reach a given target \highlight{???}.
 
 \tmpHeading{Outline of chapter}
+In~\cref{sec:expQWs:OAMintro} we give a brief overview of orbital angular momentum states of light and vector vortex beams.
 In~\cref{sec:expQWs:engineeringQWs} we review the results obtained in~\cref{chapter:quantum_walks} that are relevant to the present chapter, and provide more background for the type of states generated \highlight{(unless I change my mind about the latter)}. The experimental details are then reported in~\cref{sec:expQWs:experimental_apparatus}.
 
-\begin{figure}[t!]
+\begin{figure}[tb]
 \includegraphics[width=\textwidth]{experimental-QSE-1.pdf}
-\caption{Setup for the quantum state engineering toolbox. {\bf a)} Conceptual scheme of the protocol. At each step of \ac{QW} the coin operator is changed to obtain a target state in the output. {\bf b)} A single-photon source, composed of a periodically-poled potassium titanyl phosphate (PPKTP) crystal, generates pairs of photons that are coupled in a single-mode fibre (SMF). One photon acts as trigger while the other is prepared in $\ket{\psi_0}=\ket{+}\otimes 
-\ket{0}$ through polarisation controllers and a polarizing beam splitter (PBS). Five sets of quarter (QWP) and half (HWP) waveplates implement operators $\{ C_i\}$ for each step. Five Q-plates (QP) implement the shift operator of the \ac{QW}
-$\{S_i\}$. The detection stage consists of a PBS followed by a spatial light modulator (SLM), 
-a SMF and an avalanche photodiode detector (APD), for projection onto $\ket{+} \otimes \ket{\psi}$. %Displaying different holograms on SLM we are able to measure OAM components in the target state. 
-{\bf c)} Pictures of OAM modes of the output states after PBS, obtained with coherent light. From right: OAM eigenstate corresponding to $m=5$; balanced superposition of $m=\pm 5$; balanced superposition of all OAM components covered by 5-step \ac{QW} $m=\{\pm 5, \pm 3, \pm 1\}$. }
+\caption{
+	Setup for the quantum state engineering toolbox.
+	\textbf{(a)} Conceptual scheme of the protocol. At each step of \ac{QW} the coin operator is changed to obtain a target state in the output.
+	\textbf{(b)} A single-photon source, composed of a \ac{PPKTP} crystal, generates pairs of photons that are coupled in a single-mode fibre (SMF). One photon acts as trigger while the other is prepared in $\ket{\psi_0}=\ket{+}\otimes \ket{0}$ through polarisation controllers and a \ac{PBS}. Five sets of \ac{QWP} and \ac{HWP} \highlight{check acronyms} implement operators $\{ C_i\}_i$ for each step. Five \acp{QP} implement the shift operator of the \ac{QW} $\{S_i\}$.
+	The detection stage consists of a \ac{PBS} followed by a \ac{SLM}, a \ac{SMF} and an \ac{APD}, for projection onto $\ket{+} \otimes \ket{\psi}$.
+	\textbf{(c)} Pictures of \ac{OAM} modes of the output states after \ac{PBS}, obtained with coherent light. From right: \ac{OAM} eigenstate corresponding to $m=5$; balanced superposition of $m=\pm 5$; balanced superposition of all \ac{OAM} components covered by 5-step \ac{QW} $m=\{\pm 5, \pm 3, \pm 1\}$.
+}
 \label{fig:expQWs:schematics}
 \end{figure}
+
+\section{Orbital angular momentum of light}
+\label{sec:expQWs:OAMintro}
 
 \section{State engineering protocol}
 \label{sec:expQWs:engineeringQWs}
@@ -49,64 +55,123 @@ a SMF and an avalanche photodiode detector (APD), for projection onto $\ket{+} \
 
 % In~\cite{innocenti2017quantum} it was shown that it is always possible to find a set of coin operators $\{\hat{\mathcal{C}_t}\}_{t=1}^{n}$ that produce an arbitrary target state in the full coin-walker space. In addition, via suitable projection in the coin space, arbitrary walker states can also be obtained. The identification of the correct set of coin operators is enabled by a classical algorithm to maximize the fidelity between the final state of the walker, after projection of the coin, and the target $(n+1)$-dimensional state. It is worth noting that all states can be reachable with unit fidelities (albeit probabilistically) and high probabilities, regardless of the number of steps $n$ (see Ref.~\cite{SI}).
 
-\begin{figure}[t!]
+\begin{figure}[tb]
 \includegraphics[width=\textwidth]{experimental-QSE-2.pdf}
 \caption{
-	Experimental results for the engineering of angular momentum cat states. {\bf a)} Representation on a Bloch-like ball of the four target states corresponding to the superposition of $\ket{\pm 5}$, which correspond corresponding to OAM states with maximum and minimum projection of the angular momentum along the quantization axis. {\bf b)} Population of the OAM components after 5-step {QW} for the states $\ket{\psi_i}~(i=1,2,3,4)$ in panel {\bf a)}. Odd-$m$ position states (bold numbers on $x$-axis) should be the only ones involved in the state engineering. However, we report also the populations of even-$m$ position states (light-black numbers on $x$-axis) to illustrate possible imperfections at generation and detection stages. The error bars associated with experimental populations are shown by the transparent areas on top of each histogram. {\bf c)}-{\bf d)} Distributions of probabilities $P_i=\langle B^{(j)}_i\vert\rho_\text{exp}\vert B^{(j)}_i\rangle~(j=1,2)$ that the experimental walker state $\rho_\text{exp}$ is found to be one of the elements of the bases $B^{(j)}=\{\ket{\psi_p},\ket{\psi_{p+1}},\ket{\pm4},\ket{\pm3},\ket{\pm2},\ket{\pm1},\ket{0}\}$ with $p=1$ for $j=1$ and $p=3$ for $j=2$. All the error bars are due to Poissonian uncertainties, propagated through Monte Carlo methods. The state fidelities ${\cal F}$ are calculated as described in the main text.
+	Experimental results for the engineering of angular momentum cat states.
+	\textbf{(a)} Representation on a Bloch-like ball of the four target states corresponding to the superposition of $\ket{\pm 5}$, which correspond corresponding to \ac{OAM} states with maximum and minimum projection of the angular momentum along the quantization axis.
+	\textbf{(b)} Population of the \ac{OAM} components after 5-step {QW} for the states $\ket{\psi_i}~(i=1,2,3,4)$ in panel {\bf a}. Odd-$m$ position states (bold numbers on $x$-axis) should be the only ones involved in the state engineering. However, we report also the populations of even-$m$ position states (light-black numbers on $x$-axis) to illustrate possible imperfections at generation and detection stages. The error bars associated with experimental populations are shown by the transparent areas on top of each histogram.
+	\textbf{(c)-(d)} Distributions of probabilities $P_i=\langle B^{(j)}_i\vert\rho_\text{exp}\vert B^{(j)}_i\rangle~(j=1,2)$ that the experimental walker state $\rho_\text{exp}$ is found to be one of the elements of the bases $B^{(j)}=\{\ket{\psi_p},\ket{\psi_{p+1}},\ket{\pm4},\ket{\pm3},\ket{\pm2},\ket{\pm1},\ket{0}\}$ with $p=1$ for $j=1$ and $p=3$ for $j=2$. All the error bars are due to Poissonian uncertainties, propagated through Monte Carlo methods. The state fidelities ${\cal F}$ are calculated as described in the main text.
 }
 \label{fig:expQWs:results}
 \end{figure}
 
-To demonstrate the effectiveness of this approach to engineer high-dimensional qudit states, we focus here on classes of physically relevant states. First, we consider the synthesis of angular-momentum Schr\"odinger cat states~\cite{militello2006distilling}, achieved by engineering coherent superpositions of extremal walker positions. The correspondence between the position space of the walker and an angular momentum of quantum number $n/2$, which will be illustrated and clarified later in this paper, makes the \ac{QW} perfectly suited to synthesize this class of states. Schr\"odinger cat states play a crucial role in the investigations on foundations of quantum mechanics~\cite{schrodinger1935gegenwartige} and their generation is at the core of various quantum engineering protocols~\cite{brune1992manipulation, monroe1996schrodinger,agarwal1997atomic, zhang2016creating}. The second class of states that we consider is \emph{spin-coherent states}~\cite{ulyanov1999spin}, which are the spin-like counterpart of \emph{coherent states} of a quantum harmonic oscillator. Finally, in order to validate the flexibility of our approach, we demonstrate high-quality engineering of both balanced, and randomly sampled states.
+\tmpHeading{What states do we generate}
+To showcase the experimental engineering of arbitrary six-dimensional qudits, we focus on a few physically relevant classes of states.
+First, we consider the synthesis of \emph{angular-momentum Schrödinger cat states}~\cite{militello2006distilling}, which are given by superpositions of extremal walker positions. The correspondence between the position space of the walker and an angular momentum of quantum number $n/2$, which will be explained later in this section, makes the \ac{QW} perfectly suited to synthesise this class of states. Schrödinger cat states play a crucial role in the investigations on foundations of quantum mechanics~\cite{schrodinger1935gegenwartige}\highlight{sbadabem} and their generation is at the core of various quantum engineering protocols~\cite{brune1992manipulation, monroe1996schrodinger,agarwal1997atomic, zhang2016creating}. The second class of states that we consider are \emph{spin-coherent states}~\cite{ulyanov1999spin}, which are the spin-like counterpart of \emph{coherent states} of a quantum harmonic oscillator. Finally, in order to validate the flexibility of our approach, we demonstrate high-quality engineering of both balanced, and randomly sampled states.
 
 \section{Experimental apparatus}
 \label{sec:expQWs:experimental_apparatus}
 
-We implement a discrete-time \ac{QW} with $n=5$ steps, using the \ac{OAM} as the physical embodiment of the \emph{walker}, and the polarisation as the \emph{coin}.  are encoded in circular-polarisation states $\{|R\rangle, |L\rangle\}$. We dub such degree of freedom as \ac{SAM} to mark the difference with OAM. Our experimental setup, which is shown schematically in Fig.~\ref{fig:expQWs:schematics} and follows Refs.~\cite{cardano2015quantum,cardano2016statistical}, allows for the full coin-walk evolution to take place in a single light beam, thus avoiding a nonlinear growth of optical paths as in previous interferometric implementations~\cite{zhang2010implementation,goyal2013implementing,cardano2015quantum}. Such scheme guarantees a linear scaling of the number of optical elements needed to implement a $n$-step QW (see Ref.~\cite{SI}). Arbitrary coin operators are achieved through a sequence of suitably arranged and oriented quarter- and half-waveplates~\cite{simon1990minimal}. The shift operator $\calS$ is instead implemented using a \emph{Q-plate} (QP)~\cite{marrucci2006optical}, an active device that uses an inhomogeneous birefringent medium to convert SAM into OAM  and that can conditionally change the values of the OAM by a quantity $2q$ (here $q$ is the topological charge of the device) according to transformations 
+\tmpHeading{Experimental implementation of QW}
+We implement a discrete-time \ac{QW} with $n=5$ steps, using the \ac{OAM} as the physical embodiment of the \emph{walker}, and the polarisation as the \emph{coin}.  are encoded in circular-polarisation states $\{|R\rangle, |L\rangle\}$. We dub such degree of freedom as \ac{SAM} to mark the difference with \ac{OAM}. Our experimental setup, which is shown schematically in Fig.~\ref{fig:expQWs:schematics} and follows Refs.~\cite{cardano2015quantum,cardano2016statistical}, allows for the full coin-walk evolution to take place in a single light beam, thus avoiding a nonlinear growth of optical paths as in previous interferometric implementations~\cite{zhang2010implementation,goyal2013implementing,cardano2015quantum}. Such scheme guarantees a linear scaling of the number of optical elements needed to implement a $n$-step \ac{QW} (see Ref.~\cite{SI}). Arbitrary coin operators are achieved through a sequence of suitably arranged and oriented \ac{QWP} and \ac{HWP}~\cite{simon1990minimal}. The shift operator $\calS$ is instead implemented using a \ac{QP}~\cite{marrucci2006optical}, an active device that uses an inhomogeneous birefringent medium to convert SAM into \ac{OAM} and that can conditionally change the values of the \ac{OAM} by a quantity $2q$ (here $q$ is the topological charge of the device) according to transformations 
 \begin{equation}
 \begin{aligned}
-|L,m\rangle&\stackrel{\text{QP}}{\longrightarrow} \cos{ \frac{\delta}{2}}|L,m\rangle + i e^{2 i \alpha_0}\sin{\frac{\delta}{2}}|R,m+2q\rangle,\\
-|R,m\rangle&\stackrel{\text{QP}}{\longrightarrow} \cos{ \frac{\delta}{2}}|R,m\rangle + i e^{-2 i \alpha_0}\sin{\frac{\delta}{2}}|L,m-2q\rangle.
+	|L,m\rangle & \stackrel{\text{QP}}{\longrightarrow} \cos{\frac{\delta}{2}}|L,m\rangle
+	+ i e^{2 i \alpha_0}\sin{\frac{\delta}{2}}|R,m+2q\rangle, \\
+	|R,m\rangle & \stackrel{\text{QP}}{\longrightarrow} \cos{\frac{\delta}{2}}|R,m\rangle
+	+ i e^{-2 i \alpha_0}\sin{\frac{\delta}{2}}|L,m-2q\rangle.
 \end{aligned}
 \end{equation}
 The additional phase $\alpha_0$ between the two polarisations is compensated by changing the orientations of the waveplates which implement the coin operator of the subsequent step.
 
-\begin{figure*}[t]
+\begin{figure}[tb]
 \includegraphics[width=\textwidth]{experimental-QSE-3.pdf}
-\caption{Experimental results for the engineering of SCSs and their coherent superposition: {\bf a)} Bloch-sphere representation for the mutually orthogonal SCSs $\ket{S_1}$ and $\ket{S_2}$.
-{\bf b)} Probability distributions associated to the projection of $\ket{S_1}$ onto the computational basis. As previously explained, we also consider the contribution of even OAM components.
-{\bf c)} Probability distribution corresponding to the basis that contains the target state itself $\ket{S_1}$, generated with the fidelity reported in the panel. Such orthonormal basis, {$S_i$} with $i= 1 ...6$, contains eigenstates of $\hat{S}_x$ for a particle with spin $s=5/2$ that are in turn all spin-coherent states.
-{\bf d)} Experimental probability distribution on computational basis for $\ket{\psi_2}=\frac{1}{\sqrt{2}}\left (\ket{S_1}- \ket{S_2} \right)$. Only components $\{-5, -1, 3\}$, corresponding to logical states $\{1,3,5\}$, have non-zero probabilities.
-{\bf e)} Quantum state fidelity evaluated measuring state $\ket{\psi_2}$ on the orthonormal basis that contains state $\ket{\psi_1}$, as described in the main text. 
-{\bf f)} Summary of quantum state fidelities for the $32$ states generated in the experiment. The average fidelity, $\bar{\mathcal{F}}=0.954\pm 0.001$, is reported by the magenta area. 
+\caption{
+	Experimental results for the engineering of \acp{SCS} and their coherent superposition:
+	\textbf{(a)} Bloch-sphere representation for the mutually orthogonal \acp{SCS} $\ket{S_1}$ and $\ket{S_2}$.
+	\textbf{(b)} Probability distributions associated to the projection of $\ket{S_1}$ onto the computational basis. As previously explained, we also consider the contribution of even \ac{OAM} components.
+	\textbf{(c)} Probability distribution corresponding to the basis that contains the target state itself $\ket{S_1}$, generated with the fidelity reported in the panel. Such orthonormal basis, $\{S_i\}_i$ with $i=1 ...6$, contains eigenstates of $\hat{S}_x$ for a particle with spin $s=5/2$ that are in turn all spin-coherent states.
+	\textbf{(d)} Experimental probability distribution on computational basis for $\ket{\psi_2}=\frac{1}{\sqrt{2}}\left(\ket{S_1}- \ket{S_2} \right)$. Only components $\{-5, -1, 3\}$, corresponding to logical states $\{1,3,5\}$, have non-zero probabilities.
+	\textbf{(e)} Quantum state fidelity evaluated measuring state $\ket{\psi_2}$ on the orthonormal basis that contains state $\ket{\psi_1}$, as described in the main text. 
+	\textbf{(f)} Summary of quantum state fidelities for the $32$ states generated in the experiment. The average fidelity, $\bar{\calF}=0.954\pm 0.001$, is reported by the magenta area.
 }
-\label{figSpin}
-\end{figure*}
+\label{fig:VVBs:figSpin}
+\end{figure}
 
-Single-photon states are generated via a type-II, collinear spontaneous-parametric-down-conversion source [cf. Fig.~\ref{fig:expQWs:schematics}]. 
-The photons emitted by the source are separated with a polarizing beam splitter (PBS) and coupled to two single-mode fibers (SMF). One photon acts as the trigger signal, while the other one undergoes the \ac{QW} evolution. After the propagation in the SMF and the first PBS, the initial state of the walker and coin is prepared in $\ket{\psi_0}_{wc}=\ket{0}_w \otimes \ket{+}_c$ with $\ket{+}_c=(\ket{{\uparrow}}_c+\ket{{\downarrow}}_c)/\sqrt2$. At the end of an $n$-step \ac{QW}, the protocol involves a projection of the coin state onto $|+\rangle_c$. This is experimentally implemented by a final PBS. The OAM analysis is performed through a \emph{spatial-light modulator} (SLM) followed by coupling into a single-mode fiber, which allows for the measurement of arbitrary superposition of OAM components with high accuracy~\cite{bolduc2013exact,dambrosio2013test}. The quantum state fidelity between the actual state of the walker and the target $(n+1)$-dimensional state is estimated by projecting the OAM state onto a basis that contains the given target state [cf. Fig.\ref{fig:expQWs:schematics}]. 
+\tmpHeading{Photons generation scheme}
+Single-photon states are generated via a type-II, collinear \ac{SPDC} source (see~\cref{fig:expQWs:schematics}).
+The photons emitted by the source are separated with a polarising beam splitter (\ac{PBS}) and coupled to two \acp{SMF}. One photon acts as the trigger signal, while the other one undergoes the \ac{QW} evolution. After the propagation in the \ac{SMF} and the first \ac{PBS}, the initial state of the walker and coin is prepared in $\ket{\psi_0}_{wc}=\ket{0}_w \otimes \ket{+}_c$ with $\ket{+}_c=(\ket{{\uparrow}}_c+\ket{{\downarrow}}_c)/\sqrt2$. At the end of an $n$-step \ac{QW}, the protocol involves a projection of the coin state onto $|+\rangle_c$. This is experimentally implemented by a final \ac{PBS}. The \ac{OAM} analysis is performed through a \ac{SLM} followed by coupling into a single-mode fiber, which allows for the measurement of arbitrary superposition of \ac{OAM} components with high accuracy~\cite{bolduc2013exact,dambrosio2013test}. The quantum state fidelity between the actual state of the walker and the target $(n+1)$-dimensional state is estimated by projecting the \ac{OAM} state onto a basis that contains the given target state (see~\cref{fig:expQWs:schematics}).
+
+
+\tmpHeading{Testability with SAM-\ac{OAM} (from other paper)}
+The state engineering protocol here proposed can be tested with a DTQW in \ac{OAM} and \ac{SAM} of a photon, encoding position and coin degrees of freedom of the walker into \ac{OAM} and \ac{SAM} of light.
+A feature of this scheme is that the evolution of the system lies in a single optical path~\cite{zhang2010implementation}, allowing for an implementation using a single photon.
+A complete description of such a scheme is described in~\cref{chapter:experimental_engineering_qudits}.
+% Position and coin degrees of freedom are encoded respectively in \ac{OAM} and \ac{SAM} of the photon,
+% with the walker's site described by the quantum number $m\in\ZZ$, eigenvalue of the \ac{OAM} along the propagation axis, and the coin state is encoded in left $\ket L$ and right $\ket R$ polarization states of the photon.
+With this encoding, arbitrary coin operations can be implemented using \acp{QWP} and \acp{HWP}.
+The controlled shift operations are instead realized with \ac{QP}: a birefringent liquid-crystal medium that rises and lowers the value of $m$ conditionally to the polarization state~\cite{marrucci2006optical},
+changing the wavefront transverse profile of the photon without deflections.
+More specifically, an input photon injected into a QP changes its state as $\vert m,R \rangle \rightarrow \vert m-2q,L \rangle$ and $\vert m,L \rangle \rightarrow \vert m+2q,R \rangle$, where $q$ is the topological charge of the QP.
+Measurement of the coin in the $\vert + \rangle$ state is performed with a HWP and a polarizing beam splitter (PBS),
+while the \ac{OAM} state can be analysed with a spatial light modulator (SLM)~\cite{cardano2015quantum}.
+Therefore, the DTQW is made up of consecutive optical units composed of wave plates (coin operators) and a QP (shift operators).
+The number of optical elements scales polynomially with the number of steps, making this scheme scalable.
+Finally, a SLM can be also employed before the quantum walk architecture to prepare the initial walker state spanning $n$ sites.
+
+\tmpHeading{Other possible QSE schemes}
+Among other possible architectures for quantum state engineering are intrinsically-stable bulk interferometric schemes~\cite{broome2010discrete,kitagawa2012observation,vitelli2013joining}.
+In this approach, the coin is implemented in the polarization degree of freedom,
+while the shift operator is performed by introducing a spatial displacement of the optical mode conditionally to the polarization state of the photon.
+Other approaches include integrated linear interferometers~\cite{sansoni2012twoparticle, crespi2013anderson, harris2015bosonic, pitsios2016photonic}, and fiber-loops architectures~\cite{schreiber2010photons, schreiber2012a, boutari2016large}. As mentioned, besides purely optical settings, one could envisage to adapt the present protocol to other physical systems that can host quantum walks \cite{manouchehri2014physical}, such as trapped atoms \cite{karski2009quantum} and ions \cite{schmitz2009quantum, zhringer2010realization} as well as cold atoms in lattices \cite{weitenberg2011singlespin, fukuhara2013microscopic, preiss2015strongly}.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=0.99\textwidth]{experimental_apparatus_scheme.pdf}
+\caption{\highlight{to fix}
+    Scheme for the proposed implementation of the quantum walk state engineering protocol using Orbital Angular Momentum (\ac{OAM}) and Spin Angular Momentum of a photon.
+    The input state is prepared in a superposition of $n$ modes with a Spatial Light Modulator (SLM).
+    At each step, the coin operation is then realised in polarization with a sequence of a Quarter Wave Plate (QWP), a Half Wave Plate (HWP) and a second QWP, arranged to implement an arbitrary transformation.
+    The shift operation in \ac{OAM} space is implemented with a q-plate (QP), which shifts the \ac{OAM} of $\pm 2q$ conditionally to the polarization state of the photon.
+    For $q=1/2$, the shift is equal to $\pm 1$, with the corresponding evolution is  schematically shown in the lower box.
+    Finally, the coin is projected in the $\vert + \rangle$ state by means of a HWP and a polarizing beam splitter (PBS).
+    A second SLM followed by a single-mode fiber performs the measurement of the output state.
+}
+\label{fig:QWs:proposal_exp}
+\end{figure}
 
 
 \section{Engineering arbitrary qudits}
 \label{sec:expQWs:arbitrary_qudits}
 
+\tmpHeading{Types of generated states}
 To demonstrate the flexibility of the protocol, we showcase the generation of a variety of states, from balanced to completely randomly states.
 % Balanced states are challenging as one needs to ensure equal population of all their components, a condition that is very prone to experimental imperfections.
 % Assessing the quality of generation of such states provides a significant benchmark to the effectiveness of the procedure.
 We also engineer the components of the Fourier basis associated to the Hilbert space of the walker. This choice is motivated by the importance of quantum Fourier transform in quantum algorithms \cite{nielsen2002quantum}, as well as its role in identifying mutually unbiased bases for quantum cryptography and communication in high-dimensions~\cite{durt2010mutually,bandyopadhyay2002new,brierley2009constructing,dambrosio2013test}.
 
-Final measurements concern the generation of randomly-chosen qudits. We have engineered up to 5 states with real-valued amplitudes and 5 with complex-valued ones, where the state components are sampled from a uniform distribution (cf. Ref.~\cite{SI}).
-In Fig.~\ref{figSpin}f quantum state fidelities are reported for all experimental engineered states, including the Fourier basis and randomly sampled qudits, where the red area shows the average fidelity and its uncertainty ($\mathcal{F}{=}0.954 \pm 0.001$)~\cite{SI}. Such test provides a further proof of the effectiveness of the strategy demonstrated in our experiment.
+\tmpHeading{Results}
+Final measurements concern the generation of randomly-chosen qudits. We have engineered up to $5$ states with real-valued amplitudes and 5 with complex-valued ones, where the state components are sampled from a uniform distribution (cf. Ref.~\cite{SI}).
+In~\cref{fig:VVBs:figSpin}\textbf{f} quantum state fidelities are reported for all experimental engineered states, including the Fourier basis and randomly sampled qudits, where the red area shows the average fidelity and its uncertainty ($\mathcal{F}{=}0.954 \pm 0.001$)~\cite{SI}. Such test provides a further proof of the effectiveness of the strategy demonstrated in our experiment.
 
-\subsection{Engineering cat-like states in high dimensions}
+\subsection{Cat-like states}
 \label{subsec:expQWs:catstates}
 
-Our investigation on the engineering of quantum states living in Hilbert spaces of large dimensions starts from coherent superpositions of two extremal lattice sites of the walker. The isomorphism of the OAM with an angular momentum of quantum number $n/2$ allows us to put in correspondence position states of the walker on the lattice $\ket{\pm 5}$ with angular momentum states with minimum and maximum projections onto the quantization axis $\ket{\pm 5/2}$ (for simplicity of notation, we will use position states only). Such isomorphism makes a coherent superposition state such as $(\ket{5}+e^{i\varphi}\ket{-5})/\sqrt{2}$ (with $\varphi$ a suitable phase) a faithful angular momentum Schr\"odinger cat state~\cite{militello2006distilling}, thus benchmarking the performance of our experiment with a relevant class of states~\cite{chandrashekar2008optimizing,zhang2016creating,majury2016robust} used in quantum sensing~\cite{fickler2012quantum,dambrosio2013photonic}.
+\tmpHeading{What do we mean by ``cat-like states''}
+Our investigation on the engineering of quantum states living in Hilbert spaces of large dimensions starts from coherent superpositions of two extremal lattice sites of the walker. The isomorphism of the \ac{OAM} with an angular momentum of quantum number $n/2$ allows us to put in correspondence position states of the walker on the lattice $\ket{\pm 5}$ with angular momentum states with minimum and maximum projections onto the quantization axis $\ket{\pm 5/2}$ (for simplicity of notation, we will use position states only). Such isomorphism makes a coherent superposition state such as $(\ket{5}+e^{i\varphi}\ket{-5})/\sqrt{2}$ (with $\varphi$ a suitable phase) a faithful angular momentum Schrödinger cat state~\cite{militello2006distilling}, thus benchmarking the performance of our experiment with a relevant class of states~\cite{chandrashekar2008optimizing,zhang2016creating,majury2016robust} used in quantum sensing~\cite{fickler2012quantum,dambrosio2013photonic}.
 
-In Fig.~\ref{fig:expQWs:results} we report experimental results for the generation of four of such states, which are conveniently pictured as states pointing towards the poles of a Bloch-like ball. Quantum coherence between the components of such states has been tested by changing their relative phase. The values of the state fidelity between experimentally synthesized states and their respective target ones are reported in Fig.~\ref{fig:expQWs:results}. Hereafter we compute fidelities by projecting the state on the orthonormal basis which includes the target qudit in the 6-dimensional subspace associated to our 5-step \ac{QW}, generated by OAM eigenstates $\{|m\rangle_w\}$ ($m=\pm 5, \pm 3, \pm 1$).
+\tmpHeading{Experimental results}
+In~\cref{fig:expQWs:results} we report experimental results for the generation of four of such states, which are conveniently pictured as states pointing towards the poles of a Bloch-like ball. Quantum coherence between the components of such states has been tested by changing their relative phase. The values of the state fidelity between experimentally synthesised states and their respective target ones are reported in~\cref{fig:expQWs:results}. Hereafter we compute fidelities by projecting the state on the orthonormal basis which includes the target qudit in the 6-dimensional subspace associated to our 5-step \ac{QW}, generated by \ac{OAM} eigenstates $\{|m\rangle_w\}$ ($m=\pm 5, \pm 3, \pm 1$).
 
-The second class of relevant states that we addressed are \emph{spin-coherent states} (SCSs)~\cite{agarwal1997atomic}. These are the counterparts of coherent states of the harmonic oscillator for a particle with spin $s$~\cite{radcliffe1971some,arecchi1972atomic,agarwal1997atomic,markham2003classicality}. 
-SCSs are eigenstates -- with eigenvalue $s$ -- of the component of the total spin-momentum operator $\hat{S}$ pointing along the direction identified by the polar spherical angles $\{ \theta, \phi \}$~\cite{arecchi1972atomic,agarwal1997atomic,ulyanov1999spin,lee2015visualizing} 
+\subsection{Spin-coherent states}
+\label{subsec:expQWs:SCSs}
+
+\tmpHeading{What are SCSs?}
+
+\tmpHeading{What are they used for?}
+
+The second class of relevant states that we addressed are \acp{SCS}~\cite{agarwal1997atomic}. These are the counterparts of coherent states of the harmonic oscillator for a particle with spin $s$~\cite{radcliffe1971some,arecchi1972atomic,agarwal1997atomic,markham2003classicality}. \acp{SCS} are eigenstates -- with eigenvalue $s$ -- of the component of the total spin-momentum operator $\hat{S}$ pointing along the direction identified by the polar spherical angles $\{ \theta, \phi \}$~\cite{arecchi1972atomic,agarwal1997atomic,ulyanov1999spin,lee2015visualizing} 
 A decomposition of such states over the $\{\ket{s_z}\}$ basis of the projected spin along z-direction ($\hat{S}_z$) reads
 \begin{equation}
 \begin{aligned}
@@ -114,19 +179,19 @@ A decomposition of such states over the $\{\ket{s_z}\}$ basis of the projected s
 S_\theta^{s-s_z}\ket{s_z}
  \label{spin_coherent1}
 \end{aligned}
-   \end{equation}
-with $C_\theta=\sqrt{1-S^2_\theta}=\cos(\theta/2)$. SCSs have various applications in condensed matter physics, in particular in quasi-exactly solvable models, for Wigner-Kirkwood expansion and in quantum correction to energy quantization rules~\cite{ulyanov1999spin}. At the foundational level, they can be used to generate Schr{\"o}dinger cat states~~\cite{agarwal1997atomic}. 
+  \end{equation}
+with $C_\theta=\sqrt{1-S^2_\theta}=\cos(\theta/2)$.\acp{SCS}have various applications in condensed matter physics, in particular in quasi-exactly solvable models, for Wigner-Kirkwood expansion and in quantum correction to energy quantization rules~\cite{ulyanov1999spin}. At the foundational level, they can be used to generate Schr{\"o}dinger cat states~~\cite{agarwal1997atomic}. 
 
-Although SCSs are in general not orthogonal, they form a convenient basis. Moreover, as two SCSs pointing in opposite azimuthal directions are orthogonal for $\theta\sim\pi/2$, by restricting the attention to $\{\ket{s,\pi/2,\phi},\ket{s,-\pi/2,\phi}\}$ we would be dealing with an orthonormal basis, which we can use to construct the analogous of a Bloch ball for a two-level system (cf. Fig.~\ref{figSpin}a). We have thus engineered $\ket{S_1}\equiv\ket{5/2,\pi/2,0}$ and $\ket{S_2}\equiv\ket{5/2,-\pi/2,0}$, and considered the experimental synthesis of balanced coherent superpositions of such states.
-Furthermore, $S_1$ and $S_2$ are also eigenstates of $\hat{S}_x$ operator. In Fig.~\ref{figSpin}b-c the state $S_1$ is projected firstly on the computational basis, the eigenstates of $\hat{S_z}$, and then on the basis $\{S_i\}$, with $i=1...6$, which consists of $\hat{S}_x$ eigenstates. Balanced superpositions of $S_1$ and $S_2$ are akin to the Schr\"odinger cat states built on coherent states of a harmonic oscillator, as they exhibit signatures of non-classical interference~\cite{agarwal1997atomic,SI}. For instance, only even (odd) components of the logical basis enter the superposition $\ket{S_1}+\ket{S_2}$ ($\ket{S_1}-\ket{S_2}$), a parity rule that is fully analogous to the one characterizing even (odd) bosonic cat states. Thanks to the isomorphism between the spaces of OAM and of arbitrary angular momentum equal to $n/2$, we can generate SCS mapping the basis $\{ \ket{s_z}\}$ in (\ref{spin_coherent1}) into the basis of the \ac{QW} $\{|m\rangle_w\}$. The results are illustrated in Fig.~\ref{figSpin}a-e, where we show the high quality of both the generated SCSs and SCS-based cat states. %In particular, in Fig.\ref{spin_coherent1}.d we observe the odd parity that characterizes the superposition with minus sign.
+Although \acp{SCS} are in general not orthogonal, they form a convenient basis. Moreover, as two \acp{SCS} pointing in opposite azimuthal directions are orthogonal for $\theta\sim\pi/2$, by restricting the attention to $\{\ket{s,\pi/2,\phi},\ket{s,-\pi/2,\phi}\}$ we would be dealing with an orthonormal basis, which we can use to construct the analogous of a Bloch ball for a two-level system (cf.~\cref{fig:VVBs:figSpin}a). We have thus engineered $\ket{S_1}\equiv\ket{5/2,\pi/2,0}$ and $\ket{S_2}\equiv\ket{5/2,-\pi/2,0}$, and considered the experimental synthesis of balanced coherent superpositions of such states.
+Furthermore, $S_1$ and $S_2$ are also eigenstates of $\hat{S}_x$ operator. In~\cref{fig:VVBs:figSpin}\textbf{b-c} the state $S_1$ is projected firstly on the computational basis, the eigenstates of $\hat{S_z}$, and then on the basis $\{S_i\}$, with $i=1...6$, which consists of $\hat{S}_x$ eigenstates. Balanced superpositions of $S_1$ and $S_2$ are akin to the Schrödinger cat states built on coherent states of a harmonic oscillator, as they exhibit signatures of non-classical interference~\cite{agarwal1997atomic,SI}. For instance, only even (odd) components of the logical basis enter the superposition $\ket{S_1}+\ket{S_2}$ ($\ket{S_1}-\ket{S_2}$), a parity rule that is fully analogous to the one characterizing even (odd) bosonic cat states. Thanks to the isomorphism between the spaces of \ac{OAM} and of arbitrary angular momentum equal to $n/2$, we can generate \ac{SCS} mapping the basis $\{ \ket{s_z}\}$ in (\ref{spin_coherent1}) into the basis of the \ac{QW} $\{|m\rangle_w\}$. The results are illustrated in~\cref{fig:VVBs:figSpin}a-e, where we show the high quality of both the generated \acp{SCS}and \ac{SCS}-based cat states. %In particular, in Fig.\ref{spin_coherent1}.d we observe the odd parity that characterizes the superposition with minus sign.
 
-\subsection{Cat states based on spin coherent states: phase-space picture}
+\subsubsection{Cat states based on spin coherent states: phase-space picture}
 
-In the main manuscript we have introduced the decomposition of a spin coherent state (SCS) $\ket{s,\theta,\phi}$ over the basis of eigenstates of angular momentum $\{\ket{s_z}\}$. This reads
+In the main manuscript we have introduced the decomposition of a \ac{SCS} $\ket{s,\theta,\phi}$ over the basis of eigenstates of angular momentum $\{\ket{s_z}\}$. This reads
 \begin{equation}
 \ket{s,\theta,\phi}=\sum^s_{s_z=-s}\sqrt{\frac{(2s)!}{(s+s_z)!(s-s_z)!}}e^{-i\phi s_z}C^{s+s_z}_\theta S^{s-s_z}_\theta\ket{s_z},
 \end{equation}
-where the functions $C_{\theta}$ and $S_\theta$ have been defined in the main manuscript. We have also introduced the SCS-based Schr{\"o}dinger cat states built as the following superpositions of orthogonal states $\ket{S_1}:=\ket{5/2,\pi/2,0}$ and $\ket{S_2}:=\ket{5/2,-\pi/2,0}$:
+where the functions $C_{\theta}$ and $S_\theta$ have been defined in the main manuscript. We have also introduced the \ac{SCS}-based Schr{\"o}dinger cat states built as the following superpositions of orthogonal states $\ket{S_1}:=\ket{5/2,\pi/2,0}$ and $\ket{S_2}:=\ket{5/2,-\pi/2,0}$:
 \begin{equation}
 %\begin{aligned}
 \ket{\psi_{1}}=\frac{1}{\sqrt 2}(\ket{S_1}+\ket{S_2}),\qquad\ket{\psi_{2}}=\frac{1}{\sqrt 2}(\ket{S_1}-\ket{S_2}).
@@ -137,7 +202,7 @@ In this Section, we aim at providing a brief analysis of the features of such st
 \label{deco}
 Q_j(\alpha,\beta)=\vert\langle{5/2,\alpha,\beta}\vert\psi_j\rangle\vert^2\qquad(j=1,2)
 \end{equation}
-in the spherical polar space where the Cartesian coordinates $(x,y,z)$ are mapped into $x\to Q_j(\alpha,\beta)\sin\alpha\cos\beta$, $y\to Q_j(\alpha,\beta)\sin\alpha\sin\beta$ and $z\to Q_j(\alpha,\beta)\cos\alpha$. Despite the simplicity of its definition, $Q_j(\alpha,\beta)$ captures important information about the quantum interference between the orthogonal components of $\ket{\psi_{j}}$, which differentiate such states from the incoherent mixture of SCSs $(\ket{S_1}\bra{S_1}\pm\ket{S_2}\bra{S_2})/2$. 
+in the spherical polar space where the Cartesian coordinates $(x,y,z)$ are mapped into $x\to Q_j(\alpha,\beta)\sin\alpha\cos\beta$, $y\to Q_j(\alpha,\beta)\sin\alpha\sin\beta$ and $z\to Q_j(\alpha,\beta)\cos\alpha$. Despite the simplicity of its definition, $Q_j(\alpha,\beta)$ captures important information about the quantum interference between the orthogonal components of $\ket{\psi_{j}}$, which differentiate such states from the incoherent mixture of \acp{SCS} $(\ket{S_1}\bra{S_1}\pm\ket{S_2}\bra{S_2})/2$. 
 
 The orthogonality of $\ket{S_1}$ and $\ket{S_2}$ allows one to cast $Q_j(\alpha,\beta)$ as 
 \begin{equation}
@@ -176,13 +241,13 @@ which thus quantifies the effect of quantum coherence as the deviation of $Q_j(\
 \label{sec:expQWs:scalability}
 
 
-The encoding of quantum dynamics in the angular momentum degree of freedom has several advantages, including the possibility to generate and manipulate quantum states in high dimensions~\cite{fickler2012quantum,dambrosio2013photonic}. In the context of quantum walks, encoding of coin and position in the spin (SAM) and orbital angular momentum (OAM) respectively, has the crucial property to avoid the requirement of an interferometric scheme. This guarantees an intrinsic phase stability, since all the evolution is inside the same light beam. Furthermore, the approach employed in this platform leads to a linear scaling in the number of optical elements with respect to the number of steps, and thus to the Hilbert space dimension~\cite{cardano2015quantum}.
+The encoding of quantum dynamics in the angular momentum degree of freedom has several advantages, including the possibility to generate and manipulate quantum states in high dimensions~\cite{fickler2012quantum,dambrosio2013photonic}. In the context of quantum walks, encoding of coin and position in the \ac{SAM} and \ac{OAM}, respectively, has the crucial property to avoid the requirement of an interferometric scheme. This guarantees an intrinsic phase stability, since all the evolution is inside the same light beam. Furthermore, the approach employed in this platform leads to a linear scaling in the number of optical elements with respect to the number of steps, and thus to the Hilbert space dimension~\cite{cardano2015quantum}.
 
 Experimental limitations in the maximum achievable number of steps 
 %and possible slightly deviation from the linear scaling
-are due to the generation process of OAM eigenstates by the q-plates. To prevent coupling between radial and azimuthal part of the beam during the propagation in free space, all evolution has to be in the near-field regime~\cite{karimi2009light, cardano2015quantum}. This means that the distance $l$ between consecutive q-plates has to be chosen such that the quantity $\xi=\frac{l}{z_R}< < 1 $, where $z_R$ is the Rayleigh range.
-In our setup the employed beam waist $w_0$  ensures a $z_R> 30 m$ at wavelength $\lambda=808 nm$. Two adjacent q-plates are separated by a distance $l \sim 15 cm$ (such distance is needed to insert, between the q-plates, the waveplates implementing the coin), such that the condition on $\xi$ is satisfied.  Furthermore, in this regime also the Gouy phase can be neglected allowing a good control of the coherence between different OAM components, and, consequently, on the output states. However, in the perspective of higher number of steps, the requirement to have a $z_R$ large at least as the total length $L$ of the platform also implies a large beam waist, thus limiting the maximum amount of steps that can be implemented. An alternative strategy can be provided by a loop-scheme, where consecutive steps are performed by likewise passes through the same q-plates and waveplates~\cite{goyal2013implementing}. In this alternative setup, a suitable $4f$ lens system is necessary to image the output of the q-plate at the input of the next step, being such approach equivalent to work in the near-field regime.  
-In this combined OAM-loop scheme, experimental challenges arise at the measurement stage, that in spin-OAM setup involves a spatial light modulator (SLM). When integrating such encoding in a loop-architecture, issues may arise due to their slow response time.
+are due to the generation process of \ac{OAM} eigenstates by the q-plates. To prevent coupling between radial and azimuthal part of the beam during the propagation in free space, all evolution has to be in the near-field regime~\cite{karimi2009light, cardano2015quantum}. This means that the distance $l$ between consecutive q-plates has to be chosen such that the quantity $\xi=\frac{l}{z_R}< < 1 $, where $z_R$ is the Rayleigh range.
+In our setup the employed beam waist $w_0$  ensures a $z_R> 30 m$ at wavelength $\lambda=808 nm$. Two adjacent q-plates are separated by a distance $l \sim 15 cm$ (such distance is needed to insert, between the q-plates, the waveplates implementing the coin), such that the condition on $\xi$ is satisfied.  Furthermore, in this regime also the Gouy phase can be neglected allowing a good control of the coherence between different \ac{OAM} components, and, consequently, on the output states. However, in the perspective of higher number of steps, the requirement to have a $z_R$ large at least as the total length $L$ of the platform also implies a large beam waist, thus limiting the maximum amount of steps that can be implemented. An alternative strategy can be provided by a loop-scheme, where consecutive steps are performed by likewise passes through the same q-plates and waveplates~\cite{goyal2013implementing}. In this alternative setup, a suitable $4f$ lens system is necessary to image the output of the q-plate at the input of the next step, being such approach equivalent to work in the near-field regime.  
+In this combined \ac{OAM}-loop scheme, experimental challenges arise at the measurement stage, that in spin-\ac{OAM} setup involves a \ac{SLM}. When integrating such encoding in a loop-architecture, issues may arise due to their slow response time.
 
 
 \section{Behaviour of projection probabilities}
@@ -211,9 +276,9 @@ Further evidence suggesting that this method underestimates the real average pro
 
 In the following table we report the summary of target states engineered during the experiment, with corresponding quantum state fidelities and generation probabilities. The latter are provided by the algorithm developed in Ref.~\cite{innocenti2017quantum}, together with the coin operators needed in the engineering process.
 % \add{In  particular  we  observe  that the generation  probability  depends  on  the  target  state.   Concerning balanced states, as the element of Fourier basis, we find the scaling $O(1/2d)$ as reported in \cite{innocenti2017quantum}. The expected theoretical fidelity for all states is 1, independently from the size of the quantum walk.}
-The protocol and the experimental platforms are tested firstly with the elements of the computational basis corresponding to the eigenstates of the OAM, here denoted as $\{\ket{m} \}=\{\ket{\pm5}, \ket{\pm3},\ket{\pm1} \}$. We then consider superpositions of two computational basis states, and then proceed with more complex states such as spin-coherent states, the elements of the Fourier basis, and lastly random states. The quantum state fidelities are calculated measuring the target state on an orthonormal basis, generated via Gram-Schmidt orthogonalization, which contains the state itself.
+The protocol and the experimental platforms are tested firstly with the elements of the computational basis corresponding to the eigenstates of the \ac{OAM}, here denoted as $\{\ket{m} \}=\{\ket{\pm5}, \ket{\pm3},\ket{\pm1} \}$. We then consider superpositions of two computational basis states, and then proceed with more complex states such as spin-coherent states, the elements of the Fourier basis, and lastly random states. The quantum state fidelities are calculated measuring the target state on an orthonormal basis, generated via Gram-Schmidt orthogonalization, which contains the state itself.
 
-Let us clarify the notation used in Table~\ref{table1}. For the Fourier basis the convention employed is the following: $\ket{\on{QFT}_k}=\frac{1}{\sqrt{6}}\sum_{j=1}^{6}e^{\frac{ i \pi jk }{3}}\ket{j}$, where $\{\ket{j}\}$ stands for the logical basis that in our case corresponds to the OAM eigenstates $\{\ket{m} \}$. The notation $\ket{r_k}$ and $\ket{c_k}$ refers to real and complex random states respectively. Amplitudes of real states have been sampled uniformly in the range $\left[0,1\right]$ and then normalized. In the case of complex states we have sampled the real and imaginary part separately in the range $\left[-0.5,0.5\right]$. In Table~\ref{table2} we report the resulting amplitudes.
+Let us clarify the notation used in Table~\ref{table1}. For the Fourier basis the convention employed is the following: $\ket{\on{QFT}_k}=\frac{1}{\sqrt{6}}\sum_{j=1}^{6}e^{\frac{ i \pi jk }{3}}\ket{j}$, where $\{\ket{j}\}$ stands for the logical basis that in our case corresponds to the \ac{OAM} eigenstates $\{\ket{m} \}$. The notation $\ket{r_k}$ and $\ket{c_k}$ refers to real and complex random states respectively. Amplitudes of real states have been sampled uniformly in the range $\left[0,1\right]$ and then normalized. In the case of complex states we have sampled the real and imaginary part separately in the range $\left[-0.5,0.5\right]$. In Table~\ref{table2} we report the resulting amplitudes.
 \begin{table}[h!]
 \centering\footnotesize
 \begin{tabular}{lcc|lcc}
@@ -273,7 +338,7 @@ $\qquad\ket{c_5}\qquad$& $\left( 0.07+0.14i, 0.48-0.34i, -0.41-0.18i, -0.41-0.09
 \label{sec:expQWs:conclusions}
 
 \highlight{to review}
-We have successfully tested a QW-based quantum state engineering strategy assisted by numerical optimization~\cite{innocenti2017quantum}. Our tests were performed in a photonic platform using OAM as the embodiment of a quantum walker. This allowed us to implement a five-step QW, without nonlinear overhead in the number of required optical paths and with full control on the preparation, coin-operation, and detection stages. We showed the effectiveness of the protocol, demonstrating its ability to synthesize high-quality cat-like states. Our results reinforce the idea that numerical optimization complementing a complex QW dynamics is effective for high-dimensional state engineering. A natural generalization of this novel paradigm could be the engineering in the multipartite scenario, exploiting quantum correlations between multiple walkers. Regarding the research of the coin, further improvements of our approach can be envisaged by identifying appropriate routines to optimize the state engineering process in the presence of actual experimental imperfections. To this end, machine learning algorithms can be a promising add-on to our numerical optimization approach to adapt the coin operators to a given experimental implementation.
+We have successfully tested a QW-based quantum state engineering strategy assisted by numerical optimization~\cite{innocenti2017quantum}. Our tests were performed in a photonic platform using \ac{OAM} as the embodiment of a quantum walker. This allowed us to implement a five-step QW, without nonlinear overhead in the number of required optical paths and with full control on the preparation, coin-operation, and detection stages. We showed the effectiveness of the protocol, demonstrating its ability to synthesise high-quality cat-like states. Our results reinforce the idea that numerical optimization complementing a complex QW dynamics is effective for high-dimensional state engineering. A natural generalization of this novel paradigm could be the engineering in the multipartite scenario, exploiting quantum correlations between multiple walkers. Regarding the research of the coin, further improvements of our approach can be envisaged by identifying appropriate routines to optimize the state engineering process in the presence of actual experimental imperfections. To this end, machine learning algorithms can be a promising add-on to our numerical optimization approach to adapt the coin operators to a given experimental implementation.
 
 
 

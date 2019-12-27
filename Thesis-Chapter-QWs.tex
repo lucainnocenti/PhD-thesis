@@ -1392,42 +1392,6 @@ by properly fine-tuning the optimisation algorithm.
     \label{fig:prob_histograms_nmaximize}
 \end{figure}
 
-\section{Linear optical experimental implementation}
-The state engineering protocol here proposed can be tested with a DTQW in \ac{OAM} and \ac{SAM} of a photon.
-The main feature of this scheme is that the evolution of the system lies in a single optical path~\cite{zhang2010implementation}, allowing for an implementation using a single photon.
-The complete scheme is shown in~\cref{fig:QWs:proposal_exp}.
-Position and coin degrees of freedom are encoded respectively in \ac{OAM} and \ac{SAM} of the photon,
-with the walker's site described by the quantum number $m\in\ZZ$, eigenvalue of the \ac{OAM} along the propagation axis, and the coin state is encoded in left $\ket L$ and right $\ket R$ polarization states of the photon.
-With this encoding, arbitrary coin operations are implemented propagating the photon through quarter (QWP) and half (HWP) wave plates.
-The controlled shift operations are instead realized with q-plates (QP):
-a birefringent liquid-crystal medium that rises and lowers the value of $m$ conditionally to the polarization state~\cite{marrucci2006optical},
-changing the wavefront transverse profile of the photon without deflections.
-More specifically, an input photon injected into a QP changes its state as $\vert m,R \rangle \rightarrow \vert m-2q,L \rangle$ and $\vert m,L \rangle \rightarrow \vert m+2q,R \rangle$, where $q$ is the topological charge of the QP.
-Measurement of the coin in the $\vert + \rangle$ state is performed with a HWP and a polarizing beam splitter (PBS),
-while the OAM state can be analysed with a spatial light modulator (SLM)~\cite{cardano2015quantum}.
-Therefore, the DTQW is made up of consecutive optical units composed of wave plates (coin operators) and a QP (shift operators).
-The number of optical elements scales polynomially with the number of steps, making this scheme scalable.
-Finally, a SLM can be also employed before the quantum walk architecture to prepare the initial walker state spanning $n$ sites.
-
-Among other possible architectures for quantum state engineering are intrinsically-stable bulk interferometric schemes~\cite{broome2010discrete,kitagawa2012observation,vitelli2013joining}.
-In this approach, the coin is implemented in the polarization degree of freedom,
-while the shift operator is performed by introducing a spatial displacement of the optical mode conditionally to the polarization state of the photon.
-Other approaches include integrated linear interferometers~\cite{sansoni2012twoparticle, crespi2013anderson, harris2015bosonic, pitsios2016photonic}, and fiber-loops architectures~\cite{schreiber2010photons, schreiber2012a, boutari2016large}. As mentioned, besides purely optical settings, one could envisage to adapt the present protocol to other physical systems that can host quantum walks \cite{manouchehri2014physical}, such as trapped atoms \cite{karski2009quantum} and ions \cite{schmitz2009quantum, zhringer2010realization} as well as cold atoms in lattices \cite{weitenberg2011singlespin, fukuhara2013microscopic, preiss2015strongly}.
-
-\begin{figure}[ht!]
-\centering
-\includegraphics[width=0.99\textwidth]{experimental_apparatus_scheme.pdf}
-\caption{\highlight{to fix}
-    Scheme for the proposed implementation of the quantum walk state engineering protocol using Orbital Angular Momentum (OAM) and Spin Angular Momentum of a photon.
-    The input state is prepared in a superposition of $n$ modes with a Spatial Light Modulator (SLM).
-    At each step, the coin operation is then realised in polarization with a sequence of a Quarter Wave Plate (QWP), a Half Wave Plate (HWP) and a second QWP, arranged to implement an arbitrary transformation.
-    The shift operation in OAM space is implemented with a q-plate (QP), which shifts the OAM of $\pm 2q$ conditionally to the polarization state of the photon.
-    For $q=1/2$, the shift is equal to $\pm 1$, with the corresponding evolution is  schematically shown in the lower box.
-    Finally, the coin is projected in the $\vert + \rangle$ state by means of a HWP and a polarizing beam splitter (PBS).
-    A second SLM followed by a single-mode fiber performs the measurement of the output state.
-}
-\label{fig:QWs:proposal_exp}
-\end{figure}
 
 \section{Conclusions}
 \label{sec:QWs:conclusions}
