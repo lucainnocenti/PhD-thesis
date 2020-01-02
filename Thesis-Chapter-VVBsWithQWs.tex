@@ -131,8 +131,8 @@ For the purpose of the classification algorithms described in~\cref{sec:VVBs:cla
 \label{sec:VVBs:CNNs}
 
 \tmpHeading{What do we use CNNs for?}
-We show here how to train a \ac{CNN} to retrieve the parameters $(m_1,m_2)$ characterizing a given VVB from experimentally measured Stokes parameters.
-This means to feed the algorithm with input images correspmeasured Stokes parametersonding to one of a number of possible classes of states, and train the network to give as output the corresponding value of the OAM numbers $(m_1,m_2)$.
+We show here how to train a \ac{CNN} to retrieve the parameters $(m_1,m_2)$ characterising a given VVB from experimentally measured Stokes parameters.
+This means to feed the algorithm with input images corresponding to one of a number of possible classes of states, and train the network to give as output the corresponding value of the OAM numbers $(m_1,m_2)$.
 Moreover, we train the network to recognise the parameters $(\theta,\phi)$ for a given measurement of Stokes parameters, when all the input states have the same OAM numbers $(m_1,m_2)$.
 
 \tmpHeading{What are CNNs?}
@@ -179,35 +179,51 @@ The final classification is performed by a fully connected layer which uses a si
 We now present an alternative approach to classify \acp{VVB} from experimental data, leveraging \ac{DR}.
 Such algorithms are typically used to obtain efficient representations of large datasets~\cite{cunningham2008dimension,fodor2002survey}.
 
+
 \subsection{Dimensionality Reduction and Principal Component Analysis}
 
 \tmpHeading{What is DR?}
-\acf{DR} stands for a class of algorithms whose goal is to find compact low-dimensional encodings of high-dimensional datasets.
+\acf{DR} is a class of algorithms whose goal is to find low-dimensional encodings of high-dimensional datasets.
+This can have several advantages, from easing data visualisation, to improving the efficiency of classification and regression algorithms, which can be applied on the reduced representation of the data.
 
-\tmpHeading{Why DR?}
-This has several advantages, from easing data visualisation, to improving the efficiency of classification and regression algorithms, which can be used on the reduced representation of the data.
-In particular, we employ a linear 
-\ac{PCA} algorithm, which works by representing each datapoint as a vector in some high-dimensional space $\RR^n$, and finding the directions in such space that capture the maximum amount of information about the dataset~\cite{jolliffe2011principal,jolliffe2016principal}.
-The rationale for using \ac{PCA} in this context is that, although experimental images live in extremely high-dimensional spaces (whose dimension is of the order of the number of pixels in the \ac{CCD} camera), the underlying dimension of the generated \acp{VVB} is typically much lower.
-This means that, although the experimental dataset will \emph{a priori} seem like a complicated bundle of high-dimensional vectors, the underlying data is actually characterizable by a small number of parameters. Furthermore, the linearity of the mapping preserves the convexity of the VVB space and thus its geometrical structure. We then expect that the new description for expressing the experimental images in the reduced space provides a synthetic description for capturing the features of VVBs encoded in the measurements (the intensities in three polarisation bases $\{b_j\}$).
-This is a form of \emph{unsupervised} learning, as we gain useful information about the origin of the images are inferred without feeding the algorithm with any knowledge of the underlying process.
-
-\tmpHeading{DR and PCA}
-The main idea behind dimensionality reduction algorithms is to reduce the dimensionality of a dataset while retaining as much of its important features as possible. More specifically, we use linear \ac{PCA}~\cite{jolliffe2016principal}. The goal of this dimensionality reduction algorithm is to find the directions upon which projecting the dataset vectors gives the maximum amount of variance. More specifically, if the dataset is comprised of $N$ (real) vectors of length $M$, defining the \emph{data matrix} $\bs X$ as the $N\times M$ matrix whose $i$-th row is the $i$-th dataset vector, \ac{PCA} consists in finding the vectors $\bs a\in\RR^{M}$ that maximise the variance of $\bs X\bs a$. This turns out to be equivalent to diagonalising $\bs S\equiv \tilde{\bs X}^T\tilde{\bs X}/(N-1)$, where $\tilde{\bs X}$ is the \emph{centered data matrix}, which is equal to $\bs X$ modulo each of its columns shifted in order to average to zero.
+\tmpHeading{PCA}
+A classical \ac{DR} algorithm is \acf{PCA}.
+In its simplest form, \ac{PCA} is a \emph{linear} \ac{DR} algorithm which, given a dataset of vectors in some high-dimensional space $\RR^n$, finds the directions which capture the maximum amount of information about the dataset~\cite{jolliffe2011principal,jolliffe2016principal}.
+More specifically, given a dataset comprised of $N$ real vectors of length $M$, we define the \emph{data matrix} $\bs X$ as the $N\times M$ matrix whose $i$-th row is the $i$-th dataset vector. \ac{PCA} then consists in finding the vectors $\bs a\in\RR^{M}$ that maximise the variance of $\bs X\bs a$. This turns out to be equivalent to diagonalising $\bs S\equiv \tilde{\bs X}^T\tilde{\bs X}/(N-1)$, where $\tilde{\bs X}$ is the \emph{centered data matrix}, which is equal to $\bs X$ modulo each of its columns shifted in order to average to zero.
 The first $k$ \emph{principal components} found by \ac{PCA} are then the $k$ eigenvectors of $\bs S$ corresponding to the largest $k$ eigenvalues.
 Note that these principal components are themselves vectors of the same ``type'' as the data vectors. This means that \ac{PCA} effectively generates a set of data vectors which ``optimally represent'' the information content of the given dataset.
+
+\tmpHeading{PCA and VVBs}
+The rationale behind using \ac{PCA} in the context of \acp{VVB} is that, although experimental images live in extremely high-dimensional spaces (whose dimension is of the order of the number of pixels in the \ac{CCD} camera), the underlying dimension of the generated \acp{VVB} is typically much lower.
+This means that, although the experimental dataset might \emph{a priori} seem like a complicated bundle of high-dimensional vectors, the underlying data is actually characterizable by a small number of parameters. Furthermore, the linearity of the mapping preserves the convexity of the VVB space and thus its geometrical structure. We then expect that the new description for expressing the experimental images in the reduced space provides a synthetic description for capturing the features of VVBs encoded in the measurements (the intensities in three polarisation bases $\{b_j\}$).
+This is a form of \emph{unsupervised} learning, as we gain useful information about the origin of the images are inferred without feeding the algorithm with any knowledge of the underlying process.
+
 
 \tmpHeading{For example...}
 For example, in our case, each row of $\bs X$ is a vector of length $128\times128\times3$ containing the Stokes parameters $S_{b_1}, S_{b_2}, S_{b_3}$ for each pixel of the camera.
 Because each image corresponds to such a vector, and vice versa each such vector corresponds to the image of a \ac{VVB}, we can represent the principal components found by \ac{PCA} again in the form of images, which allows us to gain some intuition into the type of principal components that optimally represent the data according to \ac{PCA}.
 
+
 \subsection{Retrieving states from probabilities}
 
-\tmpHeading{Linearity of the states $\to$ probabilities mapping}
-Let now $\rho$ be the density matrix characterizing a \ac{VVB} state. The corresponding image can be associated to the set of real numbers $p_k=(\mathcal U\rho\mathcal U^\dagger)_{kk}$ with $\mathcal U$ the unitary operator that performs the basis change from the \ac{OAM} to the position basis. In other words, $\rho$ describes the state in the OAM-polarisation basis, which is the basis in which the generated states are efficiently described, whereas $\mathcal U\rho\mathcal U^\dagger$ describes the same state in the position basis, which is the one in which the CCD camera operates on.
-The set of detected probabilities is then given by~\footnote{It should be noted that, while here we use a formalism and vocabulary evocative of quantum states, the states actually used in the experiment are classical. This in now way impacts the formal description of the protocol, and the only thing that should change when the states used are classical is that the probabilities $\bs p$ should be reinterpreted as intensities.}
-$\bs p=\on{diag}(\mathcal U\rho\mathcal U^\dagger)\equiv\Psi(\rho)$,
+\tmpHeading{Measuring in a single measurement basis}
+Collecting experimentally intensity images with the \ac{CCD} camera is akin to collecting the statistics associated to measuring a specific state in a fixed measurement basis. Despite this not being, in general, sufficient to reconstruct a quantum state, it can be when some assumptions on the input state are made.
+More specifically, let $\rho$ be the density matrix characterising the state. The corresponding observed statistics in a chosen measurement basis is given by the set of probabilities
+\begin{equation}
+	p_k = (\calU\rho\calU^\dagger)_{kk}
+	    = \sum_{ij}\calU_{ki}\bar\calU_{kj}\rho_{ij},
+\end{equation}
+for some unitary $\calU$.
+This means that the mapping between density matrices and detected probabilities is linear: $\bs p=\Psi(\rho)$ for some linear map $\Psi$. This implies that many geometrical features of the space of states is preserved in the probabilities space. Moreover, a suitable choice of $\Psi$ will allow to retrieve $\rho$ from the knowledge of $\bs p$.
+For this to be possible, $\Psi$ needs to have a number of rows greater than or equal to the number of columns. Physically, this amounts to the measurement basis containing a sufficient number of elements. More specifically, $\Psi$ needs to be left invertible, which is the case when its columns are linearly independent.
+
+
+\tmpHeading{Application to experimental VVB images}
+\highlight{(needs work)}
+In other words, $\rho$ describes the state in the OAM-polarisation basis, which is the basis in which the generated states are efficiently described, whereas $\calU\rho\calU^\dagger$ describes the same state in the position basis, which is the one in which the CCD camera operates on.
+The set of detected probabilities is then given by $\bs p=\on{diag}(\calU\rho\calU^\dagger)\equiv\Psi(\rho)$,
 where $\Psi$ is defined as the linear map that sends $\rho$ to the set of measured probabilities $\bs p$.
+It should be noted that, while here we use a formalism and vocabulary evocative of quantum states, the states actually used in the experiment are classical. This in now way impacts the formal description of the protocol, and the only thing that should change when the states used are classical is that the probabilities $\bs p$ should be reinterpreted as intensities.
 Crucially, the linearity of $\Psi$ implies that it preserves the \emph{convexity} of the space of states, and therefore many of its geometrical features.
 For example, if we consider the set of states of the form $c_0 \ket{\uparrow,m=m_1} + c_1 \ket{\downarrow,m=m_2}$ with $m_1\neq m_2$, then the associated density matrices will be arranged to form a three-dimensional sphere embedded in the full state space (because these are effectively different states of a single qubit).
 Thanks to the linearity of $\Psi$, \emph{the corresponding probabilities $\bs p$ will also be contained in a spherical surface}, up to possible rescaling of the axes.
@@ -283,13 +299,25 @@ It is worth noting how this method provides a quick and easy way to gain useful 
 \section{Support vector machines}
 \label{sec:VVBs:SVMs}
 
-\subsection{What are they}
+\subsection{What are they?}
+
+\tmpHeading{What are SVMs?}
+\acfp{SVM} are a class of \emph{supervised learning} algorithms, whose goal is to classify data by finding an optimal partition of the feature space such that all the vectors with the same training label lie on the same classification sector.
+In particular, \emph{linear} \acp{SVM} try to separate the data linearly, that is, look for an optimal separating hyperplane.
+
+\tmpHeading{The math of linear SVMs}
+A SVM takes as input a training set of labelled data of the form $\{(\bs x_1,\ell_1),...,(\bs x_n,\ell_n)\}$ where $\bs x_i\in\RR^N$ and $\ell_i$ is one of two possible labels, $N\in\NN$ being here the dimension of the feature vectors. If there are only two possible labels, we can conventionally assume $\ell_i\in\{-1,1\}$.
+The goal is to find a linear separation, which is characterised by two parameters $\bs w$ and $b$ which identify an hyperplane as the set of $\bs x\in\RR^N$ such that $\bs w\cdot\bs x=\bs b$. We want this hyperplane to be such that, for all training vectors $\bs x_i$, the constraint $\ell_i(\bs w\cdot\bs x_i-\bs b)\ge1$ is satisfied.
+New data is then categorised using the \emph{classifier} $g_{\bs w,\bs b}(\bs x)=2\Theta(\bs w\cdot\bs x-\bs b)-1$, which equals $\pm1$ depending on whether the point $\bs x$ is on one side or the other of the separation determined by $\bs w,\bs b$.
+This is the so-called \emph{hard-margin} SVM, because this is only possible if every single training point is strictly on one or the other side of the separating hyperplane.
+An often more practical alternative are the so-called \emph{soft-margin} SVMs, in which this strict requirement is lifted. Instead, the goal becomes to minimise the average value of
+$\max(0, 1- \ell_i (\bs w\cdot\bs x_i-\bs b))$, trying at the same time to keep $\|\bs w\|$ as low as possible. This variation makes the algorithm more robust and able to classify data even in the presence of some noise \highlight{(an example with figures of hard- vs soft-margin classification would be nice)}.
 
 
 \subsection{How do we use them?}
 
 \tmpHeading{SVMs after PCA}
-We now show how the reduced representations provided by \ac{PCA} can function as starting point to train a classifier with accuracy comparable with the \ac{CNN}, whilst requiring a significantly reduced amount of computational resources.
+We now show how the reduced representations provided by \ac{PCA} can function as starting point to train a classifier with an accuracy comparable with that of the \acp{CNN} used in~\cref{sec:VVBs:CNNs}, whilst requiring a drastically reduced amount of computational resources.
 More precisely, we use as classifiers linear multiclass \acp{SVM}~\cite{hearst1998support,shawe2000support}. These supervised learning algorithms categorize data by finding the hyperplane that optimally separates the training dataset in accordance with the corresponding labels.
 We use here in particular a \emph{linear}, multiclass \ac{SVM}, whose goal is to find hyperplanes in the feature space that optimally separate the datapoints corresponding to different classes.
 During the training phase, a set of training experimental images is used to find the separating hyperplanes, which can then be used to classify new experimental images.
