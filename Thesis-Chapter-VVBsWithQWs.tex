@@ -8,7 +8,7 @@ We show in this chapter a method to classify generated states with nontrivial or
 \tmpHeading{ML and structured light}
 \acf{ML} has recently emerged as a versatile toolbox to tackle a variety of tasks arising in experimental platforms. It has, in particular, proven useful to characterise quantum protocols and dynamics~\cite{carrasquilla2019reconstructing,giordani2018experimental, agresti2019pattern,lumino2018experimental,rocchetto2019experimental,butler2018machine,fischer2006predicting,melnikov2018active,wang2017experimental}\highlight{more refs?}.
 In the context of structured light, \acfp{NN} have been used to classify \ac{OAM} states of classical light for long distance free-space communication, even in the presence of environmental turbulence~\cite{krenn2014communication,krenn2016twisted,doster2017machine,park2018demultiplexing,lohani2018turbulence,li2018joint}.
-In this chapter, we apply \ac{ML} to characterize experimental \acfp{VVB} generated using the \ac{QW}-based platform presented in~\cref{chapter:experimental_engineering_qudits}~\cite{innocenti2017quantum,giordani2019experimental}.
+In this chapter, we apply \ac{ML} to characterise experimental \acfp{VVB} generated using the \ac{QW}-based platform presented in~\cref{chapter:experimental_engineering_qudits}~\cite{innocenti2017quantum,giordani2019experimental}.
 This approach not requiring neither additional interferometry stabilisation, nor spatial filtering, it provides a robust strategy to decode information stored in \acp{VVB}, and there represents a promising pathway to handle high-dimensional quantum systems. 
 
 \tmpHeading{How is ML been used?}
@@ -28,12 +28,12 @@ Our findings demonstrate the reliability of a broader class of ML methods, provi
    \includegraphics[width=0.8\textwidth]{VVBs-Fig1.pdf}
     \caption{
     	\textbf{(a)} High-order Poincar\'e sphere representation for $|m_{1,2}|=1$. Each point on the sphere surface corresponds to specific polarisation patterns. 
-	    \textbf{(b)} A radially polarized \ac{VVB}: at a given point in the trasversal plane the polarisation vector has a different orientation. The Stokes parameters vary accordingly in the plane.
+	    \textbf{(b)} A radially polarised \ac{VVB}: at a given point in the trasversal plane the polarisation vector has a different orientation. The Stokes parameters vary accordingly in the plane.
 	    \textbf{(c)} Colour encoding of the polarisation pattern. 
 	    The legend reports the correspondence between colours and the various polarisations.
 	    On the right we have the resulting colour pattern for the VVB in panel {\bf b}.
 	    Grey colour corresponds to unpolarised light.
-	    \textbf{(d)} Experimental apparatus for the generation of \acp{VVB}. A continuous-wave laser emits a Gaussian beam ${\rm TEM}_{00}$ at $808$ nm. Light undergoes a 5-step quantum walk realized through a sequence of waveplates and QPs.
+	    \textbf{(d)} Experimental apparatus for the generation of \acp{VVB}. A continuous-wave laser emits a Gaussian beam ${\rm TEM}_{00}$ at $808$ nm. Light undergoes a 5-step quantum walk realised through a sequence of waveplates and QPs.
     	A CCD camera-based detection stage acquires information on the Stokes parameters and the polarisation pattern. Based on the intensity measured at each pixels of the  camera, Stokes parameters are evaluated and converted into RGB-coloured pictures.
     }%
     \label{fig:VVBs:poinc_sphere}
@@ -55,7 +55,7 @@ More specifically, the electric field $\bs{E}_{m_1m_2p}$ of a \ac{VVB} decompose
 $\bs{E}_{m_1m_2p}=\Vec{e}_L \cos{ \frac{\theta}{2}}\text{ LG$_{m_1p}$} +\Vec{e}_R e^{i \phi} \sin{ \frac{\theta}{2}}\text{ LG$_{m_2p}$}$,
 where $\theta\in[0,\pi], \phi\in[0,2\pi]$ and the unit vectors $\Vec{e}_{L,R}$ stand for left and right circular polarisation, respectively.
 For the purpose of this work we can ignore the radial number, setting $p=0$.
-For any given value of the parameters $(m_1$, $m_2, \theta, \phi)$, the polarisation pattern of a \ac{VVB} can be mapped onto a generalized Poincar\'e sphere (cf.~\cref{fig:VVBs:poinc_sphere}). In particular, we use the higher-order Poincar\'e representation in which the poles represent eigenstates of the total angular momentum but with opposite signs~\cite{milione2011higherorder}.
+For any given value of the parameters $(m_1$, $m_2, \theta, \phi)$, the polarisation pattern of a \ac{VVB} can be mapped onto a generalised Poincar\'e sphere (cf.~\cref{fig:VVBs:poinc_sphere}). In particular, we use the higher-order Poincar\'e representation in which the poles represent eigenstates of the total angular momentum but with opposite signs~\cite{milione2011higherorder}.
 These polarisation patterns are reconstructed via the \emph{Stokes parameters} $S_{j}~(j=1,2,3)$, obtained by
 measuring the output intensities $I_{b_j,1},I_{b_j,2}$ associated to a given choice of polarisation basis $\{b_j \}=\{b_1=( H,V )$, $b_2=( D,A )$, $b_3=( L,R )\}$ as $S_{b_j}=(I_{b_j,1}-I_{b_j,2})/(I_{b_j,1}+I_{b_j,2})$.
 %This is a way to characterise a state via its \emph{Stokes parameters} at every point of the transverse %profile.
@@ -65,7 +65,7 @@ measuring the output intensities $I_{b_j,1},I_{b_j,2}$ associated to a given cho
 For a \ac{VVB}, the values of $S_j$ depend on the coordinates in the transverse propagation plane~\cite{cardano2012polarization}.
 
 \tmpHeading{VVBs with RGB encoding}
-To visualize the polarisation patterns of \acp{VVB}, we use an RGB colour encoding in which the values of $S_j$ are interpreted as strengths of the corresponding colour. In~\cref{fig:VVBs:poinc_sphere}\textbf{b-c} we report an example of such colour encoding for radially polarized \acp{VVB}.
+To visualise the polarisation patterns of \acp{VVB}, we use an RGB colour encoding in which the values of $S_j$ are interpreted as strengths of the corresponding colour. In~\cref{fig:VVBs:poinc_sphere}\textbf{b-c} we report an example of such colour encoding for radially polarised \acp{VVB}.
 A natural way to generate~\acp{VVB} is using \acp{QP}~\cite{marrucci2006optical,cardano2012polarization}, which are inhomogeneous birefringent plates modifying the OAM of the incoming light conditionally to its polarisation. 
 In our scheme, \acp{VVB} are generated via a sequence of polarisation-controlling waveplates interspersing $5$ cascaded QPs (cf.~\cref{fig:VVBs:poinc_sphere}\textbf{d}).
 The apparatus implements a discrete-time QW in the angular momentum, where the order of LG modes takes the role of the \emph{walker} and it is changed according to the polarisation state, which embodies the \emph{coin} degree of freedom~\cite{zhang2010implementation,goyal2013implementing,cardano2015quantum,innocenti2017quantum,giordani2019experimental}.
@@ -78,7 +78,7 @@ We then collect images associated with different \acp{VVB} and use them to train
 We use the same experimental platform presented in~\cref{chapter:experimental_engineering_qudits}, with $5$ \acp{QP} in cascade that can be interspaced by either \acp{HWP} or \acp{QWP}. 
 % The HWPs compensate the polarisation flip operated by the QPs for the generation of higher order \ac{LG} modes. Conversely, the QWP acts on circular polarisations as an Hadamard transformation. 
 Using different sets of these waveplates between consecutive QPs, we can generate VVBs corresponding to different pairs $(m_1,m_2)$ of OAM quantum numbers, and parameters $(\theta, \phi)$.
-%sof the higher the increases the \ac{OAM} values associated to a \ac{VVB}. Moreover, using quarter waveplates it is possible to generate \acp{VVB} characterized by Laguerre Gauss modes with different azimuthal numbers $m_{1}>m_{2}$.
+%sof the higher the increases the \ac{OAM} values associated to a \ac{VVB}. Moreover, using quarter waveplates it is possible to generate \acp{VVB} characterised by Laguerre Gauss modes with different azimuthal numbers $m_{1}>m_{2}$.
 
 
 \tmpHeading{How are images collected?}
@@ -138,14 +138,14 @@ Moreover, we train the network to recognise the parameters $(\theta,\phi)$ for a
 \tmpHeading{What are CNNs?}
 \acp{CNN} are translation-invariant deep NNs well-suited for image classification~\cite{lecun2015deep}, to recognise off-centre images and segmented handwritten digits~\cite{simard2003best,ciresan2011flexible},
 and for facial recognition tasks~\cite{matsugu2003subject}. 
-In their simplest form, \acp{CNN} work by first applying a \emph{convolutional layer}, which consists of a series of nonlinear transformations applied to the input images, followed by a \emph{max-pooling layer}, which downsamples and filters the information extracted by the previous layer. Finally, a fully connected layer functions as a \emph{classifier}, categorizing the information extracted in the previous layers into one of a small number of possible output categories.
+In their simplest form, \acp{CNN} work by first applying a \emph{convolutional layer}, which consists of a series of nonlinear transformations applied to the input images, followed by a \emph{max-pooling layer}, which downsamples and filters the information extracted by the previous layer. Finally, a fully connected layer functions as a \emph{classifier}, categorising the information extracted in the previous layers into one of a small number of possible output categories.
 
 \tmpHeading{CNNs more in detail}
 We describe here in more detail the structure of the \ac{CNN} used to classify the experimental images.
 In a standard \ac{CNN}, the convolution in a particular location $(x,y)$ is obtained by computing the inner product between a $k \times k$ sub region of the input image and a filter of the same size. Repeating this process for each location on the input image, it is possible to obtain an activation map associated to specific features. Typically, more than one filter is used in one convolution layer and $N$ features are extracted.
 A max-pooling layer is used immediately after the convolutional layer to reduce the number of parameters. The output of the previous layer are then divided into blocks of size $p \times p$, and the $\max$ function is applied over each block.
 Finally, a fully connected layer classifiers the data by determining which features are most correlate to a particular class.
-At the beginning, the filters of the features extractors are randomly initialized. Consequently, they are computed via a back-propagation process to optimize the classification of a training set.
+At the beginning, the filters of the features extractors are randomly initialised. Consequently, they are computed via a back-propagation process to optimise the classification of a training set.
 
 \tmpHeading{Categorisation into discrete classes}
 The network is first fed with a training set made out of simulated images of \acp{VVB} achievable with a five-step \ac{QW}.
@@ -160,7 +160,7 @@ We use a similar approach to retrieve the position on the Poincaré sphere corre
 We then test the performance of the CNN in the classification of each recorded VVB according to the values $(\theta,\phi)$ for $m_2=-m_1=1$.
 To achieve this, the network should discriminate rotations in the polarisation patterns (i.e. changes in $\phi$) and variations in the colour tone (i.e. changes in $\theta$). A drawback of using any type of classifier for this task is that VVBs with $|m_i|\gg1$ display a polarisation pattern whose periodicity decreases as $\frac{2\pi}{|m_1-m_2|}$ (cf. Fig.~\mbox{\ref{fig:VVBs:resultsCNN}}{\bf a})~\cite{fickler2012quantum,dambrosio2013photonic}.
 This complicates the recognition of $\phi$, as changes in the phase generate only small rotations of the pattern.
-Furthermore, the classification of the VVB on the sphere requires a discretization of $\theta$ and $\phi$, which results in dividing the sphere in sectors. This means that VVBs placed at the borders of these intervals are more difficult to assign to a specific class.
+Furthermore, the classification of the VVB on the sphere requires a discretisation of $\theta$ and $\phi$, which results in dividing the sphere in sectors. This means that VVBs placed at the borders of these intervals are more difficult to assign to a specific class.
 The network is then trained with simulated images corresponding to different positions on the sphere. 
 %(that is, different values of $(\theta,\phi)$).
 The latter is divided in 26 sectors as follows: $\theta$ is divided in $3$ intervals $\left[k \frac{\pi}{8}, (k+2) \frac{\pi}{8}\right]$ ($k=2n+1$, $n \in \{0,1,2\}$), while $\phi$ is split in the 8 classes $\left[t \frac{\pi}{4}, (t+1) \frac{\pi}{4}\right]$ with $t \in \{0,...,7\} $. The remaining two classes, representing the two poles, correspond to $\theta \in \left[0, \frac{\pi}{8}\right]$ and $ \left[ \frac{7}{8} \pi, \pi\right]$, with no distinction in $\phi$ [cf. Fig. \ref{fig:VVBs:PCAresults}{\bf a}].
@@ -177,25 +177,24 @@ The final classification is performed by a fully connected layer which uses a si
 
 \tmpHeading{What do we use DR for?}
 We now present an alternative approach to classify \acp{VVB} from experimental data, leveraging \ac{DR}.
-Such algorithms are typically used to obtain efficient representations of large datasets~\cite{cunningham2008dimension,fodor2002survey}.
 
 
 \subsection{Dimensionality Reduction and Principal Component Analysis}
 
 \tmpHeading{What is DR?}
-\acf{DR} is a class of algorithms whose goal is to find low-dimensional encodings of high-dimensional datasets.
+\acf{DR} is a class of algorithms whose goal is to find low-dimensional encodings of high-dimensional datasets~\cite{cunningham2008dimension,fodor2002survey}.
 This can have several advantages, from easing data visualisation, to improving the efficiency of classification and regression algorithms, which can be applied on the reduced representation of the data.
 
 \tmpHeading{PCA}
 A classical \ac{DR} algorithm is \acf{PCA}.
 In its simplest form, \ac{PCA} is a \emph{linear} \ac{DR} algorithm which, given a dataset of vectors in some high-dimensional space $\RR^n$, finds the directions which capture the maximum amount of information about the dataset~\cite{jolliffe2011principal,jolliffe2016principal}.
-More specifically, given a dataset comprised of $N$ real vectors of length $M$, we define the \emph{data matrix} $\bs X$ as the $N\times M$ matrix whose $i$-th row is the $i$-th dataset vector. \ac{PCA} then consists in finding the vectors $\bs a\in\RR^{M}$ that maximise the variance of $\bs X\bs a$. This turns out to be equivalent to diagonalising $\bs S\equiv \tilde{\bs X}^T\tilde{\bs X}/(N-1)$, where $\tilde{\bs X}$ is the \emph{centered data matrix}, which is equal to $\bs X$ modulo each of its columns shifted in order to average to zero.
+More specifically, given a dataset comprised of $N$ real vectors of length $M$, we define the \emph{data matrix} $\bs X$ as the $N\times M$ matrix whose $i$-th row is the $i$-th dataset vector. \ac{PCA} then finds the vectors $\bs a\in\RR^{M}$ that maximise the variance of $\bs X\bs a$. This turns out to be equivalent to diagonalising $\bs S\equiv \tilde{\bs X}^T\tilde{\bs X}/(N-1)$, where $\tilde{\bs X}$ is the \emph{centered data matrix}, which is equal to $\bs X$ modulo each of its columns shifted in order to average to zero.
 The first $k$ \emph{principal components} found by \ac{PCA} are then the $k$ eigenvectors of $\bs S$ corresponding to the largest $k$ eigenvalues.
 Note that these principal components are themselves vectors of the same ``type'' as the data vectors. This means that \ac{PCA} effectively generates a set of data vectors which ``optimally represent'' the information content of the given dataset.
 
 \tmpHeading{PCA and VVBs}
 The rationale behind using \ac{PCA} in the context of \acp{VVB} is that, although experimental images live in extremely high-dimensional spaces (whose dimension is of the order of the number of pixels in the \ac{CCD} camera), the underlying dimension of the generated \acp{VVB} is typically much lower.
-This means that, although the experimental dataset might \emph{a priori} seem like a complicated bundle of high-dimensional vectors, the underlying data is actually characterizable by a small number of parameters. Furthermore, the linearity of the mapping preserves the convexity of the VVB space and thus its geometrical structure. We then expect that the new description for expressing the experimental images in the reduced space provides a synthetic description for capturing the features of VVBs encoded in the measurements (the intensities in three polarisation bases $\{b_j\}$).
+This means that, although the experimental dataset might \emph{a priori} seem like a complicated bundle of high-dimensional vectors, the underlying data is actually characterizable by a small number of parameters. Furthermore, the linearity of the mapping from the full to the reduced space makes it preserve many of its geometrical properties.
 This is a form of \emph{unsupervised} learning, as we gain useful information about the origin of the images are inferred without feeding the algorithm with any knowledge of the underlying process.
 
 
@@ -207,7 +206,7 @@ Because each image corresponds to such a vector, and vice versa each such vector
 \subsection{Retrieving states from probabilities}
 
 \tmpHeading{Measuring in a single measurement basis}
-Collecting experimentally intensity images with the \ac{CCD} camera is akin to collecting the statistics associated to measuring a specific state in a fixed measurement basis. Despite this not being, in general, sufficient to reconstruct a quantum state, it can be when some assumptions on the input state are made.
+Collecting experimental intensity images with the \ac{CCD} camera is akin to collecting the statistics associated to measuring a specific state in a fixed measurement basis. Despite this not being, in general, sufficient to reconstruct a quantum state, it can be when some assumptions on the input state or the type of measurement~\cite{banchi2018multiphoton}.
 More specifically, let $\rho$ be the density matrix characterising the state. The corresponding observed statistics in a chosen measurement basis is given by the set of probabilities
 \begin{equation}
 	p_k = (\calU\rho\calU^\dagger)_{kk}
@@ -215,15 +214,15 @@ More specifically, let $\rho$ be the density matrix characterising the state. Th
 \end{equation}
 for some unitary $\calU$.
 This means that the mapping between density matrices and detected probabilities is linear: $\bs p=\Psi(\rho)$ for some linear map $\Psi$. This implies that many geometrical features of the space of states is preserved in the probabilities space. Moreover, a suitable choice of $\Psi$ will allow to retrieve $\rho$ from the knowledge of $\bs p$.
-For this to be possible, $\Psi$ needs to have a number of rows greater than or equal to the number of columns. Physically, this amounts to the measurement basis containing a sufficient number of elements. More specifically, $\Psi$ needs to be left invertible, which is the case when its columns are linearly independent.
+For this to be possible, $\Psi$ needs to have a number of rows greater than or equal to the number of columns. Physically, this amounts to the measurement basis containing a sufficient number of elements. More specifically, $\Psi$ needs to be \emph{left-invertible}, which is the case when its columns are linearly independent.
 
 
 \tmpHeading{Application to experimental VVB images}
-\highlight{(needs work)}
+In our case, $\rho$ is a description of a VVB in the OAM-polarisation basis, while $\calU$ is the unitary mapping this basis into the position basis, which is the one that CCD cameras naturally operate on. In principle, one might need to take care of the different dimensionalities of these two spaces (the OAM space is countable while the position one is not), but this is easily fixed by discretising the position space, which is what is done naturally by the finite number of pixels of the CCD camera. 
 In other words, $\rho$ describes the state in the OAM-polarisation basis, which is the basis in which the generated states are efficiently described, whereas $\calU\rho\calU^\dagger$ describes the same state in the position basis, which is the one in which the CCD camera operates on.
 The set of detected probabilities is then given by $\bs p=\on{diag}(\calU\rho\calU^\dagger)\equiv\Psi(\rho)$,
 where $\Psi$ is defined as the linear map that sends $\rho$ to the set of measured probabilities $\bs p$.
-It should be noted that, while here we use a formalism and vocabulary evocative of quantum states, the states actually used in the experiment are classical. This in now way impacts the formal description of the protocol, and the only thing that should change when the states used are classical is that the probabilities $\bs p$ should be reinterpreted as intensities.
+It should be noted that, while here we use a formalism and vocabulary evocative of quantum states, the states actually used in the experiment are classical. This in no way impacts the formal description of the protocol, and the only thing that should change when the states used are classical is that the probabilities $\bs p$ should be reinterpreted as intensities.
 Crucially, the linearity of $\Psi$ implies that it preserves the \emph{convexity} of the space of states, and therefore many of its geometrical features.
 For example, if we consider the set of states of the form $c_0 \ket{\uparrow,m=m_1} + c_1 \ket{\downarrow,m=m_2}$ with $m_1\neq m_2$, then the associated density matrices will be arranged to form a three-dimensional sphere embedded in the full state space (because these are effectively different states of a single qubit).
 Thanks to the linearity of $\Psi$, \emph{the corresponding probabilities $\bs p$ will also be contained in a spherical surface}, up to possible rescaling of the axes.
@@ -318,14 +317,15 @@ $\max(0, 1- \ell_i (\bs w\cdot\bs x_i-\bs b))$, trying at the same time to keep 
 
 \tmpHeading{SVMs after PCA}
 We now show how the reduced representations provided by \ac{PCA} can function as starting point to train a classifier with an accuracy comparable with that of the \acp{CNN} used in~\cref{sec:VVBs:CNNs}, whilst requiring a drastically reduced amount of computational resources.
-More precisely, we use as classifiers linear multiclass \acp{SVM}~\cite{hearst1998support,shawe2000support}. These supervised learning algorithms categorize data by finding the hyperplane that optimally separates the training dataset in accordance with the corresponding labels.
+More precisely, we use as classifiers linear multiclass \acp{SVM}~\cite{hearst1998support,shawe2000support}. These supervised learning algorithms categorise data by finding the hyperplane that optimally separates the training dataset in accordance with the corresponding labels.
 We use here in particular a \emph{linear}, multiclass \ac{SVM}, whose goal is to find hyperplanes in the feature space that optimally separate the datapoints corresponding to different classes.
-During the training phase, a set of training experimental images is used to find the separating hyperplanes, which can then be used to classify new experimental images.
+During the training phase, a set of training experimental images is used to find the separating hyperplanes, which is then used to classify new experimental images.
+% Both training and classification are performed \emph{after} the dimensionality reduction has been carried out via \ac{PCA}. This makes for improved computational times as well as making the algorithm more robust to experimental noise and imperfections.
 
 \tmpHeading{What do we use the SVMs for?}
 As done for the \ac{CNN}, we consider the task of classifying experimental dataset of VVBs. We train a \ac{SVM} on the reduced space obtained via \ac{PCA}, applied to the experimental dataset reported in~\cref{fig:VVBs:resultsCNN}\textbf{a}. This stage significantly improves the training cost of the classifier since the latter will work on a synthesised description of the high-dimensional space of images in which the features of each class can be easily recognised.
-This not only significantly speeds up training the classifier, but also makes for a more robust classification, thanks to the property of dimensionality reduction algorithms to weed out statistical and experimental noise.
-What's more, the geometrical picture offered by the reduced representation tells us when we should expect this classification to be accurate: \ac{PCA} effectively retrieves the description of the states in the generalized Bloch representation, therefore the classification will give good results whenever the states are linearly separated in state space.
+This not only significantly speeds up the training stage, but also makes for a more robust classification, thanks to the property of dimensionality reduction algorithms to weed out statistical and experimental noise.
+What's more, the geometrical picture offered by the reduced representation tells us when we should expect this classification to be accurate: \ac{PCA} effectively retrieves the description of the states in the generalised Bloch representation, therefore the classification will give good results whenever the states are linearly separated in state space.
 
 
 \tmpHeading{What is used for the training?}
@@ -350,7 +350,7 @@ By embedding a variety of {\ac{ML}} algorithms into our experimental pipeline, t
 %
 %Then, the investigation of different techniques in the ML field has provided a more general framework for the characterization of structured light. 
 % 
-While paving the way to further experimental validations -- potentially also in experimental settings that do not rely on optical networks -- we believe that numerous tasks of relevance to modern photonics could benefit from introducing similar {\ac{ML}} ideas into their characterization protocols. These techniques can prove to be useful add-on to tasks ranging from the design of automatized approaches to the characterization of experimental platforms and experiments, to the provision of solutions to OAM demultiplexing in the context of classical and quantum communication and, more generally, for the use of structured light in quantum technologies.
+While paving the way to further experimental validations -- potentially also in experimental settings that do not rely on optical networks -- we believe that numerous tasks of relevance to modern photonics could benefit from introducing similar {\ac{ML}} ideas into their characterisation protocols. These techniques can prove to be useful add-on to tasks ranging from the design of automatised approaches to the characterisation of experimental platforms and experiments, to the provision of solutions to OAM demultiplexing in the context of classical and quantum communication and, more generally, for the use of structured light in quantum technologies.
 
 \textit{Note--} During the reviewing process of this manuscript, the authors
 became aware of a related work~\cite{liu2019superhighresolution} addressing a similar topic.

@@ -3,28 +3,52 @@
 \chapter{Introduction}
 \label{chapter:introduction}
 
+\section{Background}
+
+\tmpHeading{What is quantum information?}
 Quantum information science~\cite{nielsen2006quantum,watrous2018theory} studies how information behaves and can be manipulated at the quantum level.
-The reason for studying this is manyfold. One the one hand, quantum mechanics challenged our previously naive way of understanding how information behaves, telling us that the standard rules of probability theory cease to apply in some realms of the real world.
-On the other hand, from a more practical point of view, there is much to gain from such a deeper understanding of how information can be manipulated. Indeed, so much of the modern age relying on the capability to manipulate ever vaster heaps of data, it is only natural that an insight telling us that quantum physics allows to process information dramatically faster than what standard probability theory concedes would gain so much traction.
-Furthermore, quantum information does not just hold the promise of faster information processing, that is, roughly speaking, of faster computing, but can also be exploited to devise new and improved means of communication, via faster and more secure communication protocols enabled by the properties of quantum entanglement \highlight{(does entangement specifically help here?)}.
+The reasons for studying this are many-fold. On the one hand, quantum mechanics challenged our previously naive way of understanding how information behaves, showing us how the standard rules of probability theory cease to apply in some regimes.
+On the other hand, from a more practical point of view, there is much to gain from such a deeper understanding of how information can be manipulated. Indeed, so much of the modern age relying on the capability to manipulate ever vaster heaps of data, it is only natural that insights telling us that quantum physics allows to process information dramatically faster than what classical computers are capable of would gain so much traction.
+Furthermore, quantum information does not just hold the promise of faster information processing, but can also be exploited to devise new and improved means of communication, via faster and more secure communication protocols enabled by the properties of quantum entanglement~\cite{gisin2002quantum,krenn2016quantum,pirandola2019advances}.
 
-The rationale behind studying this is not just in the fundamental understanding that can be gained from a theoretical point of view. Indeed, ever since Feynman first introduced the idea of \emph{exploiting} the peculiarities of quantum mechanics to solve problems harder to reach within the realm of classical computation~\cite{feynman1982simulating}, more and more research has been devoted into trying to understand exactly why and how quantum mechanics can provide advantages for information processing.
-In fact, the realisation itself that this feat was possible at all prompted a stark interest into a broad variety of research directions focused on applying quantum mechanics to build better technologies. This was termed a \textit{second quantum revolution}~\cite{dowling2003quantum}, to differentiate it from the first quantum revolution, which was mostly about understanding how quantum mechanics can be used to explain already observed phenomena.
+\tmpHeading{Second quantum revolution}
+Ever since Feynman first introduced the idea of \emph{exploiting} the peculiarities of quantum mechanics to solve problems harder to reach within the realm of classical computation~\cite{feynman1982simulating}, more and more research has been devoted into trying to understand exactly why and how quantum mechanics can provide advantages for information processing.
+In fact, the realisation itself that this feat was possible at all prompted a stark interest into a broad variety of research directions focussed on applying quantum mechanics to build better technologies. This was termed a \textit{second quantum revolution}~\cite{dowling2003quantum}, to differentiate it from the first quantum revolution, which was mostly about understanding how quantum mechanics can be used to explain already observed phenomena \highlight{needed?}.
 
+\tmpHeading{Branches of quantum information science}
 Among the many approaches explored in the course of the last century, the most notable areas of research fall, broadly speaking, under the names of quantum computation~\cite{shor1997polynomial,steane1998quantum,ladd2010quantum}, quantum simulation~\cite{lloyd1996universal,georgescu2014quantum,koch2019quantum}, quantum communication~\cite{bennett1993teleporting}, and quantum cryptography~\cite{bennett2014quantum}.
 
+\tmpHeading{State of the art of quantum computing}
 Among the other technologies, quantum computers are arguably the idea that received the most traction, possibly due to the monopolising prominence of their classical cousins.
-Still, practical and useful quantum computation is still far on the horizon, and will still require a number of theoretical and fundamental breakthroughs to definitively reach~\cite{preskill2018quantum,flamini2018photonic,wang2019integrated}.
+Still, practical and useful quantum computation is still far on the horizon, and will still require a number of theoretical and fundamental breakthroughs to finally reach it~\cite{preskill2018quantum,flamini2018photonic,wang2019integrated}.
 Nonetheless, the last few years have seen a number of such breakthroughs follow one another~\cite{fowler2012surface,barends2014superconducting,córcoles2015demonstration,ofek2016extending,arute2019quantum}.
-Moreover, it was realised since 2011~\cite{aaronson2011computational} that, even though achieving scalable and fault-tolerant large-scale quantum computation remains a titanic challenge, there are ways to at least settle the overarching question of whether it is possible \textit{even in principle} to solve problems faster than what classical physics allows. This spurred the race to achieve the so-called \textit{quantum computational supremacy}~\cite{preskill2012quantum,gross2013the,aaronson2011computational,bremner2016average,boixo2018characterizing,bouland2018complexity,aaronson2017complexity,neill2018blueprint,arute2019quantum}.
-
-Focusing on quantum computation, one should note the many types of quantum computation schemes and approaches available. From quantum optics, trapped ions, superconducting qubits, cold atoms.
+Moreover, even though achieving scalable and fault-tolerant large-scale quantum computation remains a titanic challenge with present-day technology, there are ways to at least settle the overarching question of whether it is possible \textit{even in principle} to solve problems faster than what classical physics allows~\cite{aaronson2011computational,bremner2016average,boixo2018characterizing,aaronson2017complexity,neill2018blueprint}. This spurred the race to achieve the so-called \textit{quantum computational supremacy}~\cite{gross2013the,broome2012photonic,spring2012boson,crespi2013integrated,tillmann2013experimental,bentivegna2015experimental,zhong201812photon,zhong2019experimental,wang2019boson,bouland2018complexity,arute2019quantum}.
+Several different quantum computing architectures are being studied as possible physical media of quantum information processing, including schemes relying on photonics~\cite{wang2019integrated,flamini2018photonic}, trapped ions~\cite{bruzewicz2019trappedion,lekitsch2017blueprint}, superconducting~\cite{krantz2019quantum,you2011atomic}, or cold atoms.
 Similarly, many paradigms have been developed. One broad distinction can be made between \textit{discrete variables}~\cite{walmsley2005applied,andersen2015hybrid} and \textit{continuous variables}~\cite{lloyd1999quantum,braunstein2005quantum} approaches.
 On top of this, several different paradigms are possible, ranging from the more commonly familiar notion of the circuit model for quantum computation~\cite{nielsen2006quantum}, to one-way quantum computation approaches~\cite{raussendorf2001one,walther2005experimental,browne2006one}, to adiabatic quantum computing~\cite{aharonov2004adiabatic,albash2018adiabatic}.
 
-Integrated photonics~\cite{wang2019integrated,flamini2018photonic}.
+\tmpHeading{Machine learning}
+Parallel to the surge of interest in quantum technologies in recent years, another field of study that has seen an explosion of funding and research interest is \ac{ML}~\cite{you2011atomic,bishop2006pattern,abu2012learning,friedman2001elements,murphy2012machine,mehta2019highbias}.
+Roughly speaking, \ac{ML} refers to a class of algorithms whose goal is to learn from, and make predictions about, data.
+Despite~\ac{ML} encompassing a wide variety of problems and techniques, the underlying conceptual framework can be understood as that of finding a set of parameters $\bstheta$ such that the corresponding map $f_\bstheta:\bs x\mapsto f_\bstheta(\bs x)$ fits the dataset under consideration, for some choice of \emph{model} $\bstheta\mapsto f_\bstheta$.
+For example, in a \emph{classification problem}, $\bs x$ can be a set of real vectors, whereas $f_\bstheta(\bs x)$ can only have a finite number of values (for example, if we want to classify a set of images as representing ``cats'' or ``dogs'', $f_\bstheta(\bs x)\in\{\text{cat},\text{dog}\}$).
 
-\section{Quantum information}
+\tmpHeading{Just glorified curve-fitting?}
+From this point of view, \ac{ML} algorithms might appear to be no different than simple fitting algorithms, and it is indeed not rare to hear people say that ``\emph{machine learning is just glorified curve-fitting}''. While there is some truth in such a statement, in the sense that both ``naive curve fitting'' and ``machine learning tasks'' can be unified under a single conceptual framework, such statements are completely off the mark when their implied meaning is to undersell the field of \ac{ML}.
+Indeed, the ``simple'' problem of ``fitting a model'' to a given dataset, when no further assumptions are made over the type of data and model, is such a generic and hard problem that vastly different techniques and ideas are required to handle it in different circumstances.
+
+
+\tmpHeading{Machine learning and physics}
+\cite{carleo2019machine}\highlight{and all the other references}
+
+\tmpHeading{What is ``quantum machine learning''?}
+In particular, the intersection of \ac{ML} and quantum information science is also currently under intense study, and falls generically under the name of \ac{QML}~\cite{wittek2014quantum,schuld2014introduction,adcock2015advances,biamonte2017quantum,arunachalam2017survey}.
+Due to the wide reach of both fields, \ac{QML} inevitably branched out into several different directions of study.
+The first applications of the term referred to the study of quantum algorithms to tackle more efficiently tasks that are generally solved using \ac{ML}~\cite{giovannetti2008quantum,harrow2009quantum,lloyd2013quantum,lloyd2014quantum,rebentrost2014quantum,lloyd2016quantum,rebentrost2018quantum,rebentrost2016quantum}, to which a multitude of works followed~\cite{dunjko2017machine,ciliberto2018quantum,schuld2018supervised,wittek2014quantum,schuld2014introduction}. This direction of study is now sometimes referred to as \emph{quantum-enhanced machine learning}, to distinguish it from other subfields of the much-encompassing \ac{QML}.
+Another direction of study, more focussed on the theoretical foundations on how quantum mechanics can make the general process of \emph{learning} from data more efficient, is \emph{quantum learning theory}~\cite{arunachalam2017survey}.
+% \cite{giovannetti2008quantum,harrow2009quantum,sentís2012quantum,lloyd2013quantum,lloyd2014quantum,rebentrost2014quantum,wiebe2014quantum,aaronson2015read,sentís2015quantum,lloyd2016quantum,rebentrost2018quantum,schuld2016prediction,rebentrost2016quantum,childs2017quantum}.
+Yet another field of study falling under the umbrella of \ac{QML} concerns how \emph{classical} \ac{ML} can help find solutions to the many open problems in the field of quantum information science~\cite{carleo2019machine}.
+
 
 \section{Quantum walks}
 \label{sec:intro:QWs}
