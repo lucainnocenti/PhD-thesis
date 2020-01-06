@@ -10,13 +10,12 @@ In particular, \emph{unitary} gates play a key role in the majority of schemes a
 \tmpHeading{What is gate compilation}
 Implementing a target unitary gate is, however, often a daunting task. Different techniques are used to do this, depending on the specifics of the experimental context, and other constraints of the problem.
 For example, in photonics architectures one has usually only access to a toolbox of ``elementary components'', corresponding to beamsplitters and phaseshifters, which are then used to build up more complex operations.
-In this context, a complex operation $\calU$, is obtained by finding a suitable sequence of elementary operations $\calG_i$ such that $\calU=\prod_i \calG_i$. Given a fixed set of such \textit{elementary gates} $\{\calG_i\}_i$, finding such a combination of gates is highly nontrivial. This task is often referred to as \textit{gate compilation}, or \textit{gate synthesis}~\cite{mottonen2004quantum,nielsen2006quantum,loke2014optqc,loke2016optqc,nakajima2009synthesis,maslov2017basic,swaddle2017generating}. \highlight{(add more citations)}
-\highlight{are there other experimental contexts in which it is common to have such \textit{black boxes} that are composed together?}
-Solving gate compilation problems is especially important in the light of the recent significant experimental advances in the construction of experimental quantum devices, especially superconducting~\cite{devoret2013superconducting} and ion trap~\cite{blatt2008entangled,debnath2016demonstration} architectures \highlight{probably add sycamore paper ref}.
+In this context, a complex operation $\calU$, is obtained by finding a suitable sequence of elementary operations $\calG_i$ such that $\calU=\prod_i \calG_i$. Given a fixed set of such \textit{elementary gates} $\{\calG_i\}_i$, finding a suitable combination of gates is highly nontrivial. This task is often referred to as \textit{gate compilation}, or \textit{gate synthesis}~\cite{mottonen2004quantum,nielsen2006quantum,nakajima2009synthesis,loke2014optqc,loke2016optqc,maslov2017basic,swaddle2017generating,ashouri2018survey}.
+Solving gate compilation problems is especially important in the light of the recent significant experimental advances in the construction of experimental quantum devices, especially superconducting~\cite{devoret2013superconducting,arute2019quantum} and ion trap~\cite{blatt2008entangled,debnath2016demonstration} architectures.
 
 \tmpHeading{Gate synthesis via continuous parameters in the Hamiltonian}
 A different type of problem is the one faced when, instead of a discrete set of gates, one is able to tune continuous parameters of an underlying dynamics.
-In this scenario, the experimenter has only access to some parameters $\bs\lambda\equiv(\lambda_1,...,\lambda_k)$ of the system \textit{Hamiltonian} $\calH_{\bs\lambda}$, and wants to find the values of $\bs\lambda$ that achieve a target dynamics.
+In this scenario, the experimenter has only access to some parameters $\bs\lambda\equiv(\lambda_1,...,\lambda_k)$ of the system \textit{Hamiltonian} $\calH_{\bs\lambda}$, and wants to find the values of $\bs\lambda$ that achieve a target transformation.
 One might for example be interested in driving a fixed input to a target output.
 In this scenario, it is common to allow for \textit{time-dependent} dynamics. This makes it easier, in general, to achieve different types of evolutions, but at the same times also makes for a significantly harder optimisation problem, as one then has to look for an optimal \textit{function} $t\mapsto\bs\lambda(t)$, rather than just an optimal value $\bs\lambda\in\mathbb R^n$.
 This types of problems are usually referred to as \textit{quantum (optimal) control} problems~\cite{dalessandro2007introduction,dong2010quantum,werschnik2007quantum}.
@@ -60,8 +59,8 @@ The interesting cases, both from a theoretical and practical perspective, are th
 Here, we will consider the case of $\setOfHamiltonians$ being a set of Hamiltonians parametrised by a number of continuous parameters (in other words, it's taken to be a parametrised surface in $\on{Herm}(N)$).
 We will therefore always assume that there is a continuous mapping $\RR^\ell\ni\bs\lambda\mapsto\calH(\bs\lambda)\in\on{Herm}$ such that $\setOfHamiltonians=\calH(I)$ for some $I\subseteq\RR^\ell$ (which will be usually taken to equal $\RR^\ell$ for simplicity).
 
-\tmpHeading{Removing the time from the equation}
-We can also consider the time $t$ as part of the definition of $\calH$, which amounts to a rescaling of the energy levels. We can therefore also assume $t=1$ in the following. Finally, to ease the calculations, we will consider the equivalent problem of finding $\calH$ such that $\calU=e^{i\cal H}$ (with the plus sign), as the solutions to one can be seamlessly translated into solutions to the other problem.
+\tmpHeading{A few tricks to simplify the math}
+We can also consider the time $t$ as part of the definition of $\calH$. This amounts to a rescaling of the energy levels, as $t$ always only appears multiplied with $\calH$, and therefore we can directly work on $t\calH$, which is equivalent to setting $t=1$. Once a suitable $\calH$ is found, we can always rescale it so that the target is implemented after a desired time $t^*$ by writing $\calH=t^*(\calH/t^*)$. Finally, to ease the calculations, we will consider the equivalent problem of finding $\calH$ such that $\calU=e^{i\calH}$ (rather than $\calU=e^{-i\calH}$), as the solutions to one can be seamlessly translated into solutions to the other problem.
 
 \tmpHeading{A few examples for concreteness}
 For concreteness, let us analyse what happens when we try to find Hamiltonian generators for a few common two- and three-qubit gates, namely the CNOT and the Toffoli gate.
@@ -1540,7 +1539,7 @@ In the special case of $\calE$ being a unitary evolution: $\calE(\rho)=\calV\rho
     1 + \frac{1}{D} \abs{\Tr(\calU^\dagger \calV)}^2.
     \label{eq:explicit_fidelity_unitary_unitary}
 \end{equation}
-\highlight{(the formula seems to came from Eq.8, pag.3 of~{\cite{pedersen2007fidelity}}, as well as from~{\cite{nielsen2002simple}}, even though here in a different form)}
+\highlight{(the formula seems to came from Eq.8, pag.3 of~\mbox{\cite{pedersen2007fidelity}}, as well as from~\mbox{\cite{nielsen2002simple}}, even though here in a different form)}
 \Cref{eq:explicit_fidelity_unitary_unitary} can be leveraged to solve the optimisation problem posed in~\cref{eq:gatelearning_as_optimisation}.
 Given a parametrised Hamiltonian $\calH_{\bslambda}$, define the set of unitaries $\calU_{\bslambda}\equiv\exponential(i\calH_{\bslambda})$. Given a target gate $\calU$, the problem is then reduced to computing
 \begin{equation}
