@@ -1,17 +1,20 @@
 %!TEX root = ./Thesis.tex
 
 \chapter{Quantum Gate Learning}
-\label{Section:GateLearning}
+\label{chapter:gate_learning}
 
+\tmpHeading{Importance of synthesising quantum operation}
 Synthesising target quantum operations is pivotal in a variety of contexts in quantum information science, for example in quantum simulation~\cite{feynman1982simulating,lloyd1996universal}, and quantum computation~\cite{feynman1982simulating,deutsch1985quantum,gottesman1998theory,nielsen2002quantum,ladd2010quantum}.
 In particular, \emph{unitary} gates play a key role in the majority of schemes and algorithms for quantum computation, and are more generally a fundamental component of most quantum information protocols.
 
-Implementing a target unitary gate is however often a daunting task. Different techniques can be used to achieve this, depending on the specifics of the experimental context and other constraints of the problem under consideration.
-For example, in photonics architectures, one often has only access to a toolbox of ``elementary'' components such as beamsplitters and phaseshifters, which are then used to build up more complex operations.
-In this context, to built a complex operation $\calU$, one is tasked with finding a suitable combination of elementary (generally unitary) operations $\calG_i$ such that $\calU=\prod_i \calG_i$. Given a fixed set of such \textit{elementary gates} $\{\calG_i\}_i$, finding such a combination of gates is highly nontrivial. This task is often referred to as \textit{gate compilation}, or \textit{gate synthesis}~\cite{mottonen2004quantum,nielsen2006quantum,loke2014optqc,loke2016optqc,nakajima2009synthesis,maslov2017basic,swaddle2017generating}. \highlight{(add more citations)}
+\tmpHeading{What is gate compilation}
+Implementing a target unitary gate is, however, often a daunting task. Different techniques are used to do this, depending on the specifics of the experimental context, and other constraints of the problem.
+For example, in photonics architectures one has usually only access to a toolbox of ``elementary components'', corresponding to beamsplitters and phaseshifters, which are then used to build up more complex operations.
+In this context, a complex operation $\calU$, is obtained by finding a suitable sequence of elementary operations $\calG_i$ such that $\calU=\prod_i \calG_i$. Given a fixed set of such \textit{elementary gates} $\{\calG_i\}_i$, finding such a combination of gates is highly nontrivial. This task is often referred to as \textit{gate compilation}, or \textit{gate synthesis}~\cite{mottonen2004quantum,nielsen2006quantum,loke2014optqc,loke2016optqc,nakajima2009synthesis,maslov2017basic,swaddle2017generating}. \highlight{(add more citations)}
 \highlight{are there other experimental contexts in which it is common to have such \textit{black boxes} that are composed together?}
 Solving gate compilation problems is especially important in the light of the recent significant experimental advances in the construction of experimental quantum devices, especially superconducting~\cite{devoret2013superconducting} and ion trap~\cite{blatt2008entangled,debnath2016demonstration} architectures \highlight{probably add sycamore paper ref}.
 
+\tmpHeading{Gate synthesis via continuous parameters in the Hamiltonian}
 A different type of problem is the one faced when, instead of a discrete set of gates, one is able to tune continuous parameters of an underlying dynamics.
 In this scenario, the experimenter has only access to some parameters $\bs\lambda\equiv(\lambda_1,...,\lambda_k)$ of the system \textit{Hamiltonian} $\calH_{\bs\lambda}$, and wants to find the values of $\bs\lambda$ that achieve a target dynamics.
 One might for example be interested in driving a fixed input to a target output.
@@ -19,19 +22,23 @@ In this scenario, it is common to allow for \textit{time-dependent} dynamics. Th
 This types of problems are usually referred to as \textit{quantum (optimal) control} problems~\cite{dalessandro2007introduction,dong2010quantum,werschnik2007quantum}.
 \highlight{maybe something more about this}
 
+\tmpHeading{What problem do we set up to solve?}
+In this chapter, we consider a gate engineering strategy that is both \emph{single-shot} and \emph{time-independent}. With \emph{single-shot} strategy we here refer to strategies which do not involve implementing a target gate using a sequence of other gates. This property is desirable, in that requiring the use of multiple gates to implement a single target one increases the complexity and coherence times of the circuit.
+A \emph{time-independent} strategy is instead one that that avoids implementing a target operation using a sequence of other gates, but at the same time does \emph{not} require time-dependent dynamics. This would imply simpler dynamics, generally easier to implement experimentally.
 
-In this chapter, we will consider a gate engineering strategy that avoids implementing a target operation using a sequence of other gates, but at the same time does not require time-dependent dynamics. Both of these properties are desirable, as requiring to use multiple gates to implement a single one increases complexity and coherence times of a quantum circuit, while a time-dependent dynamics requires to interact with the system to a larger degree, and can be more complex to implement \highlight{This sentence sucks}.
+\tmpHeading{A previous work in this direction: \emph{Banchi et al. 2016}}
 A first step in this direction was presented in~\cite{banchi2016quantum}.
-The idea was there to look for time-\emph{independent} few-qubit Hamiltonians $\calH$ producing a target unitary gate after a fixed time. They in particular considered the cases of the three-qubit Toffoli and Fredkin gates as target, and admitted \emph{four} qubits in the evolution, one of which was traced out at the end.
-They showed that, using three-qubits, plus an ancillary qubit traced out at the end of the evolution, nontrivial tree-qubit gates such as the Toffoli and Fredkin gates can be implemented.
-This was achieved by solving numerically for the values of the interaction parameters, in a given Hamiltonian ansatz, resulting in the target evolution.
+The idea was there to look for time-\emph{independent} few-qubit Hamiltonians $\calH$ producing a target unitary gate after a fixed time. They, in particular, considered the cases of the three-qubit Toffoli and Fredkin gates as target, and admitted \emph{four} qubits in the evolution, using the fourth one as an \emph{ancillary} qubit, which is traced out at the end of the evolution.
+This work showed that such nontrivial three-qubit gates can be implemented with simple single-shot, time-independent dynamics, by using a scheme with $3+1$ qubits.
+This was achieved by solving numerically for the values of the interaction parameters, in a given Hamiltonian \ansatz, resulting in the target evolution.
 To work around the complexity of the associated optimisation problem, a technique inspired by the way many \ac{ML} models are trained, namely, \ac{SGD}, was used.
 
-
+\tmpHeading{Outline of our contributions}
 Building upon~\cite{banchi2016quantum}, we show that the gate learning strategy presented there can be significantly improved, both from an algorithmic and from a fundamental perspective~\cite{innocenti2018supervised}.
 On the one hand, by integrating \ac{AD} techniques into the optimisation routine, we can speed-up dramatically the numerical optimisation routine, thus making testing and looking for solutions to specific problems significantly easier.
 On the other hand, by improving our understanding of the underlying mathematical problem, we propose a solution framework that allows to further speed-up the numerics exploiting the symmetries of the target gates, and in some cases even allows to derive exact solutions without the need of the numerical apparatus.
 
+\tmpHeading{Chapter outline}
 In~\cref{sec:GL:problem_details} we explain in detail the mathematics underlying gate learning problems, and how physical constraints on the possible Hamiltonian parameters can be brought into the discussion. In~\cref{sec:GL:solution_framework} we finally provide one of the main results of the chapter, in the form of a solution framework that will prove useful both to solve gate learning problems exactly and to speed-up the numerical optimisations when needed. In~\cref{sec:GL:toffoli} we present the analytical results on the implementability of the Toffoli gate, while in~\cref{sec:GL:fredkin} those concerning the Fredkin gate. We continue in~\cref{sec:GL:numerical_approach} by discussing how the problem can be massaged to make it solvable via a numerical optimisation approach, and finally in~\cref{sec:GL:supervised_learning} we show how \ac{ML} techniques can be used to obtain even further efficiency improvements.
 Further results using the same numerical apparatus will be given in~\cref{chapter:gate_learning_verona}
 
@@ -39,21 +46,24 @@ Further results using the same numerical apparatus will be given in~\cref{chapte
 \section{Time-independent dynamics for target gates}
 \label{sec:GL:problem_details}
 
-Here, we explore a different approach to devise target unitary evolutions. More specifically, we ask the following question: is there a way to implement a given target gate \textit{without} decomposing it as a sequence of simpler gates, \textit{and} without using a time-dependent dynamics, \textit{and} without the aid of additional ancillary resources?
-In other words, given a target operation $\calU$, and a set of possible candidate Hamiltonians $\calH[\bullet]\equiv \{\calH_{\bs\lambda}\}_{\bs\lambda}\subseteq\on{Herm}$\footnote{Here, $\on{Herm}\equiv\on{Herm}(N)$ is the set of Hermitian $N\times N$ matrices with complex entries, for some integer $N\ge2$. The dimension $N$ will be taken to be understood from the context.},
-can we find a \textit{time-independent} Hamiltonian $\calH\in\calH[\bullet]$ such that, at some time $t$, we have $\calU = e^{-it \calH}$?
-\footnote{Throughout this work, we will only consider the cases of operations and Hamiltonians acting on \textit{finite-dimensional} systems (generally sets of qubits).}
-Note that if no restriction is imposed on $\calH[\bullet]$, then the problem is always trivially solvable. Indeed, writing $\calU$ in its eigendecomposition as
-$\calU=\sum_k e^{i\varphi_k}\PP_k$ for some set of orthogonal projectors $\PP_j\PP_k=\delta_{jk}\PP_j$ with $\sum_k\PP_k=I_N$ and phases $\varphi_k\in\RR$, then any $\calH$ of the form
-$\calH = -\sum_k \varphi_k\mathbb P_k$ satisfies $e^{-i\calH}=\cal U$.
-\highlight{Do we want to prove this linear algebra stuff at some point?}
-The interesting cases, both from a theoretical and practical perspective, are therefore when $\calH[\bullet]$ is constrained to have some specific structure.
-Here, we will consider the case of $\calH[\bullet]$ being a set of Hamiltonians parametrised by a number of continuous parameters (in other words, it's taken to be a parametrised surface in $\on{Herm}(N)$).
-We will therefore always assume that there is a continuous mapping $\RR^\ell\ni\bs\lambda\mapsto\calH(\bs\lambda)\in\on{Herm}$ such that $\calH[\bullet]=\calH(I)$ for some $I\subseteq\RR^\ell$ (which will be usually taken to equal $\RR^\ell$ for simplicity).
+\newcommand{\setOfHamiltonians}{\calH[\bullet]}
 
+\tmpHeading{Mathematical formulation of the problem}
+Here, we explore a different approach to devise target unitary evolutions. More specifically, we ask the following question: is there a way to implement a given target gate \emph{without} decomposing it as a sequence of simpler gates, \emph{and} without using a time-dependent dynamics, \emph{and} without the aid of additional ancillary resources?
+In other words, given a target operation $\calU$, and a set of possible candidate Hamiltonians $\setOfHamiltonians\equiv \{\calH_{\bs\lambda}\}_{\bs\lambda}\subseteq\on{Herm}$\footnote{Here, $\on{Herm}\equiv\on{Herm}(N)$ is the set of Hermitian $N\times N$ matrices with complex entries, for some integer $N\ge2$. The dimension $N$ will be taken to be understood from the context.},
+can we find a \emph{time-independent} Hamiltonian $\calH\in\setOfHamiltonians$ such that, at some time $t$, we have $\calU = e^{-it \calH}$?
+\footnote{Throughout this work, we will only consider the cases of operations and Hamiltonians acting on \emph{finite-dimensional} systems (generally sets of qubits).}
+Note that, if no restriction is imposed on $\setOfHamiltonians$, then the problem is always trivially solvable. Indeed, let us write the eigendecomposition of $\calU$ as $\calU=\sum_k e^{i\varphi_k}\PP_k$ for some normalised set of orthogonal projectors $\PP_j\equiv\ketbra j$, which thus satisfy $\PP_j\PP_k=\delta_{jk}\PP_j$ and $\sum_k\PP_k=I_N$, and phases $\varphi_k\in\RR$.
+Then any $\calH$ of the form $\calH = -\sum_k \varphi_k\mathbb P_k$ satisfies $e^{-i\calH}=\calU$.
+\highlight{(Do we need to include the relevant linear algebra background at some point?)}
+The interesting cases, both from a theoretical and practical perspective, are therefore when $\setOfHamiltonians$ is constrained (for example, we might require a solution that only uses specific types of interactions between the qubits).
+Here, we will consider the case of $\setOfHamiltonians$ being a set of Hamiltonians parametrised by a number of continuous parameters (in other words, it's taken to be a parametrised surface in $\on{Herm}(N)$).
+We will therefore always assume that there is a continuous mapping $\RR^\ell\ni\bs\lambda\mapsto\calH(\bs\lambda)\in\on{Herm}$ such that $\setOfHamiltonians=\calH(I)$ for some $I\subseteq\RR^\ell$ (which will be usually taken to equal $\RR^\ell$ for simplicity).
+
+\tmpHeading{Removing the time from the equation}
 We can also consider the time $t$ as part of the definition of $\calH$, which amounts to a rescaling of the energy levels. We can therefore also assume $t=1$ in the following. Finally, to ease the calculations, we will consider the equivalent problem of finding $\calH$ such that $\calU=e^{i\cal H}$ (with the plus sign), as the solutions to one can be seamlessly translated into solutions to the other problem.
 
-
+\tmpHeading{A few examples for concreteness}
 For concreteness, let us analyse what happens when we try to find Hamiltonian generators for a few common two- and three-qubit gates, namely the CNOT and the Toffoli gate.
 \highlight{Ensure no other gates are added in the examples}
 \begin{example}[label=ex:eigendecomposition_cnot]
