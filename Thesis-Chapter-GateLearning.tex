@@ -3,8 +3,8 @@
 \chapter{Quantum Gate Learning}
 \label{chapter:gate_learning}
 
-\tmpHeading{Importance of synthesising quantum operation}
-Synthesising target quantum operations is pivotal in a variety of contexts in quantum information science, for example in quantum simulation~\cite{feynman1982simulating,lloyd1996universal}, and quantum computation~\cite{feynman1982simulating,deutsch1985quantum,gottesman1998theory,nielsen2002quantum,ladd2010quantum}.
+\tmpHeading{Synthesising quantum operation}
+Synthesising target quantum operations is pivotal in a variety of contexts in quantum information science, for example in quantum simulation~\cite{feynman1982simulating,lloyd1996universal}, and quantum computation~\cite{deutsch1985quantum,gottesman1998theory,nielsen2002quantum,ladd2010quantum}.
 In particular, \emph{unitary} gates play a key role in the majority of schemes and algorithms for quantum computation, and are more generally a fundamental component of most quantum information protocols.
 
 \tmpHeading{What is gate compilation}
@@ -18,10 +18,9 @@ A different type of problem is the one faced when, instead of a discrete set of 
 In this scenario, the experimenter has only access to some parameters $\bs\lambda\equiv(\lambda_1,...,\lambda_k)$ of the system \textit{Hamiltonian} $\calH_{\bs\lambda}$, and wants to find the values of $\bs\lambda$ that achieve a target transformation.
 One might for example be interested in driving a fixed input to a target output.
 In this scenario, it is common to allow for \textit{time-dependent} dynamics. This makes it easier, in general, to achieve different types of evolutions, but at the same times also makes for a significantly harder optimisation problem, as one then has to look for an optimal \textit{function} $t\mapsto\bs\lambda(t)$, rather than just an optimal value $\bs\lambda\in\mathbb R^n$.
-This types of problems are usually referred to as \textit{quantum (optimal) control} problems~\cite{dalessandro2007introduction,dong2010quantum,werschnik2007quantum}.
-\highlight{maybe something more about this}
+This types of problems are usually referred to as \textit{quantum (optimal) control} problems~\cite{dalessandro2007introduction,werschnik2007quantum,dong2010quantum}.
 
-\tmpHeading{What problem do we set up to solve?}
+\tmpHeading{What problem do \emph{we} set up to solve?}
 In this chapter, we consider a gate engineering strategy that is both \emph{single-shot} and \emph{time-independent}. With \emph{single-shot} strategy we here refer to strategies which do not involve implementing a target gate using a sequence of other gates. This property is desirable, in that requiring the use of multiple gates to implement a single target one increases the complexity and coherence times of the circuit.
 A \emph{time-independent} strategy is instead one that that avoids implementing a target operation using a sequence of other gates, but at the same time does \emph{not} require time-dependent dynamics. This would imply simpler dynamics, generally easier to implement experimentally.
 
@@ -64,9 +63,9 @@ We can also consider the time $t$ as part of the definition of $\calH$. This amo
 
 \tmpHeading{A few examples for concreteness}
 For concreteness, let us analyse what happens when we try to find Hamiltonian generators for a few common two- and three-qubit gates, namely the CNOT and the Toffoli gate.
-\highlight{Ensure no other gates are added in the examples}
-\begin{example}[label=ex:eigendecomposition_cnot]
-Assume that the target operation is $\CNOT$: the two-qubit unitary gate which flips the second qubit conditionally to the value of the first one.
+
+\begin{examplebox}[label={ex:GL:eigendecomposition_cnot}]{Eigendecomposition of CNOT}
+Assume that the target operation is the $\CNOT$: the two-qubit unitary gate which flips the second qubit conditionally to the value of the first one.
 In matrix notation, this reads
 \begin{equation}
     \on{CNOT} \equiv\begin{pmatrix}1&0&0&0 \\ 0&1&0&0 \\ 0&0&0&1\\0&0&1&0\end{pmatrix} =
@@ -77,17 +76,17 @@ The eigendecomposition of this matrix is
 \begin{equation}
     \on{CNOT} =
     \ketbra{0,0} + \ketbra{0,1} + \ketbra{1,+} - \ketbra{1,-}.
-    \label{eq:cnot_eigendecomposition}
+    \label{eq:GL:cnot_eigendecomposition}
 \end{equation}
-A more expressive way to write~\cref{eq:cnot_eigendecomposition} is by introducing the projectors $X^\pm\equiv(1\pm X)/2$, and the similarly defined $Y^\pm$ and $Z^\pm$ (here, $X,Y,Z$ denote the one-qubit Pauli matrices).
-\Cref{eq:cnot_eigendecomposition} is then equivalently written as
+A more expressive way to write~\cref{eq:GL:cnot_eigendecomposition} is by introducing the projectors $X^\pm\equiv(1\pm X)/2$, and the similarly defined $Y^\pm$ and $Z^\pm$ ($X,Y,Z$ always denote the one-qubit Pauli matrices here).
+\Cref{eq:GL:cnot_eigendecomposition} is then equivalently written as
 \begin{equation}
     \on{CNOT} =
     Z^+_1 Z^+_2 + Z^+_1 Z^-_2
     + Z^-_1 X^+_2
     - Z^-_1 X^-_2
     = Z_1^+ + Z_1^- X_2^+ - Z_1^- X_2^-.
-    \label{eq:cnot_eigdecomp_with_paulis}
+    \label{eq:GL:cnot_eigdecomp_with_paulis}
 \end{equation}
 The eigenvalues are therefore $\lambda_{1,2,3}=1$ and $\lambda_4=-1$.
 Can this gate be obtained via a two-qubit time-independent Hamiltonian $\calH$?
@@ -96,18 +95,18 @@ Consider for the purpose a general parametrisation of the possible two-qubit Ham
     \calH({\bs\lambda}) =
     \sum_{j,k=0}^4 \lambda_{j,k} \sigma^j_1\sigma^k_2.
 \end{equation}
-Given the decomposition of~\cref{eq:cnot_eigdecomp_with_paulis}, it is natural to use as an Ansatz for $\calH(\bs\lambda)$ an expression bearing the same eigenstructure as the CNOT. Let us therefore write
+Given the decomposition of~\cref{eq:GL:cnot_eigdecomp_with_paulis}, it is natural to use as \ansatz for $\calH(\bs\lambda)$ an expression bearing the same eigenstructure as the CNOT. Let us therefore write
 \begin{equation}
     \calH(\bs\lambda) = \lambda_1 Z_1^+ + \lambda_2 Z_1^- X_2^+ + \lambda_3 Z_1^- X_2^-.
 \end{equation}
-Finding $\bs\lambda\equiv(\lambda_1,\lambda_2,\lambda_3)$ such that $e^{i\calH}=\CNOT$ is then quite easy: just use $\lambda_1=\lambda_2=0$ and $\lambda_3=2\pi$. Indeed, as it is easy to check, $e^{\pi i Z_1^- X_2^-} = \CNOT$.
-The natural next question is then: is this the \textbf{only} such $\calH$? It is straightforward to see that the answer is negative: for example, it is also true that $e^{\pi i n Z_1^- X_2^-}=\CNOT$ for any $n\in\ZZ$.
+Finding $\bs\lambda\equiv(\lambda_1,\lambda_2,\lambda_3)$ such that $e^{i\calH}=\CNOT$ is now quite easy: just use $\lambda_1=\lambda_2=0$ and $\lambda_3=\pi$. Indeed, as it is easy to check, $e^{\pi i Z_1^- X_2^-} = \CNOT$.
+The natural next question is: \emph{is this the \textbf{only} such $\calH$}? the answer to this is clearly negative: for example, it is also true that $e^{\pi i (2n+1) Z_1^- X_2^-}=\CNOT$ for any $n\in\ZZ$.
 It is less trivial to get a complete characterisation of the solution set.
-Indeed, as will be shown in~\cref{sec:GL:solutions_matrix_equation_f(A)=B}, there is a rich set of solutions for these types of matrix equations.
-\end{example}
+Indeed, as will be shown in~\cref{sec:GL:solutions_matrix_equation_f(A)=B}, these types of matrix equations admit a rich set of solutions in general.
+\end{examplebox}
 
-\begin{example}[label={ex:eigendecomposition_Toffoli}]
-Consider now the \textbf{Toffoli gate}, which is a three-qubit gate which flips the third qubit conditionally to the first two qubits being in the $\ket1$ state.\highlight{Ensure Toffoli was defined before, or add relevant references here.}
+\begin{examplebox}[label={ex:GL:eigendecomposition_Toffoli}]{Eigendecomposition of Toffoli}
+Consider now the \emph{Toffoli gate}~\cite{shi2002both,lanyon2008simplifying,monz2009realization,fedorov2011implementation,shi2018deutsch}, which is a three-qubit gate which flips the third qubit conditionally to the first two being in the $\ket1$ state.
 More explicitly, this means
 \begin{equation}
     \Toff =
@@ -133,7 +132,7 @@ In terms of projectors onto eigenvalues of (products of) Pauli matrices, we have
     \Toff = Z_1^+ + Z_1^- Z_2^+ + Z_1^- Z_2^- X_3^+ - Z_1^- Z_2^- X_3^-.
 \end{equation}
 The eigenvalues of $\Toff$ are thus readily seen to be $+1$ with multiplicity $7$, and $-1$ with multiplicity $1$.
-A possible $\calH$ such that $e^{i\cal H}=\Toff$ is then $\calH=\pi Z_1^- Z_2^- X_3^-$.
+A possible $\calH$ such that $e^{i\calH}=\Toff$ is then $\calH=\pi Z_1^- Z_2^- X_3^-$.
 Note how expanding this Hamiltonian we get
 \begin{equation}
     \calH = \frac{\pi}{8}\left[
@@ -142,69 +141,78 @@ Note how expanding this Hamiltonian we get
         - Z_1 Z_2 X_3
     \right],
 \end{equation}
-which contains three-qubit interaction terms (the $Z_1 Z_2 X_3$ factor). While this is to be expected , as the Toffoli is a non-trivial three-qubit gate, these kinds of terms make practically implementing these Hamiltonians significantly harder.
-Indeed, natural interactions, and in particular interactions that can be easily implemented in experiments, generally \highlight{can we promote this to \textbf{always}?} involve only one- and two-qubit interaction terms.
-It is then natural to wonder about whether this is a \textbf{necessary} feature of time-independent generators of the Toffoli gates.
-As will be shown in the following sections, the answer is in fact that yes, it is possible to find time-independent Hamiltonians that generate a Toffoli gate \textbf{and} only use up to two-qubit interactions.
-\end{example}
+which contains three-qubit interaction terms (the $Z_1 Z_2 X_3$ factor). While this is to be expected, being the Toffoli is a non-trivial three-qubit gate, these types of terms make practically implementing the Hamiltonian significantly harder.
+Indeed, natural interactions, and in particular interactions that can be easily implemented in experiments, generally involve only one- and two-qubit interaction terms.
+It is then natural to wonder about whether this is a \emph{necessary} feature of time-independent generators of the Toffoli.
+As will be shown in the following sections, the answer is in fact that \emph{yes}, it is possible to find time-independent Hamiltonians that generate a Toffoli using up to two-qubit interactions.
+\end{examplebox}
 
-As shown in~\cref{ex:eigendecomposition_cnot,ex:eigendecomposition_Toffoli}, looking for Hermitian generators of few-qubit gates appears to be a fairly straightforward task. There are, however, two notable issues with the type of analysis conducted so far:
+\tmpHeading{Why this is not the end of the story}
+As shown in~\cref{ex:GL:eigendecomposition_cnot,ex:GL:eigendecomposition_Toffoli}, looking for Hermitian generators of few-qubit gates appears to be a fairly straightforward task. There are, however, two notable issues with the type of analysis conducted so far:
 \begin{enumerate}
     \item It lacks in generality: while finding specific generators essentially amounts to computing the eigendecomposition of the target $\calU$, and then the logarithm of the eigenvalues, this says nothing about whether such procedure provides the most general kind of Hamiltonian generator for the given gate. In other words, can \textit{all} generators $\calH$ be obtained this way?
-    \item We have no control over the kind of generators that we obtain with this procedure. For example, in~\cref{ex:eigendecomposition_cnot} we obtained generators containing two-qubit interactions of the form $Z_1 X_2$. Does this mean that this type of interaction term is \textit{necessary} to generate a CNOT? Or is there instead some Hamiltonian that can still generate the CNOT without using such terms?
-    Similar questions arise in~\cref{ex:eigendecomposition_Toffoli}.
+    \item We have no control over the kind of generators that we obtain with this procedure. For example, in~\cref{ex:GL:eigendecomposition_cnot} we obtained generators containing two-qubit interactions of the form $Z_1 X_2$. Does this mean that this type of interaction term is \textit{necessary} to generate a CNOT? Or is there instead some Hamiltonian that can still generate the CNOT without using such terms?
+    Similar questions arise in~\cref{ex:GL:eigendecomposition_Toffoli}.
 \end{enumerate}
+
+\tmpHeading{What is the rest of this section about?}
 To address these issues, we will study the underlying mathematical problem in more depth. As it turns out, we can divide such analysis in two parts. In~\cref{sec:GL:solutions_matrix_equation_f(A)=B}, we show how to find general solutions to inverse matrix equations of the form $f(A)=B$. Then, in~\cref{sec:GL:constraints_on_interaction_pars}, we present a way to bring additional constraints on the interaction terms into the discussion.
 \highlight{to review this part probably}
 
-\subsection{Solutions of the matrix equation \texorpdfstring{$f(A)=B$}{f(A)=B}}
+\subsection{Solving matrix equations: \texorpdfstring{$f(A)=B$}{f(A)=B}}
 \label{sec:GL:solutions_matrix_equation_f(A)=B}
+
+\tmpHeading{What is this section about?}
 Let $A,B$ be normal matrices such that $f(A)=B$ for some function $f$ (assumed to be regular on the spectrum of $A$), with $f(A)$ defined as usual on the eigenvalues of $A$.
 In this section we will provide a full characterisation of the set of solutions $A\in f^{-1}(B)$ .
 
+\tmpHeading{Unravel the matrix equation}
 Explicitly, $f(A)=B$ amounts to
 \begin{equation}
-    \sum_j \lambda_j^B \PP_j^B = \sum_k f(\lambda_k^A) \PP_k^A,
-    \label{eq:f(A)=B_eigendecomp_proof}
+    \sum_k f(\lambda_k^A) \PP_k^A = \sum_j \lambda_j^B \PP_j^B,
+    \label{eq:GL:f(A)=B_eigendecomp_proof}
 \end{equation}
 where $\PP_k^{A} (\PP_k^{B})$ are the projectors onto the corresponding eigenspaces of $A$ and $B$, so that
 $A\PP_k^A=\lambda_k \PP_k^A$, and similarly for $B$.
-Because both sides of~\cref{eq:f(A)=B_eigendecomp_proof} define the eigendecomposition of some (normal) operator, by the uniqueness of the eigendecompositions it follows that $\lambda_j^B=f(\lambda_j^A)$ and $\PP_j^B=\PP_j^A$.
+Because both sides of~\cref{eq:GL:f(A)=B_eigendecomp_proof} define the eigendecomposition of some (normal) operator, by the uniqueness of the eigendecompositions it follows that $\lambda_j^B=f(\lambda_j^A)$ and $\PP_j^B=\PP_j^A$.
+More precisely, $f(A)=B$ implies that $f(A)$ and $B$, and thus also $A$ and $B$, are simultaneously diagonalisable, which allows to reduce the problem to a set of identities on the common eigenspaces of $A$ and $B$.
 What is interesting about this is that it means that the relation $f(A)=B$ puts strong constraints on the eigenstructure of $A$: the eigenspaces of $A$ must be the same as those of $B$.
 
+\tmpHeading{Simpler case of injective $f$}
 Consider now the problem of finding a matrix $A$ such that $f(A)=B$, for some predetermined mapping $f$.
-If $f$ is injective (at least on $f^{-1}(\sigma(B))$), then, by our above argument, it follows that $A$ is uniquely determined. Indeed, we the condition would then be
+If $f$ is injective (at least on $f^{-1}(\sigma(B))$), then, by our above argument, it follows that $A$ is uniquely determined. Indeed, the condition becomes in this case
 \begin{equation}
     \sum_j \lambda_j^B \PP_j = \sum_j f(\lambda_j^A) \PP_j,
 \end{equation}
 which can only be true for $\lambda_j^A = f^{-1}(\lambda_j^B)$.
 However, because we are considering here matrices and functions defined over $\CC$, most interesting cases will correspond to \textit{non-injective} functions $f$\footnote{Indeed, the only entire, injective functions $\CC\to\CC$ are the linear mappings $z\mapsto az+b$ for some $a,b\in\CC$.}. The case $f(z)=e^z$, which is the one with which we will be mostly concerned with for the gate learning problem, is one such case of non-injective function.
 
-When $f$ is non-injective, there can be multiple $A$ such that $f(A)=B$. There are two main reasons for this, one fairly evidence, and the other one less so.
-Clearly, being $f$ not injective, for any given eigenvalue $\lambda_j^B$ there can be multiple $\lambda$ such that $f(\lambda)=\lambda_j^B$. This is indeed the only source of non-uniqueness whenever the eigenspaces of $B$ are all one-dimensional (equivalently, the projetors $\PP_k^B$ in~\cref{eq:f(A)=B_eigendecomp_proof} have all unit trace).
-However, whenever there are eigenspaces of dimension greater than one, there are multiple (infinite) ways to write a corresponding projector $\PP$ as sum of unit-trace projectors. Assume for example that $\Tr\PP=d$, and let $\PP_k$ be a set of $d$ unit-trace projectors such that $\PP=\sum_{k=1}^d \PP_k$. Let $U$ be an arbitrary operator that is unitary in the range of $\PP$.
-Then we have
+\tmpHeading{The general case}
+When $f$ is non-injective, there can be multiple $A$ such that $f(A)=B$. There are two main reasons for this, one is straightforward, and the other one less so.
+Clearly, if $f$ is not injective, for any given eigenvalue $\lambda_j^B$ there can be multiple $\lambda$ such that $f(\lambda)=\lambda_j^B$. This is indeed the only source of non-uniqueness whenever the eigenspaces of $B$ are all one-dimensional (equivalently, the projectors $\PP_k^B$ in~\cref{eq:GL:f(A)=B_eigendecomp_proof} have all unit trace).
+However, whenever there are eigenspaces of dimension greater than one, there are multiple (infinite) ways to write a corresponding projector $\PP$ as sum of unit-trace projectors. Assume for example that $\Tr\PP=d$, and let $\PP_k$ be a set of $d$ unit-trace projectors such that $\PP=\sum_{k=1}^d \PP_k$. Let $U$ be an arbitrary operator that is unitary when restricted to the range of $\PP$.
+We then have
 \begin{equation}
     \PP=U^\dagger \PP U =\sum_{k=1}^d U^\dagger \PP_k U
     \equiv \sum_{k=1}^d \tildePP_k,
-    \label{eq:rewriting_proj_with_rotated_projs}
+    \label{eq:GL:rewriting_proj_with_rotated_projs}
 \end{equation}
 where we defined the ``rotated projectors'' $\tildePP_k\equiv U^\dagger \PP U$.
-While this rewriting is ininfluent in~\cref{eq:rewriting_proj_with_rotated_projs}, such rotations of the degenerate eigenspaces turn out to be of great relevance when looking for solutions of $f(A)=B$.
-To see this, let us consider again~\cref{eq:f(A)=B_eigendecomp_proof}, and focus on a single eigenspace $\PP_j^B$ such that $\Tr\PP_j^B=d_j>1$ (assuming $B$ has one), and write an arbitrary decomposition of $\PP_j^B$ in terms of on unit-trace projectors as $\PP_j^B=\sum_{\ell=1}^{d_j}\PP^B_{j,\ell}$.
+While this rewriting is inconsequential in~\cref{eq:GL:rewriting_proj_with_rotated_projs}, such rotations of the degenerate eigenspaces turn out to be important when looking for solutions of $f(A)=B$.
+Indeed, consider again~\cref{eq:GL:f(A)=B_eigendecomp_proof} and focus on a single eigenspace $\PP_j^B$ such that $\Tr\PP_j^B=d_j>1$ (assuming $B$ has one). Write an arbitrary decomposition of $\PP_j^B$ in terms of on unit-trace projectors as $\PP_j^B=\sum_{\ell=1}^{d_j}\PP^B_{j,\ell}$.
 Let $\{\lambda_{j,\ell}\}_{\ell=1}^{d_j}\subseteq f^{-1}(\lambda_j^B)$ be a subset of inverses of $\lambda_j^B$. Then, any $A$ which has $\lambda_{j,\ell}$ as eigenvalues within the eigenspace $\PP_j^B$ is a suitable solution for $f^{-1}(B)$.
 In other words, we have
 \begin{equation}
     A \equiv \sum_j \sum_{\ell=1}^{d_j} \lambda_{j,\ell} \PP_{j,\ell}\in f^{-1}(B),
     \quad \forall \lambda_{j,\ell}\in\CC \text{ with } f(\lambda_{j,\ell})=\lambda_j^B.
-    \label{eq:general_form_f-1B}
+    \label{eq:GL:general_form_f-1B}
 \end{equation}
-Note how this means that $f^{-1}(B)$ \textit{can break the degeneracies in $B$} thanks for the non-injectivity of $f$.
+Note how this means that $f^{-1}(B)$ can break the degeneracies in $B$, thanks to the non-injectivity of $f$.
 
-Let us give now a few concrete examples of the freedom allowed by the degeneracies.
+We now give a few examples of the freedom allowed by degeneracies in the target gate.
 
-\begin{example}[label={ex:solutions_f(A)=I2}]
-Consider the two-dimensional identity matrix $I_2$, and an arbitrary complex function $f$ defined on the complex unit. \textbf{What is then the set of matrices $A$ such that $f(A)=I_2$?}
+\begin{examplebox}[label={ex:GL:solutions_f(A)=I2}]{Decomposition two-dimensional identity matrix}
+Consider the two-dimensional identity matrix $I_2$, and an arbitrary complex function $f$ defined on the complex unit circle. \emph{What is then the set of matrices $A$ such that $f(A)=I_2$?}
 Note that $I_2=P+Q$ for any pair of orthogonal projectors $P,Q$, and $\lambda P + \mu Q\in f^{-1}(I_2)$ for any $\lambda,\mu\in f^{-1}(1)$.
 This can be equivalently stated saying that, for any pair of orthonormal states $\ket u$ and $\ket v$, we have
 $\lambda \ketbra u + \mu \ketbra v\in f^{-1}(I_2)$.
@@ -232,32 +240,34 @@ or in matrix form,
         \frac12 e^{i\theta} \sin(2\alpha) (\lambda-\mu) &
         \lambda \sin^2(\alpha)+\mu\cos^2(\alpha)
     \end{pmatrix}.
-    \label{eq:explicit_inverse_f(A)_matrix_form}
+    \label{eq:GL:explicit_inverse_f(A)_matrix_form}
 \end{equation}
 We conclude that any such $A$ is such that $f(A)=I_2$, as long as $f(\lambda)=f(\mu)=1$, and that this form covers the set of all possible normal matrices satisfying this equation.
-Whenever $\lambda=\mu$,~\cref{eq:explicit_inverse_f(A)_matrix_form} reduces to $A=\lambda I_2$, which is the trivial solution. When $\lambda\neq\mu$, however, it is less obvious that the corresponding matrix in~\cref{eq:explicit_inverse_f(A)_matrix_form} satisfies $f(A)=I_2$.
-\end{example}
+Whenever $\lambda=\mu$,~\cref{eq:GL:explicit_inverse_f(A)_matrix_form} reduces to $A=\lambda I_2$, which is the trivial solution. When $\lambda\neq\mu$, however, it is less obvious that the corresponding matrix in~\cref{eq:GL:explicit_inverse_f(A)_matrix_form} satisfies $f(A)=I_2$.
+% It is also worth noting that this analysis only gives the \emph{normal} solutions for $A$, but this does not mean that there other solutions are not possible. For example, if $f(A)=A^2$, $A^2=I$ can also have non-normal solutions,
+An easily solvable class of examples is given by $f(A)=A^n$ for some $n\in\NN$. Then, $f(A)=I$ amounts to the minimal polynomial of $A$ splitting into linear factors, and thus $A$ being characterised as any diagonal matrix with eigenvalues the $n$-th roots of $1$.
+\end{examplebox}
 
-\begin{example}[label={ex:solutions_f(A)=I_3}]
-\highlight{To decide where to put this crap.}
+% \begin{example}[label={ex:GL:solutions_f(A)=I_3}]
+% \highlight{To decide where to put this crap.}
 
-Consider how to split the eigenspace of the three-dimensional identity $I_3$.
-This essentially amounts to the problem of parametrising a set of three orthonormal complex vectors. For the purpose, let us write them as
-\begin{equation}
-\begin{cases}
-    \ket{u_1} = \cos(\alpha)\ket0
-    + e^{i\theta}\sin(\alpha)\cos(\beta)\ket1
-    + e^{i\varphi}\sin(\alpha)\sin(\beta)\ket2, \\
-    \ket{u_2} = \cos(\alpha)\ket0
-    + e^{i\theta}\sin(\alpha)\cos(\beta)\ket1
-    + e^{i\varphi}\sin(\alpha)\sin(\beta)\ket2, \\
-\end{cases}
-\end{equation}
-\highlight{Actually, there might not be a general nice way to parametrise such sets of vectors!}
-\end{example}
+% Consider how to split the eigenspace of the three-dimensional identity $I_3$.
+% This essentially amounts to the problem of parametrising a set of three orthonormal complex vectors. For the purpose, let us write them as
+% \begin{equation}
+% \begin{cases}
+%     \ket{u_1} = \cos(\alpha)\ket0
+%     + e^{i\theta}\sin(\alpha)\cos(\beta)\ket1
+%     + e^{i\varphi}\sin(\alpha)\sin(\beta)\ket2, \\
+%     \ket{u_2} = \cos(\alpha)\ket0
+%     + e^{i\theta}\sin(\alpha)\cos(\beta)\ket1
+%     + e^{i\varphi}\sin(\alpha)\sin(\beta)\ket2, \\
+% \end{cases}
+% \end{equation}
+% \highlight{Actually, there might not be a general nice way to parametrise such sets of vectors!}
+% \end{example}
 
-\begin{example}[label={ex:solutions_e^A=I2}]
-Picking up from~\cref{ex:solutions_f(A)=I2}, let us analyse the solutions to $f(A)=I_2$ when $f(z)=e^z$.
+\begin{examplebox}[label={ex:GL:solutions_e^A=I2}]{The $f(z)=e^z$ case}
+Picking up from~\cref{ex:GL:solutions_f(A)=I2}, consider the solutions to $f(A)=I_2$ when $f(z)=e^z$.
 Then $f^{-1}(1)=2\pi i\ZZ$, and the set of solutions becomes
 \begin{equation}
     A_{\alpha,\theta;n,m} = 2\pi i
@@ -269,12 +279,12 @@ Then $f^{-1}(1)=2\pi i\ZZ$, and the set of solutions becomes
     \end{pmatrix},
 \end{equation}
 for all $n,m\in\ZZ$ and $\alpha,\theta\in\RR$.
-\end{example}
+\end{examplebox}
 
-\begin{example}[label={ex:cnot_generator_decomposition}]
-We gave in~\cref{ex:eigendecomposition_cnot} a possible Hamiltonian generator for the CNOT gate.
-Here, strong on the general characterisation of matrix inverses given in~\cref{eq:general_form_f-1B}, we work out a more general expression for the set of Hamiltonians $\calH$ such that $e^{i\calH}=\CNOT$.
-Specialising~\cref{eq:general_form_f-1B} to the specific eigenstructure of $\CNOT$ (which we worked out in~\cref{ex:eigendecomposition_cnot}), we see that a generic (normal) generator for $\CNOT$ has the form
+\begin{examplebox}[label={ex:GL:cnot_generator_decomposition}]{Hamiltonian generators for the CNOT}
+We gave in~\cref{ex:GL:eigendecomposition_cnot} a possible Hamiltonian generator for the CNOT gate.
+Here, strong on the general characterisation of matrix inverses given in~\cref{eq:GL:general_form_f-1B}, we work out a more general expression for the set of Hamiltonians $\calH$ such that $e^{i\calH}=\CNOT$.
+Specialising~\cref{eq:GL:general_form_f-1B} to the specific eigenstructure of $\CNOT$ (which we worked out in~\cref{ex:GL:eigendecomposition_cnot}), we see that a generic (normal) generator for $\CNOT$ has the form
 \begin{equation}
     \sum_{j=1}^3 \lambda_j \tildePP_j + \mu\PP_4,
 \end{equation}
@@ -298,16 +308,18 @@ A generic generator for the CNOT can thus be written as
     \right].
 \end{equation}
 It is worth stressing how the set of viable generators $\calH$ has both a discrete and a continuous degree of freedom.
-\end{example}
+\end{examplebox}
 
 In the rest of the thesis, we will focus on the case $f(A)\equiv e^{iA}$, which is the case of relevance to find Hamiltonian generators of target unitaries.
 
 \subsection{Adding physical practical constraints}
 \label{sec:GL:constraints_on_interaction_pars}
 
+\tmpHeading{Introducing constraints makes everything harder}
 In~\cref{sec:GL:solutions_matrix_equation_f(A)=B} we described how to write the full set of solution of a matrix equation of the form $f(A)=B$.
-In this section we will show how introducing further constraints on the type of interaction terms allowed in the final generator reveals a particularly daunting task.
+In this section show how introducing further constraints on the types of interaction terms allowed in the final generator makes for a particularly daunting task.
 
+\tmpHeading{Restricting the allowed interaction terms}
 To restrict the type of interaction terms allowed in the final Hamiltonian, means to fix some set of orthogonal Hermitian operators $\calP\equiv\{\sigma_i\}_i$, and ask for a generator Hamiltonian $\calH\in f^{-1}(\calU)$ such that $\calH$ is in the span of $\calP$:
 \begin{equation}
     \calH \in f^{-1}(\calU) \cap \on{Span}\calP.
@@ -321,26 +333,26 @@ We thus have for example $X_i,Y_j\in\calP_{\le2}$ and $X_i Z_j\in\calP_{\le2}$, 
 
 Given a candidate generator $\calH\in f^{-1}(\calU)$, one would therefore need to decompose $\calH$ in a basis containing the elements of $\calP$, and impose that all terms outside of this set are vanishing.
 Given a target gate with eigendecomposition
-$\calU=\sum_j e^{i\varphi_j}\PP_j$ with $\Tr\PP_j=d_j$ and $\sum_j d_j=2^n$ with $n$ the number of qubits, this would entail in practice finding bases for each $\on{Range}(\PP_j)$ built out of states $\{\ket*{u_{jk}}\}_{k=1}^{d_j}\subset \mathbb{CP}^{d_j}$, and integers $n_{jk}$, such that
+$\calU=\sum_j e^{i\varphi_j}\PP_j$ with $\Tr\PP_j=d_j$ and $\sum_j d_j=2^n$ with $n$ the number of qubits, this would entail, in practice, to find bases for each $\on{Range}(\PP_j)$ built out of states $\{\ket*{u_{jk}}\}_{k=1}^{d_j}\subset \mathbb{CP}^{d_j}$, and integers $n_{jk}$, such that
 \begin{equation}
     \sum_j\sum_{k=1}^{d_j} (\varphi_j + 2\pi n_{jk}) \PP[\ket*{u_{jk}}]
     \in \on{Span}_{\RR}\calP.
 \end{equation}
 
-\begin{example}[label={ex:cnot_physical_constraints}]
+\begin{examplebox}[label={ex:GL:cnot_physical_constraints}]{CNOT with physical constraints}
 Let $\calU=\CNOT$, and consider a set of allowed interactions containing only single-qubit terms: $\calP_1\equiv\{X_i,Y_i,Z_i\}_{i\in\{1,2\}}$.
 Is there an $\calH$ containing only interactions in $\calP_1$ and such that $e^{i\calH}=\CNOT$?
 
 From a physical point of view, the answer should obviously be that no, there cannot be any such Hamiltonian, as that would mean that an entangling two-qubit gate can be obtained without having the qubits interact in any way.
 Still, it is interesting to see if we can recover this result using the formalism introduced in the previous section, as a testbed to see it in action.
-Consider then the decomposition given in~\cref{ex:cnot_generator_decomposition} for the CNOT:
+Consider then the decomposition given in~\cref{ex:GL:cnot_generator_decomposition} for the CNOT:
 \begin{equation}
     \calH =
     2\pi\left[
     \sum_{j=1}^3 n_j \tildePP_j +
     \frac{1}{2} m\PP_4
     \right],
-\label{eq:cnotex_general_H_expr}
+\label{eq:GL:cnotex_general_H_expr}
 \end{equation}
 where
 $\PP_4\equiv Z_1^- X_2^-$ and $\tildePP_1,\tildePP_2,\tildePP_3$ define an arbitrary splitting of the eigenspace generated by $\ket{0,0},\ket{0,1}$ and $\ket{1,+}$.
@@ -354,8 +366,8 @@ Let us write down explicitly the decompositions of these projectors in terms of 
 \end{cases}
 \end{equation}
 where we made a canonical choice for the $\tildePP_i$.
-Without exploiting the freedom given by the degeneracies, it is straightforward to see that it is not possible to find values for the $n_j\in\ZZ$ that annihilate all of the two-qubit interaction terms, due to the $1/2$ factor in~\cref{eq:cnotex_general_H_expr}.
-Indeed, expanding~\cref{eq:cnotex_general_H_expr} and focusing on the two-qubit interaction terms, we get
+Without exploiting the freedom given by the degeneracies, it is straightforward to see that it is not possible to find values for the $n_j\in\ZZ$ that annihilate all of the two-qubit interaction terms, due to the $1/2$ factor in~\cref{eq:GL:cnotex_general_H_expr}.
+Indeed, expanding~\cref{eq:GL:cnotex_general_H_expr} and focusing on the two-qubit interaction terms, we get
 \begin{equation}
     \calH = (...) + \frac{2\pi}{4}\left[
     (n_1 - n_2) Z_1 Z_2 +
@@ -363,17 +375,17 @@ Indeed, expanding~\cref{eq:cnotex_general_H_expr} and focusing on the two-qubit 
     \right].
 \end{equation}
 Remarkably, this shows how the $Z_1 X_2$ seems to be a necessary part of a generator, as there is no choice of $n_3,n_4\in\ZZ$ such that $n_4-2 n_3=0$.
-Still, this does not rule out the possibility that for some other choice of $\tildePP_j$ it is possible.
-The difficulty in showing this in full generality arises from the lack of a nice general expression for a arbitrary unitary rotations in more than two dimensions \highlight{maybe make sure this is actually true. What about Jarlskogwhateverthefuckitscalled decomposition?}.
+Still, in principle, this does not rule out the possibility that for some other choice of $\tildePP_j$ this is possible (although in this case we obviously already know that this is not the case).
+% The difficulty in showing this in full generality arises from the lack of a nice general expression for a arbitrary unitary rotations in more than two dimensions \highlight{maybe make sure this is actually true. What about Jarlskogwhateverthefuckitscalled decomposition?}.
 In~\cref{sec:GL:solution_framework} we will provide a way to answer these questions more easily.
-\end{example}
+\end{examplebox}
 
-\begin{example}[label={ex:toffoli_physical_constraints}]
+\begin{examplebox}[label={ex:GL:toffoli_physical_constraints}]{Toffoli with physical constraints}
 Let $\UToff$ denote the Toffoli gate, and consider the set of allowed interactions $\calP_{\le2}$ comprised of one- and two-qubit interaction terms (but notably \textit{not} three-qubit terms).
-\textbf{\textit{Is there a generator $\HToff\in f^{-1}(\UToff)\cap\calP_{\le2}$?}}
+\emph{\textit{Is there a generator $\HToff\in f^{-1}(\UToff)\cap\calP_{\le2}$?}}
 
-The eigenstructure of the Toffoli gate was given in~\cref{ex:eigendecomposition_Toffoli}. Similarly to the case of the CNOT, we here have a sevenfold degenerate eigenvalues $+1$ and a nondegenerate eigenvalue $-1$.
-The eigenvector of the eigenvalue $-1$ is $\ket{1,1,-}$. We can therefore write a general expression for generators of $\Toff$ in the form
+The eigenstructure of the Toffoli gate was given in~\cref{ex:GL:eigendecomposition_Toffoli}. Similarly to the case of the CNOT, we here have a sevenfold degenerate eigenvalue equal to $+1$ and the nondegenerate eigenvalue $-1$.
+The eigenvector of the eigenvalue $-1$ is $\ket{1,1,-}$. We can therefore write a general expression for generators of $\UToff$ in the form
 \begin{equation}
     \calH=2\pi \left[
         \sum_{j=1}^7 n_j \tildePP_j
@@ -397,22 +409,24 @@ A canonical choice for the $\tildePP_j$ is the following:
     \PP_8 &= Z_1^- Z_2^- X_3^- = (...) - \frac18 Z_1 Z_2 X_3.
 \end{cases}
 \end{equation}
-Similarly to what we found in~\cref{ex:cnot_physical_constraints}, we have here a three-qubit interaction term, $Z_1 Z_2 X_3$, which is proportional to $(n_7 - m/2)$, and therefore cannot be removed by any choice of the integer parameters.
+Similarly to what we found in~\cref{ex:GL:cnot_physical_constraints}, we have here a three-qubit interaction term, $Z_1 Z_2 X_3$, which is proportional to $(n_7 - m/2)$, and therefore cannot be removed by any choice of the integer parameters.
 % \begin{equation}
 %     (n_7 - m/2) Z_1 Z_2 X_3
 % \end{equation}
-There is, however, a marked difference between the present case and~\cref{ex:cnot_physical_constraints}: while for the CNOT we have strong physical reasons to believe that it is impossible to obtain the gate without two-qubit interaction terms, this is not the case for the Toffoli.
-Indeed, while it is in principle possible to achieve a three-qubit entangling gate without using three-qubit interaction terms, although the veracity of this claim is not obvious.
-Indeed, we will show in~\cref{sec:GL:solution_framework} how, by appropriately rotating the degenerate eigenspace, it \textit{is} possible to achieve such a feat.
-\end{example}
+There is, however, a marked difference between the present case and~\cref{ex:GL:cnot_physical_constraints}: while for the CNOT we have strong physical reasons to believe that it is impossible to obtain the gate without two-qubit interaction terms, this is not the case for the Toffoli.
+Indeed, it is in principle possible to achieve a three-qubit entangling gate without using three-qubit interaction terms, although the veracity of this claim might not be obvious.
+We will show in~\cref{sec:GL:solution_framework} how, by appropriately rotating the degenerate eigenspace, it \textit{is} possible to achieve such a feat.
+\end{examplebox}
 
 \section{A solution framework}
 \label{sec:GL:solution_framework}
-As demonstrated in~\cref{sec:GL:constraints_on_interaction_pars}, injecting physical constraints into the problem makes it significantly harder to solve.
+
+As showed in~\cref{sec:GL:constraints_on_interaction_pars}, injecting physical constraints into the problem makes it significantly harder to solve.
 Nevertheless, we will show in this section how a few observations can be exploited to significantly simplify the task.
 
+\tmpHeading{A way to tackle the hardness of constraints}
 Piggybacking on the results of~\cref{sec:GL:solutions_matrix_equation_f(A)=B}, consider the general problem of looking for generators $\calH$ such that $e^{i\calH}=\calU$ for a given unitary $\calU$.
-While, as previously discussed, there are in general many possible such $\calH$, there \textit{is} one ``natural'' choice that can be considered as \textit{canonical} in this context.
+While, as previously discussed, there are in general many possible such $\calH$, there \textit{is} one ``natural'' choice that can be considered as \emph{canonical} in this context. We will refer to this as the \emph{principal generator}, in analogy with the notion of \emph{principal logarithm} used in complex analysis.
 Indeed, while a generic $\calH$ can break the degeneracies of $\calU$, let us denote with $\calH_{\calU}$ a \textit{canonical generator}, which is one that preserves the degeneracies of $\calU$.
 Note that computing such a generator is generally a straightforward task.
 % Indeed, given an eigendecomposition of $\calU$ 
@@ -425,6 +439,7 @@ We will show in this section that the following two conditions must be always sa
     \item The eigenvalues of $\calH-\calH_{\calU}$ must all be integer multiples of $2\pi$.
 \end{itemize}
 
+\tmpHeading{Prove the conditions are sufficient}
 Indeed, assume that $\calH$ and $\calH_{\calU}$ satisfy these two conditions.
 % Then, as shown in~\cref{sec:GL:solutions_matrix_equation_f(A)=B}, 
 While, in general, two Hamiltonians $\calH_1,\calH_2$ with $e^{i\calH_1}=e^{i\calH_2}=\calU$ need not commute with each other, this must be the case when one of the two is a canonical generator $\calH_{\calU}$. In other words, we must always have $[\calH,\calH_{\calU}]=0$.
@@ -433,6 +448,7 @@ Moreover, $[\calH,\calH_{\calU}]=0$ implies that
 $I=e^{i\calH}e^{-i\calH_{\calU}}=e^{i(\calH-\calH_{\calU})}$.
 But for this to be true, the eigenvalues of $\calH-\calH_{\calU}$ must necessarily be integer multiples of $2\pi$, which proves the first implication.
 
+\tmpHeading{Prove the conditions are necessary}
 For the other direction, let us assume that, given some $\calH_{\calU}$ such that $e^{i\calH_{\calU}}=\calU$, we have $[\calH,\calH_{\calU}]=0$ and $\on{Spec}(\calH-\calH_{\calU})\subseteq2\pi\ZZ$.
 Then,
 \begin{equation}
@@ -441,14 +457,16 @@ Then,
     e^{i(\calH-\calH_{\calU})} \calU =
     \calU.
 \end{equation}
+
+\tmpHeading{The master plan}
 This suggests the following plan of action to solve the general problem in the presence of constraints on the Hamiltonian generators: let $\calU$ be a target gate with canonical generator $\calH_{\calU}$. Then, to find $\calH\in f^{-1}(\calU)\cap\calP$ is equivalent to find $\calH$ satisfying the following three conditions:
 \begin{subequations}
 \begin{gather}
-    \calH\in\calP, \label{eq:3conditions_1st}\\
-    [\calH,\calU]=0 \text{ (equivalently, $[\calH,\calH_{\calU}]=0$)}, \label{eq:3conditions_2nd}\\
-    \on{Spectrum}(\calH-\calH_{\calU})\subseteq2\pi\ZZ \label{eq:3conditions_3rd}
+    \calH\in\calP, \label{eq:GL:3conditions_1st}\\
+    [\calH,\calU]=0 \text{ (equivalently, $[\calH,\calH_{\calU}]=0$)}, \label{eq:GL:3conditions_2nd}\\
+    \on{Spectrum}(\calH-\calH_{\calU})\subseteq2\pi\ZZ \label{eq:GL:3conditions_3rd}
 \end{gather}
-\label{eq:3conditions}
+\label{eq:GL:3conditions}
 \end{subequations}
 % \begin{enumerate}
 %     \item $\calH\in\calP$,
@@ -462,9 +480,9 @@ To approach a given problem, we can therefore proceed as follows:
 
 Note how the first two conditions are easy to impose, while the third one remains difficult. To see this more concretely let us consider a few applications of this framework.
 
-\begin{example}[label={ex:cnot_with_conditions}]
-Taking up where we left off in~\cref{ex:cnot_physical_constraints}, let us see if~\cref{eq:3conditions} can give us a conclusive way to prove the impossibility of generating a CNOT with only one-qubit interactions.
-A canonical generator for the CNOT is obtained by setting $n_i=0$ and $m=1$ in~\cref{eq:cnotex_general_H_expr}, which results in
+\begin{examplebox}[label={ex:GL:cnot_with_conditions}]{Solution framework applied to CNOT}
+Taking up where we left off in~\cref{ex:GL:cnot_physical_constraints}, let us see if~\cref{eq:GL:3conditions} can give us a conclusive way to prove the impossibility of generating a CNOT with only one-qubit interactions.
+A canonical generator for the CNOT is obtained by setting $n_i=0$ and $m=1$ in~\cref{eq:GL:cnotex_general_H_expr}, which results in
 $\calH_{\CNOT}=\pi Z_1^- X_2^-$.
 A general form for an $\calH$ containing one-qubit interactions is
 \begin{equation}
@@ -475,13 +493,13 @@ where $\sigma_i^1\equiv X_i, \sigma_i^2\equiv Y_i, \sigma_i^3\equiv Z_i$.
 Imposing $[\calH,\CNOT]=0$ removes most of the parameters, leaving us with the simplified expression
 \begin{equation}
     \calH = h_0 I_4 + h_1^3 Z_1 + h_2^1 X_2.
-    \label{eq:cnot_expr_after_commutativity_condition}
+    \label{eq:GL:cnot_expr_after_commutativity_condition}
 \end{equation}
 One easy way to see this is to note that for $\calH$ to commute with $\CNOT$, the two matrices must respect each other's eigenspaces. In particular, this means that $\calH$ must preserve the nondegenerate eigenvector of $\CNOT$, which is $\ket{1,-}$.
-The only one-qubit gates that do this are $I_4, Z_1$ and $X_2$, hence we arrive to~\cref{eq:cnot_expr_after_commutativity_condition}.
+The only one-qubit gates that do this are $I_4, Z_1$ and $X_2$, hence we arrive to~\cref{eq:GL:cnot_expr_after_commutativity_condition}.
 
 The question is now reduced to that of figuring out whether there are coefficients $h_0,h_1^3,h_2^1\in\RR$ such that the spectrum of $\calH-\calH_{\CNOT}$ contains nothing but integer multiples of $2\pi$.
-In matrix form,~\cref{eq:cnot_expr_after_commutativity_condition} reads
+In matrix form,~\cref{eq:GL:cnot_expr_after_commutativity_condition} reads
 \begin{equation}
     \calH = \begin{pmatrix}
         h_0 + h_1^3 & h_2^1 & 0 & 0 \\
@@ -535,25 +553,28 @@ It is worth noting that, of course, this result could have been easily obtained 
 \end{equation}
 with $\calU_i$ a gate acting only on the $i$-th qubit.
 
-Nevertheless, this example is interesting to show how the technique suggested by~\cref{eq:3conditions} can be put into action.
-\end{example}
+Nevertheless, this example is interesting to show how the technique suggested by~\cref{eq:GL:3conditions} can be put into action.
+\end{examplebox}
 \highlight{Is there a way to do a reasoning like the above for a generic two-qubit gate?}
 
 \section{Toffoli gate}
 \label{sec:GL:toffoli}
-Consider now the Toffoli gate $\UToff$, and let $\calP_{\le2}$ be the set of one- and two-qubit Pauli matrices. In this section we ask the question: \textit{\textbf{is there a time-independent $\HTildeToff\in\spanR(\calP_{\le2})$ such that $\exponential(i\HTildeToff)=\UToff$?}}
 
-A canonical generator for $\UToff$ is $\HToff=\pi Z_1^- Z_2^- X_3^-$.
-As previously discussed in~\cref{ex:toffoli_physical_constraints}, $\UToff$ has the nondegenerate eigenvector $\ket{1,1,-}$ with eigenvalue $-1$, which implies that any $\calH$ such that $[\calH,\HToff]=0$ must also stabilise $\ket{1,1,-}$.
+\tmpHeading{The question}
+Consider now the Toffoli gate $\UToff$, and let $\calP_{\le2}$ denote the set of one- and two-qubit Pauli matrices. In this section we ask the question: \emph{is there a time-independent $\HTildeToff\in\spanR(\calP_{\le2})$ such that $\exponential(i\HTildeToff)=\UToff$?}
+
+\tmpHeading{Finding the principal generator}
+A principal generator for $\UToff$ is $\HToff=\pi Z_1^- Z_2^- X_3^-$.
+As previously discussed in~\cref{ex:GL:toffoli_physical_constraints}, $\UToff$ has the nondegenerate eigenvector $\ket{1,1,-}$ with eigenvalue $-1$, which implies that any $\calH$ such that $[\calH,\HToff]=0$ must also stabilise $\ket{1,1,-}$.
 We then write down the general parametrisation of an Hamiltonian containing only one- and two-qubit interactions:
 \begin{equation}
     \HTildeToff =
     h_0 I + \sum h_{i,\alpha}\sigma_i^\alpha
     + J_{ij}^{\alpha\beta}\sigma_i^\alpha\sigma_j^\beta.
-    \label{eq:general_toffoli_onetwoqubitints}
+    \label{eq:GL:general_toffoli_onetwoqubitints}
 \end{equation}
-\Cref{eq:general_toffoli_onetwoqubitints} contains $37$ free parameters: $9$ for the one-qubit interactions, $\binom{3}{2}\times 3^2=27$ for the two-qubit interactions, plus one for the identity.
-Imposing $[\HTildeToff,\HToff]=0$ then translates into a series of conditions over the coefficients in~\cref{eq:general_toffoli_onetwoqubitints}, which allows to remove $13$ of the coefficients, leaving us with $24$ of them.
+\Cref{eq:GL:general_toffoli_onetwoqubitints} contains $37$ free parameters: $9$ for the one-qubit interactions, $\binom{3}{2}\times 3^2=27$ for the two-qubit interactions, plus one for the identity.
+Imposing $[\HTildeToff,\HToff]=0$ then translates into a series of conditions over these parameters which allows to remove $13$ of them, leaving us with only $24$.
 If we furthermore remove all terms containing $Y_k$ matrices, we are left with the following simplified expression
 \begin{equation}
 \begin{aligned}
@@ -567,7 +588,7 @@ If we furthermore remove all terms containing $Y_k$ matrices, we are left with t
     + &h_1^z Z_1 + h_2^z Z_2
     + J_{13}^{zx} Z_1 X_3 + J_{12}^{zz} Z_1 Z_2 + J_{23}^{zx} Z_2 X_3
     +h_0 I.
-    \label{eq:general_toffoli_onetwoqubitints_without_Ys}
+    \label{eq:GL:general_toffoli_onetwoqubitints_without_Ys}
 \end{aligned}
 \end{equation}
 % HToff = QPauliExpr[Pi (1 - z[1]) (1 - z[2]) (1 - x[3])/8];
@@ -582,11 +603,12 @@ If we furthermore remove all terms containing $Y_k$ matrices, we are left with t
 %   a[12] -> 0, a[13] -> 0, a[17] -> 0, a[10] -> 0, a[20] -> 0, 
 %   a[25] -> 0, a[18] -> 0, a[31] -> 0, a[15] -> 0}
 We now need to find values of these coefficients such that the eigenvalues of $\HTildeToff-\HToff$ are integer multiples of $2\pi$.
-Solving this condition directly on~\cref{eq:general_toffoli_onetwoqubitints_without_Ys} remains a daunting task due to he large number of coefficients involved, which result in high-order polynomials when resolving the characteristic equation of the matrix.
-Nevertheless, we can still obtain solutions by making a few guesses on the values of the coefficients.
+Solving this condition directly on~\cref{eq:GL:general_toffoli_onetwoqubitints_without_Ys} remains a daunting task due to the large number of coefficients involved, which results in high-order polynomials when solving the characteristic polynomial of the associated matrix.
+Nevertheless, we can derive solutions by making a few guesses on the values of the coefficients.
 
+In~\cref{subsec:GL:lucky_guess,subsec:GL:diagonalising_2D_blocks,subsec:GL:toffoli_posteriori_derivation} we present three different paths to derive classes of generators for the Toffoli gate using only one- and two-qubit interaction terms.
 % We thus obtain the general form of a generator that respects the symmetries of the Toffoli. Any such $\HTildeToff$ will either preserve $\ket{1,1,-}$ (first row) or annihilate it (the other rows).
-% We write a general real linear combination of the operators listed in~\cref{eq:toffoli_ops_after_commcondition} as
+% We write a general real linear combination of the operators listed in~\cref{eq:GL:toffoli_ops_after_commcondition} as
 % \begin{equation}
 % \begin{gathered}
 %   \HTildeToff =
@@ -599,6 +621,7 @@ Nevertheless, we can still obtain solutions by making a few guesses on the value
 % \end{equation}
 
 \subsection{A lucky guess}
+\label{subsec:GL:lucky_guess}
 
 Let us try here the following values for the coefficients:
 \begin{equation}
@@ -607,17 +630,17 @@ Let us try here the following values for the coefficients:
   h_1^x = h_2^x = 0,
 %   J_{12}^{xz} = J_{12}^{zx} = 0,
   \quad J_{13}^{zx} = J_{23}^{zx} = \frac{\pi}{8}, \\
-  J_{13}^{xx} = J_{23}^{xx},
+  J_{13}^{xx} = J_{23}^{xx}.
 %   J_{23}^{zz} = -J_{13}^{zz}.
 \end{gathered}
 \end{equation}
-With these values, we get the following simplified expression
+With these values, we get the following simplified expression:
 \begin{equation}
 \begin{aligned}
   \HTildeToff &= h_0 I + h_3^x X_3 + h_3^z(1+ Z_2)Z_3
   + J_{13}^{zz}(Z_1 - Z_2)Z_3 + J_{12}^{zz} Z_1 Z_2 \\
   + &J_{13}^{xx} [X_1(X_3 - Z_2) + X_2(X_3 - Z_1)]
-  - \pi/8 ( Z_1 +  Z_2)(1 - X_3)
+  - \pi/8 ( Z_1 +  Z_2)(1 - X_3).
   % + \pi/8 (Z_1 + Z_2)X_3
 %   + J_{12}^{zz} Z_1 Z_2 \\
 \end{aligned}
@@ -647,17 +670,17 @@ If we further impose $J_{13}^{xx}=0$, so that the generator is diagonal on the f
 \begin{aligned}
     \HTildeToff &= h_0 I + h_3^x X_3 + h_3^z(1+ Z_2)Z_3
     + J_{13}^{zz}(Z_1 - Z_2)Z_3 \\
-    &+ J_{12}^{zz} Z_1 Z_2 - \pi/8 (Z_1 +  Z_2)(1 - X_3)
+    &+ J_{12}^{zz} Z_1 Z_2 - \pi/8 (Z_1 +  Z_2)(1 - X_3).
 \end{aligned}
 \end{equation}
-and finally assuming also $h_3^z=0$ we get
+Further assuming $h_3^z=0$, we get
 \begin{equation}
 \begin{aligned}
     \HTildeToff &= h_0 I + h_3^x X_3 + J_{13}^{zz}(Z_1 - Z_2)Z_3 \\
-   +& J_{12}^{zz} Z_1 Z_2 - \pi/8 ( Z_1 +  Z_2)(1 - X_3)
+   +& J_{12}^{zz} Z_1 Z_2 - \pi/8 ( Z_1 +  Z_2)(1 - X_3),
 \end{aligned}
 \end{equation}
-and, finally,
+which finally gives the expression:
 % Use the following for the version WITH the h_3^z term
 % \begin{equation}
 % \begin{aligned}
@@ -668,7 +691,7 @@ and, finally,
 % 		J_{13}^{zz} (Z_1 - Z_2)Z_3 +
 % 		h_3^z (1 + Z_2)Z_3.
 % \end{aligned}
-% \label{SM:eq:toffoli_HPrime_reduced}
+% \label{SM:eq:GL:toffoli_HPrime_reduced}
 % \end{equation}
 % Reproduce with:
 % nicerSymbols[expr_] := expr /. {
@@ -692,7 +715,7 @@ and, finally,
 		J_{13}^{zz} (Z_1 - Z_2)Z_3.
 % 		h_3^z (1 + Z_2)Z_3.
 \end{aligned}
-\label{eq:toffoli_HPrime_reduced}
+\label{eq:GL:toffoli_HPrime_reduced}
 \end{equation}
 With the above simplified expression it is now possible to directly solve the eigenvalue problem. Note that with this choice of coefficients we are left with a block-diagonal matrix (notice the lack of off-diagonal Pauli matrices on the first and second qubit) which depends on only four parameters, the diagonalisation of which is much easier to carry out.
 The four different eigenvalues of $\HPrimeToff{}$ are
@@ -717,9 +740,9 @@ Imposing $\lambda_k=2\pi\nu_k$, we obtain the following conditions on the coeffi
     \lambda_4 - \lambda_3 &= 2\sqrt{(h_3^x)^2+ (2J_{13}^{zz})^2}, \\
     \lambda_4 + \lambda_3 &= 2(h_0 - J_{12}^{zz}),
 \end{cases}
-\label{eq:toffoli_lambdas_vs_parameters}
+\label{eq:GL:toffoli_lambdas_vs_parameters}
 \end{equation}
-which then resolves to
+which has the solution:
 \begin{equation}
 \begin{cases}%\displaystyle
     h_3^x &= \frac{1}{2}(\lambda_1 - \lambda_2) - \frac{\pi}{4}, \\
@@ -730,7 +753,7 @@ which then resolves to
     [(\lambda_1-\lambda_2)/2 - \pi/4]^2.
 \end{cases}
 \end{equation}
-Note that we stil did not impose $\lambda_k\in2\pi\ZZ$. For the corresponding Hamiltonian to be physical, we need all the coefficients to be real, and thus in particular $(J_{13}^{zz})^2\ge0$ which gives
+Note that we still did not impose $\lambda_k\in2\pi\ZZ$. For the corresponding Hamiltonian to be physical, we need all the coefficients to be real, and thus in particular $(J_{13}^{zz})^2\ge0$, which gives
 % \begin{equation}
 %     \left(\lambda_4-\lambda_3\right)^2 \ge
 %     \left[(\lambda_1-\lambda_2) - \pi\right]^2
@@ -739,7 +762,7 @@ Note that we stil did not impose $\lambda_k\in2\pi\ZZ$. For the corresponding Ha
 \begin{equation}
     -\abs{\lambda_4 -\lambda_3} \le
     (\lambda_1 - \lambda_2) - \pi \le \abs{\lambda_4 -\lambda_3}.
-    \label{eq:toffoli_lambdas_condition}
+    \label{eq:GL:toffoli_lambdas_condition}
 \end{equation}
 As long as this condition is satisfied, any combination of values for the $\lambda_k$ can be obtained, and thus in particular we can find values for the interaction strengths which give $\lambda_k\in2\pi\ZZ$.
 
@@ -754,7 +777,7 @@ This results in the following family of solutions:
 	[1 + 4(\nu_1+\nu_2-\nu_3-\nu_4)] Z_1 Z_2 \\
 	&\pm \sqrt{c(\nu_1,\nu_2,\nu_3,\nu_4)} (Z_1 - Z_2)Z_3.
 \end{aligned}
-\label{eq:toff_tilde_general_solution}
+\label{eq:GL:toff_tilde_general_solution}
 \end{equation}
 % \begin{equation}
 % \begin{aligned}
@@ -768,7 +791,7 @@ This results in the following family of solutions:
 % 	&+ (Z_2 - Z_1) Z_3 \,\,\sqrt{c(\nu_1, \nu_2, \nu_3, \nu_4)}
 % 	\bigg],
 % \end{aligned}
-% \label{eq:toff_tilde_general_solution}
+% \label{eq:GL:toff_tilde_general_solution}
 % \end{equation}
 where
 \begin{equation}
@@ -779,7 +802,7 @@ where
 		&= -[(1-4\nu_{12})^2-(4\nu_{34})^2],
 \end{split}
 \end{equation}
-for all integer values of $\nu_i$ such that $c(\nu_1, \nu_2, \nu_3, \nu_4) \ge 0$ (which is the same condition written in~\cref{eq:toffoli_lambdas_condition} in terms of $\lambda_k$).
+for all integer values of $\nu_i$ such that $c(\nu_1, \nu_2, \nu_3, \nu_4) \ge 0$ (which is the same condition written in~\cref{eq:GL:toffoli_lambdas_condition} in terms of $\lambda_k$).
 The corresponding spectrum of $\HPrimeToff$ is
 \begin{equation}
 \begin{aligned}
@@ -804,7 +827,7 @@ More specifically, we have
 	\ket{\lambda_7} &= \ket{1, 0} \otimes N_6\left[(a + b) \ket0 - \ket1 \right], \\
 	\ket{\lambda_8} &= \ket{0, 1} \otimes N_5\left[(a - b) \ket0 - \ket1 \right],
 \end{aligned}
-\label{eq:toffoli_eigenvectors_solution}
+\label{eq:GL:toffoli_eigenvectors_solution}
 \end{equation}
 \highlight{recheck these coefficients at some point}
 where
@@ -833,8 +856,8 @@ where
 % \end{equation}
 It is worth noting that the orthogonality of these eigenvectors follows from the easily verified property of the above coefficients: $a^2 - b^2 = 1$.
 Furthermore, we note that $c(\nu_1, \nu_2, \nu_3, \nu_4) \ge 0$ cannot be satisfied unless $\nu_3 \neq \nu_4$.
-This can also be verified by looking back at~\cref{eq:toffoli_lambdas_vs_parameters}, from which we deduce that $\nu_3=\nu_4$ is only possible if $h_3^x=J_{13}^{zz}=0$, which when used in~\cref{eq:toffoli_HPrime_reduced} gives a matrix whose eigenvalues can be seen to not be made equal to multiple integers of $2\pi$.
-The condition $\nu_3\neq\nu_4$, in turn, looking at \cref{eq:toffoli_eigenvectors_solution},
+This can also be verified by looking back at~\cref{eq:GL:toffoli_lambdas_vs_parameters}, from which we deduce that $\nu_3=\nu_4$ is only possible if $h_3^x=J_{13}^{zz}=0$, which when used in~\cref{eq:GL:toffoli_HPrime_reduced} gives a matrix whose eigenvalues can be seen to not be made equal to multiple integers of $2\pi$.
+The condition $\nu_3\neq\nu_4$, in turn, looking at \cref{eq:GL:toffoli_eigenvectors_solution},
 reveals that all the solutions are made possible by a non-trivial lifting of the degeneracy of the subspaces $\ketbra{0,1}$ and $\ketbra{1,0}$.
 A simple example of such a $\HTildeToff$, obtaining with the choice $\nu_1=\nu_2=\nu_3=0$ and $\nu_4=1$, is
 \begin{equation}
@@ -984,6 +1007,7 @@ also give a generator with only 2-qubit interactions for the CCY gate
 \end{tbox}
 
 \subsection{Work diagonalising the 2D blocks}
+\label{subsec:GL:diagonalising_2D_blocks}
 \highlight{(has to be checked)}
 A different way to understand $\HTildeToff$ is to analyse the four two-dimensional subspaces on the main diagonal, exploiting the fact that $\HTildeToff{}$ acts diagonally on the first two qubits.
 Straightforward calculations lead to
@@ -1018,12 +1042,12 @@ In particular, the class of solutions given by $\nu_1 = \nu_2 = \nu_3 = 0$ is
 	+ (Z_2 - Z_1) Z_3 \sqrt{16\nu_4^2 - 1}
 	\bigg],
 \end{split}
-\label{SM:eq:toffoli_generator_nu4}
+\label{SM:eq:GL:toffoli_generator_nu4}
 \end{equation}
 for all $\nu_4\neq 0$.
 It is interesting to look at the explicit form of the exponentials
 generated by this class generators.
-Computing $\exp(i \tilde{\mathcal H} t)$ with $\tilde{\mathcal H}$ as in \cref{SM:eq:toffoli_generator_nu4}, we get the following unitary:
+Computing $\exp(i \tilde{\mathcal H} t)$ with $\tilde{\mathcal H}$ as in \cref{SM:eq:GL:toffoli_generator_nu4}, we get the following unitary:
 \begin{equation}
 	\begin{pmatrix}
 		I_2 & \mathbb0 & \mathbb0 & \mathbb0 \\
@@ -1077,7 +1101,7 @@ $\mathcal H_{\on{Toff}} = \pi Z_1^- Z_2^- X_3^-$:
 		& & & X(t)
 	\end{pmatrix}.
 \end{equation}
-A different solution derived from~\cref{eq:toff_tilde_general_solution} is
+A different solution derived from~\cref{eq:GL:toff_tilde_general_solution} is
 \begin{equation}
 \begin{aligned}
 	\tilde{\mathcal H}_{\on{Toff}} =
@@ -1087,8 +1111,8 @@ A different solution derived from~\cref{eq:toff_tilde_general_solution} is
 	- \frac{\sqrt7 \pi}{8} (Z_1 - Z_2) Z_3.
 \end{aligned}
 \end{equation}
-Moreover, it is worth noting that~\cref{eq:toff_tilde_general_solution} is only one possible family of solutions, and that different assumptions will lead to different ones.
-For example, a similar reasoning as above, starting however from the assumptions $J_{23}^{zz}=J_{13}^{zz}$ will lead to solutions such as (note the use of $(Z_1+Z_2)$ terms here, making this solution not derivable from~\cref{eq:toff_tilde_general_solution}):
+Moreover, it is worth noting that~\cref{eq:GL:toff_tilde_general_solution} is only one possible family of solutions, and that different assumptions will lead to different ones.
+For example, a similar reasoning as above, starting however from the assumptions $J_{23}^{zz}=J_{13}^{zz}$ will lead to solutions such as (note the use of $(Z_1+Z_2)$ terms here, making this solution not derivable from~\cref{eq:GL:toff_tilde_general_solution}):
 \begin{equation}
 \begin{aligned}
 	\HTildeToff{} =\,
@@ -1098,9 +1122,9 @@ For example, a similar reasoning as above, starting however from the assumptions
 \end{equation}
 
 \subsection{\textit{A posteriori} alternative derivation}
-\label{sec:GL:toffoli_posteriori_derivation}
+\label{subsec:GL:toffoli_posteriori_derivation}
 
-We will here show a line of thought that could have conceivably led to \cref{SM:eq:toffoli_generator_nu4} (in the case $\nu_4=1$), by direct analysis, and without using any of the previously used techniques.
+We will here show a line of thought that could have conceivably led to \cref{SM:eq:GL:toffoli_generator_nu4} (in the case $\nu_4=1$), by direct analysis, and without using any of the previously used techniques.
 It will be useful to keep in mind the expressions of $Z_1 \pm Z_2$:
 \begin{equation}
 \begin{aligned}
@@ -1123,13 +1147,13 @@ We can remove the term in the $\ket{00}$ sector exploiting the sign difference i
 	\mathcal H_2 &= \frac{1}{2} \left[ \mathcal H_1 + \frac{\pi}{2} (1 - X_3) \right] \\
 				 &= \pi \on{diag}(0, X^-\!/2, X^-\!/2, X^-),
 \end{aligned}
-\label{eq:toffoli_analytical_step2}
+\label{eq:GL:toffoli_analytical_step2}
 \end{equation}
 where we remember that $\exp(i\pi X^-) = X$.
-\Cref{eq:toffoli_analytical_step2} now correctly reproduces the evolution on $\ket{00}$ and $\ket{11}$, but also wrongly evolves $\ket{01}$ and $\ket{10}$.
+\Cref{eq:GL:toffoli_analytical_step2} now correctly reproduces the evolution on $\ket{00}$ and $\ket{11}$, but also wrongly evolves $\ket{01}$ and $\ket{10}$.
 To remove these additional terms while at the same time leaving the others unaffected we use the fact that
 $\exp(i\pi (1 \pm \bs{\sigma})) = I$, for any normalised vector of sigma matrices: $\bs\sigma \equiv \sum_{i=1}^3 n_i \sigma_i$ with $n_1^2 + n_2^2 + n_3^2 = 1$.
-To convert the central terms in~\cref{eq:toffoli_analytical_step2} into something like this we observe that we can rewrite the second term in the above equation as
+To convert the central terms in~\cref{eq:GL:toffoli_analytical_step2} into something like this we observe that we can rewrite the second term in the above equation as
 \begin{equation}
 	\pi/4(1-X_3) = \pi/8(2 - 2 X_3) = \pi/8(5 - 3 - 2 X_3).
 \end{equation}
@@ -1159,13 +1183,14 @@ The above reasoning explains the origin of the weird $\sqrt{15}$ factor: it come
 \label{sec:GL:fredkin}
 % BEGIN FREDKIN
 
+\tmpHeading{What is the Fredkin gate?}
 We show here how to use the framework given in~\cref{sec:GL:solution_framework} to find a Hamiltonian that does not contain three-qubit interaction terms, and generates the Fredkin gate at $t=1$.
-The quantum Fredkin gate $\UFred$ is the three-qubit gate which swaps the first two qubits conditionally to the third one being in the state $\ket1$.
+The quantum Fredkin gate $\UFred$~\cite{fredkin1982conservative} is the three-qubit gate which swaps the first two qubits conditionally to the third one being in the state $\ket1$.
 This gate finds widespread use for a number of quantum information protocols~\cite{patel2016quantum,loft2018quantum}.
-\highlight{probably more uses?}
 A time-independent two-body Hamiltonian simulating $\UFred$ with four qubits has been found in~\cite{banchi2016quantum} using numerical optimization.
 We show here that it is possible to implement $\UFred$ via a time-independent dynamics using only \textit{three} qubits, and without using non-diagonal interaction terms.
 
+\highlight{COME BACK HERE TO CHECK}
 Explicitly,
 \begin{equation}
     \UFred = \PP_0 \otimes I_4 + \PP_1 \otimes \on{SWAP} =
@@ -1204,15 +1229,14 @@ The projector onto this eigenstate can be written in the Pauli basis as
     % \frac{I}{2} -\frac{1}{2}( X_1 X_2 + Y_1 Y_2 + Z_1 Z_2)
     \left(\frac{1-Z_1}{2}\right)
     \left(\frac{I - X_2 X_3 - Y_2 Y_3 - Z_2 Z_3}{4}\right).
-    \label{eq:fredkin_projector_negeigspace}
+    \label{eq:GL:fredkin_projector_negeigspace}
 \end{equation}
-The principal logarithm $\HFred$ is then
-$\HFred = \pi\PP_{-1}$.
+The principal logarithm is then $\HFred = \pi\PP_{-1}$.
 % HFredkin = QPauliExpr[\[Pi] (1 - z[1])/ 2 (1 - x[2] x[3] - y[2] y[3] - z[2] z[3])/4]
 % HFredkin // Normal // N // MatrixExp[I #] & // Chop // MatrixForm
 
 \subsection{Generators with two-qubit interactions}
-Note how the projector in~\cref{eq:fredkin_projector_negeigspace}, and therefore $\HTildeFred$, contains three-qubit interaction terms.
+Note how the projector in~\cref{eq:GL:fredkin_projector_negeigspace}, and therefore $\HTildeFred$, contains three-qubit interaction terms.
 Are these terms strictly necessary?
 
 To answer this question, we start by finding the Hermitians that commute with $\HTildeFred$.
@@ -1236,7 +1260,7 @@ This term contains three-qubit interactions, so we must hope that some other ter
 % where qubit $1$ is the control. %\cref{HGF} contains both two- and three-body interactions.
 
 Writing down the general parameterization $\HTildeFred(\bs\lambda)$ for a 3-qubit Hamiltonian containing only pairwise \emph{diagonal} interactions,
-and imposing~\cref{eq:3conditions_2nd}, we cut the number of parameters $\bs\lambda$ down to 12, getting to the following expression:
+and imposing~\cref{eq:GL:3conditions_2nd}, we cut the number of parameters $\bs\lambda$ down to 12, getting to the following expression:
 % \begin{equation}
 % \begin{aligned}
 %     \HTildeFred &=
@@ -1306,16 +1330,16 @@ corresponding to the following expression for $\HPrimeFred\equiv\HTildeFred-\HFr
         + 5 Z_1
     ].
 \end{aligned}
-\label{eq:HPrimeFred_expression_after_commcond}
+\label{eq:GL:HPrimeFred_expression_after_commcond}
 \end{equation}
 While much simpler, this expression is still too cumbersome to solve the eigenvalue equation directly.
-However, we notice that two eigenvalues of~\cref{eq:HPrimeFred_expression_after_commcond} have an easy expression:
+However, we notice that two eigenvalues of~\cref{eq:GL:HPrimeFred_expression_after_commcond} have an easy expression:
 \begin{equation}
 \begin{aligned}
     \lambda_1 &= \frac{1}{2}( -3\pi + 2h_0 - 6J_{23}^{zz}), \\
     \lambda_2 &= \frac{1}{2}( \pi   + 2h_0 - 6J_{23}^{zz}),
 \end{aligned}
-\label{eq:fredkin_first_two_nice_eigenvalues}
+\label{eq:GL:fredkin_first_two_nice_eigenvalues}
 \end{equation}
 % Reproduce the above with MMA with:
 % HFred = QPauliExpr[
@@ -1331,10 +1355,10 @@ which implies that $\lambda_2-\lambda_1= 2\pi$ and thus $\nu_2-\nu_1=1$.
 This gives the following relation between the coefficients and the eigenvalues:
 \begin{equation}
     \pi(2\nu_1 + 3/2) = h_0 - 3 J_{23}^{zz}.
-    \label{eq:fredkin_condition_between_h0_and_J23zz}
+    \label{eq:GL:fredkin_condition_between_h0_and_J23zz}
 \end{equation}
 The rest of the eigenvalues, however, involve complex expressions containing roots of cubic polynomials, from which we cannot easily extract useful expressions.
-The eigenvectors corresponding to the eigenvalues given in~\cref{eq:fredkin_first_two_nice_eigenvalues} are
+The eigenvectors corresponding to the eigenvalues given in~\cref{eq:GL:fredkin_first_two_nice_eigenvalues} are
 $\sqrt2\ket{\lambda_1} = \ket{1,1,0} - \ket{1,0,1}$
 and
 $\sqrt2\ket{\lambda_2} = \ket{0,1,0} - \ket{0,0,1}$.
@@ -1355,15 +1379,15 @@ The eigenvalues of this expression, while again too complex to be all computed, 
     = \lambda_5 + \lambda_6
     = \lambda_7 + \lambda_8 = 2(h_0 + J_{23}^{zz}).
 \end{equation}
-Together with~\cref{eq:fredkin_condition_between_h0_and_J23zz}, we then conclude that $h_0$ and $J_{23}^{zz}$ must be of the following form
+Together with~\cref{eq:GL:fredkin_condition_between_h0_and_J23zz}, we then conclude that $h_0$ and $J_{23}^{zz}$ must be of the following form
 \begin{equation}
 \begin{cases}
     h_0 &= \frac{\pi}{4}\left[3(\nu_3+\nu_4) + 2\nu_1+\frac{3}{2}\right], \\
     J_{23}^{zz} &= \frac{\pi}{4}\left[\nu_3+\nu_4 - 2\nu_1-\frac{3}{2}\right].
 \end{cases}
-\label{eq:fredkin_sols_h0_and_J23zz_vs_nus}
+\label{eq:GL:fredkin_sols_h0_and_J23zz_vs_nus}
 \end{equation}
-Note how the solution for $h_0$ in~\cref{eq:fredkin_sols_h0_and_J23zz_vs_nus} is consistent with the general requirement that $h_0$ must be an odd multiple of $\pi/8$, which follows from considering the relation $\det\UFred=-1=e^{i\Tr\HFred}$.
+Note how the solution for $h_0$ in~\cref{eq:GL:fredkin_sols_h0_and_J23zz_vs_nus} is consistent with the general requirement that $h_0$ must be an odd multiple of $\pi/8$, which follows from considering the relation $\det\UFred=-1=e^{i\Tr\HFred}$.
 Moreover, we note that $\lambda_4-\lambda_3$, $\lambda_6-\lambda_5$, and $\lambda_8-\lambda_7$ have the form
 \begin{equation}
     (\lambda_{i+1}-\lambda_i)^2 =
@@ -1371,13 +1395,13 @@ Moreover, we note that $\lambda_4-\lambda_3$, $\lambda_6-\lambda_5$, and $\lambd
     \quad i=3,5,7,
 \end{equation}
 where the $S_i$ are the three solutions to the same cubic polynomial.
-If we then assume that $h_0=J_{23}^{zz}$, we conclude from~\cref{eq:fredkin_condition_between_h0_and_J23zz} that
+If we then assume that $h_0=J_{23}^{zz}$, we conclude from~\cref{eq:GL:fredkin_condition_between_h0_and_J23zz} that
 $h_0=-J_{23}^{zz}=3\pi/8+\pi \nu_1/2$ for $\nu_1\in\ZZ$, and the differences $\lambda_{i+1}-\lambda_i$ are then given by
 \begin{equation}
     \lambda_{i+1} - \lambda_i = \pm \sqrt{S_i}.
-    \label{eq:fredkin_diff_lambdas_with_cubicsolution}
+    \label{eq:GL:fredkin_diff_lambdas_with_cubicsolution}
 \end{equation}
-It is important here to remember that $S_1, S_2, S_3$ are solutions to the same cubic polynomial, which is itself a function of all the $\lambda_i$, and so~\cref{eq:fredkin_diff_lambdas_with_cubicsolution} is really a self-consistent condition on the possible eigenvalues of the matrix.
+It is important here to remember that $S_1, S_2, S_3$ are solutions to the same cubic polynomial, which is itself a function of all the $\lambda_i$, and so~\cref{eq:GL:fredkin_diff_lambdas_with_cubicsolution} is really a self-consistent condition on the possible eigenvalues of the matrix.
 If one of these differences is zero, then $S_i=0$ for some $i$, which can only be verified if the interaction strengths satisfy the following condition:
 \begin{equation}
     \pi^2
@@ -1390,9 +1414,9 @@ which allows to remove one further coefficient, expressing $J_{13}^{zz}$ as func
     J_{13}^{zz} = \pm\frac{1}{4}\sqrt{
         \pi^2 - (4 h_2^x)^2 + (4 J_{13}^{xx})^2
     }.
-    \label{eq:fredkin_J13zz_final_sol}
+    \label{eq:GL:fredkin_J13zz_final_sol}
 \end{equation}
-Using~\cref{eq:fredkin_J13zz_final_sol} on top of the previously introduced conditions on the parameters we are left, on top of the two eigenvalues given in~\cref{eq:fredkin_first_two_nice_eigenvalues}, with two vanishing eigenvalues (because we imposed $\lambda_i+\lambda_{i+1}=0$ for all $i$ and $\lambda_i=\lambda_{i+1}$ for one $i$), and four remaining eigenvalues which can be divided in two pairs of opposite values.
+Using~\cref{eq:GL:fredkin_J13zz_final_sol} on top of the previously introduced conditions on the parameters we are left, on top of the two eigenvalues given in~\cref{eq:GL:fredkin_first_two_nice_eigenvalues}, with two vanishing eigenvalues (because we imposed $\lambda_i+\lambda_{i+1}=0$ for all $i$ and $\lambda_i=\lambda_{i+1}$ for one $i$), and four remaining eigenvalues which can be divided in two pairs of opposite values.
 In conclusion, there are two free eigenvalues to be determined, equal to
 \begin{equation}
     \frac{1}{2\sqrt2}
@@ -1416,7 +1440,7 @@ Imposing these to be multiple integers of $2\pi$, we finally get the following c
     }.
 \end{dcases}
 \end{equation}
-which when used back in~\cref{eq:fredkin_J13zz_final_sol} results in the following solution for $J_{13}^{zz}$:
+which when used back in~\cref{eq:GL:fredkin_J13zz_final_sol} results in the following solution for $J_{13}^{zz}$:
 \begin{equation}
     J_{13}^{zz} =
     \pm \frac{\pi}{4}
@@ -1468,7 +1492,7 @@ For example, choosing $n=1, m=2$, and $\nu=0$ we get the following expression:
     \nonumber\\
     &+
     \frac{3\pi}{4}\sqrt{\frac{7}{5}}Z_1(Z_2+Z_3) +\frac{\pi}{2}Z_1+\frac{3\pi}{8}I.
-    \label{eq:fredkin_generator}
+    \label{eq:GL:fredkin_generator}
 \end{align}
 % HFredLeonardo = QPauliExpr[
 %  \[Pi]/8 (Sqrt[143/5] + 5 Sqrt[3] x[1]) (x[2] + x[3])
@@ -1501,16 +1525,16 @@ This, on the other hand, means that for all three-qubit interaction terms $\bs\s
 \section{Numerical approach}
 \label{sec:GL:numerical_approach}
 
-As discussed in~\cref{sec:GL:toffoli,sec:GL:fredkin}, finding time-independent Hamiltonians with constrained interactions generating target gates can be a nontrivial task. 
-Moreover, the fact that each gate presents a challenge of its own right, hinders the extendibility of the results.
-It is therefore desirable to also have a more flexible approach to solve gate learning problems with more ease and generality, even if at the cost of just getting numerical results.
+As discussed in~\cref{sec:GL:toffoli,sec:GL:fredkin}, finding time-independent Hamiltonians with constrained interactions generating target gates is a nontrivial task. 
+Moreover, the fact that each gate presents a challenge on its own right, hinders the extendibility of the results.
+It is therefore desirable to also have a more flexible approach to solve gate learning problems with more ease and generality, even if at the cost of forsaking exact results.
 
 A natural way to do this is to transform the problem into a numerical optimisation task, by defining a suitable cost function whose maximum corresponds to a solution to the original problem.
-Indeed, if $\calU$ is the target gate we want to implement, and $\calH_\bslambda$ is a parametrised Hamiltonian containing the allowed interaction terms, then the gate learning problem is equivalent to that of finding parameters $\bslambda_0$ such that $\exponential(i\calH_{\bslambda_0})=\calU$.
+Indeed, if $\calU$ is the target gate and $\calH_\bslambda$ a parametrised Hamiltonian containing the allowed interaction terms, then the gate learning problem is equivalent to that of finding parameters $\bslambda_0$ such that $\exponential(i\calH_{\bslambda_0})=\calU$.
 In turn, this can be made into a numerical optimisation problem by introducing some function $f(U, V)$ that quantifies the distance between $U$ and $V$, and looking for the solution to the problem
 \begin{equation}
     \argmin_\lambda f(\calU, \exponential(i\calH_{\bslambda})).
-    \label{eq:gatelearning_as_optimisation}
+    \label{eq:GL:gatelearning_as_optimisation}
 \end{equation}
 A natural candidate for such $f$ is $f(A,B)\equiv 1-\barcalF(A,B)$, with $\barcalF(A,B)$ the \textit{average gate fidelity} between $A$ and $B$~\cite{nielsen2002simple,magesan2011gate}. The average gate fidelity can be defined more generally as a way to quantify the distance between a quantum channel $\calE$ and a gate $U$, by computing the overlap between $\PP[\calU\ket\psi]$ and $\calE(\PP_\psi)$, averaged over all pure states $\ket\psi$. Explicitly, this means that we define the \emph{average gate fidelity between $\calE$ and $\calU$} as
 \begin{equation}
@@ -1527,20 +1551,20 @@ The integration can be carried out explicitly, obtaining an expression for the f
     (D+1) \barcalF(\calE,\calU) =
     1 + \frac{1}{D}\sum_{ijk\ell}\calU^*_{ik} \calU_{j\ell}K(\calE)_{ij,k\ell}
     = 1 + \frac{1}{D}\Tr[(\calU^\dagger\otimes \calU^T)K(\calE)],
-    \label{eq:explicit_fidelity_map_unitary}
+    \label{eq:GL:explicit_fidelity_map_unitary}
 \end{equation}
 where $K(\calE)$ denotes the natural representation of $\calE$~\cite{watrous2018theory},
 $K(\calE)_{ij,k\ell}\equiv\langle i|\calE(\ketbra{k}{\ell})|j\rangle$
 \highlight{(maybe background on this at some point eh?)}, and
 $D$ is the dimension of the underlying space (thus $D=2^n$ for an $n$-qubit system).
-In the special case of $\calE$ being a unitary evolution: $\calE(\rho)=\calV\rho \calV^\dagger$ for some unitary $\calV$,~\cref{eq:explicit_fidelity_map_unitary} becomes
+In the special case of $\calE$ being a unitary evolution: $\calE(\rho)=\calV\rho \calV^\dagger$ for some unitary $\calV$,~\cref{eq:GL:explicit_fidelity_map_unitary} becomes
 \begin{equation}
     (D+1) \barcalF(\calU, \calV) =
     1 + \frac{1}{D} \abs{\Tr(\calU^\dagger \calV)}^2.
-    \label{eq:explicit_fidelity_unitary_unitary}
+    \label{eq:GL:explicit_fidelity_unitary_unitary}
 \end{equation}
 \highlight{(the formula seems to came from Eq.8, pag.3 of~\mbox{\cite{pedersen2007fidelity}}, as well as from~\mbox{\cite{nielsen2002simple}}, even though here in a different form)}
-\Cref{eq:explicit_fidelity_unitary_unitary} can be leveraged to solve the optimisation problem posed in~\cref{eq:gatelearning_as_optimisation}.
+\Cref{eq:GL:explicit_fidelity_unitary_unitary} can be leveraged to solve the optimisation problem posed in~\cref{eq:GL:gatelearning_as_optimisation}.
 Given a parametrised Hamiltonian $\calH_{\bslambda}$, define the set of unitaries $\calU_{\bslambda}\equiv\exponential(i\calH_{\bslambda})$. Given a target gate $\calU$, the problem is then reduced to computing
 \begin{equation}
     \argmax_{\bslambda} \abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2.
@@ -1596,7 +1620,7 @@ Common techniques involve dynamically updating the learning rate, or using \emph
 To see how this class of optimisation problems is relevant to gate design problems, consider the fidelity function $\calF$ defined as
 \begin{equation}
 	\calF(\bs\lambda, \psi) \equiv \mel{\psi}{\calG^\dagger \exp(i \calH(\bs\lambda))}{\psi},
-	\label{eq:def_fidelity}
+	\label{eq:GL:def_fidelity}
 \end{equation}
 with $\calG$ the target gate, $\bs\lambda$ the set of parameters, and $\psi$ an input state.
 The gate design problem is then equivalent to finding $\bs\lambda$ such that $\calF(\bs\lambda, \psi)$ is maximised (that is, equal to 1) for all $\psi$.
@@ -1654,7 +1678,7 @@ Making use of the chain rule, the gradient of $g$ reads
 	\sum_{k} \partial_{k} f(\bs y^{(2)})
 	\grad f_{k}^{(2)}(\bs y^{(1)}),
 \end{split}
-\label{eq:grad_nested_f}
+\label{eq:GL:grad_nested_f}
 \end{equation}
 where $\bs y^{(2)} = \bs f^{(2)}(\bs f^{(1)}(\bs w))$ and
 $\bs y^{(1)} = \bs f^{(1)}(\bs w)$.

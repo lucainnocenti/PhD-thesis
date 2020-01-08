@@ -1,5 +1,5 @@
 %!TEX root = ./Thesis.tex
-
+\usepackage{breakcites}
 \usepackage{amsmath,amssymb}
 \usepackage{amsfonts}
 \usepackage{mathtools}
@@ -149,6 +149,19 @@
   title={Example \thetcbcounter},
   #1
 }
+
+\newtcolorbox[
+    auto counter,
+    number within=section,
+    crefname={example}{examples}
+]{examplebox}[2][]{
+  enhanced,
+  breakable,
+  fonttitle=\bfseries,
+  title={Example \thetcbcounter: #2},
+  #1
+}
+
 \newtcolorbox[auto counter]{tbox}[2][]{%
 	enhanced, float*=t,
 	colback=gray!5!white, colframe=gray!75!black,
@@ -168,9 +181,11 @@
 % ]{biblatex}
 % \DeclareNameAlias{author}{given-family}
 
+\usepackage{breakcites}
 \usepackage[
     backend=biber,
-    style=alphabetic,
+    style=authoryear,
+    bibstyle=authoryear,
     citestyle=authoryear,
     maxcitenames=1,
     url=true,
