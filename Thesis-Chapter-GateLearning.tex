@@ -1525,39 +1525,40 @@ This, on the other hand, means that for all three-qubit interaction terms $\bs\s
 \section{Numerical approach}
 \label{sec:GL:numerical_approach}
 
+\tmpHeading{Why is another approach useful?}
 As discussed in~\cref{sec:GL:toffoli,sec:GL:fredkin}, finding time-independent Hamiltonians with constrained interactions generating target gates is a nontrivial task. 
 Moreover, the fact that each gate presents a challenge on its own right, hinders the extendibility of the results.
-It is therefore desirable to also have a more flexible approach to solve gate learning problems with more ease and generality, even if at the cost of forsaking exact results.
+It is therefore desirable to also have a more flexible approach to solve generic gate learning problems, even if at the cost of forsaking exact results.
 
-A natural way to do this is to transform the problem into a numerical optimisation task, by defining a suitable cost function whose maximum corresponds to a solution to the original problem.
+\tmpHeading{Converting the problem into a numerical optimisation task}
+A natural way to do this is to transform the problem into a numerical optimisation task. We can do this by defining a suitable cost function whose maximum corresponds to a solution to the original problem.
 Indeed, if $\calU$ is the target gate and $\calH_\bslambda$ a parametrised Hamiltonian containing the allowed interaction terms, then the gate learning problem is equivalent to that of finding parameters $\bslambda_0$ such that $\exponential(i\calH_{\bslambda_0})=\calU$.
 In turn, this can be made into a numerical optimisation problem by introducing some function $f(U, V)$ that quantifies the distance between $U$ and $V$, and looking for the solution to the problem
 \begin{equation}
     \argmin_\lambda f(\calU, \exponential(i\calH_{\bslambda})).
     \label{eq:GL:gatelearning_as_optimisation}
 \end{equation}
-A natural candidate for such $f$ is $f(A,B)\equiv 1-\barcalF(A,B)$, with $\barcalF(A,B)$ the \textit{average gate fidelity} between $A$ and $B$~\cite{nielsen2002simple,magesan2011gate}. The average gate fidelity can be defined more generally as a way to quantify the distance between a quantum channel $\calE$ and a gate $U$, by computing the overlap between $\PP[\calU\ket\psi]$ and $\calE(\PP_\psi)$, averaged over all pure states $\ket\psi$. Explicitly, this means that we define the \emph{average gate fidelity between $\calE$ and $\calU$} as
+A natural candidate for such $f$ is $f(A,B)\equiv 1-\barcalF(A,B)$, with $\barcalF(A,B)$ the \textit{average gate fidelity} between $A$ and $B$~\cite{nielsen2002simple,magesan2011gate}. The average gate fidelity can be defined more generally as a way to quantify the distance between a quantum channel $\calE$ and a gate $\calU$, by computing the overlap between $\PP[\calU\ket\psi]$ and $\calE(\PP[\ket\psi])$, averaged over all pure states $\ket\psi$. Explicitly, this reads
 \begin{equation}
     \barcalF(\calE,\calU) = \int d\psi \calF(\calE, \calU, \psi),
 \end{equation}
-integrating over all possible pure states, with
-% \begin{equation}
+where the integral extends over all pure states, and
 $
     \calF(\calE, \calU, \psi) \equiv
-    \mel*{\psi}{\calU^\dagger \calE(\PP\psi)\calU}{\psi}.
-$% \end{equation}
-The integration can be carried out explicitly, obtaining an expression for the fidelity in terms of the matrix elements of (the natural representation of the channel~\cite{banchi2011nonperturbative,magesan2011gate,pedersen2007fidelity}, giving the expression~\cite{banchi2016quantum}:
+    \mel*{\psi}{\calU^\dagger \calE(\PP_\psi)\calU}{\psi}.
+$
+The integration can be carried out explicitly, getting an expression for $\barcalF$ in terms of the matrix elements of the natural representation of the channel~\cite{pedersen2007fidelity,banchi2011nonperturbative,magesan2011gate,banchi2016quantum}:
 \begin{equation}
     (D+1) \barcalF(\calE,\calU) =
     1 + \frac{1}{D}\sum_{ijk\ell}\calU^*_{ik} \calU_{j\ell}K(\calE)_{ij,k\ell}
     = 1 + \frac{1}{D}\Tr[(\calU^\dagger\otimes \calU^T)K(\calE)],
     \label{eq:GL:explicit_fidelity_map_unitary}
 \end{equation}
-where $K(\calE)$ denotes the natural representation of $\calE$~\cite{watrous2018theory},
-$K(\calE)_{ij,k\ell}\equiv\langle i|\calE(\ketbra{k}{\ell})|j\rangle$
-\highlight{(maybe background on this at some point eh?)}, and
+where $K(\calE)$ denotes the natural representation of $\calE$~\cite{watrous2018theory}, whose matrix elements read
+$K(\calE)_{ij,k\ell}\equiv\langle i|\calE(\ketbra{k}{\ell})|j\rangle$, and
 $D$ is the dimension of the underlying space (thus $D=2^n$ for an $n$-qubit system).
-In the special case of $\calE$ being a unitary evolution: $\calE(\rho)=\calV\rho \calV^\dagger$ for some unitary $\calV$,~\cref{eq:GL:explicit_fidelity_map_unitary} becomes
+\highlight{(do we need to put the relevant background on quantum channels?)}
+In the special case of $\calE$ unitary, $\calE(\rho)=\calV\rho \calV^\dagger$ for some unitary $\calV$,~\cref{eq:GL:explicit_fidelity_map_unitary} becomes
 \begin{equation}
     (D+1) \barcalF(\calU, \calV) =
     1 + \frac{1}{D} \abs{\Tr(\calU^\dagger \calV)}^2.
