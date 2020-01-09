@@ -1522,7 +1522,7 @@ This, on the other hand, means that for all three-qubit interaction terms $\bs\s
 \highlight{Maybe CCZ gate case?}
 
 
-\section{Numerical approach}
+\section{Naive numerical approach}
 \label{sec:GL:numerical_approach}
 
 \tmpHeading{Why is another approach useful?}
@@ -1566,36 +1566,35 @@ In the special case of $\calE$ unitary, $\calE(\rho)=\calV\rho \calV^\dagger$ fo
 \end{equation}
 \highlight{(the formula seems to came from Eq.8, pag.3 of~\mbox{\cite{pedersen2007fidelity}}, as well as from~\mbox{\cite{nielsen2002simple}}, even though here in a different form)}
 \Cref{eq:GL:explicit_fidelity_unitary_unitary} can be leveraged to solve the optimisation problem posed in~\cref{eq:GL:gatelearning_as_optimisation}.
-Given a parametrised Hamiltonian $\calH_{\bslambda}$, define the set of unitaries $\calU_{\bslambda}\equiv\exponential(i\calH_{\bslambda})$. Given a target gate $\calU$, the problem is then reduced to computing
+Given a parametrised Hamiltonian $\calH_{\bslambda}$, define the set of unitaries $\calU_{\bslambda}\equiv\exponential(i\calH_{\bslambda})$. Given a target gate $\calU$, the problem is then reduced to solving
 \begin{equation}
     \argmax_{\bslambda} \abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2.
 \end{equation}
 \highlight{add results of doing this}
-
-\paragraph{We do this and get this and this result}
-
 
 
 
 \section{Supervised learning}
 \label{sec:GL:supervised_learning}
 
+\tmpHeading{A more efficient method using ML}
 As discussed in~\cref{sec:GL:numerical_approach}, while the problem \emph{can} in some cases be approached with standard numerical optimisation techniques, this has in general limited success.
-The problem lies in the mapping $\bslambda\mapsto\abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2$ being not convex, which makes finding the global maximum a generally quite involved task\highlight{(not sure we should be this explicit as to the reasons of the complexity here)}.
-By borrowing from ideas commonly used in the context of supervised \ac{ML}, we show here how to devise a technique to tackle gate design problems more efficiently, thus extending and improving on the ideas presented in Ref.~\cite{banchi2016quantum}.
+The problem lies in the mapping $\bslambda\mapsto\abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2$ being not convex, which makes finding the global maximum a generally quite involved task.
+By borrowing ideas from the context of supervised \ac{ML}, we present here a technique to tackle gate design problems more efficiently, thus extending and improving on the ideas presented in Ref.~\cite{banchi2016quantum}.
 In particular, the use of \ac{AD}~\cite{baydin2018automatic,bartholomewbiggs2000automatic,wengert1964a,bischof2008advances} brings dramatic improvements, efficiency-wise, thus allowing to explore a variety of different scenarios, and optimising over potentially hundreds of Hamiltonian parameters.
 On top of this, the conditions given in~\cref{sec:GL:solution_framework} further speed-up the numerical training, removing many interaction parameters that are known not to lead to the target gate.
 
+\tmpHeading{Supervised learning and neural networks}
 Supervised learning is the task of inferring or approximating a function, given a dataset of pre-labelled data~\cite{bishop2006pattern,mohri2012foundations}.
 A supervised learning algorithm starts with some \emph{model} --- a functional relation $g_{\bs\lambda}$ parametrised by a set of parameters $\bs\lambda$ --- and finds a $\bs\lambda_0$ making $g_{\bs\lambda_0}$ as close as possible to a target function $f$.
 To do this, a set of pre-labeled \emph{training data} $\{ (x_1, y_1), (x_2,y_2), ...\}$ is used,
 where here $y_k=f(x_k)$ is the output that we want the algorithm to associate to the input $x_k$.
-
-An important class of supervised learning models are the so-called \acp{NN}~\cite{hechtnielsen1989theory,haykin1998neural}.
+An important class of supervised learning models are the so-called \acp{NN} \cite{hechtnielsen1989theory,haykin1998neural}.
 These are parametric non-linear models which play a prominent role in many machine learning tasks, such as dimensionality reduction, classification, and feature extraction~\cite{hechtnielsen1989theory,haykin1998neural}\highlight{check refs}.
 \acp{NN} have also recently proven useful in the context of quantum many-body theory~\cite{amin2016quantum,wang2016discovering,hush2017machine,carleo2017solving,carrasquilla2017machine,torlai2017manybody,broecker2017quantum,deng2017quantum},
 quantum compilation~\cite{swaddle2017generating}, quantum stabilizer codes~\cite{krastanov2017deep} and entanglement quantification~\cite{gray2017measuring}\highlight{(definitely more refs)}.
 
+\tmpHeading{How does stochastic gradient descent work?}
 A \ac{NN} is \emph{trained} by optimising its parameters using a dataset of pre-labelled data.
 % A common such method is the so-called \ac{SGD}~\cite{bishop2006pattern}.
 A common  way to do this is use variations of a gradient-descent-based technique named \acf{SGD}.
@@ -1618,6 +1617,7 @@ $\bs w\to\bs w-\eta\sum_{k=1}^M\grad_{\bs w}f(\bs x_k; \bs w)/M$.
 More sophisticated updating rules are used to increase the training efficiency in different circumstances.
 Common techniques involve dynamically updating the learning rate, or using \emph{momentum gradient descent}~\cite{goh2017momentum,ruder2016overview} techniques.
 
+\tmpHeading{How is gate design a supervised learning problem?}
 To see how this class of optimisation problems is relevant to gate design problems, consider the fidelity function $\calF$ defined as
 \begin{equation}
 	\calF(\bs\lambda, \psi) \equiv \mel{\psi}{\calG^\dagger \exp(i \calH(\bs\lambda))}{\psi},
@@ -1631,6 +1631,7 @@ This, however, reveals to be often impractical, due to the complexity of the ass
 On the other hand, \ac{SGD} allows to apply a simple and efficient local maximisation method, while at the same time being less prone to getting stuck in local maxima.
 This works particularly well in this case, because we know that the sets of parameters corresponding to the target gate are \emph{all and only} those such that \emph{for all inputs $\psi$} the fidelity is unitary.
 
+\tmpHeading{How can we compute the gradients efficiently?}
 Efficiency-wise, a critical step in gradient descent algorithms is the evaluation of the gradient.
 Numerically approximating the gradient, as done in previous works~\cite{banchi2016quantum}, is generally inefficient and scales badly with the number of optimised parameters.
 An alternative to numerical differentiation is \emph{symbolic differentiation}: computing the expressions for the derivatives analytically and then directly use the corresponding expressions in the algorithm. This can give significant improvements over numerical differentiation, but comes with its own set of problems: deriving these expressions manually would make the algorithm less flexible and requiring to be changed for each different cost function; moreover, the expression for the derivative can get very convoluted.
@@ -1648,31 +1649,38 @@ Here we will instead make use of \acf{AD}~\cite{bartholomewbiggs2000automatic,bi
 \subsection{Backpropagation}
 \label{subsec:GL:backpropagation}
 
-The gradient evaluation phase is efficiency-wise crucial for the training of a neural network.
+\tmpHeading{Efficiencty of computing the gradients}
+The gradient evaluation phase is, efficiency-wise, crucial for the training of a NN.
 % In fact, large networks contain many weight parameters $w_k$, and the computation of the gradient $\grad E(\bs w^{(t)})$ requires the computation of $\partial_{w_k} E(\bs w^{(t)})$ for all such $k$.
 Computing the partial derivatives of the cost function with a standard method, like finite differences, has a complexity $\mathcal O(N_{\bs w}^3)$, with $N_{\bs w}$ the number of parameters to differentiate~\cite{bishop2006pattern}.
 This inefficiency can however be avoided using \emph{error backpropagation} via \ac{AD}.
 With this technique, the complexity of the gradient evaluation phase can be cut down to $\mathcal O(N_{\bs w}^2)$~\cite{bishop2006pattern}.
-This works by first decomposing the cost function of the model in terms of elementary operations, that is, functions the gradient of which is known analytically.
-In this way the \emph{computational graph} representing the functional relation between input and output is built.
+This works by first decomposing the cost function in terms of elementary operations, that is, functions the gradient of which is known analytically.
+In this way a \emph{computational graph}, representing the functional relation between input and output as a sequence of elementary operations applied iteratively, is built.
 A computational graph is a directed acyclic graph, whose nodes represent the operations, and edges the flowing direction of inputs into outputs (see~\cref{fig:automatic-differentiation}).
 Once the computational graph is built, the derivatives with respect to the model parameters can be computed efficiently.
 This happens in two stages, as schematically illustrated in~\cref{fig:automatic-differentiation}.
-At first, every node of the computational graph is progressively computed, starting from the inputs (the current values of the model parameters) up to the final value of the error function.
-During this process, the intermediate values of the elementary operations are cached.
+At first, every node of the computational graph is progressively evaluated, starting from the inputs (the current values of the model parameters) up to the final value of the cost function.
+During this process, the intermediate values of the elementary operations are cached (that is, stored in memory for later use).
 This is the so-called \emph{feed-forward} phase.
-The second phase (so-called \emph{backpropagation} phase) starts from the output, and consists of progressively computing the gradients of the error function with respect to the independent variables.
+The second phase, the so-called \emph{backpropagation} phase, starts from the output, and consists of progressively evaluating the gradients of the cost function with respect to the independent variables.
 
 % The core mechanism behind backpropagation is the chain rule of differentiation.
 % The name refers to the fact that, exploiting the chain rule of differentiation, the gradient of a complicated function can be expressed in a way that is recursively computed by traversing the neural network in the reverse direction.
 % More specifically, when using error backpropagation in reverse-accumulation mode the gradient evaluation is comprised of two steps:
 % 1) Given an input vector $\bs x$, forward propagate it through the network, finding and memorizing the activations of all hidden and output neurons, and
 % 2) Now starting from the outputs and going back towards the inputs, use the chain rule of differentiation to compute the gradient of the output function $E(\bs w)$ with respect to all inputs $\bs x$.
-To better understand \ac{AD}, let us consider a simple example.
-Suppose the error function of the model is of the form
-$g(\bs w)\equiv f(\bs f^{(2)}(\bs f^{(1)}(\bs w)))$,
-where $\bs w$ is a set of parameters, and $\bs f^{(i)}$ are intermediate ``elementary'' functions, the gradients of which are supposed to be known analytically.
-Making use of the chain rule, the gradient of $g$ reads
+\tmpHeading{An example to understand better}
+To better understand \ac{AD}, let us work out a simple example.
+Suppose the cost function is of the form
+$g(\bs w)\equiv f(\bs f^{(2)}(\bs f^{(1)}(\bs w)))$.
+Here, $\bs w$ is the vector of input parameters, and $\bs f^{(i)},f$ are intermediate ``elementary'' functions, the gradients of which are assumed to be known analytically (these can be, for example, trigonometric functions, polynomial functions, etc.).
+Using the chain rule, the gradient of $g$ then reads
+\begin{equation}
+    \partial_i g = \partial_k f \partial_j f^{(2)}_k
+\end{equation}
+
+POIASJDOISDJFIUODHFIUDHFIUSHFOAIUSFHOUISAHD
 \begin{equation}
 \begin{split}
 	\grad g(\bs w) =
@@ -1694,6 +1702,7 @@ Again, being $\bs y^{(1)}$ already computed during the feed-forward, $\partial_j
 The last component needed for the full gradient is $\partial_i f_j^{(1)}(\bs w)$, all parts of which are known.
 This method therefore allows to efficiently evaluate numerical the gradient of complicated functions, without approximating the derivatives.
 
+\tmpHeading{How is this used in the context of NNs?}
 In the context of training neural networks, the function to be derived is the \emph{cost function} of the network, that is, roughly speaking, the (euclidean) distance between the result obtained for an input and the corresponding training output.
 For the gate design problem, we will use another notion of \emph{distance} between output obtained and output expected.
 For quantum states, the fidelity between these turns out to work well.
