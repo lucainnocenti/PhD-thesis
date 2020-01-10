@@ -1596,7 +1596,7 @@ where here $y_k=f(x_k)$ is the output that we want the algorithm to associate to
 An important class of supervised learning models are the so-called \acp{NN} \cite{hechtnielsen1989theory,haykin1998neural}.
 These are parametric non-linear models which play a prominent role in many machine learning tasks, such as dimensionality reduction, classification, and feature extraction~\cite{hechtnielsen1989theory,haykin1998neural}\highlight{check refs}.
 \acp{NN} have also recently proven useful in the context of quantum many-body theory~\cite{amin2016quantum,wang2016discovering,hush2017machine,carleo2017solving,carrasquilla2017machine,torlai2017manybody,broecker2017quantum,deng2017quantum},
-quantum compilation~\cite{swaddle2017generating}, quantum stabilizer codes~\cite{krastanov2017deep} and entanglement quantification~\cite{gray2017measuring}\highlight{(definitely more refs)}.
+quantum compilation~\cite{swaddle2017generating}, quantum stabilizer codes~\cite{krastanov2017deep} and entanglement quantification~\cite{gray2018machinelearningassisted}\highlight{(definitely more refs)}.
 
 \tmpHeading{How does stochastic gradient descent work?}
 A \ac{NN} is \emph{trained} by optimising its parameters using a dataset of pre-labelled data.
@@ -2181,3 +2181,132 @@ These results provide further evidence in support of the power and flexibility o
 We have reported on strategies for supervised learning-assisted synthesis of multi-qubit quantum gates. The general scheme of our gate design is based on the use of a limited set of resources (such as two-qubit gates) that, in general, would not be sufficient for arbitrary gate design. However, the catalyst effect brought about by the use of machine learning -- specifically, stochastic momentum gradient descent -- is sufficient to overcome the limitation of our resources and deliver high-quality complex quantum gates. We have demonstrated the performance of our scheme by addressing the significant cases of a half-adder and a \ac{QFT} circuit. Moreover, we have shown the flexibility of our approach by addressing a novel type of gate that puts together the paradigmatic quantum Toffoli and Fredkin gates.
 
 We believe that the proposed methodology will be able to significantly help in the task of designing complex evolutions suitable for the simulation of the dynamics of networks of information carriers, lowering the complexity associated with gate decomposition, and simply adopting well-known techniques of classical machine learning.
+
+\renewcommand{\graphicswithlabel}[2]{%
+    \begin{tikzpicture}
+        \node[anchor=south west, inner sep=0] at (0, 0)%
+            {\includegraphics[width=.9\linewidth]{#2}};
+        \node[above] at (1, 4.6) {\textbf{(#1)}};
+    \end{tikzpicture}%
+}
+\begin{figure}
+    \centering
+    \graphicswithlabel{a}{verona-qft3q+5a_all}
+    \graphicswithlabel{b}{verona-toffredkin_all}
+    \graphicswithlabel{c}{verona-halfadder_all}
+    \caption{
+        Trained parameters for the three-qubit \ac{QFT}, TofFredkin and half-adder networks. We plot the values taken by the elements of the full set of parameters entering Eq. (6) and ordered as ${\bs\lambda}=\{h_0,h^1_1,\dots,h^3_N,J^{11}_{11},\dots,J^{33}_{NN}\}$ with $N$ the number of elements of the qubit network.
+    }
+    \label{fig:parameters}
+\end{figure}
+
+\renewcommand{\graphicswithlabel}[3]{%
+    \begin{tikzpicture}
+        \node[anchor=north west] (A) at (0, 0)%
+            {\includegraphics[width=.6\linewidth]{#2}};
+        \node[above] at (1.5, -.85) {\small\textbf{(#1)}};
+        \node[above] at (4.3, -4.4) {#3};
+        \node[above] at (1.1, -.3) {$\mathcal F_\bslambda(\psi)$};
+    \end{tikzpicture}%
+}
+\begin{figure}
+    \centering
+    \vspace{-40pt}%
+    \graphicswithlabel{a}{verona-toffredkin_fidVStime}{$\alpha$}\vspace{-6pt}
+    \graphicswithlabel{b}{verona-toffredkin_fidVStime_wide}{$\alpha$}\vspace{-6pt}
+    \graphicswithlabel{c}{verona-toffredkin_fidVSpar0}{$\lambda_1$}\vspace{-6pt}
+    % \graphicswithlabel{d}{verona-toffredkin_fidVSpar1}{$\lambda_2$}\vspace{-6pt}
+    % \includegraphics[width=.65\linewidth]{verona-toffredkin_fidVStime}
+    % \includegraphics[width=.65\linewidth]{verona-toffredkin_fidVStime_wide}
+    % \includegraphics[width=.65\linewidth]{verona-toffredkin_fidVSpar0}
+    % \includegraphics[width=.65\linewidth]{verona-toffredkin_fidVSpar1}
+    \caption{\footnotesize
+        Fidelity $\calF_\bslambda(\psi)$ vs variations of $\bslambda$, for different test states, for the TofFredkin gate. The five test states $\psi$ are sampled randomly.
+        \textbf{(a)} Global relative variations of $\bslambda$, that is, plotting the fidelity against $\alpha\bslambda$ for $0.9 \le\alpha\le 1.1$.
+        Note that this is equivalent to studying how the fidelity changes with respect to uncertainties in the evolution time, that is, how much does $\exp(i\calH t')$ differ from $\exp(i\calH t)$.
+        \textbf{(b)} Same as \emph{(a)} but with $0\le\alpha\le 1.2$.
+        \textbf{(c)} Plot of $\calF_\bslambda(\psi)$ against \emph{absolute} variations of a single element of $\bslambda$, in this case the first one, i.e. we take $\lambda_1\in[-10,10]$.
+        \textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
+    }
+    \label{fig:toffredkin_fidVSpars}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{verona-toffredkin_finalmatrix}
+    \caption{
+        Final TofFredkin gate found from the supervised learning training.
+        In this representation, the ancillary qubit is the first one, so that the top-left $8\times8$ submatrix describes the evolution of states when the ancillary qubit starts as $\ket0$.
+        Notably, it is clear from the matrix that the gate acts diagonally on the ancillary qubits, which therefore effectively acts as a control qubit.
+        When this control ancillary qubit is $\ket0$, the other three qubits evolve according to the TofFredkin gate.
+    }
+    \label{fig:toffredkin_finalmatrix}
+\end{figure}
+
+\renewcommand{\graphicswithlabel}[3]{%
+    \begin{tikzpicture}
+        \node[anchor=north west] (A) at (0, 0)%
+            {\includegraphics[width=.6\linewidth]{#2}};
+        \node[above] at (1, -.85) {\small\textbf{(#1)}};
+        \node[above] at (4.3, -4.4) {#3};
+        \node[above] at (1.1, -.3) {$\mathcal F_\bslambda(\psi)$};
+    \end{tikzpicture}%
+}
+\begin{figure}
+    \centering
+    \vspace{-40pt}\graphicswithlabel{a}{verona-qft3q+5a_fidVStime}{$\alpha$}\vspace{-6pt}
+    \graphicswithlabel{b}{verona-qft3q+5a_fidVStime_wide}{$\alpha$}\vspace{-6pt}
+    \graphicswithlabel{c}{verona-qft3q+5a_fidVSpar0}{$\lambda_1$}\vspace{-6pt}
+    \graphicswithlabel{d}{verona-qft3q+5a_fidVSpar1}{$\lambda_2$}\vspace{-6pt}
+    \caption{
+        Fidelity $\calF_\bslambda(\psi)$ vs variations of $\bslambda$, for different test states, for the \textbf{three-qubit QFT} gate. The five test states $\psi$ are sampled randomly.
+        \textbf{(a)} Global relative variations of $\bslambda$, that is, plotting the fidelity against $\alpha\bslambda$ for $0.9 \le\alpha\le 1.1$.
+        Note that this is equivalent to studying how the fidelity changes with respect to uncertainties in the evolution time, that is, how much does $\exp(i\calH t')$ differ from $\exp(i\calH t)$.
+        \textbf{(b)} Same as \emph{(a)} but with $0\le\alpha\le 1.2$.
+        \textbf{(c)} Plot of $\calF_\bslambda(\psi)$ against \emph{absolute} variations of a single element of $\bslambda$, in this case the first one, i.e. we take $\lambda_1\in[-10,10]$.
+        \textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
+    }
+    \label{fig:qft3q+5a_fidVSpars}
+\end{figure}
+\thispagestyle{empty}
+
+\renewcommand{\graphicswithlabel}[3]{%
+    \begin{tikzpicture}
+        \node[anchor=north west] at (0, 0)%
+            {\includegraphics[width=.64\linewidth]{#2}};
+        \node[above] at (1, -.85) {\small\textbf{(#1)}};
+        \node[above] at (4.3, -4.4) {#3};
+        \node[above] at (1.1, -.3) {$\mathcal F_\bslambda(\psi)$};
+    \end{tikzpicture}%
+}
+\begin{figure}
+    \centering
+    \graphicswithlabel{a}{verona-halfadder_fidVStime}{$\alpha$}\vspace{-6pt}
+    \graphicswithlabel{b}{verona-halfadder_fidVStime_wide}{$\alpha$}\vspace{-6pt}
+    \graphicswithlabel{c}{verona-halfadder_fidVSpar0}{$\lambda_1$}\vspace{-6pt}
+    \graphicswithlabel{d}{verona-halfadder_fidVSpar1}{$\lambda_2$}
+    % \includegraphics[width=.65\linewidth]{verona-halfadder_fidVStime}
+    % \includegraphics[width=.65\linewidth]{verona-halfadder_fidVStime_wide}
+    % \includegraphics[width=.65\linewidth]{verona-halfadder_fidVSpar0}
+    % \includegraphics[width=.65\linewidth]{verona-halfadder_fidVSpar1}
+    \caption{
+        Fidelity $\calF_\bslambda(\psi)$ vs variations of $\bslambda$, for different test states, for the \textbf{half-adder} gate. The five test states $\psi$ are sampled randomly.
+        \textbf{(a)} Global relative variations of $\bslambda$, that is, plotting the fidelity against $\alpha\bslambda$ for $0.9 \le\alpha\le 1.1$.
+        Note that this is equivalent to studying how the fidelity changes with respect to uncertainties in the evolution time, that is, how much does $\exp(i\calH t')$ differ from $\exp(i\calH t)$.
+        \textbf{(b)} Same as \emph{(a)} but with $0\le\alpha\le 1.2$.
+        \textbf{(c)} Plot of $\calF_\bslambda(\psi)$ against \emph{absolute} variations of a single element of $\bslambda$, in this case the first one, i.e. we take $\lambda_1\in[-10,10]$.
+        \textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
+    }
+    \label{fig:halfadder_fidVSpars}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{verona-halfadder_finalmatrix}
+    \caption{
+        Final half-adder gate found from the supervised learning training.
+        In this representation, the ancillary qubit is the first one, so that the top-left $8\times8$ submatrix describes the evolution of states when the ancillary qubit starts as $\ket0$.
+        Notably, it is clear from the matrix that the gate acts diagonally on the ancillary qubits, which therefore effectively acts as a control qubit, which when $\ket0$ induces the other three qubits to evolve according to the half-adder gate.
+    }
+    \label{fig:halfadder_finalmatrix}
+\end{figure}

@@ -19,7 +19,7 @@ In fact, the realisation itself that this feat was possible at all prompted a st
 Among the other technologies, quantum computers are arguably the idea that received the most traction in recent years, possibly due to the monopolising prominence of their classical cousins.
 Still, practical and useful quantum computation is still far on the horizon, and will still require a number of theoretical and fundamental breakthroughs to finally reach it~\cite{preskill2018quantum,flamini2018photonic,wang2019integrated}.
 Nonetheless, the last few years have seen a number of such breakthroughs follow one another~\cite{fowler2012surface,barends2014superconducting,córcoles2015demonstration,ofek2016extending,arute2019quantum}.
-Moreover, even though achieving scalable and fault-tolerant large-scale quantum computation remains a titanic challenge with present-day technology, there are ways to at least settle the overarching question of whether it is possible \textit{even in principle} to solve problems faster than what classical physics allows~\cite{aaronson2011computational,bremner2016average,boixo2018characterizing,aaronson2017complexity,neill2018blueprint}. This spurred the race to achieve the so-called \textit{quantum computational supremacy}~\cite{gross2013the,broome2012photonic,spring2012boson,crespi2013integrated,tillmann2013experimental,bentivegna2015experimental,zhong201812photon,zhong2019experimental,wang2019boson,bouland2018complexity,arute2019quantum}.
+Moreover, even though achieving scalable and fault-tolerant large-scale quantum computation remains a titanic challenge with present-day technology, there are ways to at least settle the overarching question of whether it is possible \textit{even in principle} to solve problems faster than what classical physics allows~\cite{aaronson2011computational,bremner2016average,boixo2018characterizing,aaronson2017complexity,neill2018blueprint}. This spurred the race to achieve the so-called \textit{quantum computational supremacy}~\cite{broome2012photonic,spring2012boson,crespi2013integrated,tillmann2013experimental,bentivegna2015experimental,zhong201812photon,zhong2019experimental,wang2019boson,bouland2018complexity,arute2019quantum}.
 Several different quantum computing architectures are being studied as possible physical media of quantum information processing, including schemes relying on photonics~\cite{wang2019integrated,flamini2018photonic}, trapped ions~\cite{bruzewicz2019trappedion,lekitsch2017blueprint}, superconducting~\cite{krantz2019quantum,you2011atomic}, or cold atoms.
 Similarly, many paradigms have been developed. One broad distinction can be made between \textit{discrete variables}~\cite{walmsley2005applied,andersen2015hybrid} and \textit{continuous variables}~\cite{lloyd1999quantum,braunstein2005quantum} approaches.
 On top of this, several different paradigms are possible, ranging from the more commonly familiar notion of the circuit model for quantum computation~\cite{nielsen2006quantum}, to one-way quantum computation approaches~\cite{raussendorf2001one,walther2005experimental,browne2006one}, to adiabatic quantum computing~\cite{aharonov2004adiabatic,albash2018adiabatic}.
@@ -39,29 +39,29 @@ Indeed, the ``simple'' problem of ``fitting a model'' to a given dataset, when n
 
 
 \tmpHeading{Machine learning and physics}
-\cite{carleo2019machine}\highlight{and all the other references}
+\cite{carleo2019machine}\highlight{(give me moooooooore reeefs)}
+Discovering physical concepts with neural networks~\cite{iten2020discovering}.
 
 \tmpHeading{``Quantum machine learning''?}
 In particular, the intersection of \ac{ML} and quantum information science is also currently under intense study, and falls generically under the name of \ac{QML}~\cite{wittek2014quantum,schuld2014introduction,adcock2015advances,biamonte2017quantum}.
 Due to the wide reach of both fields, \ac{QML} inevitably branched out into several different directions of study.
 The terminology of was first used to refer to quantum algorithms tackling \ac{ML} tasks more efficiently~\cite{giovannetti2008quantum,harrow2009quantum,lloyd2013quantum,lloyd2014quantum,rebentrost2014quantum,lloyd2016quantum,rebentrost2018quantum,rebentrost2016quantum}. This line of study can therefore be considered as a subfield of quantum computation and quantum algorithm development focussed on the task of big data processing. An important body of work followed this path~\cite{wittek2014quantum,schuld2014introduction,dunjko2017machine,ciliberto2018quantum,schuld2018supervised,perdomo-ortiz2018opportunities}. This direction of study is now sometimes referred to as \emph{quantum-enhanced machine learning}, to distinguish it from other subfields of the much-encompassing label ``\ac{QML}''.
-Another direction of study, more focussed on the theoretical foundations on how quantum mechanics can make the general process of \emph{learning} more efficient, is \emph{quantum learning theory}~\cite{arunachalam2017survey}.
-% \cite{giovannetti2008quantum,harrow2009quantum,sentís2012quantum,lloyd2013quantum,lloyd2014quantum,rebentrost2014quantum,wiebe2014quantum,aaronson2015read,sentís2015quantum,lloyd2016quantum,rebentrost2018quantum,schuld2016prediction,rebentrost2016quantum,childs2017quantum}.
-Yet another field of study falling under the umbrella term ``\ac{QML}'' concerns how \emph{classical} \ac{ML} can assist in finding solutions to problems in the field of quantum information science~\cite{spears2018deep,carleo2019machine}.
-This latter topic is what a large part of this thesis will be devoted to.
+Another direction of study, more focussed on the theoretical foundations of \emph{learning} in a quantum mechanical context, is \emph{quantum learning theory}~\cite{aaronson2007learnability,aaronson2017shadow,arunachalam2017survey,aaronson2018online,rocchetto2019experimental}.
 
+% \cite{giovannetti2008quantum,harrow2009quantum,sentís2012quantum,lloyd2013quantum,lloyd2014quantum,rebentrost2014quantum,wiebe2014quantum,aaronson2015read,sentís2015quantum,lloyd2016quantum,rebentrost2018quantum,schuld2016prediction,rebentrost2016quantum,childs2017quantum}.
+Yet another field of study falling under the umbrella term ``\ac{QML}'' concerns how \emph{classical} \ac{ML} can assist in finding solutions to problems in the field of quantum information science~\cite{zdeborov2017machine,spears2018deep,carleo2019machine}.
+This latter topic is what a large part of this thesis will be devoted to.
 % ############################# TO ADD BACK IF TIME ALLOWS
 % \tmpHeading{Hybrid approaches}
 % Hybrid classical-quantum approaches are also worth noting. Here we should cite works on VQA algorithms etc.
 
 \tmpHeading{Machine learning for quantum information science}
-The volume of research that this field of study has seen in the past few years is such that a comprehensive literature review would be out of place here \highlight{(brutta)}.
-Some of the directions that have seen the largest interest we identify the many applications of machine learning for many-body physics, and more generally the use of \emph{neural-network quantum states} as \ansatz to find entangled states etc~\highlight{(refs for Carleo, Melko, Carrasquilla papers. Check out also last paper by Mauro and Alessandro.)}
-Also applications to identify phase transitions~\highlight{refs}.
-A few notable mentions: \cite{zdeborov2017machine,carrasquilla2017machine,carleo2017solving,van2017learning,schoenholz2016structural,torlai2017manybody,rocchetto2019experimental,melnikov2018active,banchi2016quantum,fujita2018construction,innocenti2018supervised}.
+Among the other applications, \ac{ML} has been used to find efficiently the ground state of many-body systems~\cite{carleo2017solving}. The \emph{neural quantum state} \ansatz underlying this work then revealed useful for a variety of other applications~\cite{torlai2017neural,torlai2017manybody,choo2018symmetries,saito2018method,torlai2018neuralnetwork,torlai2018latent,sharir2019deep,jia2019quantum,levine2019quantum,hartmann2019neuralnetwork,vicentini2019variational,torlai2019integrating,liu2019machine,harney2019entanglement,cui2019directions,carleo2019machine}\highlight{(think if we want to break these references into multiple "sections")}. The expressive power of this \ansatz has also been explored~\cite{deng2017quantum,gao2017efficient}, as well as its connections with tensor networks~\cite{glasser2018neuralnetwork}.
+Neural networks have also been used to classify phases in many-body systems~\cite{wang2016discovering,carrasquilla2017machine,van2017learning,deng2017machine,kaubruegger2018chiral,carleo2019machine}\highlight{(in teoria ci sono un sacco di altre referenze da poter aggiungere qui...)}.
+ML-assisted methods have also been used to reconstruct and probe characteristics of the states generating a measured experimental dataset~\cite{fujita2018construction,gray2018machinelearningassisted,havlíček2019supervised,canabarro2019machine,agresti2019pattern}, to devise fault-tolerant and quantum error-correction schemes~\cite{liu2019neural}, ???.
+Other strategies include variational autoencoders to learn quantum distributions~\cite{rocchetto2018learning}.
+Another classical algorithm that was used in the context of quantum information science is \emph{projective simulation}~\cite{melnikov2014projective,makmal2016metalearning,melnikov2017projective,melnikov2018benchmarking,melnikov2018active,wallnöfer2019machine,flamini2019photonic}.
 
-Among the other applications, \ac{ML} has been used to find efficiently the ground state of many-body systems~\cite{carleo2017solving}. The \emph{neural quantum state} \ansatz underlying this work then revealed useful for a variety of other applications~\cite{torlai2017neural,torlai2017manybody,choo2018symmetries,saito2018method,torlai2018neuralnetwork,torlai2018latent,torlai2019integrating,sharir2019deep,levine2019quantum,liu2019machine,carleo2019machine}. The expressive power of this \ansatz has also been explored~\cite{deng2017quantum,gao2017efficient}, as well as its connections with tensor networks~\cite{glasser2018neuralnetwork}.
-Neural networks have also been used to classify phases of many-body systems~\cite{wang2016discovering,carrasquilla2017machine,van2017learning,carleo2019machine}.
 
 \tmpHeading{Supervised learning for quantum information science}
 Supervised learning, in particular, provides powerful tools to build algorithms able to pick up patterns from sets of pre-labelled data.
@@ -242,7 +242,7 @@ We will then in the following use a variation of~\cref{eq:qws_shitty_definition_
     \calS = \PP_0\otimes I + \PP_1\otimes \EE_+
     =\ketbra0\otimes I +\ketbra1\otimes\sum_k\ketbra{k+1}{k}.
 \end{equation}
-This notation, while somewhat nonstandard, has proven useful to derive some results~\cite{hoyer2009faster,montero2013unidirectional,montero2015quantum}, and will be used in~\cref{sec:quantum_walks} to obtain most of our analytical results.
+This notation, while somewhat nonstandard, has proven useful to derive some results~\cite{hoyer2009faster,montero2013unidirectional,montero2015quantum}, and will be used in~\cref{sec:intro:QWs} to obtain most of our analytical results.
 
 \begin{figure}[]
     \centering
