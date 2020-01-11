@@ -40,10 +40,6 @@ On the other hand, by improving our understanding of the underlying mathematical
 In~\cref{sec:GL:problem_details} we explain in detail the mathematics underlying gate learning problems, and how physical constraints on the possible Hamiltonian parameters can be brought into the discussion. In~\cref{sec:GL:solution_framework} we finally provide one of the main results of the chapter, in the form of a solution framework that will prove useful both to solve gate learning problems exactly and to speed-up the numerical optimisations when needed. In~\cref{sec:GL:toffoli} we present the analytical results on the implementability of the Toffoli gate, while in~\cref{sec:GL:fredkin} those concerning the Fredkin gate. We continue in~\cref{sec:GL:numerical_approach} by discussing how the problem can be massaged to make it solvable via a numerical optimisation approach, and finally in~\cref{sec:GL:supervised_learning} we show how \ac{ML} techniques can be used to obtain even further efficiency improvements.
 Further results using the same numerical apparatus will be given in~\cref{chapter:gate_learning_verona}
 
-\subsection{(FROM IJQJ) Intro}
-
-The remainder of this paper is organized as follows. In Sec.~\ref{sec:optimisation} we introduce the context of the problem that we address, stating the mathematical conditions that qualify a successful gate design (or synthesis). Sec.~\ref{learning} is dedicated to the illustration of the supervised learning approach that we use to tackle our problem. In Sec.~\ref{details} we discuss in details the stochastic momentum gradient descent approach that we choose to ensure the fulfilment of the mathematical conditions for gate design. Such methods are used in Sec.~\ref{results} to address quantitatively the training of a qubit network for the synthesis of three non-trivial three-qubit gates, including a half-adder and a quantum Fourier transform. We demonstrate that extremely high-quality gates can be synthesised using only evolutions coupling at most two qubits per time. Moreover, such restricted-resource designs are relatively stable against variations in the controlled parameters of the synthesis, which makes our approach robust, and potentially very interesting for implementation in a number of context, from superconducting quantum systems to trapped ions.
-Finally, in Sec.~\ref{concl} we draw our conclusions.
 
 \section{Time-independent dynamics for target gates}
 \label{sec:GL:problem_details}
@@ -1526,7 +1522,7 @@ This, on the other hand, means that for all three-qubit interaction terms $\bs\s
 \highlight{Maybe CCZ gate case?}
 
 
-\section{Naive numerical approach}
+\section{A straightforward numerical approach}
 \label{sec:GL:numerical_approach}
 
 \tmpHeading{Why is another approach useful?}
@@ -1581,14 +1577,16 @@ Given a parametrised Hamiltonian $\calH_{\bslambda}$, define the set of unitarie
 \section{Supervised learning}
 \label{sec:GL:supervised_learning}
 
-\tmpHeading{A more efficient method using ML}
+\tmpHeading{Why does ML help?}
 As discussed in~\cref{sec:GL:numerical_approach}, while the problem \emph{can} in some cases be approached with standard numerical optimisation techniques, this has in general limited success.
 The problem lies in the mapping $\bslambda\mapsto\abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2$ being not convex, which makes finding the global maximum a generally quite involved task.
 By borrowing ideas from the context of supervised \ac{ML}, we present here a technique to tackle gate design problems more efficiently, thus extending and improving on the ideas presented in Ref.~\cite{banchi2016quantum}.
 In particular, the use of \ac{AD}~\cite{baydin2018automatic,bartholomewbiggs2000automatic,wengert1964a,bischof2008advances} brings dramatic improvements, efficiency-wise, thus allowing to explore a variety of different scenarios, and optimising over potentially hundreds of Hamiltonian parameters.
 On top of this, the conditions given in~\cref{sec:GL:solution_framework} further speed-up the numerical training, removing many interaction parameters that are known not to lead to the target gate.
 
-\tmpHeading{Supervised learning and neural networks}
+\subsection{Supervised learning and stochastic gradient descent}
+
+\tmpHeading{Supervised learning and NNs}
 Supervised learning is the task of inferring or approximating a function, given a dataset of pre-labelled data~\cite{bishop2006pattern,mohri2012foundations}.
 A supervised learning algorithm starts with some \emph{model} --- a functional relation $g_{\bs\lambda}$ parametrised by a set of parameters $\bs\lambda$ --- and finds a $\bs\lambda_0$ making $g_{\bs\lambda_0}$ as close as possible to a target function $f$.
 To do this, a set of pre-labeled \emph{training data} $\{ (x_1, y_1), (x_2,y_2), ...\}$ is used,
@@ -1598,7 +1596,7 @@ These are parametric non-linear models which play a prominent role in many machi
 \acp{NN} have also recently proven useful in the context of quantum many-body theory~\cite{amin2016quantum,wang2016discovering,hush2017machine,carleo2017solving,carrasquilla2017machine,torlai2017manybody,broecker2017quantum,deng2017quantum},
 quantum compilation~\cite{swaddle2017generating}, quantum stabilizer codes~\cite{krastanov2017deep} and entanglement quantification~\cite{gray2018machinelearningassisted}\highlight{(definitely more refs)}.
 
-\tmpHeading{How does stochastic gradient descent work?}
+\tmpHeading{How does SGD work?}
 A \ac{NN} is \emph{trained} by optimising its parameters using a dataset of pre-labelled data.
 % A common such method is the so-called \ac{SGD}~\cite{bishop2006pattern}.
 A common  way to do this is use variations of a gradient-descent-based technique named \acf{SGD}.
@@ -1791,6 +1789,7 @@ More specifically, the employed algorithm involves the following steps:
 \subsection{Results}
 \label{subsec:GL:numerical_results}
 
+\tmpHeading{Summary of the results}
 A sample of training results for Toffoli, Fredkin, and "double Fredkin" gates are given in~\cref{fig:toffoli_fidVSpars,fig:fredkin_fidVSpars,fig:doublefredkin_fidVSpars}.
 In~\cref{fig:toffoli_diagonal_parhistories,fig:fredkin_diagonal_parhistories,fig:doublefredkin_diagonal_parhistories} are shown the training histories of the parameters for eight different solutions for Toffoli, Fredkin and \emph{double Fredkin}, respectively.
 These illustrate how quickly the networks converge for different initial values of the parameters.
@@ -1803,9 +1802,11 @@ $N_b = 2$, $N_{tr} = 200$.
 Different initial values for the parameters were tested, but in most cases we started the training with either vanishing or random (following a normal distribution) parameters.
 For the training of the four-qubit gate we found the network to converge sooner to a solution when the parameters were initialised to a positive value (often with all parameters initialised to $4$).
 
+\tmpHeading{Results for Toffoli, Fredkin, double-Fredkin}
 In~\cref{fig:toffoli_fidVSpars,fig:fredkin_fidVSpars,fig:doublefredkin_fidVSpars} we report the behaviour of the fidelity upon changes of the learnt Hamiltonian parameters, for Toffoli, Fredkin and \emph{double Fredkin} gates, respectively.
 As shown in these plots, the stability of the implemented gates with respect to variations of time and interactions values greatly varies between different solutions, as well as between different parameters in the same solutions.
 
+\tmpHeading{Training gates in more restrictive scenarios}
 To assess the feasibility of nontrivial gates in more restrictive experimental scenarios, we performed a systematic analysis of the reachability of Fredkin and Toffoli gates when allowing only for single-qubit and $X_i X_j+Y_i Y_j$ two-qubit interactions, and in the less restrictive setting of allowing for all $X_i X_j$ and $Y_i Y_j$ interactions.
 The results are shown in~\cref{fig:fredkin_XY,fig:fredkin_XX,fig:toffoli_XX,fig:toffoli_XY}.
 For the Fredkin gate, in the more restrictive $XX$ interactions setting, the biggest fidelity obtained was $\calF\simeq 0.94$, while when allowing for all $XX$ and $YY$ interactions the maximum fidelity obtained was $\calF\simeq0.999$.
@@ -1814,9 +1815,13 @@ To have more consistent results, in all the training instances shown here all th
 In particular, each training instance was run for $200$ epochs, each one using $200$ random quantum states as inputs, divided in batches of $2$ elements.
 This choice of hyperparameters is mostly empirical, and it is possible for different values to provide better results.
 
+\highlight{(probably integrate IJQJ stuff here)}
+
+\tmpHeading{What do these results tell us?}
 The above provides further evidence for the flexibility of the supervised learning approach, which can produce solutions with good fidelities even in more restrictive scenarios, closer to the capabilities of state of the art experimental architectures.
 Furthermore, the values of the interaction strengths for many of the presented solutions are found to be compatible with the capabilities of state of the art circuit-QED architectures with gate times of the order of tens of nanoseconds~\cite{potocnik2018studying}.
 
+\tmpHeading{Online repository storing the code}
 Additional solutions and data, as well as the code used to produce them, is available in the GitHub repository
 \href{https://github.com/lucainnocenti/quantum-gate-learning-1803.07119}{lucainnocenti/quantum-gate-learning-1803.07119}.
 This repository contains all the code used to reproduce the solutions presented in this paper, as well as to train arbitrary gates on arbitrary numbers of qubits.

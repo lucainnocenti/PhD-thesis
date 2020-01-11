@@ -185,8 +185,6 @@
 \usepackage[
     backend=biber,
     style=authoryear,
-    bibstyle=authoryear,
-    citestyle=authoryear,
     maxnames=1,
     url=false,
     doi=true,
@@ -196,56 +194,99 @@
     uniquename=false,
     natbib
 ]{biblatex}
-\renewcommand{\cite}{\mycitep}
+\renewcommand{\cite}{\parencite}
 
 % -------------- START AUTHORYEAR FIX
-\usepackage{twoopt}
-\usepackage{ifthen}
+% \usepackage{twoopt}
+% \usepackage{ifthen}
 
-\newcommand\black[1]{\textcolor[rgb]{0,0,0}{#1}}
+% \newcommand\black[1]{\textcolor[rgb]{0,0,0}{#1}}
 
-\newcommandtwoopt{\mycitet}[3][aa][bb]{%
-    \ifthenelse{\equal{#1}{aa}}                                                                         % if nargin == 1
-      {\hyperlink{cite.#3}{\citeauthor{#3} \black{(}\citeyear{#3}\black{)}}}                            %     \citet{key}
-      {\ifthenelse{\equal{#2}{bb}}                                                                      % elseif nargin == 2
-        {\hyperlink{cite.#3}{\citeauthor{#3} \black{(}\citeyear{#3}\black{,}~#1\black{)}}}              %     \citet[pg]{key}
-        {\ifthenelse{\equal{#1}{}}                                                                      % elseif #1 = []
-          {\hyperlink{cite.#3}{\citeauthor{#3} \black{(}\citeyear{#3}\black{,}~#2\black{)}}}            %     \citet[][pg]{key}
-          {\ifthenelse{\equal{#2}{}}                                                                    % elseif #2 == []
-            {\hyperlink{cite.#3}{\citeauthor{#3} \black{(#1~}\citeyear{#3}\black{)}}}                   %     \citet[eg][]{key}
-            %                                                                                           % else
-            {\hyperlink{cite.#3}{\citeauthor{#3} \black{(#1~}\citeyear{#3}\black{,}~#2\black{)}}}       %     \citet[eg][pg]{key}}
-          }
-        }
-      }
-}
+% \newcommandtwoopt{\mycitet}[3][aa][bb]{%
+%     \ifthenelse{\equal{#1}{aa}}                                                                         % if nargin == 1
+%       {\hyperlink{cite.#3}{\citeauthor{#3} \black{(}\citeyear{#3}\black{)}}}                            %     \citet{key}
+%       {\ifthenelse{\equal{#2}{bb}}                                                                      % elseif nargin == 2
+%         {\hyperlink{cite.#3}{\citeauthor{#3} \black{(}\citeyear{#3}\black{,}~#1\black{)}}}              %     \citet[pg]{key}
+%         {\ifthenelse{\equal{#1}{}}                                                                      % elseif #1 = []
+%           {\hyperlink{cite.#3}{\citeauthor{#3} \black{(}\citeyear{#3}\black{,}~#2\black{)}}}            %     \citet[][pg]{key}
+%           {\ifthenelse{\equal{#2}{}}                                                                    % elseif #2 == []
+%             {\hyperlink{cite.#3}{\citeauthor{#3} \black{(#1~}\citeyear{#3}\black{)}}}                   %     \citet[eg][]{key}
+%             %                                                                                           % else
+%             {\hyperlink{cite.#3}{\citeauthor{#3} \black{(#1~}\citeyear{#3}\black{,}~#2\black{)}}}       %     \citet[eg][pg]{key}}
+%           }
+%         }
+%       }
+% }
 
-\makeatletter 
-\newcommand{\multicite}[1]{% taken from egreg, see link
-  \@tempswafalse
-  \@for\next:=#1\do
-    {\if@tempswa;~\else\@tempswatrue\fi
-    \hyperlink{cite.\next}{\citeauthor{\next}\black{,~}\citeyear{\next}}%
-    }%
-}
-\makeatother
+% \makeatletter 
+% \newcommand{\multicite}[1]{% taken from egreg, see link
+%   \@tempswafalse
+%   \@for\next:=#1\do
+%     {\if@tempswa;~\else\@tempswatrue\fi
+%     \hyperlink{cite.\next}{\citeauthor{\next}\black{,~}\citeyear{\next}}%
+%     }%
+% }
+% \makeatother
 
-\newcommandtwoopt{\mycitep}[3][aa][bb]{%        
-    \ifthenelse{\equal{#1}{aa}}                                                                  % if nargin == 1
-      {(\multicite{#3})}                                                                         %    \citep{key(s)}
-      {\ifthenelse{\equal{#2}{bb}}                                                               % elseif nargin == 2
-          {(\hyperlink{cite.#3}{\citeauthor{#3}\black{,~}\citeyear{#3}\black{,~}#1})}            %    \citep[pg]{key}
-          {\ifthenelse{\equal{#1}{}}                                                             % elseif #1 = []
-              {(\hyperlink{cite.#3}{\citeauthor{#3}\black{,~}\citeyear{#3}\black{,~}#2})}        %    \citep[][pg]{key}
-              {\ifthenelse{\equal{#2}{}}                                                         % elseif #2 == []
-                  {(#1~\multicite{#3})}                                                          %    \citep[eg][]{key(s)}
-                  %                                                                              % else
-                  {(#1~\hyperlink{cite.#3}{\citeauthor{#3}\black{,~}\citeyear{#3}\black{,~}#2})} %    \citep[eg][pg]{key}}
-              }
-           }
-      }
-}
+% \newcommandtwoopt{\mycitep}[3][aa][bb]{%        
+%     \ifthenelse{\equal{#1}{aa}}                                                                  % if nargin == 1
+%       {(\multicite{#3})}                                                                         %    \citep{key(s)}
+%       {\ifthenelse{\equal{#2}{bb}}                                                               % elseif nargin == 2
+%           {(\hyperlink{cite.#3}{\citeauthor{#3}\black{,~}\citeyear{#3}\black{,~}#1})}            %    \citep[pg]{key}
+%           {\ifthenelse{\equal{#1}{}}                                                             % elseif #1 = []
+%               {(\hyperlink{cite.#3}{\citeauthor{#3}\black{,~}\citeyear{#3}\black{,~}#2})}        %    \citep[][pg]{key}
+%               {\ifthenelse{\equal{#2}{}}                                                         % elseif #2 == []
+%                   {(#1~\multicite{#3})}                                                          %    \citep[eg][]{key(s)}
+%                   %                                                                              % else
+%                   {(#1~\hyperlink{cite.#3}{\citeauthor{#3}\black{,~}\citeyear{#3}\black{,~}#2})} %    \citep[eg][pg]{key}}
+%               }
+%            }
+%       }
+% }
 % ------------------- END AUTHORYEAR FIX
+
+% ---------------- START SECOND FIX
+% Just for demo
+\ExecuteBibliographyOptions{maxcitenames=1}
+
+\DeclareFieldFormat{citehyperref}{%
+  \DeclareFieldAlias{bibhyperref}{noformat}% Avoid nested links
+  \bibhyperref{#1}}
+
+\DeclareFieldFormat{textcitehyperref}{%
+  \DeclareFieldAlias{bibhyperref}{noformat}% Avoid nested links
+  \bibhyperref{%
+    #1%
+    \ifbool{cbx:parens}
+      {\bibcloseparen\global\boolfalse{cbx:parens}}
+      {}}}
+
+\savebibmacro{cite}
+\savebibmacro{textcite}
+
+\renewbibmacro*{cite}{%
+  \printtext[citehyperref]{%
+    \restorebibmacro{cite}%
+    \usebibmacro{cite}}}
+
+\renewbibmacro*{textcite}{%
+  \ifboolexpr{
+    ( not test {\iffieldundef{prenote}} and
+      test {\ifnumequal{\value{citecount}}{1}} )
+    or
+    ( not test {\iffieldundef{postnote}} and
+      test {\ifnumequal{\value{citecount}}{\value{citetotal}}} )
+  }
+    {\DeclareFieldAlias{textcitehyperref}{noformat}}
+    {}%
+  \printtext[textcitehyperref]{%
+    \restorebibmacro{textcite}%
+    \usebibmacro{textcite}}}
+
+% \renewcommand{\baselinestretch}{1.2}
+% \setlength{\parskip}{\smallskipamount}
+% \setlength{\parindent}{0pt}
+% ---------------- END SECOND FIX
 
 
 \addbibresource{Thesis.bib}

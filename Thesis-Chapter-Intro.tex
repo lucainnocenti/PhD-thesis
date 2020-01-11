@@ -75,11 +75,14 @@ In particular, supervised learning techniques were recently demonstrated to solv
 \highlight{(missing connection with rest of chapter)}
 An interesting type of computational model that has been the subject of much study is the so-called \textit{quantum walk} model~\cite{aharonov2000quantum,kempe2003quantum,venegasandraca2012quantum,portugal2013quantum}.
 
+\tmpHeading{Classical RWs as stochastic processes}
 Classical random walks are a type of stochastic processes which have proven to be a powerful technique for the development of stochastic algorithms~\cite{motwani1995randomized,schoning1999probabilistic}, and are used across several different branches of science.
-Quantum walks have been introduced in 1993 by Aharonov et al.~\cite{aharonov1993quantum}.
+\acp{QW} have been introduced in 1993 by Aharonov et al.~\cite{aharonov1993quantum}.
 Konno proposed a solid mathematical connection between correlated \acp{QW} and another QW model~\cite{konno2003limit}.
 
 \subsection{Random walks}
+
+\tmpHeading{Random walks are...}
 A (classical) random walk is a stochastic process, consisting of a succession of discrete \textit{steps} taken by a \textit{walker} in one of a number of allowed directions~\cite{lovasz1993random}.
 A popular type of random walk is that of a random walk on a \textit{regular lattice}. Here, the walking space is a regular $d$-dimensional lattice, which we can represent with $\ZZ^d$. The walker starts in a vertex $\bs n\in\ZZ^d$ and moves along the edges of the lattice.
 At every step, the one of the possible $2d$ directions is picked at random, and the walker moves to the closest vertex along the corresponding edge.
@@ -124,10 +127,13 @@ $P_t(i)=\Prob(v_t=i)$. The random walk is then defined by the set of \textit{tra
 %  
 %  PlotRange -> All, Boxed -> False
 %  ]
+
+\tmpHeading{They are time-homogeneous MCs}
 The fact that the transition probability does not depend neither on the time $t$ nor on the previous history of the walker, but rather it depends exclusively on the current position, is a crucial properties of random walks, that characterises them as \textit{time-homogeneous Markov chains},
 \footnote{A \textit{Markov chain}, or \textit{Markov process}, is a generic type of stochastic process in which the probability of each event only depends on the state of the system at the previous time, rather than on the entire history of the system. Random walks are a notable example of Markov process.}
 which is a more general class of memoryless stochastic processes.
 
+\tmpHeading{Transition matrix}
 We can collect the set transition probabilities into a matrix $M$. This matrix will then be a \textit{bistochastic matrix}, that is a matrix satisfying $\sum_i M_{ij}=\sum_j M_{ij}=1$. If we collect the set of transition probabilities of going from $i$ to $j$ in the $i$-th column of $M$, we can then write compactly the evolution of a walk in linear algebraic notation as
 \begin{equation}
     P_{k+1} = M P_k = M^k P_0,
@@ -146,28 +152,28 @@ where $P_k$ is the vector of probabilities at the set $k$ ($(P_k)_i$ is the prob
 \subsection{Quantum walks}
 
 
-\paragraph{Intro to QWs from QSE paper}
-In its simplest form, a quantum walk involves a high-dimensional system (generically a $d$-dimensional system dubbed \textit{qudit}), usually referred to as \emph{walker}, endowed with an inner 2-dimensional degree of freedom, referred to as the \emph{coin state} of the walker. 
+\tmpHeading{Quantum walks are...}
+\acp{QW} are models of quantum dynamics which share similarities with classical random walks, and are therefore often understood as their quantum counterparts.
+In its simplest form, a \ac{QW} involves a high-dimensional system (generically a $d$-dimensional system dubbed \textit{qudit}), usually referred to as \emph{walker}, endowed with an inner 2-dimensional degree of freedom, referred to as the \emph{coin state} of the walker. 
 At every step, the coin state is \emph{flipped} with some unitary operation, and the walker moves coherently left and right, conditionally on the coin state.
 We focus on \acp{DTQW} on a line~\cite{ambainis2001onedimensional}, allowing the coin operation to change from step to step, while remaining site-independent~\cite{ribeiro2004aperiodic,wjcik2004quasiperiodic,bauls2006quantum}.
-We demonstrate the effectiveness of this framework for the state engineering of $d$-dimensional systems and provide a set of efficiently verifiable necessary and sufficient conditions for a given state to be the output of a quantum walk evolution.	
+We demonstrate the effectiveness of this framework for the state engineering of $d$-dimensional systems and provide a set of efficiently verifiable necessary and sufficient conditions for a given state to be the output of a \ac{QW} evolution.	
 
-\acp{QW} are models of quantum dynamics which share similarities with classical random walks, and are therefore often understood as their quantum counterparts.
-
-A first important distinction is between \textit{discrete} and \textit{continuous} quantum walks.
+\tmpHeading{Discrete vs continuous QWs}
+A first important distinction is between \textit{discrete} and \textit{continuous} \acp{QW}.
 \acp{DTQW} are systems comprised of a low-dimensional degree of freedom, usually referred to as the \textit{coin}, coupled with a high-dimensional one named the \textit{walker}.
 In this model, the time is discrete in the sense that the state evolves in discrete \textit{jumps}, rather than evolving continuously in time.
 A different model is the so-called \ac{CTQW}. Here, the dynamics is instead governed by a standard Schr\"odinger equation, and the process is therefore defined via some Hamiltonian. In a \ac{CTQW} there is no place for the notion of a \textit{coin} degree of freedom, which makes the structure of these kinds of model rather different, at least on the surface, from their discrete counterparts\highlight{(maybe mention equivalence between discrete and continuous models)}.
 
-\highlight{(What actual algorithms are QWs used for?)}
-Quantum walks have also been proven to be useful to develop quantum algorithms, and it was recently proved that quantum walks are universal for quantum compuation~\cite{childs2009universal,childs2003exponential,lovett2010universal,lovett2018quantum,underwood2010universal}.
+\tmpHeading{(QWs for quantum algorithms?)}
+\acp{QW} have also been proven to be useful to develop quantum algorithms, and it was recently proved that \acp{QW} are universal for quantum compuation~\cite{childs2009universal,childs2003exponential,lovett2010universal,lovett2018quantum,underwood2010universal}.
 Reviews of QW-based quantum search algorithms~\cite{ambainis2011search,ambainis2008quantum,ambainis2010developments,kempe2003quantum,kendon2006random,santha2008quantum,venegasandraca2012quantum,venegasandraca2008quantum}.
 
 \subsection{DTQWs}
 
 \acp{DTQW} share many features with classical random walks.
 In particular, like the classical case, they come with a notion of a \textit{coin}: a random choice that is made at every step and determines the direction in which the walker moves.
-In the quantum walk, the coin becomes a quantum state, often but not necessarily a two-dimensional one, and the coin flipping operation becomes a unitary operation applied to the coin state.
+In the \ac{QW}, the coin becomes a quantum state, often but not necessarily a two-dimensional one, and the coin flipping operation becomes a unitary operation applied to the coin state.
 The walker also becomes a quantum state, typically of dimension much higher than the coin state. At every step, the walker's state changes conditionally to the state of the coin after the coin flipping operation.
 In contrast with the classical case, the evolution is here \textit{coherent}, bringing interference effects into the picture, which allows for features not found in the standard random walk model.
 
@@ -235,6 +241,7 @@ The reason for this is in the interference effects, and the fact that the Hadama
 See~\cref{fig:hadamardwalk_Nsteps} for a simulation of the Hadamard walk with $20$ and $40$ steps, which shows clearly the asymmetry present in the output states.
 \end{example}
 
+\tmpHeading{A more efficient formalism for DTQWs}
 One feature that emerges clearly from the above example is that, at each step, some of the possible walker's position are never occupied. More precisely, if we start with the walker at a single fixed position, say the position $\ket0$, then at odd-numbered steps only even positions will have nonzero probability amplitudes.
 This symmetry can be exploited to make simulations more efficient, as well as simplify the derived expression removing modes that we know are never going to be occupied.
 We will then in the following use a variation of~\cref{eq:qws_shitty_definition_cshift} in which instead of having the walker move either left or right, we have the walker either stay still or moving in one direction (say, right):
@@ -242,9 +249,9 @@ We will then in the following use a variation of~\cref{eq:qws_shitty_definition_
     \calS = \PP_0\otimes I + \PP_1\otimes \EE_+
     =\ketbra0\otimes I +\ketbra1\otimes\sum_k\ketbra{k+1}{k}.
 \end{equation}
-This notation, while somewhat nonstandard, has proven useful to derive some results~\cite{hoyer2009faster,montero2013unidirectional,montero2015quantum}, and will be used in~\cref{sec:intro:QWs} to obtain most of our analytical results.
+This notation, while somewhat nonstandard, has proven useful in some works~\cite{hoyer2009faster,montero2013unidirectional,montero2015quantum}, and will be used in~\cref{sec:intro:QWs} to obtain most of our analytical results.
 
-\begin{figure}[]
+\begin{figure}[tb]
     \centering
     \subfloat[$20$ steps]{{\includegraphics[width=.4\linewidth]{QW20steps_initstateUp} }}%
     \qquad
