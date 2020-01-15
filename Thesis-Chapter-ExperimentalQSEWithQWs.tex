@@ -3,12 +3,9 @@
 \chapter{Experimental engineering of qudit states}
 \label{chapter:experimental_engineering_qudits}
 
-\tmpHeading{What is this chapter about?} In this section we present an experimental implementation of the state-engineering scheme explained in~\cref{chapter:quantum_walks}, leveraging the \emph{coin space} of a quantum walk as an auxiliary degree of freedom to engineer arbitrary qudits over a fixed number dimensions.
-In particular, we use an experimental apparatus implementing time-dependent \acp{QW} in the polarisation and \ac{OAM} degrees of freedom~\cite{zhang2010implementation,goyal2013implementing,cardano2015quantum}, exploiting the nonlinear optical components named \acp{QP}~\cite{marrucci2006optical}, to engineer qudit states in the \ac{OAM} degree of freedom of single photons.
-The work described in this chapter is also found in~\cite{giordani2019experimental}.
-
-\tmpHeading{More specifically...}
-To showcase the versatility of the scheme, we demonstrate the state engineering of fully balanced, completely random, and \emph{spin-coherent} states~\cite{brune1992manipulation,monroe1996schrodinger}.
+\tmpHeading{Summary of the work} In this section we present an experimental implementation of the state engineering scheme discussed in~\cref{chapter:quantum_walks}, which, leveraging the \emph{coin space} of a \ac{QW} as an auxiliary degree of freedom, allows to engineer target qudits over a fixed number dimensions.
+More specifically, we use an experimental apparatus implementing time-dependent \acp{QW} in the polarisation and \ac{OAM} degrees of freedom~\cite{zhang2010implementation,goyal2013implementing,cardano2015quantum}, exploiting the so-called \acp{QP}~\cite{marrucci2006optical}, to couple the OAM and polarisation degrees of freedom of light.
+The work described in this chapter can be found in~\cite{giordani2019experimental}.
 
 \tmpHeading{Why \ac{OAM}?} \acf{OAM} offers the possibility to encode high-dimensional quantum states in spatially localised photons. Moreover, \acp{QP} intertwine the polarisation and \ac{OAM} degrees of freedom of light, thus allowing more complex dynamics exploiting both types of degrees of freedom.
 With this apparatus, $n$ \ac{QW} steps require $\mathcal O(n)$ optical components -- one \ac{QP} and a few waveplates for each step -- thus making the scheme efficient. Moreover, by having access to fast-enough optical switches and fastly tunable \acp{QP} and waveplates, it is in principle possible to use a single \ac{QP} and waveplate for arbitrary many steps, by having the light pass through the same optical elements multiple times \highlight{(mmmh)}.
@@ -16,7 +13,7 @@ With this apparatus, $n$ \ac{QW} steps require $\mathcal O(n)$ optical component
 
 
 \tmpHeading{What will we conclude from the chapter?}
-The quality of the generated states and the feasibility of the experimental protocol that we have put in place, demonstrate the effectiveness of a hybrid platform for quantum state engineering. Such platform holds together a programmable quantum system, the photonic \ac{QW} in the angular momentum, and classical optimization algorithms to effectively reach a given target \highlight{???}.
+The quality of the generated states and the feasibility of the experimental protocol that we have put in place, demonstrate the effectiveness of a hybrid platform for quantum state engineering. Such platform holds together a programmable quantum system, the photonic \ac{QW} in the angular momentum, and classical optimization algorithms to effectively generate a given target \highlight{???}.
 
 \tmpHeading{Outline of chapter}
 In~\cref{sec:expQWs:OAMintro} we give a brief overview of orbital angular momentum states of light and vector vortex beams.
@@ -26,33 +23,71 @@ In~\cref{sec:expQWs:engineeringQWs} we review the results obtained in~\cref{chap
 \section{Orbital angular momentum of light}
 \label{sec:expQWs:OAMintro}
 
-\tmpHeading{Intro to OAM}
-Light is endowed with~\ac{OAM}~\cite{allen1992orbital,padgett2004lights}, a degree of freedom associated with structured (i.e. non-plane) wavefronts and characterized by an azimuthal phase dependence. 
-When a nontrivial phase dependence is coupled with a helicoidal transverse polarisation pattern, one talks of a \ac{VVB}~\cite{erhard2017twisted,padgett2004lights}.
+\tmpHeading{Orbital angular momentum of light}
+Electromagnetic fields carry angular momentum~\cite{jackson1999classical}.
+Classically, the angular momentum density of an electromagnetic field is given, up to constants, by
+$\bs M =\bs r\times(\bs E\times \bs B)$. This can be decomposed in an \emph{intrinsic} component, the so-called \emph{spin angular momentum}, and an \emph{extrinsic} one, its \acp{OAM}: $\bs M=\bs S+\bs L$, albeit this distinction turns out to not be gauge invariant, and thus comes with its own problems~\cite{ohanian1986what,cameron2015azimuthal}.
+The spin angular momentum is often understood to be due to an internal degree of freedom of the fields, while the OAM is due to its spatial profile structure.
+A first experimental demonstration of transfer of \emph{spin} angular momentum of light to matter was given in~\cite{beth1936mechanical}. A few decades later, Allen and collaborators showed that that specific types of laser modes also carry an amount of \emph{orbital} angular momentum, due to nontrivial phase structures of their transverse beam profile~\cite{allen1992orbital}.
+Despite the Poynting vector $\bs E\times \bs B$ always pointing in the propagation direction for transverse beams, and thus $\bs r\times(\bs E\times\bs B)$ being vanishing in such direction, Allen et al. realised that the TEM$_{p\ell q}$ laser modes are in general \emph{not} transverse, but rather have a component in the propagation direction. Because of this, they could show that, for this fields, $\bs M$ has a component in the propagation direction that is proportional to $\ell$, which is the quantum number that determines the azimuthal phase profile of the field.
+Since Allen's ground breaking paper, the OAM degree of freedom of light has been showed to be useful for a variety of applications in quantum information theory~\cite{allen1999orbital,padgett2004lights,barnett2007orbital,franke-arnold2008advances,yao2011orbital,padgett2017orbital,erhard2017twisted}, as a notable example, entanglement in the OAM degree of freedom of photons was first demonstrated in~\cite{mair2001entanglement}.
+
+\tmpHeading{Laguerre-Gauss beams}
+The most common type of helical laser beams carrying OAM are \ac{LG} modes $LG_p^\ell$. These modes arise from solving the Helmholtz equation in cylindrical coordinates in the paraxial approximation. The main feature of these beams that will be used in the context of our work is their azimuthal phase dependence: $LG_p^\ell\sim e^{i\ell\phi}$ with $\phi$ the azimuthal coordinate in the plane transverse to the propagation direction.
+\highlight{(should I show more explicitly how LG modes come from the equations?)}
+
+\tmpHeading{Coupling OAM with polarisation}
+Whereas in the vacuum the spin and orbital components of the angular momentum are conserved, this ceases to be the case in inhomogeneous, anisotropic media. This makes it possible to devise devices which couple spin and orbital angular momenta of an incoming state. One such device is the so-called \ac{QP}~\cite{marrucci2006optical}.
+When a nontrivial phase dependence is coupled with a helicoidal transverse polarisation pattern, one talks of a \ac{VVB}~\cite{cardano2012polarization}. These can be generally described as states in which different polarisation states of light are coupled with different OAM states.
 The interest in such states is motivated by the applications in multiple fields of classical and quantum optics~\cite{marrucci2011spintoorbital,cozzolino2019highdimensional}: from particle trapping to metrological applications in microscopy~\cite{cardano2015spin–orbit,rubinsztein-dunlop2016roadmap}, and for \ac{OAM}-based communications schemes in free-space and in-fibre~\cite{willner2015optical,cozzolino2019aircore}.
-\acp{VVB} are also often employed in quantum information protocols due to the hyperentanglement between their polarisation and spatial degrees of freedom. Photonic platforms for quantum sensing and metrology leveraging such encoding have also been reported~\cite{fickler2012quantum,dambrosio2013photonic}. OAM-based schemes for investigating quantum causal structures~\cite{goswami2018indefinite}, quantum communication and cryptography~\cite{vallone2014freespace,wang2015quantum,mirhosseini2015highdimensional,malik2016multiphoton,sit2017highdimensional,cozzolino2019orbital}, quantum walks~\cite{zhang2010implementation,goyal2013implementing,cardano2015quantum}, quantum simulation~\cite{cardano2016statistical,cardano2017detection}, and quantum state engineering~\cite{innocenti2017quantum,giordani2019experimental}, have been previously demonstrated. 
+\acp{VVB} are also often employed in quantum information protocols due to the hyperentanglement between their polarisation and spatial degrees of freedom. Photonic platforms for quantum sensing and metrology leveraging such encoding have also been reported~\cite{fickler2012quantum,dambrosio2013photonic}. VVB-based schemes for investigating quantum causal structures~\cite{goswami2018indefinite}, quantum communication and cryptography~\cite{vallone2014freespace,wang2015quantum,mirhosseini2015highdimensional,malik2016multiphoton,sit2017highdimensional,cozzolino2019orbital}, quantum walks~\cite{zhang2010implementation,goyal2013implementing,cardano2015quantum}, quantum simulation~\cite{cardano2016statistical,cardano2017detection}, quantum memories~\cite{parigi2015storage}, and quantum state engineering~\cite{innocenti2017quantum,giordani2019experimental}, have all been previously demonstrated. 
 
-
+\tmpHeading{Open questions with VVBs}
 Despite the potential of \acp{VVB}, many questions regarding the decoding of information stored in \ac{OAM} and polarisation remain unanswered. Various techniques of \ac{OAM}-demultiplexing envisage the need of additional instruments -- such as interferometry~\cite{leach2002measuring,slussarenko2010polarizing,bauer2013nanointerferometric} or spatial filtering~\cite{berkhout2010efficient,bolduc2013exact,malik2014direct} -- to be efficiently implemented.
 These introduce detrimental effects of loss and noise~\cite{qassim2014limitations}. Moreover, the challenge of performing state tomography in such a high-dimensional framework, a fundamental task in quantum information processing~\cite{paris2004quantum,banaszek2013focus}, can hardly be overestimated. The design and demonstration of reliable techniques for the generation and classification of~\acp{VVB} is thus highly desirable. Indeed, substantive efforts on finding novel platforms are subject of intense research activities~\cite{liu2016generation,ndagano2017creation,cardano2015spin–orbit,rubinsztein-dunlop2016roadmap},
 including in integrated photonics~\cite{chen2018mapping,cai2012integrated,liu2017direct} and generation by plasmonic metasurfaces~\cite{karimi2014generating,yue2016vector}.
 
-\tmpHeading{What are OAM states?}
 
-\tmpHeading{Mathematical description}
+\begin{figure}[tb]
+	\centering
+	\includegraphics[width=.7\linewidth]{Figures/OAM/GaussianBeam2.png}
+	\caption{%
+		Gaussian beam
+	}
+	\label{fig:expQWs:gaussian_beam}
+\end{figure}
 
-\tmpHeading{What have they been used for?}
+\begin{figure}[tb]
+	\centering
+	\includegraphics[width=.7\linewidth]{Figures/OAM/GaussianBeamDispersion.png}
+	\caption{%
+		Gaussian beam
+	}
+	\label{fig:expQWs:gaussian_beam}
+\end{figure}
 
-\tmpHeading{What are VVBs?}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{Figures/OAM/LGBeamProfile_L0P2Z03.png} % first figure itself
+        \caption{first figure}
+        \label{fig:expQWs:gaussian_profile_L0P2Z03}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{Figures/OAM/LGBeamProfile_L1P2Z03.png} % second figure itself
+        \caption{second figure}
+        \label{fig:expQWs:gaussian_profile_L1P2Z03}
+    \end{minipage}
+\end{figure}
 
-\tmpHeading{What have they been used for?}
-
-
+\FloatBarrier
 \section{State engineering protocol}
 \label{sec:expQWs:engineeringQWs}
 
 \tmpHeading{How do we generate qudits via QWs?}
-In~\cref{chapter:quantum_walks}, and more specifically in~\cref{sec:qw_reachability_conditions,sec:qw_focusing_walker_states}, we showed that arbitrary qudits of dimension $N+1$ can be generated via a \ac{DTQW} dynamics with suitably chosen coin operations and coin projection at the end of the walk. Here, we present an experimental implementation of this protocol, showcasing in a few relevant scenarios that computing and implementing the necessary coin operations and projection is in fact practical in an experimental photonic context.
+In~\cref{chapter:quantum_walks}, and more specifically in~\cref{sec:QWs:reachability_conditions,sec:QWs:focusing_walker_states}, we showed that arbitrary qudits of dimension $N+1$ can be generated via a \ac{DTQW} dynamics with suitably chosen coin operations and coin projection at the end of the walk. Here, we present an experimental implementation of this protocol, showcasing in a few relevant scenarios that computing and implementing the necessary coin operations and projection is in fact practical in an experimental photonic context.
 
 % We consider a discrete-time \ac{QW} with a two-dimensional coin with logical states labelled as $\{\ket{\downarrow}_c, \ket{{\uparrow}}_c\}$. The dynamics are made up of consecutive unitary steps. At step $t$, a \emph{coin operator} $\hat{\mathcal{C}_{t}}$ changes the coin state and is then followed by a \emph{shift operator} $\calS$, which moves the walker conditionally to the coin state. Such transformations are described by the operators
 % \begin{equation}

@@ -62,7 +62,7 @@ We will therefore always assume that there is a continuous mapping $\RR^\ell\ni\
 We can also consider the time $t$ as part of the definition of $\calH$. This amounts to a rescaling of the energy levels, as $t$ always only appears multiplied with $\calH$, and therefore we can directly work on $t\calH$, which is equivalent to setting $t=1$. Once a suitable $\calH$ is found, we can always rescale it so that the target is implemented after a desired time $t^*$ by writing $\calH=t^*(\calH/t^*)$. Finally, to ease the calculations, we will consider the equivalent problem of finding $\calH$ such that $\calU=e^{i\calH}$ (rather than $\calU=e^{-i\calH}$), as the solutions to one can be seamlessly translated into solutions to the other problem.
 
 \tmpHeading{A few examples for concreteness}
-For concreteness, let us analyse what happens when we try to find Hamiltonian generators for a few common two- and three-qubit gates, namely the CNOT and the Toffoli gate.
+For concreteness, let us analyse what happens when we try to find Hamiltonian generators for a few common two- and three-qubit gates, such as the CNOT and the Toffoli gate.
 
 \begin{examplebox}[label={ex:GL:eigendecomposition_cnot}]{Eigendecomposition of CNOT}
 Assume that the target operation is the $\CNOT$: the two-qubit unitary gate which flips the second qubit conditionally to the value of the first one.
@@ -106,7 +106,7 @@ Indeed, as will be shown in~\cref{sec:GL:solutions_matrix_equation_f(A)=B}, thes
 \end{examplebox}
 
 \begin{examplebox}[label={ex:GL:eigendecomposition_Toffoli}]{Eigendecomposition of Toffoli}
-Consider now the \emph{Toffoli gate}~\cite{shi2002both,lanyon2008simplifying,monz2009realization,fedorov2011implementation,shi2018deutsch}, which is a three-qubit gate which flips the third qubit conditionally to the first two being in the $\ket1$ state.
+Consider now the \emph{Toffoli gate}~\cite{shi2002both,lanyon2008simplifying,monz2009realization,fedorov2011implementation,shi2018deutsch}. This is a three-qubit gate which flips the third qubit conditionally to the first two being in the $\ket1$ state.
 More explicitly, this means
 \begin{equation}
     \Toff =
@@ -148,7 +148,7 @@ As will be shown in the following sections, the answer is in fact that \emph{yes
 \end{examplebox}
 
 \tmpHeading{Why this is not the end of the story}
-As shown in~\cref{ex:GL:eigendecomposition_cnot,ex:GL:eigendecomposition_Toffoli}, looking for Hermitian generators of few-qubit gates appears to be a fairly straightforward task. There are, however, two notable issues with the type of analysis conducted so far:
+As shown in~\cref{ex:GL:eigendecomposition_cnot,ex:GL:eigendecomposition_Toffoli}, looking for Hermitian generators of few-qubit gates appears to be a fairly straightforward task. There are, however, two notable issues with the analysis conducted so far:
 \begin{enumerate}
     \item It lacks in generality: while finding specific generators essentially amounts to computing the eigendecomposition of the target $\calU$, and then the logarithm of the eigenvalues, this says nothing about whether such procedure provides the most general kind of Hamiltonian generator for the given gate. In other words, can \textit{all} generators $\calH$ be obtained this way?
     \item We have no control over the kind of generators that we obtain with this procedure. For example, in~\cref{ex:GL:eigendecomposition_cnot} we obtained generators containing two-qubit interactions of the form $Z_1 X_2$. Does this mean that this type of interaction term is \textit{necessary} to generate a CNOT? Or is there instead some Hamiltonian that can still generate the CNOT without using such terms?
@@ -157,7 +157,6 @@ As shown in~\cref{ex:GL:eigendecomposition_cnot,ex:GL:eigendecomposition_Toffoli
 
 \tmpHeading{What is the rest of this section about?}
 To address these issues, we will study the underlying mathematical problem in more depth. As it turns out, we can divide such analysis in two parts. In~\cref{sec:GL:solutions_matrix_equation_f(A)=B}, we show how to find general solutions to inverse matrix equations of the form $f(A)=B$. Then, in~\cref{sec:GL:constraints_on_interaction_pars}, we present a way to bring additional constraints on the interaction terms into the discussion.
-\highlight{to review this part probably}
 
 \subsection{Solving matrix equations: \texorpdfstring{$f(A)=B$}{f(A)=B}}
 \label{sec:GL:solutions_matrix_equation_f(A)=B}
@@ -769,7 +768,7 @@ As long as this condition is satisfied, any combination of values for the $\lamb
 This results in the following family of solutions:
 \begin{equation}
 \begin{aligned}
-	% \frac{8}{\pi}\tilde{\mathcal H}_{\on{Toff}}(\nu_1, \nu_2, \nu_3, \nu_4) =
+	% \frac{8}{\pi}\tilde{\calH}_{\on{Toff}}(\nu_1, \nu_2, \nu_3, \nu_4) =
 	\frac{8}{\pi}\HTildeToff &=
 	[1 + 4(\nu_1+\nu_2+\nu_3+\nu_4)] I +
 	2[4(\nu_1-\nu_2) - 1] X_3 \\
@@ -781,8 +780,8 @@ This results in the following family of solutions:
 \end{equation}
 % \begin{equation}
 % \begin{aligned}
-% 	% \frac{8}{\pi}\tilde{\mathcal H}_{\on{Toff}}(\nu_1, \nu_2, \nu_3, \nu_4) =
-% 	&\tilde{\mathcal H}_{\on{Toff}} =
+% 	% \frac{8}{\pi}\tilde{\calH}_{\on{Toff}}(\nu_1, \nu_2, \nu_3, \nu_4) =
+% 	&\tilde{\calH}_{\on{Toff}} =
 % 	\frac{\pi}{8} \bigg[
 % 	1 + 4 \left(\nu_1 + \nu_2 + 2\nu_3 + \sqrt{(\nu_3-\nu_4)^2} \right) \\
 % 	&- (Z_1 + Z_2)(1 - X_3) + X_3 (-2 - 8\nu_1 + 8\nu_2) \\
@@ -1047,7 +1046,7 @@ In particular, the class of solutions given by $\nu_1 = \nu_2 = \nu_3 = 0$ is
 for all $\nu_4\neq 0$.
 It is interesting to look at the explicit form of the exponentials
 generated by this class generators.
-Computing $\exp(i \tilde{\mathcal H} t)$ with $\tilde{\mathcal H}$ as in \cref{SM:eq:GL:toffoli_generator_nu4}, we get the following unitary:
+Computing $\exp(i \tilde{\calH} t)$ with $\tilde{\calH}$ as in \cref{SM:eq:GL:toffoli_generator_nu4}, we get the following unitary:
 \begin{equation}
 	\begin{pmatrix}
 		I_2 & \mathbb0 & \mathbb0 & \mathbb0 \\
@@ -1091,9 +1090,9 @@ so that the exponential becomes
 	\end{pmatrix},
 \end{equation}
 which very closely resembles the matrix obtained by exponentiating the principal generator
-$\mathcal H_{\on{Toff}} = \pi Z_1^- Z_2^- X_3^-$:
+$\calH_{\on{Toff}} = \pi Z_1^- Z_2^- X_3^-$:
 \begin{equation}
-	\exp(i t \mathcal H_{\on{Toff}}) =
+	\exp(i t \calH_{\on{Toff}}) =
 	\begin{pmatrix}
 		I & & & \\
 		& I & & \\
@@ -1104,7 +1103,7 @@ $\mathcal H_{\on{Toff}} = \pi Z_1^- Z_2^- X_3^-$:
 A different solution derived from~\cref{eq:GL:toff_tilde_general_solution} is
 \begin{equation}
 \begin{aligned}
-	\tilde{\mathcal H}_{\on{Toff}} =
+	\tilde{\calH}_{\on{Toff}} =
 	\frac{9\pi}{8} + \frac{3\pi}{4} X_3 - \frac{\pi}{8} (Z_1 + Z_2)
 	+ \frac{\pi}{8} Z_1 Z_2 \\
 	+ \frac{\pi}{8} (Z_1 + Z_2) X_3
@@ -1135,16 +1134,16 @@ It will be useful to keep in mind the expressions of $Z_1 \pm Z_2$:
 Given that we want to generate a CC-X gate, and remembering that
 $\exp\left[\frac{i\pi}{2}(1-X)\right] = X$, it is reasonable to start building our Hamiltonian as
 \begin{equation}
-	\mathcal H_1 = - \pi \left(\frac{Z_1+Z_2}{2}\right)\left(\frac{1-X_3}{2}\right),
+	\calH_1 = - \pi \left(\frac{Z_1+Z_2}{2}\right)\left(\frac{1-X_3}{2}\right),
 \end{equation}
 which however will generate an $X$ evolution both in the $\ket{00}$ and in the $\ket{11}$ sectors, while we want it only in the latter sector:
 % \begin{equation}
-	$\mathcal H_1 \doteq \on{diag}(-X^-, 0, 0, X^-)$.
+	$\calH_1 \doteq \on{diag}(-X^-, 0, 0, X^-)$.
 % \end{equation}
 We can remove the term in the $\ket{00}$ sector exploiting the sign difference introduced by $Z_1 + Z_2$, by directly adding an appropriate 1-qubit interaction term:
 \begin{equation}
 \begin{aligned}
-	\mathcal H_2 &= \frac{1}{2} \left[ \mathcal H_1 + \frac{\pi}{2} (1 - X_3) \right] \\
+	\calH_2 &= \frac{1}{2} \left[ \calH_1 + \frac{\pi}{2} (1 - X_3) \right] \\
 				 &= \pi \on{diag}(0, X^-\!/2, X^-\!/2, X^-),
 \end{aligned}
 \label{eq:GL:toffoli_analytical_step2}
@@ -1171,7 +1170,7 @@ This is easily achieved by choosing $\alpha=\pm\sqrt{15}/8$.
 The final expression is therefore:
 \begin{equation}
 \begin{aligned}
-	8/\pi \,\, \mathcal H_3 = -(Z_1 + Z_2)(1 - X_3) \\+ (5 - 3Z_1Z_2 - 2 X_3)
+	8/\pi \,\, \calH_3 = -(Z_1 + Z_2)(1 - X_3) \\+ (5 - 3Z_1Z_2 - 2 X_3)
 				 \pm \sqrt{15} (Z_2 - Z_1)Z_3.
 \end{aligned}
 \end{equation}
@@ -1525,7 +1524,7 @@ This, on the other hand, means that for all three-qubit interaction terms $\bs\s
 \section{A straightforward numerical approach}
 \label{sec:GL:numerical_approach}
 
-\tmpHeading{Why is another approach useful?}
+\tmpHeading{Why devise yet another method?}
 As discussed in~\cref{sec:GL:toffoli,sec:GL:fredkin}, finding time-independent Hamiltonians with constrained interactions generating target gates is a nontrivial task. 
 Moreover, the fact that each gate presents a challenge on its own right, hinders the extendibility of the results.
 It is therefore desirable to also have a more flexible approach to solve generic gate learning problems, even if at the cost of forsaking exact results.
@@ -1574,14 +1573,14 @@ Given a parametrised Hamiltonian $\calH_{\bslambda}$, define the set of unitarie
 
 
 
-\section{Supervised learning}
+\section{Supervised learning optimisation}
 \label{sec:GL:supervised_learning}
 
 \tmpHeading{Why does ML help?}
 As discussed in~\cref{sec:GL:numerical_approach}, while the problem \emph{can} in some cases be approached with standard numerical optimisation techniques, this has in general limited success.
 The problem lies in the mapping $\bslambda\mapsto\abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2$ being not convex, which makes finding the global maximum a generally quite involved task.
-By borrowing ideas from the context of supervised \ac{ML}, we present here a technique to tackle gate design problems more efficiently, thus extending and improving on the ideas presented in Ref.~\cite{banchi2016quantum}.
-In particular, the use of \ac{AD}~\cite{baydin2018automatic,bartholomewbiggs2000automatic,wengert1964a,bischof2008advances} brings dramatic improvements, efficiency-wise, thus allowing to explore a variety of different scenarios, and optimising over potentially hundreds of Hamiltonian parameters.
+The technique we present here, by borrowing ideas from the field of supervised ML, can be used  to tackle gate design problems more efficiently, thus extending and improving on the ideas presented in~\cite{banchi2016quantum}.
+In particular, the use of automatic differentiation~\cite{baydin2018automatic,bartholomewbiggs2000automatic,wengert1964a,bischof2008advances} brings dramatic improvements, efficiency-wise, thus allowing to explore a variety of different scenarios, and optimising over potentially hundreds of Hamiltonian parameters.
 On top of this, the conditions given in~\cref{sec:GL:solution_framework} further speed-up the numerical training, removing many interaction parameters that are known not to lead to the target gate.
 
 \subsection{Supervised learning and stochastic gradient descent}
@@ -1589,22 +1588,22 @@ On top of this, the conditions given in~\cref{sec:GL:solution_framework} further
 \tmpHeading{Supervised learning and NNs}
 Supervised learning is the task of inferring or approximating a function, given a dataset of pre-labelled data~\cite{bishop2006pattern,mohri2012foundations}.
 A supervised learning algorithm starts with some \emph{model} --- a functional relation $g_{\bs\lambda}$ parametrised by a set of parameters $\bs\lambda$ --- and finds a $\bs\lambda_0$ making $g_{\bs\lambda_0}$ as close as possible to a target function $f$.
-To do this, a set of pre-labeled \emph{training data} $\{ (x_1, y_1), (x_2,y_2), ...\}$ is used,
+To do this, a set of pre-labelled \emph{training data} $\{ (x_1, y_1), (x_2,y_2), ...\}$ is used,
 where here $y_k=f(x_k)$ is the output that we want the algorithm to associate to the input $x_k$.
-An important class of supervised learning models are the so-called \acp{NN} \cite{hechtnielsen1989theory,haykin1998neural}.
-These are parametric non-linear models which play a prominent role in many machine learning tasks, such as dimensionality reduction, classification, and feature extraction~\cite{hechtnielsen1989theory,haykin1998neural}\highlight{check refs}.
-\acp{NN} have also recently proven useful in the context of quantum many-body theory~\cite{amin2016quantum,wang2016discovering,hush2017machine,carleo2017solving,carrasquilla2017machine,torlai2017manybody,broecker2017quantum,deng2017quantum},
-quantum compilation~\cite{swaddle2017generating}, quantum stabilizer codes~\cite{krastanov2017deep} and entanglement quantification~\cite{gray2018machinelearningassisted}\highlight{(definitely more refs)}.
+An important class of supervised learning models are the so-called \acp{NN}~\cite{hechtnielsen1989theory,haykin1998neural}.
+These are parametric non-linear models which play a prominent role in many machine learning tasks, such as dimensionality reduction, classification, and feature extraction.
+Other contexts in which \acp{NN} have also recently proven useful include quantum many-body theory~\cite{amin2016quantum,wang2016discovering,hush2017machine,carleo2017solving,carrasquilla2017machine,torlai2017manybody,broecker2017quantum,deng2017quantum},
+quantum compilation~\cite{swaddle2017generating}, quantum stabilizer codes~\cite{krastanov2017deep} and entanglement quantification~\cite{gray2018machinelearningassisted} and classification~\cite{harney2019entanglement} \highlight{(more refs?)}.
 
 \tmpHeading{How does SGD work?}
 A \ac{NN} is \emph{trained} by optimising its parameters using a dataset of pre-labelled data.
 % A common such method is the so-called \ac{SGD}~\cite{bishop2006pattern}.
-A common  way to do this is use variations of a gradient-descent-based technique named \acf{SGD}.
+A common  way to do this is use variations of a gradient-descent-based technique named \acf{SGD}~\cite{wengert1964a,ruder2016overview}.
 Gradient-descent-based algorithms minimise a given cost function $f(\bs x)$ by iteratively changing $\bs x$ in the direction of maximum decrease of $f$, via the updating rule $\bs x\mapsto\bs x-\eta\grad f(\bs x)$.
-The parameter $\eta$ is, in this context, commonly referred to as \emph{learning rate}.
+The parameter $\eta$ is, in this context, commonly referred to as the \emph{learning rate}.
 % Starting from an initial point $\bs x_0$, a number of small steps following the direction of maximum slope, $\grad f(\bs x)$, allow to follow the local gradient and thus reach a local maximum/minimum of the function.
-\emph{Stochastic} gradient descent is, on the other hand, used when the goal is to optimise over \emph{functional relations}. In other words, rather then trying to minimise a single cost function $f$, the goal is now to minimise a function $f(\bsx,\bs w)$ with respect to its second input $\bs w$, for each value of $\bs x$.
-The prototypical context in which this kind of problem arises is when $\bs w$ are parameters representing a functional relationship $f_{\bs w}$, for example the coefficients defining a certain state of a \ac{NN}.
+\emph{Stochastic} gradient descent is, on the other hand, used when the goal is to optimise over \emph{functional relations}. In other words, rather then trying to minimise a cost function with a single variable $f(\bsx)$, the goal is now to minimise a function $f(\bsx,\bs w)$ with respect to its second input $\bs w$, for each value of $\bs x$.
+The prototypical context in which this situation arises is when $\bs w$ are parameters representing a functional relationship $f_{\bs w}$, for example the coefficients defining a certain state of a \ac{NN}.
 % \ac{SGD}, on the other hand, is suitable for a situation in which one is given a parametrised functional relationship of the form $f(\bs x; \bs w)$, and asked for a set of ``parameters'' $\bs w_0$ such that $f(\bs x; \bs w_0)$ is minimum (maximum) for all \emph{inputs} $\bs x$.
 Such a case can be handled via \ac{SGD}, which in its simplest form involves starting with a random $\bs x_1$, executing a number of gradient descent iterations over $\bs w$, then picking a new $\bs x_2$ and iterating the procedure.
 This corresponds to an updating rule of the form
@@ -1613,6 +1612,9 @@ This corresponds to an updating rule of the form
 	\label{eq:GL:updating_rule}
 \end{equation}
 While standard gradient descent, being a local optimisation algorithm, is liable to getting stuck in local minima, \ac{SGD} is generally more robust, in that a local minimum for an input $\bs x$ is often not a local minimum for a different input $\bs x'$.
+A core observation is that, for every input $\bsx$, one has a different parameter landscape $\bsw\mapsto f_\bsw(\bsx)$ over which to perform the gradient descent.
+This new parameter landscape does \emph{not in general have the same local minima as the previous ones, whereas the global minimum is bound to be a minimum for all $\bsx$}.
+In the qubit network scenario that we are tackling, this translates into the fidelity being unitary for all $\ket\psi_{\cal S}$ only for the sets $\bslambda$ such that $\exp(i\calH_\bslambda)=\calU$.
 Many variations of \ac{SGD} are used in different circumstances.
 For example, in the so-called \emph{mini-batch} \ac{SGD}, instead of updating with a single input $\bs x$, one uses a \emph{batch} of inputs $\{\bs x_1,...,\bs x_M\}$, and updates the parameters using the averaged gradient:
 $\bs w\to\bs w-\eta\sum_{k=1}^M\grad_{\bs w}f(\bs x_k; \bs w)/M$.
@@ -1625,11 +1627,11 @@ To see how this class of optimisation problems is relevant to gate design proble
 	\calF(\bs\lambda, \psi) \equiv \mel{\psi}{\calG^\dagger \exp(i \calH(\bs\lambda))}{\psi},
 	\label{eq:GL:def_fidelity}
 \end{equation}
-with $\calG$ the target gate, $\bs\lambda$ the set of parameters, and $\psi$ an input state.
+with $\calG$ the target gate, $\bs\lambda$ the set of parameters, and $\psi\equiv\ket\psi$ an input state.
 The gate design problem is then equivalent to finding $\bs\lambda$ such that $\calF(\bs\lambda, \psi)$ is maximised (that is, equal to 1) for all $\psi$.
 One possibility to solve this problem is to consider the average fidelity $\bar{\calF}(\bs\lambda)$, for which explicit formulas are known~\cite{banchi2011nonperturbative,pedersen2007fidelity,magesan2011gate}.
-Standard optimisation methods, like standard gradient descent or differential evolution, can be applied directly on $\bar{\calF}(\bs\lambda)$.
-This, however, reveals to be often impractical, due to the complexity of the associated parameter landscapes.
+Standard optimisation methods, like standard gradient descent or differential evolution~\cite{chakraborty2008advances}, can be applied directly on $\bar{\calF}(\bs\lambda)$.
+This, however, reveals to be often impractical, due to the complexity of the associated parameter landscapes, as already discussed in~\cref{sec:GL:numerical_approach}.
 On the other hand, \ac{SGD} allows to apply a simple and efficient local maximisation method, while at the same time being less prone to getting stuck in local maxima.
 This works particularly well in this case, because we know that the sets of parameters corresponding to the target gate are \emph{all and only} those such that \emph{for all inputs $\psi$} the fidelity is unitary.
 
@@ -1652,10 +1654,10 @@ Here we will instead make use of \acf{AD}~\cite{bartholomewbiggs2000automatic,bi
 \label{subsec:GL:backpropagation}
 
 \tmpHeading{Efficiencty of computing the gradients}
-The gradient evaluation phase is, efficiency-wise, crucial for the training of a NN.
+The gradient evaluation phase is, efficiency-wise, crucial to train a NN.
 % In fact, large networks contain many weight parameters $w_k$, and the computation of the gradient $\grad E(\bs w^{(t)})$ requires the computation of $\partial_{w_k} E(\bs w^{(t)})$ for all such $k$.
 Computing the partial derivatives of the cost function with a standard method, like finite differences, has a complexity $\mathcal O(N_{\bs w}^3)$, with $N_{\bs w}$ the number of parameters to differentiate~\cite{bishop2006pattern}.
-This inefficiency can however be avoided using \emph{error backpropagation} via \ac{AD}.
+This inefficiency can however be avoided using \emph{error backpropagation} via \acf{AD}~\cite{baydin2018automatic,bartholomewbiggs2000automatic,wengert1964a,bischof2008advances}.
 With this technique, the complexity of the gradient evaluation phase can be cut down to $\mathcal O(N_{\bs w}^2)$~\cite{bishop2006pattern}.
 This works by first decomposing the cost function in terms of elementary operations, that is, functions the gradient of which is known analytically.
 In this way a \emph{computational graph}, representing the functional relation between input and output as a sequence of elementary operations applied iteratively, is built.
@@ -1691,12 +1693,12 @@ The values of $\partial_i F$ can then be computed.
 This method allows to efficiently evaluate numerically the gradient of arbitrary functions, without resorting to numerical approximations.
 
 \tmpHeading{Differentiating algorithms?}
-Note how arbitrary functions can be written iteratively, like $F$ here, in a similar fashion, being every computation eventually reduced to a series of sequentially applied elementary operations.
-Overall, this procedure can thus be used to, so to speak, \emph{compute the derivative of an algorithm}. By this, we mean that this procedure can be automatised into an algorithm which, given another algorithm which takes real numbers as inputs and outputs, produces an algorithm which computes the partial derivatives for each numeric input.
-Moreover, 
+Note how arbitrary functions can be written iteratively, like $F$ here, being every computation eventually reduced to a series of elementary operations applied sequentially.
+Overall, this procedure can thus be used to ``\emph{compute the derivative of an algorithm}''. By this, we mean that this procedure can be automatised into an algorithm which, given another algorithm which takes real numbers as inputs and outputs, produces an algorithm which computes the partial derivatives for each numeric input.
+This is what is often used in practice to compute the gradients when SGD is used, for example in the context of NNs. Open source frameworks of widespread use that implement this functionality include Theano~\cite{team2016theano}, PyTorch~\cite{paszke2017automatic}, TensorFlow~\cite{tensorflow2015-whitepaper}.
 
 \tmpHeading{How is this used in the context of NNs?}
-In the context of training neural networks, the function to be derived is the \emph{cost function} of the network, that is, roughly speaking, the (euclidean) distance between the result obtained for an input and the corresponding training output.
+In the context of training NNs, the function to be derived is the \emph{cost function} of the network, that is, roughly speaking, the (euclidean) distance between the result obtained for an input and the corresponding training output.
 For the gate design problem, we will use another notion of \emph{distance} between output obtained and output expected.
 For quantum states, the fidelity between these turns out to work well.
 
@@ -1727,35 +1729,98 @@ For quantum states, the fidelity between these turns out to work well.
 	\label{fig:automatic-differentiation}
 \end{figure}
 
+\subsection{Supervised learning for gate design problems}
+
+The main idea is to merge supervised learning techniques with the analytical results derived in~\cref{sec:GL:solution_framework}.
+
+\highlight{Finish merging stuff}
+
+
+\subsubsection{(FROM IJQJ) Optimisation of qubit networks}
+
+\newcommand{\Utarget}{{\calU_{target}}}
+\newcommand{\HLambda}{{\calH}_{\bslambda}}
+
+Consider a set of qubits whose dynamics is described by the time-independent Hamiltonian $\calH_\bslambda=\sum_k \lambda_k A_k$, which is specified by the set of real parameters $\bslambda=\{\lambda_1,\lambda_2,\dots,\lambda_k,\dots\}$ and has been decomposed over the (Hermitian) operatorial basis $\{A_k\}$.
+We consider some of the qubits of the set, say the first $M$ ones, as composing the \emph{system} ${\cal S}$ under investigation. The others embody a set  ${\cal A}$ of \emph{ancillary qubits}, whose collective initial state is set to be $\ket{\phi}_{\cal A}$.
+We call $\ket\psi_{\cal S}$ the initial state of the system qubits, which we assume to be uncorrelated to the set of ancillae and will thus evolve as
+\begin{equation}
+    % \ketbra{\psi_{\on{out}}(t,\bslambda)} =
+    \rho^{\cal S}_{\on{out}}(t, \bslambda) = %\rho_{\on{out}}(t\bslambda) =
+    \Tr_\calA\left[\exp(it\calH_\bslambda)(\psi\otimes\phi)\right],
+\end{equation}
+where $\Tr_\calA$ denotes the partial trace of the ancillary qubits and we have used the shortcut notation
+\begin{equation}
+\exp(it\calH_\bslambda)(\psi\otimes\phi)=e^{it\calH_\bslambda}(\ket{\psi}\bra{\psi}_{\cal S}\otimes\ket{\phi}\bra{\phi}_{\cal A})e^{-it\calH_\bslambda}.
+\end{equation}
+Without loss of generality, in the following we can assume units such that $t=1$, so that the evolution time can be incorporated into a suitable rescaling of the the Hamiltonian parameters $\bslambda$. The evolved system state will henceforth be written as $\rho^{\cal S}_{\on{out}}(t,\bslambda)\equiv \rho^{\cal S}_{\on{out}}(\bslambda)$. Our goal is to find a set of parameters $\bslambda_0$ such that, for a given target evolution $\Utarget$, we have the successful gate synthesis $\Utarget=\exp(i\calH_{\bslambda_0})$.
+This is equivalent to having
+\begin{equation}
+    % \ketbra{\psi_{\on{out}}(\bslambda)}=
+    \rho^{\cal S}_{\on{out}}(\bslambda_0) =
+    \Utarget(\ket{\psi}\bra{\psi}_{\cal S})\calU^\dagger_{target},\qquad \forall\ket{\psi}_{\cal S}.
+\end{equation}
+A natural way to quantify how much a given $\bslambda$ is close to the needed set $\bslambda_0$ is to use the state fidelity %function defined as
+\begin{equation}
+    \calF_\bslambda(\psi) ={}_{\cal S}\!\mel{\psi}{\calU_{target}^\dagger \rho_{\on{out}}^{\calS}(\bslambda) \Utarget}{\psi}_{\cal S}.
+    \label{eq:fidelity_definition}
+\end{equation}
+It then follows that
+\begin{equation}
+\label{condition}
+\calF_{\bslambda_0}(\psi)=1\quad \forall\ket\psi \Leftrightarrow \exp(i\calH_{\bslambda_0})=\Utarget.
+\end{equation}
+Restricting ourselves to Hamiltonians having at most pairwise interactions, which are easier to implement in many experimental architectures, we can consider the following decomposition over the Pauli basis
+\begin{equation}
+    \HLambda = h_0 I + \sum h^\alpha_{i} \sigma_i^\alpha + \sum J_{ij}^{\alpha\beta} \sigma_i^\alpha \sigma_j^\beta.
+    \label{eq:hamiltonian_atmostpairwise}
+\end{equation}
+Here, $i, j=1,...,N$ are indices for the qubits of the overall set (system and ancillae), $\alpha, \beta\in\{1,2,3\}$ identify the element of the Pauli vector ${\bs\sigma}=(\sigma^1,\sigma^2,\sigma^3)$ being considered (we use the correspondence $\sigma^1\rightarrow\sigma^x, \sigma^2\rightarrow\sigma^y, \sigma^3\rightarrow\sigma^z$), $J_{ij}^{\alpha\beta}$ is a coupling strength, and $\bslambda=\{h_0, h^\alpha_{i}, J_{ij}^{\alpha\beta}\}$.
+
+Note that, for a given choice of $\Utarget$ and $\HLambda$, it is not known whether a solution to the question posed by Eq.~\eqref{condition} even exists.
+% For example, it was until recently assumed that nontrivial three-qubit gates such as Toffoli and Fredkin could not be implemented with a time-independent dynamics without making use of ancillary qubits or higher-dimensional spaces~\cite{banchi2016quantum,zahedinejad2015highfidelity,zahedinejad2015highfidelity} (check).
+Indeed, a simple parameter-counting argument shows it does not in general: not all possible evolutions produced using higher-order interactions can be generated when only one- and two-qubit couplings are available. A concrete example of the gate-synthesis problem discussed here is given by the implementation of a Toffoli gate~\cite{shi2002both} over a three-qubit network with a restricted set of interactions. Yet, Ref.~\cite{banchi2016quantum} has shown that the use of a single ancillary qubit catalyses the synthesis of three-qubit gates with the restricted resources mentioned above. Moreover,  it was recently shown~\cite{innocenti2018supervised} that the same task can be achieved \emph{without} ancillary qubits and under the stronger restriction of having available only \emph{diagonal} pairwise interactions. Whether a given gate can be realized with a specific time-independent set of operations remains an open question.
+
+\subsubsection{(FROM IJQJ) Supervised learning of the Hamiltonian parameters}
+\label{subsec:learning}
+
+\tmpHeading{Focus on single states makes SGD a good fit}
+Instead of directly optimising $\barF_\bslambda$, we focus on single input states and optimise $\calF_\bslambda(\psi)$ for many different $\ket\psi$.
+Formulated in this manner, the problem can be phrased in terms of supervised machine learning tasks, akin to the training of a neural network model.
+Indeed, qubit networks can be trained to implement target evolutions just as neural network are trained to implement desired functional relationships.
+
 \subsection{Implementation details}
 \label{subsec:GL:implementation_details}
 
-% Following the surge of interest in machine learning, and in particular deep learning, in the recent years
-We used python as language of choice for the implementation of the supervised learning.
+\tmpHeading{What tools did we use?}
+We used Python as the language of choice to implement the supervised-learning-based optimisation.
 Being Python language of widespread use in the machine learning community, many libraries and frameworks are available to build computational graphs over which \ac{AD} can be used.
-In particular, we used \textsc{Theano}~\cite{team2016theano}, together with the \textsc{QuTiP} library for the simulation of the dynamics of quantum systems~\cite{johansson2012qutip,johansson2013qutip}.
+In particular, we used \textsc{Theano}~\cite{team2016theano}, together with the \textsc{QuTiP} library to handle some of the operations involving quantum states~\cite{johansson2012qutip,johansson2013qutip}.
 % The code used, together with a number of usage examples, is available on GitHub (\href{https://github.com/lucainnocenti/quantum-gate-learning}{Link}).
 
-Our implementation allows the training of an arbitrary target gate, parametrised via a time-independent Hamiltonian $\mathcal H(\bs\lambda)$.
-The parametrisation is completely arbitrary (provided the dependence on the parameters is linear), so that the Hamiltonian can be chosen as $\mathcal H(\bs\lambda)=\sum_i \lambda_i A_i$ for any set of matrices $A_i$ and number of parameters $\lambda_i$.
-This is made possible by the flexibility of \ac{AD}, which allows to automatically build an efficiently differentiable computational graph, without needing to hardcode the structure of the Hamiltonian.
-
-The goal of the algorithm is, given a target gate $\mathcal G$ and a parametrisation for the Hamiltonian $\mathcal H(\bs\lambda)$, find the $\bs\lambda_0$ such that $\exp(i\mathcal H(\bs\lambda_0))=\mathcal G$.
-We use for the purpose mini-batch \ac{SGD} with momentum.
+\tmpHeading{What is the goal of the algorithm?}
+The goal of the algorithm is, given a target gate $\mathcal G$ and an \ansatz $\bslambda\mapsto\calH(\bs\lambda)$ for the Hamiltonian, to find the $\bs\lambda_0$ such that $\exp(i\calH(\bs\lambda_0))=\calG$.
+We employ for the purpose \emph{mini-batch momentum \ac{SGD}}.
 The \emph{mini-batch} version of \ac{SGD} involves computing the gradient, at every iteration, averaging over the gradients computed for a number of states.
-Making such \emph{batches} of states larger or smaller allows to enhance or decrease the variance of the gradients with respect to the input state.
-The use of \emph{momentum}~\cite{ruder2016overview,goh2017momentum} involves using a modified version of~\cref{eq:GL:updating_rule}.
-The updating rule is instead given by
+In other words, the training dataset is partitioned into a series of \emph{mini-batches}, and to evaluate the size and direction of the step on the parameters, the gradient is computed by averaging over the gradients computed for each element of the mini-batch.
+Varying the size of such batches can be used to tune the variance of the gradients with respect to the input states.
+The use of \emph{momentum}~\cite{ruder2016overview,goh2017momentum} involves using a modified version of the updating rule given in~\cref{eq:GL:updating_rule}, which becomes
 \begin{equation}
 \begin{aligned}
-	\bs v &\to \gamma \bs v + \eta \grad_{\bs\lambda} \calF(\psi, \bs\lambda), \\
-	\bs\lambda &\to \bs\lambda + \bs v,
+    \bs v &\to \gamma \bs v + \eta \grad_{\bs\lambda} \calF(\psi, \bs\lambda), \\
+    \bs\lambda &\to \bs\lambda + \bs v,
 \end{aligned}
 \label{eq:GL:updating_rule_momentum}
 \end{equation}
-where here $\eta$ is the \emph{learning rate} and $\gamma$ the \emph{momentum}.
-The use of the auxiliary parameter $\bs v$ during the training discourages sudden changes of direction, and can make the training significantly more efficient~\cite{goh2017momentum}.
+where $\gamma$ is often referred to as the \emph{momentum} parameter.
+Using the auxiliary parameter $\bs v$ during the training discourages sudden changes of direction in the evolving parameter, and thus usually makes the training significantly more robust~\cite{goh2017momentum}.
 
+\tmpHeading{Scope of the algorithm}
+Our implementation allows to train arbitrary target gates parametrised via a time-independent Hamiltonian $\calH(\bs\lambda)$.
+The parametrisation is completely arbitrary (provided the dependence on the parameters is linear), so that the Hamiltonian can be chosen as $\calH(\bs\lambda)=\sum_i \lambda_i A_i$ for any set of matrices $A_i$ and number of parameters $\lambda_i$.
+This is made possible by the flexibility of \ac{AD}, which allows to automatically build an efficiently differentiable computational graph, without needing to hardcode the structure of the Hamiltonian.
+
+\tmpHeading{Handling complex numbers with real frameworks}
 While the cost function $\calF$ is always real, some of the intermediate calculations needed to compute it involve complex numbers.
 While this poses no fundamental problems, many of the \ac{ML} libraries do not support \ac{AD} over functions with complex inputs or outputs.
 We worked around this problem using a similar trick to the one reported in~\cite{leung2017speedup}.
@@ -1769,7 +1834,8 @@ It is easy to verify that with this mapping
 $A\Psi\mapsto\mathfrak{Re}(A\Psi)=\mathfrak{Re}(A)\mathfrak{Re}(\Psi)$,
 so that all calculations can be equivalently be carried out with the real versions of matrices and vectors.
 
-More specifically, the employed algorithm involves the following steps:
+\tmpHeading{Step-by-step description of the algorithm}
+More specifically, our algorithm involves the following steps:
 \begin{enumerate}
 	\item Choose an initial set of parameters $\bs\lambda$ (randomly, or specific values if one has an idea of where a solution might be).
 	A number of other hyperparameters have to be decided at this step, depending on the exact \ac{SGD} method used. In particular, for mini-batch \ac{SGD} with momentum and decreasing learning rate, one has to decide the momentum $\gamma$, the initial value of $\eta$, the rate at which $\eta$ decreases during the training, and the size $N_b$ of the batches of states used for every gradient descent step.
@@ -1786,14 +1852,24 @@ More specifically, the employed algorithm involves the following steps:
 	\end{enumerate}
 \end{enumerate}
 
+\subsection{(FROM IJQJ) Implementation details}
+
+For the cost function $\calF_\bslambda$ we use the expression given in~\cref{eq:fidelity_definition}, with a general Hamiltonian model with at most pairwise interactions, as given in~\cref{eq:hamiltonian_atmostpairwise}.
+This means that, for example, to train the four-qubit networks implementing Half-adder and TofFredkin gates, we start with a general Hamiltonian like in~\cref{eq:hamiltonian_atmostpairwise} with $9$ parameters $h_i^\alpha$ for the single-qubit fields, plus $3\times9$ parameters $J_{ij}^{\alpha\beta}$ for the two-qubit interactions, amounting to a total of $36$ parameters to be trained.
+The $h_0$ parameter can be left out of the training as it only amounts to an unobservable global phase.
+A similar calculation tells us that for the $3+5$ network used to train the \ac{QFT} gate, a total amount of $276$ parameters are trained.
+
+All the codes used to generate the results reported in this paper are freely available from Ref.~\cite{lucaarchivio}
+
+
 \subsection{Results}
 \label{subsec:GL:numerical_results}
 
 \tmpHeading{Summary of the results}
-A sample of training results for Toffoli, Fredkin, and "double Fredkin" gates are given in~\cref{fig:toffoli_fidVSpars,fig:fredkin_fidVSpars,fig:doublefredkin_fidVSpars}.
-In~\cref{fig:toffoli_diagonal_parhistories,fig:fredkin_diagonal_parhistories,fig:doublefredkin_diagonal_parhistories} are shown the training histories of the parameters for eight different solutions for Toffoli, Fredkin and \emph{double Fredkin}, respectively.
+A sample of training results for Toffoli, Fredkin, and "double Fredkin" gates are given in~\cref{fig:GL:toffoli_diagonal_solutions}.
+In~\cref{fig:GL:toffoli_diagonal_parhistories,fig:GL:fredkin_diagonal_parhistories,fig:GL:doublefredkin_diagonal_parhistories} are shown the training histories of the parameters for eight different solutions for Toffoli, Fredkin and \emph{double Fredkin}, respectively \highlight{(showing only one of these might be enough)}.
 These illustrate how quickly the networks converge for different initial values of the parameters.
-In all the shown cases the target gates are obtained with unit fidelity up to numerical precision (that is, all fidelities are between $1-10^{-16}$ and $1$).
+In all of these cases, the target gate is obtained with unit fidelity up to numerical precision (that is, all fidelities are between $1-10^{-16}$ and $1$).
 Different sets of optimisation hyperparameters are found to give acceptable solutions.
 For the trainings shown in this paper we used a dynamically updated learning rate given, for the $k^{\text{th}}$ epoch, by $\eta=1/(1 + k \alpha)$ with the \emph{decay rate} $\alpha=0.005$.
 The other hyperparameters were chosen as
@@ -1827,7 +1903,20 @@ Additional solutions and data, as well as the code used to produce them, is avai
 This repository contains all the code used to reproduce the solutions presented in this paper, as well as to train arbitrary gates on arbitrary numbers of qubits.
 Even more generally, arbitrary (linearly) parametrised matrices can be used as training model, allowing a high degree of flexibility.
 
-\begin{figure}[htbp]
+\begin{figure}[tb]
+{\bf (a)}\hskip5cm{\bf (b)}\hskip5cm{\bf (c)}
+    \includegraphics[width=0.33\textwidth]{toffoli_diagonal_solutions}%
+    \includegraphics[width=0.33\textwidth]{fredkin_diagonal_solutions}%
+    \includegraphics[width=0.33\textwidth]{doublefredkin_diagonal_initvalues4_8samples}
+    \caption{
+        Eight different sets of interaction parameters generating the Toffoli gate [panel {\bf (a)}] and the Fredkin one [panel {\bf (b)}]. For each shown solution the training was started from the \ansatz provided by~\cref{eq:toffoli_diagonal_after_conditions}, and the analogous equation for the Fredkin, respectively. Panel {\bf (c)}: Eight sets of interaction parameters for the ``double Fredkin" gate.
+        Each one of the shown solutions corresponds to unit fidelity up to numerical precision (that is, fidelities greater than $1-10^{-16}$).
+        We refer to the Supplementary Materials for the details of the optimisations.
+    }
+    \label{fig:GL:toffoli_diagonal_solutions}
+\end{figure}
+
+\begin{figure}[tb]
 	\centering
 	\begin{tikzpicture}
 		\node[anchor=south west] (A) at (0, 0)%
@@ -1837,15 +1926,15 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 	\end{tikzpicture}%
 	% \includegraphics[width=.8\linewidth]{toffoli_diagonal_parhistories}
 	\caption{
-		Training histories for the \textbf{Toffoli} gate with only diagonal interactions.
+		Training histories for the \emph{Toffoli} gate with only diagonal interactions.
 		In each plot are reported the values of the $9$ network parameters during the training process, for each training epoch $t_e$.
 		Each training process was left running until convergence to unit fidelity, therefore, the number of epochs in the horizontal axes differs for different trainings instances.
 		The histories shown here correspond to training instances in which the parameters were initialised at various values, as seen from the leftmost values in each plot.
 	}
-	\label{fig:toffoli_diagonal_parhistories}
+	\label{fig:GL:toffoli_diagonal_parhistories}
 \end{figure}
  
-\begin{figure}[htbp]
+\begin{figure}[tb]
 	\centering
 		\begin{tikzpicture}
 		\node[anchor=south west] (A) at (0, 0)%
@@ -1860,10 +1949,10 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		Each training process was left running until convergence to unit fidelity, therefore, the number of epochs in the horizontal axes differs for different trainings instances.
 		The histories shown here correspond to training instances in which the parameters were initialised at various values, as seen from the leftmost values in each plot.
 	}
-	\label{fig:fredkin_diagonal_parhistories}
+	\label{fig:GL:fredkin_diagonal_parhistories}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[tb]
 	\centering
 	\begin{tikzpicture}
 		\node[anchor=south west] (A) at (0, 0)%
@@ -1878,7 +1967,7 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		Each training process was left running until convergence to unit fidelity, therefore, the number of epochs in the horizontal axes differs for different trainings instances.
 		All the histories shown here correspond to training instances in which the parameters were initialised to $4$.
 	}
-	\label{fig:doublefredkin_diagonal_parhistories}
+	\label{fig:GL:doublefredkin_diagonal_parhistories}
 \end{figure}
 
 \newcommand{\graphicswithlabel}[3]{%
@@ -1890,7 +1979,7 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		\node[above] at (1., -.2) {$\calF_\bslambda(\psi)$};
 	\end{tikzpicture}%
 }
-\begin{figure}[htbp]
+\begin{figure}[tb]
 	\centering
 	\graphicswithlabel{a}{toffoli_fidVStime}{$\alpha$}%\vspace{-6pt}
 	\graphicswithlabel{b}{toffoli_fidVStime_wide}{$\alpha$}
@@ -1916,7 +2005,7 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		\node[above] at (1., -.2) {$\calF_\bslambda(\psi)$};
 	\end{tikzpicture}%
 }
-\begin{figure}[htbp]
+\begin{figure}[tb]
 	\centering
 	\graphicswithlabel{a}{fredkin_fidVStime}{$\alpha$}\vspace{-6pt}
 	\graphicswithlabel{b}{fredkin_fidVStime_wide}{$\alpha$}
@@ -1942,7 +2031,7 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 		\node[above] at (1., -.2) {$\calF_\bslambda(\psi)$};
 	\end{tikzpicture}%
 }
-\begin{figure}[htbp]
+\begin{figure}[tb]
 	\centering
 	\graphicswithlabel{a}{doublefredkin_fidVStime}{$\alpha$}\vspace{-6pt}
 	\graphicswithlabel{b}{doublefredkin_fidVStime_wide}{$\alpha$}
@@ -1968,7 +2057,7 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 	\end{tikzpicture}%
 }
 
-\begin{figure}[htbp]
+\begin{figure}[tb]
 	\centering
 	% \includegraphics[width=.85\linewidth]{fredkin_noancillae_XXall.pdf}
 	\traininggraphicswithlabel{fredkin_noancillae_XXall.pdf}
@@ -1984,7 +2073,7 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 \label{fig:fredkin_XX}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[tb]
 	\centering
 	\traininggraphicswithlabel{fredkin_noancillae_XYall.pdf}
 	\caption{
@@ -1995,7 +2084,7 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 \label{fig:fredkin_XY}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[tb]
 	\centering
 	\traininggraphicswithlabel{toffoli_noancillae_XXall.pdf}
 	\caption{
@@ -2006,7 +2095,7 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 	\label{fig:toffoli_XX}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[tb]
 	\centering
 	\traininggraphicswithlabel{toffoli_noancillae_XYall.pdf}
 	\caption{
@@ -2016,107 +2105,6 @@ Even more generally, arbitrary (linearly) parametrised matrices can be used as t
 	}
 	\label{fig:toffoli_XY}
 \end{figure}
-
-\subsection{(FROM IJQJ) Optimisation of qubit networks}
-\label{sec:GL:optimisation_qubit_networks}
-
-\newcommand{\Utarget}{{\calU_{target}}}
-\newcommand{\HLambda}{{\calH}_{\bslambda}}
-
-Consider a set of qubits whose dynamics is described by the time-independent Hamiltonian $\HH_\bslambda=\sum_k \lambda_k A_k$, which is specified by the set of real parameters $\bslambda=\{\lambda_1,\lambda_2,\dots,\lambda_k,\dots\}$ and has been decomposed over the (Hermitian) operatorial basis $\{A_k\}$.
-We consider some of the qubits of the set, say the first $M$ ones, as composing the \emph{system} ${\cal S}$ under investigation. The others embody a set  ${\cal A}$ of \emph{ancillary qubits}, whose collective initial state is set to be $\ket{\phi}_{\cal A}$.
-We call $\ket\psi_{\cal S}$ the initial state of the system qubits, which we assume to be uncorrelated to the set of ancillae and will thus evolve as
-\begin{equation}
-    % \ketbra{\psi_{\on{out}}(t,\bslambda)} =
-    \rho^{\cal S}_{\on{out}}(t, \bslambda) = %\rho_{\on{out}}(t\bslambda) =
-    \Tr_\calA\left[\exp(it\HH_\bslambda)(\psi\otimes\phi)\right],
-\end{equation}
-where $\Tr_\calA$ denotes the partial trace of the ancillary qubits and we have used the shortcut notation
-\begin{equation}
-\exp(it\HH_\bslambda)(\psi\otimes\phi)=e^{it\HH_\bslambda}(\ket{\psi}\bra{\psi}_{\cal S}\otimes\ket{\phi}\bra{\phi}_{\cal A})e^{-it\HH_\bslambda}.
-\end{equation}
-Without loss of generality, in the following we can assume units such that $t=1$, so that the evolution time can be incorporated into a suitable rescaling of the the Hamiltonian parameters $\bslambda$. The evolved system state will henceforth be written as $\rho^{\cal S}_{\on{out}}(t,\bslambda)\equiv \rho^{\cal S}_{\on{out}}(\bslambda)$. Our goal is to find a set of parameters $\bslambda_0$ such that, for a given target evolution $\Utarget$, we have the successful gate synthesis $\Utarget=\exp(i\HH_{\bslambda_0})$.
-This is equivalent to having
-\begin{equation}
-    % \ketbra{\psi_{\on{out}}(\bslambda)}=
-    \rho^{\cal S}_{\on{out}}(\bslambda_0) =
-    \Utarget(\ket{\psi}\bra{\psi}_{\cal S})\calU^\dagger_{target},\qquad \forall\ket{\psi}_{\cal S}.
-\end{equation}
-A natural way to quantify how much a given $\bslambda$ is close to the needed set $\bslambda_0$ is to use the state fidelity %function defined as
-\begin{equation}
-    \calF_\bslambda(\psi) ={}_{\cal S}\!\mel{\psi}{\calU_{target}^\dagger \rho_{\on{out}}^{\calS}(\bslambda) \Utarget}{\psi}_{\cal S}.
-    \label{eq:fidelity_definition}
-\end{equation}
-It then follows that
-\begin{equation}
-\label{condition}
-\calF_{\bslambda_0}(\psi)=1\quad \forall\ket\psi \Leftrightarrow \exp(i\HH_{\bslambda_0})=\Utarget.
-\end{equation}
-Restricting ourselves to Hamiltonians having at most pairwise interactions, which are easier to implement in many experimental architectures, we can consider the following decomposition over the Pauli basis
-\begin{equation}
-    \HLambda = h_0 I + \sum h^\alpha_{i} \sigma_i^\alpha + \sum J_{ij}^{\alpha\beta} \sigma_i^\alpha \sigma_j^\beta.
-    \label{eq:hamiltonian_atmostpairwise}
-\end{equation}
-Here, $i, j=1,...,N$ are indices for the qubits of the overall set (system and ancillae), $\alpha, \beta\in\{1,2,3\}$ identify the element of the Pauli vector ${\bs\sigma}=(\sigma^1,\sigma^2,\sigma^3)$ being considered (we use the correspondence $\sigma^1\rightarrow\sigma^x, \sigma^2\rightarrow\sigma^y, \sigma^3\rightarrow\sigma^z$), $J_{ij}^{\alpha\beta}$ is a coupling strength, and $\bslambda=\{h_0, h^\alpha_{i}, J_{ij}^{\alpha\beta}\}$.
-
-Note that, for a given choice of $\Utarget$ and $\HLambda$, it is not known whether a solution to the question posed by Eq.~\eqref{condition} even exists.
-% For example, it was until recently assumed that nontrivial three-qubit gates such as Toffoli and Fredkin could not be implemented with a time-independent dynamics without making use of ancillary qubits or higher-dimensional spaces~\cite{banchi2016quantum,zahedinejad2015highfidelity,zahedinejad2015highfidelity} (check).
-Indeed, a simple parameter-counting argument shows it does not in general: not all possible evolutions produced using higher-order interactions can be generated when only one- and two-qubit couplings are available. A concrete example of the gate-synthesis problem discussed here is given by the implementation of a Toffoli gate~\cite{shi2002both} over a three-qubit network with a restricted set of interactions. Yet, Ref.~\cite{banchi2016quantum} has shown that the use of a single ancillary qubit catalyses the synthesis of three-qubit gates with the restricted resources mentioned above. Moreover,  it was recently shown~\cite{innocenti2018supervised} that the same task can be achieved \emph{without} ancillary qubits and under the stronger restriction of having available only \emph{diagonal} pairwise interactions. Whether a given gate can be realized with a specific time-independent set of operations remains an open question.
-
-\subsection{(FROM IJQJ) Supervised learning of the Hamiltonian parameters}
-\label{subsec:learning}
-
-A standard approach to the design of Hamiltonians producing a target gate is the direct optimization of the average fidelity $\barF_\bslambda\equiv \int \calF_\psi \,d\psi$,
-where the integral is performed over the set of all pure states $\ket\psi$.
-Explicit closed expressions for $\barF_\bslambda$ are known~\cite{banchi2011nonperturbative,magesan2011gate,pedersen2007fidelity}, so that global optimisation algorithms can be applied directly.
-However, the resulting complex parameter landscape makes such optimization inefficient. In order to avoid  the issues associated with global optimisation techniques, we thus resort to a different approach.
-
-Instead of directly optimising $\barF_\bslambda$, we focus on single input states and optimise $\calF_\bslambda(\psi)$ for many different $\ket\psi$.
-Formulated in this manner, the problem can be phrased in terms of supervised machine learning tasks, akin to the training of a neural network model.
-Indeed, qubit networks can be trained to implement target evolutions just as neural network are trained to implement desired functional relationships.
-
-One of the most used techniques to train neural network models is the so-called \ac{SGD}~\cite{wengert1964a,ruder2016an},
-a workhorse of many state-of-the-art machine learning algorithms.
-Given a parametrised functional relation $f_\bsw(\bsx)$, \ac{SGD} looks for sets of parameters $\bs w_0$ such that $f_{\bsw_0}(\bsx)$ is minimised for all $\bsx$.
-This is done via the following iterative procedure: 1) choose a random input $\bsx_0$, 2) perform a few gradient descent steps over $\bsw$, and 3) go back to the first step, until a good result is obtained.
-In this way some of the difficulties associated with local optimisation are avoided, because for every input $\bsx$ one has a different parameter landscape $\bsw\mapsto f_\bsw(\bsx)$ over which the gradient descent is performed.
-This new parameter landscape does not in general have the same local minima as the previous ones, while on the other hand the global minimum is bound to be a minimum for all $\bsx$.
-In the qubit network scenario that we are tackling, this translates into the fidelity being unitary for all $\ket\psi_{\cal S}$ only for the sets $\bslambda$ such that $\exp(i\HH_\bslambda)=\Utarget$.
-
-Following the large body of research that the area of machine learning has seen in recent years~\cite{lecun2015deep,silver2016mastering}, a number of well-honed tools to efficiently tackle these kinds of tasks has been developed and made freely available.
-In particular, software frameworks such as Theano~\cite{team2016theano}, TensorFlow~\cite{tensorflow2015-whitepaper} and PyTorch~\cite{paszke2017automatic} allow to efficiently train arbitrarily built models with state-of-the-art \ac{SGD} algorithms.
-One particular aspect of these frameworks which allows to further speed-up the training procedure is that they allow to perform \emph{automatic differentiation}~\cite{wengert1964a,bartholomewbiggs2000automatic,baydin2015automatic} of arbitrary computations.
-Automatic differentiation is a technique to efficiently compute, numerically, the gradient of an arbitrary multivalued function $f(\bs x)$, without using numerical approximation methods nor requiring the analytical expression of the gradient.
-Such technique is especially valuable to speed-up \ac{SGD} optimisations, as it significantly decreases the cost of computing $\grad_\bsw f$.
-
-\subsection{(FROM IJQJ) Implementation details}
-\label{subsec:details}
-
-We implement supervised learning of arbitrary qubit networks using Theano\cite{team2016theano}, a Python library for machine learning of widespread use.
-More specifically, we use Theano to perform momentum-\ac{SGD}~\cite{ruder2016an} over the network parameters $\bslambda$, exploiting the automatic differentiation capabilities provided by Theano to speed-up the optimisation.
-The implemented protocol can be summarized in the following steps
-\begin{enumerate}
-    \item Choose an initial set of parameters $\bs\lambda$.
-    \item Generate a random set of input states $\ket{\psi_k}$, $k=1,..., N_b$, with $N_b$ the size of the mini-batches chosen beforehand.
-    \item For each $k$, compute $\grad_{\bs\lambda} \calF_{\bs\lambda}(\psi_k)$ using the automatic differentiation capabilities offered by Theano.
-    \item Change the coupling strengths $\bs\lambda$ according to the chosen updating rule. A standard choice, adopted in this work, is momentum-SGD, which is characterised by the following updating rule:
-    \begin{equation}
-    \begin{aligned}
-        \bs v &\to \gamma \bs v + \eta \grad_{\bs\lambda} \calF_{\bs\lambda}(\psi_k), \\
-        \bs\lambda &\to \bs\lambda + \bs v,
-    \end{aligned}
-    \end{equation}
-    where the \emph{learning rate} $\eta$ and the \emph{momentum term} $\gamma$ are \emph{hyperparameters} that define the optimisation protocol.
-    The value of the learning rate is also chosen to be decreasing with the iteration number.
-    \item Return to point (2), until a satisfactory value of the fidelity is obtained.
-\end{enumerate}
-For the cost function $\calF_\bslambda$ we use the expression given in~\cref{eq:fidelity_definition}, with a general Hamiltonian model with at most pairwise interactions, as given in~\cref{eq:hamiltonian_atmostpairwise}.
-This means that, for example, to train the four-qubit networks implementing Half-adder and TofFredkin gates, we start with a general Hamiltonian like in~\cref{eq:hamiltonian_atmostpairwise} with $9$ parameters $h_i^\alpha$ for the single-qubit fields, plus $3\times9$ parameters $J_{ij}^{\alpha\beta}$ for the two-qubit interactions, amounting to a total of $36$ parameters to be trained.
-The $h_0$ parameter can be left out of the training as it only amounts to an unobservable global phase.
-A similar calculation tells us that for the $3+5$ network used to train the \ac{QFT} gate, a total amount of $276$ parameters are trained.
-
-All the codes used to generate the results reported in this paper are freely available from Ref.~\cite{lucaarchivio}
-
 
 
 \subsection{(FROM IJQJ) Results}
