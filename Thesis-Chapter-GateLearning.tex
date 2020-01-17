@@ -38,7 +38,6 @@ On the other hand, by improving our understanding of the underlying mathematical
 
 \tmpHeading{Chapter outline}
 In~\cref{sec:GL:problem_details} we explain in detail the mathematics underlying gate learning problems, and how physical constraints on the possible Hamiltonian parameters can be brought into the discussion. In~\cref{sec:GL:solution_framework} we finally provide one of the main results of the chapter, in the form of a solution framework that will prove useful both to solve gate learning problems exactly and to speed-up the numerical optimisations when needed. In~\cref{sec:GL:toffoli} we present the analytical results on the implementability of the Toffoli gate, while in~\cref{sec:GL:fredkin} those concerning the Fredkin gate. We continue in~\cref{sec:GL:numerical_approach} by discussing how the problem can be massaged to make it solvable via a numerical optimisation approach, and finally in~\cref{sec:GL:supervised_learning} we show how \ac{ML} techniques can be used to obtain even further efficiency improvements.
-Further results using the same numerical apparatus will be given in~\cref{chapter:gate_learning_verona}
 
 
 \section{Time-independent dynamics for target gates}
@@ -561,7 +560,7 @@ Nevertheless, this example is interesting to show how the technique suggested by
 \label{sec:GL:toffoli}
 
 \tmpHeading{The question}
-Consider now the Toffoli gate $\UToff$, and let $\calP_{\le2}$ denote the set of one- and two-qubit Pauli matrices. In this section we ask the question: \emph{is there a time-independent $\HTildeToff\in\spanR(\calP_{\le2})$ such that $\exponential(i\HTildeToff)=\UToff$?}
+Consider now the Toffoli gate $\UToff$, and let $\calP_{\le2}$ denote the set of one- and two-qubit Pauli matrices. In this section we ask the question: \emph{is there a time-independent $\calH\in\spanR(\calP_{\le2})$ such that $\exponential(i\calH)=\UToff$?}
 
 \tmpHeading{Finding the principal generator}
 A principal generator for $\UToff$ is $\HToff=\pi Z_1^- Z_2^- X_3^-$.
@@ -1179,18 +1178,13 @@ Note that instead of $\pi \alpha (Z_2 - Z_1)Z_3$ we could have equivalently chos
 $\pi\alpha(Z_2-Z_1)O_3$ for any $O_3 = a Y_3 + b Z_3$ and $a^2 + b^2 = 1$.
 The above reasoning explains the origin of the weird $\sqrt{15}$ factor: it comes as the coordinate necessary to make the vector unitary: for $X/4 + x Z / 4$ to be normalized, $x = \sqrt{15}$ must be satisfied.
 
-\section{Fredkin gate}
+\section{Fredkin gate \ccheck}
 \label{sec:GL:fredkin}
 % BEGIN FREDKIN
 
-\tmpHeading{What is the Fredkin gate?}
-We show here how to use the framework given in~\cref{sec:GL:solution_framework} to find a Hamiltonian that does not contain three-qubit interaction terms, and generates the Fredkin gate at $t=1$.
-The quantum Fredkin gate $\UFred$~\cite{fredkin1982conservative} is the three-qubit gate which swaps the first two qubits conditionally to the third one being in the state $\ket1$.
-This gate finds widespread use for a number of quantum information protocols~\cite{patel2016quantum,loft2018quantum}.
-A time-independent two-body Hamiltonian simulating $\UFred$ with four qubits has been found in~\cite{banchi2016quantum} using numerical optimization.
-We show here that it is possible to implement $\UFred$ via a time-independent dynamics using only \textit{three} qubits, and without using non-diagonal interaction terms.
-
-\highlight{COME BACK HERE TO CHECK}
+\tmpHeading{What is a Fredkin gate?}
+We show here how to use the framework given in~\cref{sec:GL:solution_framework} to find time-independent Hamiltonians for the Fredkin gate containing only one- and two-qubit interaction terms.
+The \emph{quantum Fredkin gate} $\UFred$~\cite{fredkin1982conservative} is the three-qubit gate which swaps second and third qubit conditionally to the first one being in the state $\ket1$.
 Explicitly,
 \begin{equation}
     \UFred = \PP_0 \otimes I_4 + \PP_1 \otimes \on{SWAP} =
@@ -1220,6 +1214,9 @@ where
         0 & 0 & 0 & 1
     \end{pmatrix}.
 \end{equation}
+This gate finds widespread use in quantum information~\cite{buhrman2001quantum,patel2016quantum,loft2018quantum}.
+A time-independent two-body Hamiltonian simulating $\UFred$ with four qubits was found in~\cite{banchi2016quantum} using numerical optimization.
+We show here that it is possible to implement $\UFred$ via a time-independent dynamics using only \textit{three} qubits, and without using non-diagonal interaction terms.
 The $\on{SWAP}$ gate has eigenvalues $\pm1$ with $+1$ being three-fold degenerate.
 It follows that $\UFred$ has a seven-fold degenerate eigenvalue $+1$ and a non-degenerate eigenvalue $-1$.
 The eigenstate of $\on{SWAP}$ with eigenvalue $\lambda=-1$ is $\ket{01}-\ket{10}$, and thus the corresponding eigenstate of $\UFred$ is $\ket{-1}\equiv\ket1\otimes(\ket{01}-\ket{10})/\sqrt2$.
@@ -1231,36 +1228,35 @@ The projector onto this eigenstate can be written in the Pauli basis as
     \left(\frac{I - X_2 X_3 - Y_2 Y_3 - Z_2 Z_3}{4}\right).
     \label{eq:GL:fredkin_projector_negeigspace}
 \end{equation}
-The principal logarithm is then $\HFred = \pi\PP_{-1}$.
+A principal generator is then $\HTildeFred = \pi\PP_{-1}$.
 % HFredkin = QPauliExpr[\[Pi] (1 - z[1])/ 2 (1 - x[2] x[3] - y[2] y[3] - z[2] z[3])/4]
 % HFredkin // Normal // N // MatrixExp[I #] & // Chop // MatrixForm
-
-\subsection{Generators with two-qubit interactions}
 Note how the projector in~\cref{eq:GL:fredkin_projector_negeigspace}, and therefore $\HTildeFred$, contains three-qubit interaction terms.
-Are these terms strictly necessary?
+\emph{Are these terms strictly necessary?}
 
+\tmpHeading{Find eigendecomposition of Fredkin gate}
 To answer this question, we start by finding the Hermitians that commute with $\HTildeFred$.
-These are those that generate the space $I-\PP_{-1}$, plus $\PP_{-1}$ itself.
+These are the the operators that generate the range of $I-\PP_{-1}$, plus $\PP_{-1}$ itself.
 In terms of Pauli matrices, $I-\PP_{-1}$ reads
 \begin{equation}
     % \frac{I+Z_1}{2}\otimes I_4,
     % Z^+\otimes I_4
-    I - \PP_{-1} = Z_1^+ + Z_1^- (3 + X_{23} + Y_{23} + Z_{23})/4.
+    I - \PP_{-1} = Z_1^+ + Z_1^- (3 + X_{23} + Y_{23} + Z_{23})/4,
 \end{equation}
+where $Z_1^\pm\equiv(1\pm Z_1)/2$, $X_{23}\equiv X_2X_3$, and similarly for $Y_{23},Z_{23}$.
 To generate the Fredkin, $\HTildeFred$ must necessarily contain a term of the form
 $(1 + 2n)\pi \PP_{-1}$ for some $n\in\ZZ$.
-This term contains three-qubit interactions, so we must hope that some other term in $I-\PP_{-1}$ removes these.
+This term contains three-qubit interactions, so we must hope that some other term in $I-\PP_{-1}$ can be used to removes these.
 
-
-\highlight{check consistency of \textit{principal}/\textit{canonical} notation}
 % \begin{equation}
 %   \HFred = (\pi/8) \left(I-\sigma^z_1\right)\left[I - \sum_{\alpha}\sigma^\alpha_2 \sigma^\alpha_3 \right],
 %   \label{HGF}
 % \end{equation}
 % where qubit $1$ is the control. %\cref{HGF} contains both two- and three-body interactions.
 
-Writing down the general parameterization $\HTildeFred(\bslambda)$ for a 3-qubit Hamiltonian containing only pairwise \emph{diagonal} interactions,
-and imposing~\cref{eq:GL:3conditions_2nd}, we cut the number of parameters $\bslambda$ down to 12, getting to the following expression:
+\tmpHeading{Find $\HTildeFred$ and $\HPrimeFred$}
+Writing down the general parametrisation $\HTildeFred\equiv\HTildeFred(\bslambda)$ for a $3$-qubit Hamiltonian containing only pairwise \emph{diagonal} interactions,
+and imposing~\cref{eq:GL:3conditions_2nd}, we cut the number of parameters $\bslambda$ down to $12$, reaching the following expression:
 % \begin{equation}
 % \begin{aligned}
 %     \HTildeFred &=
@@ -1294,7 +1290,7 @@ and imposing~\cref{eq:GL:3conditions_2nd}, we cut the number of parameters $\bsl
     + J_{23}^{yy} Y_2 Y_3.
 \end{aligned}
 \end{equation}
-\highlight{recheck the above}
+
 Imposing the following further constraints:
 \begin{equation}
 \begin{gathered}
@@ -1314,10 +1310,44 @@ we get the following simplified expression
     % + J_{13}^{xx} X_1 (X_2 + X_3)
     &+ (h_2^x + J_{13}^{xx} X_1)(X_2 + X_3)
     + J_{13}^{zz} Z_1 (Z_2 + Z_3)
-    + \frac{\pi}{2}  Z_1,
+    + \frac{\pi}{2}  Z_1.
 \end{aligned}
 \end{equation}
-corresponding to the following expression for $\HPrimeFred\equiv\HTildeFred-\HFred$:
+\highlight{(decide if we want to include these kinds of code snippets to generate automatically the expressions)}
+\begin{lstlisting}[language=Mathematica]
+oneAndDiagTwoQubitIntsIndices = Select[
+    Tuples[Range[0, 3], {3}],
+    Or[
+        Map[Last] @ Tally @ DeleteCases[0] @ # == {2},
+        Length @ DeleteCases[0] @ # <= 1
+    ]&
+];
+pauliProduct[indices_] := KroneckerProduct @@ (PauliMatrix /@ indices);
+generalGeneratorHam = (c@@# pauliProduct[#]) & /@ oneAndDiagTwoQubitIntsIndices // Total;
+fredkinPrincipalGenerator = Dot[
+    pauliProduct[0, 0, 0] - pauliProduct[3, 0, 0],
+    pauliProduct[0, 0, 0] - pauliProduct[0, 1, 1] - 
+    pauliProduct[0, 2, 2] - pauliProduct[0, 3, 3]
+] / 8;
+solutionsForParameters = With[{
+        commutatorElements = Flatten[#1.#2 - #2.#1 &[
+            fredkinPrincipalGenerator, generalGeneratorHam]]},
+    Solve[
+        Thread[commutatorElements == 0],
+        DeleteDuplicates @ Cases[generalGeneratorHam, c[__], Infinity]
+    ]
+];
+generalGeneratorHam = generalGeneratorHam /. solutionsForParameters[[1]];
+Map[
+    (# -> Tr[Dot[pauliProduct @@ #, ConjugateTranspose@generalGeneratorHam]] / 8) &, 
+    Tuples[Range[0, 3], {3}]
+] // FullSimplify[#, c[__] \[Element] Reals] & //
+     ReplaceAll[#, Join[
+        Thread[{c[0, 0, 3], c[0, 3, 0], c[0, 2, 0], c[2, 0, 2]} -> 0],
+        {c[3, 0, 0] -> Pi/2, c[0, 2, 2] -> c[0, 1, 1], c[0, 3, 3] -> c[0, 1, 1]}
+     ]] & // DeleteCases[_ -> 0] // Column
+\end{lstlisting}
+This gives the following expression for $\HPrimeFred\equiv\HTildeFred-\HFred$:
 \begin{equation}
 \begin{aligned}
     \HPrimeFred &=
@@ -1351,7 +1381,7 @@ However, we notice that two eigenvalues of~\cref{eq:GL:HPrimeFred_expression_aft
 % HFredPrime = HFredTilde - HFred;
 % HFredPrime // Normal // Eigenvalues // #[[;; 2]] & // Column
 
-which implies that $\lambda_2-\lambda_1= 2\pi$ and thus $\nu_2-\nu_1=1$.
+which implies that $\lambda_2-\lambda_1= 2\pi$ and thus $\nu_2-\nu_1=1$ (remembering that one must have $\lambda_i=2\pi\nu_i$ for integers $\nu_i$ for the corresponding expression to be a valid generator for the gate).
 This gives the following relation between the coefficients and the eigenvalues:
 \begin{equation}
     \pi(2\nu_1 + 3/2) = h_0 - 3 J_{23}^{zz}.
@@ -1373,7 +1403,7 @@ We can then project the matrix onto the space orthogonal to these (nondegenerate
 	0 & \sqrt{2} J_{13}^{xx} & 0 & 0 & \sqrt{2} h_{2}^{x} & 2 J_{13}^{zz} + J_{23}^{zz} + h_{0}-\frac{\pi }{2} \\
 \end{pmatrix}.$}
 \end{equation}
-The eigenvalues of this expression, while again too complex to be all computed, reveal to satisfy
+The eigenvalues of this expression again correspond to expressions too convoluted to be reported here, but they turn out to satisfy the following relations:
 \begin{equation}
     \lambda_3 + \lambda_4
     = \lambda_5 + \lambda_6
@@ -1570,7 +1600,7 @@ Given a parametrised Hamiltonian $\calH_{\bslambda}$, define the set of unitarie
 \begin{equation}
     \argmax_{\bslambda} \abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2.
 \end{equation}
-\highlight{add results of doing this}
+\highlight{(maybe show that this works in a few cases, if time allows. Otherwise just say that \emph{it's oh so difficult!})}
 
 
 
@@ -1625,18 +1655,18 @@ Common techniques involve dynamically updating the learning rate, or using \emph
 \tmpHeading{How is gate design a supervised learning problem?}
 To see how this class of optimisation problems is relevant to gate design problems, consider the fidelity function $\calF$ defined as
 \begin{equation}
-	\calF(\bslambda, \psi) \equiv \mel{\psi}{\calG^\dagger \exp(i \calH_\bslambda)}{\psi},
+	\calF_\bslambda(\psi) \equiv \mel{\psi}{\calG^\dagger \exp(i \calH_\bslambda)}{\psi},
 	\label{eq:GL:def_fidelity}
 \end{equation}
 with $\calG$ the target gate, $\bslambda$ the set of parameters, and $\psi\equiv\ket\psi$ an input state.
 The gate design problem is then equivalent to finding $\bslambda$ such that $\calF(\bslambda, \psi)$ is maximised (that is, equal to 1) for all $\psi$.
-One possibility to solve this problem is to consider the average fidelity $\bar{\calF}(\bslambda)$, for which explicit formulas are known~\cite{banchi2011nonperturbative,pedersen2007fidelity,magesan2011gate}.
-Standard optimisation methods, like standard gradient descent or differential evolution~\cite{chakraborty2008advances}, can be applied directly on $\bar{\calF}(\bslambda)$.
+One possibility to solve this problem is to consider the average fidelity $\barcalF(\bslambda)$, for which explicit formulas are known~\cite{banchi2011nonperturbative,pedersen2007fidelity,magesan2011gate}.
+Standard optimisation methods, like standard gradient descent or differential evolution~\cite{chakraborty2008advances}, can be applied directly on $\barcalF(\bslambda)$.
 This however, as already discussed in~\cref{sec:GL:numerical_approach}, reveals to be often impractical, due to the complexity of the associated parameter landscapes.
 On the other hand, \ac{SGD} allows to apply a simple and efficient local maximisation method, while at the same time being less prone to getting stuck in local maxima.
 This works particularly well for our problem, because we know that the value of $\bslambda$ corresponding to the target gate are \emph{all and only} those such that \emph{for all inputs $\psi$} the fidelity equals $1$.
 Indeed, one of the main advantages of this method is its focussing on optimising $\bslambda$ for many fixed states $\psi$, rather than attempting to optimise directly the operator like we did in~\cref{sec:GL:numerical_approach}.
-This is because we know that \emph{for every $\psi$}, the function $\bslambda\mapsto \calF(\bslambda,\psi)$ has a maximum some value of the parameters $\bslambda=\bslambda_0$ (at least when the gate can be implemented with the given restrictions). However, for any other $\bslambda$, changing $\psi$ changes the value of the fidelity. The consequence is that local maxima, which are problematic for optimisation algorithms, will in general disappear when the state $\psi$ is changed during the optimisation, thus making it harder for the optimiser to get stuck into local maxima.
+This is because we know that \emph{for every $\psi$}, the function $\bslambda\mapsto \calF_\bslambda(\psi)$ has a maximum some value of the parameters $\bslambda=\bslambda_0$ (at least when the gate can be implemented with the given restrictions). However, for any other $\bslambda$, changing $\psi$ changes the value of the fidelity. The consequence is that local maxima, which are problematic for optimisation algorithms, will in general disappear when the state $\psi$ is changed during the optimisation, thus making it harder for the optimiser to get stuck into local maxima.
 
 \tmpHeading{Computing the gradients efficiently}
 Efficiency-wise, a critical step in gradient descent algorithms is the evaluation of the gradient.
@@ -1740,8 +1770,8 @@ What made finding generators difficult, in~\cref{sec:GL:toffoli,sec:GL:fredkin} 
 What we can do is then to keep the latter condition, and use it as a starting point for the numerical optimisation, thus avoiding having to deal directly with the hard eigenvalue problem.
 
 \tmpHeading{The plan}
-For the purpose, we consider a slight generalisation of the gate learning problems discussed previously in the chapter. Each gate learning problem is defined by a target gate $\calU$, and a set of available interactions $\calP\equiv \{\sigma_i\}_i$, so that the \ansatz generator has the form $\calH_\bslambda=\sum_i \lambda_i \sigma_i$. As in~\cref{sec:GL:solution_framework}, we use the commutativity condition $[\calH_\bslambda,\calU]=0$ to cut down the number of free parameters. However, rather than trying to tackle the eigenvalue condition, we now instead feed the reduced expression for $\calH_\bslambda$ directly into the supervised learning optimisation algorithm. The algorithm will then look for values of $\bslambda$ which maximise the fidelity $\calF(\bslambda,\psi)\equiv\mel{\psi}{\calU^\dagger \exp[i\calH_\bslambda]}{\psi}$ for all input states $\psi\equiv\ket\psi$.
-AD makes this easier by making the evaluation of the derivatives $\partial_{\lambda_i}\calF(\bslambda,\psi)$ efficient.
+For the purpose, we consider a slight generalisation of the gate learning problems discussed previously in the chapter. Each gate learning problem is defined by a target gate $\calU$, and a set of available interactions $\calP\equiv \{\sigma_i\}_i$, so that the \ansatz generator has the form $\calH_\bslambda=\sum_i \lambda_i \sigma_i$. As in~\cref{sec:GL:solution_framework}, we use the commutativity condition $[\calH_\bslambda,\calU]=0$ to cut down the number of free parameters. However, rather than trying to tackle the eigenvalue condition, we now instead feed the reduced expression for $\calH_\bslambda$ directly into the supervised learning optimisation algorithm. The algorithm will then look for values of $\bslambda$ which maximise the fidelity $\calF_\bslambda(\psi)\equiv\mel{\psi}{\calU^\dagger \exp[i\calH_\bslambda]}{\psi}$ for all input states $\psi\equiv\ket\psi$.
+AD makes this easier by making the evaluation of the derivatives $\partial_{\lambda_i}\calF_\bslambda(\psi)$ efficient.
 
 \tmpHeading{We can add ancillary qubits without changing the algorithm}
 This allows to also easily consider more general cases than those analysed analytically in the previous sections. In particular, we can consider scenarios with ancillary qubits without changing much in the optimisation algorithm.
@@ -1752,7 +1782,8 @@ We think of the $n$-qubit system as partitioned into $n_S$ \emph{system qubits} 
 \end{equation}
 where we used the notation $\rho_S\equiv\PP[\ket\psi]$ and $\rho_A\equiv\PP[\ket\phi]$ to denote the projectors corresponding to the states. This output state is then compared with the (pure) target state, $\psi_{\on{target}}\equiv\calU\ket\psi$. The final fidelity used to evaluate the quality of the network at each iteration is then
 \begin{equation}
-    \calF(\bslambda,\psi) = \mel{\psi_{\on{target}}}{\rho^S_{\on{out}}(\bslambda)}{\psi_{\on{target}}}.
+    \calF_\bslambda(\psi) = \mel{\psi_{\on{target}}}{\rho^S_{\on{out}}(\bslambda)}{\psi_{\on{target}}}.
+    \label{eq:GL:fidelity_map_vs_unitary}
 \end{equation}
 It is worth noting that, in practice, the only thing that needs to be changed in the algorithm to handle this new scenario with ancillae is this fidelity function (and of course the Hamiltonian \ansatz).
 Because the results about commutativity found in~\cref{sec:GL:solution_framework} assume a fully unitary evolution (which is here broken by the partial trace operation), they cannot be used to improve the \ansatz in the case with ancillae.
@@ -1763,7 +1794,7 @@ We focus on the scenario in which only one- and two-qubit interactions are avail
     \calH_\bslambda = h_0 I + \sum h^\alpha_{i} \sigma_i^\alpha + \sum J_{ij}^{\alpha\beta} \sigma_i^\alpha \sigma_j^\beta.
     \label{eq:GL:hamiltonian_atmostpairwise}
 \end{equation}
-Here, $i, j=1,...,N$ are indices for the qubits of the overall set (system and ancillae), $\alpha, \beta\in\{1,2,3\}$ identify the element of the Pauli vector ${\bs\sigma}=(\sigma^1,\sigma^2,\sigma^3)$ being considered (we use the correspondence $\sigma^1\rightarrow\sigma^x, \sigma^2\rightarrow\sigma^y, \sigma^3\rightarrow\sigma^z$), $J_{ij}^{\alpha\beta}$ is a coupling strength, and $\bslambda\equiv \{h_0, h^\alpha_{i}, J_{ij}^{\alpha\beta}\}$.
+Here, $i, j=1,...,N$ index the qubits comprising the system, $\alpha, \beta\in\{1,2,3\}$ identify the considered Pauli matrices (we use the correspondence $\sigma^1\rightarrow\sigma^x, \sigma^2\rightarrow\sigma^y, \sigma^3\rightarrow\sigma^z$), $J_{ij}^{\alpha\beta}$ are the coupling strengths, and $\bslambda\equiv \{h_0, h^\alpha_{i}, J_{ij}^{\alpha\beta}\}$.
 Note that, for a given choice of $\calU$ and $\calH_\bslambda$, it is not known a priori whether a solution to the gate learning problem exists, although it is easy to check whether a proposed solution satisfies the criterion.
 % For example, it was until recently assumed that nontrivial three-qubit gates such as Toffoli and Fredkin could not be implemented with a time-independent dynamics without making use of ancillary qubits or higher-dimensional spaces~\cite{banchi2016quantum,zahedinejad2015highfidelity,zahedinejad2015highfidelity} (check).
 Indeed, a simple parameter-counting argument shows it does not in general: not all possible evolutions produced using higher-order interactions can be generated when only one- and two-qubit couplings are available.
@@ -1788,7 +1819,7 @@ Varying the size of such batches can be used to tune the variance of the gradien
 The use of \emph{momentum}~\cite{ruder2016overview,goh2017momentum} involves using a modified version of the updating rule given in~\cref{eq:GL:updating_rule}, which becomes
 \begin{equation}
 \begin{aligned}
-    \bs v &\to \gamma \bs v + \eta \grad_{\bslambda} \calF(\psi, \bslambda), \\
+    \bs v &\to \gamma \bs v + \eta \grad_{\bslambda} \calF_\bslambda(\psi), \\
     \bslambda &\to \bslambda + \bs v,
 \end{aligned}
 \label{eq:GL:updating_rule_momentum}
@@ -1798,8 +1829,8 @@ Using the auxiliary parameter $\bs v$ during the training discourages sudden cha
 
 \tmpHeading{Scope of the algorithm}
 Our implementation allows to train arbitrary target gates parametrised via a time-independent Hamiltonian $\calH_\bslambda$.
-The parametrisation is completely arbitrary (provided the dependence on the parameters is linear), so that the Hamiltonian can be chosen as $\calH_\bslambda=\sum_i \lambda_i A_i$ for any set of matrices $A_i$ and number of parameters $\lambda_i$.
-This is made possible by the flexibility of \ac{AD}, which allows to automatically build an efficiently differentiable computational graph, without needing to hardcode the structure of the Hamiltonian.
+Any $\calH_\bslambda$ depending linearly on the parameters, $\calH_\bslambda=\sum_i \lambda_i \sigma_i$ for Hermitians $\sigma_i$, can be used.
+This is made possible by the flexibility of \ac{AD}, which allows to automatically build an efficiently differentiable computational graph, without needing to hard-code the structure of the Hamiltonian and its derivatives with respect to $\lambda_i$.
 
 \tmpHeading{Handling complex numbers with real frameworks}
 While the cost function $\calF$ is always real, some of the intermediate calculations needed to compute it involve complex numbers.
@@ -1833,22 +1864,59 @@ More specifically, the algorithm involves the following steps:
 	\end{enumerate}
 \end{enumerate}
 
-\subsection{(FROM IJQJ) Implementation details}
-
-For the cost function $\calF_\bslambda$ we use the expression given in~\cref{eq:fidelity_definition}, with a general Hamiltonian model with at most pairwise interactions, as given in~\cref{eq:GL:hamiltonian_atmostpairwise}.
-This means that, for example, to train the four-qubit networks implementing Half-adder and Toffredkin gates, we start with a general Hamiltonian like in~\cref{eq:GL:hamiltonian_atmostpairwise} with $9$ parameters $h_i^\alpha$ for the single-qubit fields, plus $3\times9$ parameters $J_{ij}^{\alpha\beta}$ for the two-qubit interactions, amounting to a total of $36$ parameters to be trained.
-The $h_0$ parameter can be left out of the training as it only amounts to an unobservable global phase.
-A similar calculation tells us that for the $3+5$ network used to train the \ac{QFT} gate, a total amount of $276$ parameters are trained.
-
-All the codes used to generate the results reported in this paper are freely available from Ref.~\cite{lucaarchivio}
-
 
 \subsection{Results for unitary networks}
 \label{subsec:GL:supervised_learning_results_noancillae}
 
+\tmpHeading{Target gates used}
+We test our algorithm to train generators for Toffoli, Fredkin, and \emph{double-Fredkin} gates. The ``double-Fredkin'' gate is a \emph{four}-qubit gate which, conditionally on the state of the first qubit, acts either like a Fredkin, or like a Fredkin with reversed control. More explicitly, this is the gate
+\begin{equation}
+    \calU_{\on{FF}} \equiv \PP_0\otimes \UFred + \PP_1\otimes \calU_{\overline{\on{Fred}}}.
+\end{equation}
+
+\tmpHeading{Ansatzes used}
+In all cases, we used an \ansatz containing only one-qubit and \emph{diagonal} two-qubit interactions, that is, two-qubit interactions of the form $\sigma_i^\alpha\sigma_j^\alpha$.
+For the Toffoli gate, imposing the commutativity condition on such an \ansatz gives the following expression:
+\begin{equation}
+\begin{aligned}
+    \calH_\bslambda &=
+    h_1^z Z_1 + h_2^z Z_2 + h_3^x X_3 +
+    J_{13}^{xx} X_1(1+X_3) +
+    J_{23}^{xx} X_2(1+X_3) \\
+    &+ J_{12}^{zz} Z_1 Z_2 +
+    J_{13}^{zz} (1+Z_1)Z_3 +
+    J_{23}^{zz} (Z_2 - Z_1)Z_3 +
+    J_{12}^{xx} (X_1 X_2 + Y_1 Y_2).
+\end{aligned}
+\end{equation}
+\highlight{(add ansatz for the other gates)}
+
+% oneQubitAndDiagonalTwoQubitIntsIndices = 
+%   Select[Tuples[Range[0, 3], {3}],
+%    Map[Last]@Tally@DeleteCases[0]@# == {2} || 
+%      Length@DeleteCases[0]@# <= 1 &
+%    ];
+% pauliProduct[indices__] := 
+%   KroneckerProduct @@ (PauliMatrix /@ {indices});
+% generalGeneratorHam = (c @@ # pauliProduct @@ #) & /@ 
+%     oneQubitAndDiagonalTwoQubitIntsIndices // Total;
+% generalGeneratorHam /. With[
+%       {commutatorElements = #1.#2 - #2.#1 &[
+%            Toffoli[], generalGeneratorHam
+%            ] // Flatten // Simplify},
+%       Solve[
+%        Thread[commutatorElements == 0],
+%        DeleteDuplicates@Cases[generalGeneratorHam, c[__], Infinity]
+%        ]
+%       ][[1]] // PauliBasis // QPauliExprToRegularExpr // 
+%  Collect[#, c[__], Simplify] &
+
+
+
+
 \tmpHeading{Summary of the results}
-A sample of training results for Toffoli, Fredkin, and "double Fredkin" gates are given in~\cref{fig:GL:toffoli_diagonal_solutions}.
-In~\cref{fig:GL:toffoli_diagonal_parhistories,fig:GL:fredkin_diagonal_parhistories,fig:GL:doublefredkin_diagonal_parhistories} we shown the training histories of the parameters for eight different solutions for Toffoli, Fredkin and \emph{double Fredkin}, respectively \highlight{(showing only one of these might be enough)}.
+A sample of training results for Toffoli, Fredkin, and ``double Fredkin'' gates are given in~\cref{fig:GL:toffoli_diagonal_solutions}.
+In~\cref{fig:GL:toffoli_diagonal_parhistories} we shown the training histories of the parameters for eight different solutions for Toffoli, Fredkin and \emph{double Fredkin}, respectively.
 These illustrate how quickly the networks converge for different initial values of the parameters.
 In all of these cases, the target gate is obtained with unit fidelity up to numerical precision (that is, all fidelities are between $1-10^{-16}$ and $1$).
 Different sets of optimisation hyperparameters are found to give acceptable solutions.
@@ -1866,8 +1934,8 @@ As shown in these plots, the stability of the implemented gates with respect to 
 \tmpHeading{Results with restrictive interactions}
 To assess the feasibility of nontrivial gates in more restrictive experimental scenarios, we performed a systematic analysis of the reachability of Fredkin and Toffoli gates when allowing only for single-qubit and $X_i X_j+Y_i Y_j$ two-qubit interactions, and in the less restrictive setting of allowing for all $X_i X_j$ and $Y_i Y_j$ interactions.
 The results are shown in~\cref{fig:fredkin_XY,fig:fredkin_XX,fig:toffoli_XX,fig:toffoli_XY}.
-For the Fredkin gate, in the more restrictive $XX$ interactions setting, the biggest fidelity obtained was $\calF\simeq 0.94$, while when allowing for all $XX$ and $YY$ interactions the maximum fidelity obtained was $\calF\simeq0.999$.
-For the Toffoli gate, the maximum fidelity obtained in the $XX$ scenario was $\calF\simeq0.94$ as well, while when allowing for all $XX$ and $YY$ interactions the best training results corresponded to $\calF\simeq 0.98$.
+For the Fredkin gate, in the more restrictive $XX$ interactions setting, the biggest fidelity obtained was $\barcalF\simeq 0.94$, while when allowing for all $XX$ and $YY$ interactions the maximum fidelity obtained was $\barcalF\simeq0.999$.
+For the Toffoli gate, the maximum fidelity obtained in the $XX$ scenario was $\barcalF\simeq0.94$ as well, while when allowing for all $XX$ and $YY$ interactions the best training results corresponded to $\barcalF\simeq 0.98$.
 To have more consistent results, in all the training instances shown here all the hyperparameters, except for the interaction parameters' initial values, were chosen to have the same value.
 In particular, each training instance was run for $200$ epochs, each one using $200$ random quantum states as inputs, divided in batches of $2$ elements.
 This choice of hyperparameters is mostly empirical, and it is possible for different values to provide better results.
@@ -1899,14 +1967,17 @@ Finally, the Toffredkin gate is a gate which acts either as a CNOT or as a SWAP 
 \begin{equation}
     \calU_{\on{TF}} \equiv \PP_0\otimes\on{CNOT}_{23} + \PP_1\otimes\on{SWAP}_{23}.
 \end{equation}
+For the cost function $\calF_\bslambda$ we use the expression given in~\cref{eq:GL:fidelity_map_vs_unitary}, with a general Hamiltonian model with at-most-pairwise interactions, as given in~\cref{eq:GL:hamiltonian_atmostpairwise}.
+This means that, for example, to train the four-qubit networks implementing half-adder and Toffredkin, we start with a general Hamiltonian with $9$ parameters $h_i^\alpha$ for the single-qubit terms, plus $3\times9$ parameters $J_{ij}^{\alpha\beta}$ for the two-qubit interactions, amounting to a total of $36$ parameters to be trained.
+The $h_0$ parameter can be left out of the training as it only amounts to an unobservable global phase. A similar calculation tells us that for the $3+5$ network used to train the \ac{QFT} gate, a total amount of $276$ parameters are trained.
 
 \tmpHeading{Assessing the quality of the results}
-To assess the quality of the results we use the averaged gate fidelity $\barF(\calE,\calU)$ introduced in~\cref{eq:GL:explicit_fidelity_map_unitary}.
+To assess the quality of the results we use the averaged gate fidelity $\barcalF(\calE,\calU)$ introduced in~\cref{eq:GL:explicit_fidelity_map_unitary}.
 The map $\calE$ is, in our case, the operation corresponding to the action of a unitary in the enlarged system+ancillae space, followed by tracing the ancillary qubits.
 Explicitly, if $\calU_\bslambda\equiv\exp(i\calH_\bslambda)$ is a unitary acting on the full system plus ancillae space, obtained from the learning procedure, then the corresponding map is
 $\calE_\bslambda(\rho) = \Tr_A[\calU_\bslambda(\rho\otimes\rho_A) \calU_\bslambda^\dagger]$,
 where $\rho_A$ is the initial state of the ancillae (here always fixed to be $\ket0^{\otimes n_A}$).
-This average fidelity can be written explicitly in terms of the components of the map and target unitary, as given in\cref{eq:GL:explicit_fidelity_map_unitary}. This is the expression that will be used in the following to estimate the quality of the results.
+This average fidelity can be written explicitly in terms of the components of the map and target unitary, as given in~\cref{eq:GL:explicit_fidelity_map_unitary}. This is the expression that will be used in the following to estimate the quality of the results.
 
 \tmpHeading{Results for QFT, half-adder, Toffredkin}
 \Cref{fig:GL:parameters_QFT_Toffredkin_halfadder} shows the sets of Hamiltonian parameters that were obtained through the training procedure, for each target gate.
@@ -1916,7 +1987,7 @@ This average fidelity can be written explicitly in terms of the components of th
     We observed the best results when using $0$, $3$, and $5$ ancillae, the average fidelities being $0.987$, $0.991$, and $0.988$ respectively.
     It is important to note that due to the heuristic nature of our optimization method, better results might be achieved using different initial conditions or optimization parameters.
     In~\cref{fig:GL:parameters_QFT_Toffredkin_halfadder,fig:GL:qft3q+5a_fidVSpars} we show the final parameters, and the dependence of the final fidelities with respect to the parameters, for the case of $5$ ancillary qubits.
-    \item \textbf{\emph{(Half-adder)}} Finally, the half-adder was realised with average fidelity $\barF\simeq0.999997$ with a single ancillary qubit.
+    \item \textbf{\emph{(Half-adder)}} Finally, the half-adder was realised with average fidelity $\barcalF\simeq0.999997$ with a single ancillary qubit.
     Again, in~\cref{fig:GL:halfadder_fidVSpars} we report the behaviour of $\calF_\bslambda$ upon variations of $\bslambda$, and in~\cref{fig:GL:halfadder_finalmatrix} we give the final unitary gate, over the full four-qubit network, found via the optimisation.
 \end{itemize}
 
@@ -1926,6 +1997,21 @@ In particular, for Toffredkin and \ac{QFT}, the fidelity remains above $95\%$ up
 The half-adder appears to be less stable, but this is only consequence of the larger values of its interactions, as shown in~\cref{fig:GL:parameters_QFT_Toffredkin_halfadder}(c).
 Indeed, the hardness of tuning the Hamiltonian parameters with sufficient precision will vary strongly between different gates, as well as between different implementation of the same gate, and between different parameters in any given implementation.
 These results provide further evidence in support of the power and flexibility of the supervised learning approach presented in~\cite{innocenti2018supervised,banchi2016quantum}, which clearly applies to the cases where ancillary degrees of freedom are exploited during the evolution.
+
+
+\section{Conclusions}
+\label{sec:GL:conclusions}
+
+\highlight{(to actually do properly)}
+We have reported on strategies for supervised learning-assisted synthesis of multi-qubit quantum gates. The general scheme of our gate design is based on the use of a limited set of resources (such as two-qubit gates) that, in general, would not be sufficient for arbitrary gate design. However, the catalyst effect brought about by the use of machine learning -- specifically, stochastic momentum gradient descent -- is sufficient to overcome the limitation of our resources and deliver high-quality complex quantum gates. We have demonstrated the performance of our scheme by addressing the significant cases of a half-adder and a \ac{QFT} circuit. Moreover, we have shown the flexibility of our approach by addressing a novel type of gate that puts together the paradigmatic quantum Toffoli and Fredkin gates.
+
+We believe that the proposed methodology will be able to significantly help in the task of designing complex evolutions suitable for the simulation of the dynamics of networks of information carriers, lowering the complexity associated with gate decomposition, and simply adopting well-known techniques of classical machine learning.
+
+\highlight{(Other things to do)}
+\begin{itemize}
+    \item Recheck figures ordering and numbering
+    \item Recheck figures captions
+\end{itemize}
 
 \begin{figure}[tb]
 {\bf (a)}\hskip5cm{\bf (b)}\hskip5cm{\bf (c)}
@@ -1958,41 +2044,41 @@ These results provide further evidence in support of the power and flexibility o
 	\label{fig:GL:toffoli_diagonal_parhistories}
 \end{figure}
  
-\begin{figure}[tb]
-	\centering
-		\begin{tikzpicture}
-		\node[anchor=south west] (A) at (0, 0)%
-			{\includegraphics[width=.8\linewidth]{fredkin_diagonal_parhistories}};
-		\node[above] at (4., -.2) {$t_e$};
-		\node[above] at (11.5, -.2) {$t_e$};
-	\end{tikzpicture}%
-	% \includegraphics[width=.8\linewidth]{fredkin_diagonal_parhistories}
-	\caption{
-		Training histories for the \textbf{Fredkin} gate with only diagonal interactions.
-		In each plot are reported the values of the $9$ network parameters during the training process, for each training epoch $t_e$.
-		Each training process was left running until convergence to unit fidelity, therefore, the number of epochs in the horizontal axes differs for different trainings instances.
-		The histories shown here correspond to training instances in which the parameters were initialised at various values, as seen from the leftmost values in each plot.
-	}
-	\label{fig:GL:fredkin_diagonal_parhistories}
-\end{figure}
+% \begin{figure}[tb]
+% 	\centering
+% 		\begin{tikzpicture}
+% 		\node[anchor=south west] (A) at (0, 0)%
+% 			{\includegraphics[width=.8\linewidth]{fredkin_diagonal_parhistories}};
+% 		\node[above] at (4., -.2) {$t_e$};
+% 		\node[above] at (11.5, -.2) {$t_e$};
+% 	\end{tikzpicture}%
+% 	% \includegraphics[width=.8\linewidth]{fredkin_diagonal_parhistories}
+% 	\caption{
+% 		Training histories for the \textbf{Fredkin} gate with only diagonal interactions.
+% 		In each plot are reported the values of the $9$ network parameters during the training process, for each training epoch $t_e$.
+% 		Each training process was left running until convergence to unit fidelity, therefore, the number of epochs in the horizontal axes differs for different trainings instances.
+% 		The histories shown here correspond to training instances in which the parameters were initialised at various values, as seen from the leftmost values in each plot.
+% 	}
+% 	\label{fig:GL:fredkin_diagonal_parhistories}
+% \end{figure}
 
-\begin{figure}[tb]
-	\centering
-	\begin{tikzpicture}
-		\node[anchor=south west] (A) at (0, 0)%
-			{\includegraphics[width=.8\linewidth]{doublefredkin_diagonal_initvalues4_parhistories}};
-		\node[above] at (4., -.2) {$t_e$};
-		\node[above] at (11.5, -.2) {$t_e$};
-	\end{tikzpicture}%
-	% \includegraphics[width=.8\linewidth]{doublefredkin_diagonal_initvalues4_parhistories}
-	\caption{
-		Training histories for the \textbf{double-Fredkin} gate with only diagonal interactions.
-		In each plot are reported the values of the $18$ network parameters during the training process, for each training epoch $t_e$.
-		Each training process was left running until convergence to unit fidelity, therefore, the number of epochs in the horizontal axes differs for different trainings instances.
-		All the histories shown here correspond to training instances in which the parameters were initialised to $4$.
-	}
-	\label{fig:GL:doublefredkin_diagonal_parhistories}
-\end{figure}
+% \begin{figure}[tb]
+% 	\centering
+% 	\begin{tikzpicture}
+% 		\node[anchor=south west] (A) at (0, 0)%
+% 			{\includegraphics[width=.8\linewidth]{doublefredkin_diagonal_initvalues4_parhistories}};
+% 		\node[above] at (4., -.2) {$t_e$};
+% 		\node[above] at (11.5, -.2) {$t_e$};
+% 	\end{tikzpicture}%
+% 	% \includegraphics[width=.8\linewidth]{doublefredkin_diagonal_initvalues4_parhistories}
+% 	\caption{
+% 		Training histories for the \textbf{double-Fredkin} gate with only diagonal interactions.
+% 		In each plot are reported the values of the $18$ network parameters during the training process, for each training epoch $t_e$.
+% 		Each training process was left running until convergence to unit fidelity, therefore, the number of epochs in the horizontal axes differs for different trainings instances.
+% 		All the histories shown here correspond to training instances in which the parameters were initialised to $4$.
+% 	}
+% 	\label{fig:GL:doublefredkin_diagonal_parhistories}
+% \end{figure}
 
 \newcommand{\graphicswithlabel}[3]{%
 	\begin{tikzpicture}
@@ -2077,16 +2163,17 @@ These results provide further evidence in support of the power and flexibility o
 	\begin{tikzpicture}
 		\node[anchor=north west] (A) at (0, 0)%
 			{\includegraphics[width=.85\linewidth]{#1}};
-		\node[above] at (0, -.8) {$\barF$};
+		\node[above] at (0, -.8) {$\barcalF$};
 	\end{tikzpicture}%
 }
 
 \begin{figure}[tb]
 	\centering
 	% \includegraphics[width=.85\linewidth]{fredkin_noancillae_XXall.pdf}
+    \vspace{-40pt}
 	\traininggraphicswithlabel{fredkin_noancillae_XXall.pdf}
 	\caption{
-		Training results for the Fredkin gate with a generator containing one-qubit interactions and two-qubit interactions of the form $J_{ij}(X_i X_j + Y_i Y_j)$.
+		Training results for the \textbf{Fredkin} gate with a generator containing one-qubit interactions and two-qubit interactions of the form $J_{ij}(X_i X_j + Y_i Y_j)$.
 		Every point shows the final fidelity obtained at the end of a training procedure.
 		The hyperparameters, as well as the total number of training iterations, are kept the same in all the training instances shown here.
 		The initial parameters' values are the same within each horizontal sector, but changed between different sectors.
@@ -2101,7 +2188,7 @@ These results provide further evidence in support of the power and flexibility o
 	\centering
 	\traininggraphicswithlabel{fredkin_noancillae_XYall.pdf}
 	\caption{
-		Training results for the Fredkin gate with a generator containing all one-qubit interactions and two-qubit interactions of the form $J^{(1)}_{ij}X_i X_j + J^{(2)}_{ij}Y_i Y_j$.
+		Training results for the \textbf{Fredkin} gate with a generator containing all one-qubit interactions and two-qubit interactions of the form $J^{(1)}_{ij}X_i X_j + J^{(2)}_{ij}Y_i Y_j$.
 		The initial conditions are chosen as in~\cref{fig:fredkin_XX}.
 		The maximum fidelities obtained are $\calF\simeq0.999$, obtained in multiple instances $c=3$ and $c=4$ sectors.
 	}
@@ -2112,7 +2199,7 @@ These results provide further evidence in support of the power and flexibility o
 	\centering
 	\traininggraphicswithlabel{toffoli_noancillae_XXall.pdf}
 	\caption{
-		Training results for the Toffoli gate with a generator containing all one-qubit interactions and two-qubit interactions of the form $J_{ij}(X_i X_j + Y_i Y_j)$.
+		Training results for the \textbf{Toffoli} gate with a generator containing all one-qubit interactions and two-qubit interactions of the form $J_{ij}(X_i X_j + Y_i Y_j)$.
 		The initial conditions are chosen as in~\cref{fig:fredkin_XX}.
 		The maximum fidelities obtained are $\calF\simeq0.94$, obtained in the $c=3$ sector.
 	}
@@ -2123,7 +2210,7 @@ These results provide further evidence in support of the power and flexibility o
 	\centering
 	\traininggraphicswithlabel{toffoli_noancillae_XYall.pdf}
 	\caption{
-		Training results for the Toffoli gate with a generator containing all one-qubit interactions and two-qubit interactions of the form $J^{(1)}_{ij}X_i X_j + J^{(2)}_{ij}Y_i Y_j$.
+		Training results for the \textbf{Toffoli} gate with a generator containing all one-qubit interactions and two-qubit interactions of the form $J^{(1)}_{ij}X_i X_j + J^{(2)}_{ij}Y_i Y_j$.
 		The initial conditions are chosen as in~\cref{fig:fredkin_XX}.
 		The maximum fidelities obtained are $\calF\simeq0.98$, obtained in the $c=4$ and $c=5$ sectors.
 	}
@@ -2131,23 +2218,16 @@ These results provide further evidence in support of the power and flexibility o
 \end{figure}
 
 
-
-\subsection{(FROM IJQJ) Conclusions}
-\label{subsec:concl}
-
-We have reported on strategies for supervised learning-assisted synthesis of multi-qubit quantum gates. The general scheme of our gate design is based on the use of a limited set of resources (such as two-qubit gates) that, in general, would not be sufficient for arbitrary gate design. However, the catalyst effect brought about by the use of machine learning -- specifically, stochastic momentum gradient descent -- is sufficient to overcome the limitation of our resources and deliver high-quality complex quantum gates. We have demonstrated the performance of our scheme by addressing the significant cases of a half-adder and a \ac{QFT} circuit. Moreover, we have shown the flexibility of our approach by addressing a novel type of gate that puts together the paradigmatic quantum Toffoli and Fredkin gates.
-
-We believe that the proposed methodology will be able to significantly help in the task of designing complex evolutions suitable for the simulation of the dynamics of networks of information carriers, lowering the complexity associated with gate decomposition, and simply adopting well-known techniques of classical machine learning.
-
 \renewcommand{\graphicswithlabel}[2]{%
     \begin{tikzpicture}
         \node[anchor=south west, inner sep=0] at (0, 0)%
-            {\includegraphics[width=.9\linewidth]{#2}};
+            {\includegraphics[width=.8\linewidth]{#2}};
         \node[above] at (1, 4.6) {\textbf{(#1)}};
     \end{tikzpicture}%
 }
 \begin{figure}
     \centering
+    \vspace{-40pt}%
     \graphicswithlabel{a}{verona-qft3q+5a_all}
     \graphicswithlabel{b}{verona-toffredkin_all}
     \graphicswithlabel{c}{verona-halfadder_all}
@@ -2168,17 +2248,12 @@ We believe that the proposed methodology will be able to significantly help in t
 }
 \begin{figure}
     \centering
-    \vspace{-40pt}%
+    % \vspace{-40pt}%
     \graphicswithlabel{a}{verona-toffredkin_fidVStime}{$\alpha$}\vspace{-6pt}
     \graphicswithlabel{b}{verona-toffredkin_fidVStime_wide}{$\alpha$}\vspace{-6pt}
     \graphicswithlabel{c}{verona-toffredkin_fidVSpar0}{$\lambda_1$}\vspace{-6pt}
-    % \graphicswithlabel{d}{verona-toffredkin_fidVSpar1}{$\lambda_2$}\vspace{-6pt}
-    % \includegraphics[width=.65\linewidth]{verona-toffredkin_fidVStime}
-    % \includegraphics[width=.65\linewidth]{verona-toffredkin_fidVStime_wide}
-    % \includegraphics[width=.65\linewidth]{verona-toffredkin_fidVSpar0}
-    % \includegraphics[width=.65\linewidth]{verona-toffredkin_fidVSpar1}
     \caption{\footnotesize
-        Fidelity $\calF_\bslambda(\psi)$ vs variations of $\bslambda$, for different test states, for the Toffredkin gate. The five test states $\psi$ are sampled randomly.
+        Fidelity $\calF_\bslambda(\psi)$ vs variations of $\bslambda$, for different test states, for the \textbf{Toffredkin} gate. The five test states $\psi$ are sampled randomly.
         \textbf{(a)} Global relative variations of $\bslambda$, that is, plotting the fidelity against $\alpha\bslambda$ for $0.9 \le\alpha\le 1.1$.
         Note that this is equivalent to studying how the fidelity changes with respect to uncertainties in the evolution time, that is, how much does $\exp(i\calH t')$ differ from $\exp(i\calH t)$.
         \textbf{(b)} Same as \emph{(a)} but with $0\le\alpha\le 1.2$.
@@ -2186,18 +2261,6 @@ We believe that the proposed methodology will be able to significantly help in t
         \textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
     }
     \label{fig:GL:toffredkin_fidVSpars}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{verona-toffredkin_finalmatrix}
-    \caption{
-        Final Toffredkin gate found from the supervised learning training.
-        In this representation, the ancillary qubit is the first one, so that the top-left $8\times8$ submatrix describes the evolution of states when the ancillary qubit starts as $\ket0$.
-        Notably, it is clear from the matrix that the gate acts diagonally on the ancillary qubits, which therefore effectively acts as a control qubit.
-        When this control ancillary qubit is $\ket0$, the other three qubits evolve according to the Toffredkin gate.
-    }
-    \label{fig:GL:toffredkin_finalmatrix}
 \end{figure}
 
 \renewcommand{\graphicswithlabel}[3]{%
@@ -2211,21 +2274,22 @@ We believe that the proposed methodology will be able to significantly help in t
 }
 \begin{figure}
     \centering
-    \vspace{-40pt}\graphicswithlabel{a}{verona-qft3q+5a_fidVStime}{$\alpha$}\vspace{-6pt}
+    % \vspace{-40pt}
+    \graphicswithlabel{a}{verona-qft3q+5a_fidVStime}{$\alpha$}\vspace{-6pt}
     \graphicswithlabel{b}{verona-qft3q+5a_fidVStime_wide}{$\alpha$}\vspace{-6pt}
     \graphicswithlabel{c}{verona-qft3q+5a_fidVSpar0}{$\lambda_1$}\vspace{-6pt}
-    \graphicswithlabel{d}{verona-qft3q+5a_fidVSpar1}{$\lambda_2$}\vspace{-6pt}
+    % \graphicswithlabel{d}{verona-qft3q+5a_fidVSpar1}{$\lambda_2$}\vspace{-6pt}
     \caption{
         Fidelity $\calF_\bslambda(\psi)$ vs variations of $\bslambda$, for different test states, for the \textbf{three-qubit QFT} gate. The five test states $\psi$ are sampled randomly.
         \textbf{(a)} Global relative variations of $\bslambda$, that is, plotting the fidelity against $\alpha\bslambda$ for $0.9 \le\alpha\le 1.1$.
         Note that this is equivalent to studying how the fidelity changes with respect to uncertainties in the evolution time, that is, how much does $\exp(i\calH t')$ differ from $\exp(i\calH t)$.
         \textbf{(b)} Same as \emph{(a)} but with $0\le\alpha\le 1.2$.
         \textbf{(c)} Plot of $\calF_\bslambda(\psi)$ against \emph{absolute} variations of a single element of $\bslambda$, in this case the first one, i.e. we take $\lambda_1\in[-10,10]$.
-        \textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
+        % \textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
     }
     \label{fig:GL:qft3q+5a_fidVSpars}
 \end{figure}
-\thispagestyle{empty}
+% \thispagestyle{empty}
 
 \renewcommand{\graphicswithlabel}[3]{%
     \begin{tikzpicture}
@@ -2241,27 +2305,35 @@ We believe that the proposed methodology will be able to significantly help in t
     \graphicswithlabel{a}{verona-halfadder_fidVStime}{$\alpha$}\vspace{-6pt}
     \graphicswithlabel{b}{verona-halfadder_fidVStime_wide}{$\alpha$}\vspace{-6pt}
     \graphicswithlabel{c}{verona-halfadder_fidVSpar0}{$\lambda_1$}\vspace{-6pt}
-    \graphicswithlabel{d}{verona-halfadder_fidVSpar1}{$\lambda_2$}
-    % \includegraphics[width=.65\linewidth]{verona-halfadder_fidVStime}
-    % \includegraphics[width=.65\linewidth]{verona-halfadder_fidVStime_wide}
-    % \includegraphics[width=.65\linewidth]{verona-halfadder_fidVSpar0}
-    % \includegraphics[width=.65\linewidth]{verona-halfadder_fidVSpar1}
+    % \graphicswithlabel{d}{verona-halfadder_fidVSpar1}{$\lambda_2$}
     \caption{
         Fidelity $\calF_\bslambda(\psi)$ vs variations of $\bslambda$, for different test states, for the \textbf{half-adder} gate. The five test states $\psi$ are sampled randomly.
         \textbf{(a)} Global relative variations of $\bslambda$, that is, plotting the fidelity against $\alpha\bslambda$ for $0.9 \le\alpha\le 1.1$.
         Note that this is equivalent to studying how the fidelity changes with respect to uncertainties in the evolution time, that is, how much does $\exp(i\calH t')$ differ from $\exp(i\calH t)$.
         \textbf{(b)} Same as \emph{(a)} but with $0\le\alpha\le 1.2$.
         \textbf{(c)} Plot of $\calF_\bslambda(\psi)$ against \emph{absolute} variations of a single element of $\bslambda$, in this case the first one, i.e. we take $\lambda_1\in[-10,10]$.
-        \textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
+        % \textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
     }
     \label{fig:GL:halfadder_fidVSpars}
 \end{figure}
 
 \begin{figure}
     \centering
+    \includegraphics[width=\linewidth]{verona-toffredkin_finalmatrix}
+    \caption{
+        Final \textbf{Toffredkin} gate found from the supervised learning training.
+        In this representation, the ancillary qubit is the first one, so that the top-left $8\times8$ submatrix describes the evolution of states when the ancillary qubit starts as $\ket0$.
+        Notably, it is clear from the matrix that the gate acts diagonally on the ancillary qubits, which therefore effectively acts as a control qubit.
+        When this control ancillary qubit is $\ket0$, the other three qubits evolve according to the Toffredkin gate.
+    }
+    \label{fig:GL:toffredkin_finalmatrix}
+\end{figure}
+
+\begin{figure}
+    \centering
     \includegraphics[width=\linewidth]{verona-halfadder_finalmatrix}
     \caption{
-        Final half-adder gate found from the supervised learning training.
+        Final \textbf{half-adder} gate found from the supervised learning training.
         In this representation, the ancillary qubit is the first one, so that the top-left $8\times8$ submatrix describes the evolution of states when the ancillary qubit starts as $\ket0$.
         Notably, it is clear from the matrix that the gate acts diagonally on the ancillary qubits, which therefore effectively acts as a control qubit, which when $\ket0$ induces the other three qubits to evolve according to the half-adder gate.
     }
