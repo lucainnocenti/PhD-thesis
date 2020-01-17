@@ -605,7 +605,7 @@ We now need to find values of these coefficients such that the eigenvalues of $\
 Solving this condition directly on~\cref{eq:GL:general_toffoli_onetwoqubitints_without_Ys} remains a daunting task due to the large number of coefficients involved, which results in high-order polynomials when solving the characteristic polynomial of the associated matrix.
 Nevertheless, we can derive solutions by making a few guesses on the values of the coefficients.
 
-In~\cref{subsec:GL:lucky_guess,subsec:GL:diagonalising_2D_blocks,subsec:GL:toffoli_posteriori_derivation} we present three different paths to derive classes of generators for the Toffoli gate using only one- and two-qubit interaction terms.
+\Cref{subsec:GL:lucky_guess,subsec:GL:diagonalising_2D_blocks,subsec:GL:toffoli_posteriori_derivation} give three different routes to derive classes of generators for the Toffoli gate using only one- and two-qubit interaction terms.
 % We thus obtain the general form of a generator that respects the symmetries of the Toffoli. Any such $\HTildeToff$ will either preserve $\ket{1,1,-}$ (first row) or annihilate it (the other rows).
 % We write a general real linear combination of the operators listed in~\cref{eq:GL:toffoli_ops_after_commcondition} as
 % \begin{equation}
@@ -633,7 +633,7 @@ Let us try here the following values for the coefficients:
 %   J_{23}^{zz} = -J_{13}^{zz}.
 \end{gathered}
 \end{equation}
-With these values, we get the following simplified expression:
+These give the following simplified expression:
 \begin{equation}
 \begin{aligned}
   \HTildeToff &= h_0 I + h_3^x X_3 + h_3^z(1+ Z_2)Z_3
@@ -716,7 +716,7 @@ which finally gives the expression:
 \end{aligned}
 \label{eq:GL:toffoli_HPrime_reduced}
 \end{equation}
-With the above simplified expression it is now possible to directly solve the eigenvalue problem. Note that with this choice of coefficients we are left with a block-diagonal matrix (notice the lack of off-diagonal Pauli matrices on the first and second qubit) which depends on only four parameters, the diagonalisation of which is much easier to carry out.
+With the above simplified expression it is now possible to directly solve the eigenvalue problem. Note that with this choice of coefficients we are left with a block-diagonal matrix (due to the lack of off-diagonal Pauli matrices on first and second qubits) which depends on only four parameters, the diagonalisation of which is much easier to carry out.
 The four different eigenvalues of $\HPrimeToff{}$ are
 \begin{equation}
 \begin{cases}
@@ -828,7 +828,6 @@ More specifically, we have
 \end{aligned}
 \label{eq:GL:toffoli_eigenvectors_solution}
 \end{equation}
-\highlight{recheck these coefficients at some point}
 where
 \begin{equation}
 \newcommand{\denom}{1 + \bar\nu_{12}}
@@ -855,7 +854,7 @@ where
 % \end{equation}
 It is worth noting that the orthogonality of these eigenvectors follows from the easily verified property of the above coefficients: $a^2 - b^2 = 1$.
 Furthermore, we note that $c(\nu_1, \nu_2, \nu_3, \nu_4) \ge 0$ cannot be satisfied unless $\nu_3 \neq \nu_4$.
-This can also be verified by looking back at~\cref{eq:GL:toffoli_lambdas_vs_parameters}, from which we deduce that $\nu_3=\nu_4$ is only possible if $h_3^x=J_{13}^{zz}=0$, which when used in~\cref{eq:GL:toffoli_HPrime_reduced} gives a matrix whose eigenvalues can be seen to not be made equal to multiple integers of $2\pi$.
+This can also be verified by looking back at~\cref{eq:GL:toffoli_lambdas_vs_parameters}, from which we deduce that $\nu_3=\nu_4$ is only possible if $h_3^x=J_{13}^{zz}=0$, which when used in~\cref{eq:GL:toffoli_HPrime_reduced} gives a matrix whose eigenvalues would not be multiples of $2\pi$.
 The condition $\nu_3\neq\nu_4$, in turn, looking at \cref{eq:GL:toffoli_eigenvectors_solution},
 reveals that all the solutions are made possible by a non-trivial lifting of the degeneracy of the subspaces $\ketbra{0,1}$ and $\ketbra{1,0}$.
 A simple example of such a $\HTildeToff$, obtaining with the choice $\nu_1=\nu_2=\nu_3=0$ and $\nu_4=1$, is
@@ -1178,7 +1177,7 @@ Note that instead of $\pi \alpha (Z_2 - Z_1)Z_3$ we could have equivalently chos
 $\pi\alpha(Z_2-Z_1)O_3$ for any $O_3 = a Y_3 + b Z_3$ and $a^2 + b^2 = 1$.
 The above reasoning explains the origin of the weird $\sqrt{15}$ factor: it comes as the coordinate necessary to make the vector unitary: for $X/4 + x Z / 4$ to be normalized, $x = \sqrt{15}$ must be satisfied.
 
-\section{Fredkin gate \ccheck}
+\section{Fredkin gate \ccheck\ccheck}
 \label{sec:GL:fredkin}
 % BEGIN FREDKIN
 
@@ -1312,6 +1311,7 @@ we get the following simplified expression
     + J_{13}^{zz} Z_1 (Z_2 + Z_3)
     + \frac{\pi}{2}  Z_1.
 \end{aligned}
+\label{eq:GL:fredkin_ansatz_used_for_analytics}
 \end{equation}
 \highlight{(decide if we want to include these kinds of code snippets to generate automatically the expressions)}
 \begin{lstlisting}[language=Mathematica]
@@ -1403,7 +1403,32 @@ We can then project the matrix onto the space orthogonal to these (nondegenerate
 	0 & \sqrt{2} J_{13}^{xx} & 0 & 0 & \sqrt{2} h_{2}^{x} & 2 J_{13}^{zz} + J_{23}^{zz} + h_{0}-\frac{\pi }{2} \\
 \end{pmatrix}.$}
 \end{equation}
-The eigenvalues of this expression again correspond to expressions too convoluted to be reported here, but they turn out to satisfy the following relations:
+% ---- reproduce with the following:
+% Get["https://raw.githubusercontent.com/lucainnocenti/quantum-gate-\
+% learning-1803.07119-Mathematica-code/master/QPauliAlgebra.m"]
+% HFred = \[Pi] QPauliExpr[(1 - 
+%        z[1]) (1 - x[2] x[3] - y[2] y[3] - z[2] z[3])/8];
+% usedInteractions = {1, x[2] x[3] + y[2] y[3] + z[2] z[3], x[2] + x[3],
+%     x[1] (x[2] + x[3]), z[1] (z[2] + z[3]), z[1]};
+% usedInteractionNames = {Subscript[h, 0], Subsuperscript[J,"23","zz"], 
+%    Subsuperscript[h,"2","x"], Subsuperscript[J,"13","xx"], 
+%    Subsuperscript[J,"13","zz"], Subsuperscript[h,"1","z"]};
+% HTildeFred = 
+%   QPauliExpr@
+%     Total[usedInteractionNames*usedInteractions] /. {Subsuperscript[
+%      h,"1","z"] -> \[Pi]/2};
+% expr = Normal@HTildeFred - Normal@HFred;
+% basisChangeMatrix = {{1, 0, 0, 0, 0, 0, 0, 0},
+%    {0, 0, 0, 1, 0, 0, 0, 0},
+%    {0, 0, 0, 0, 1, 0, 0, 0},
+%    {0, 0, 0, 0, 0, 0, 0, 1},
+%    {0, 1/Sqrt@2, 1/Sqrt@2, 0, 0, 0, 0, 0},
+%    {0, 0, 0, 0, 0, 1/Sqrt@2, 1/Sqrt@2, 0},
+%    {0, 1/Sqrt@2, -1/Sqrt@2, 0, 0, 0, 0, 0},
+%    {0, 0, 0, 0, 0, 1/Sqrt@2, -1/Sqrt@2, 0}};
+% basisChangeMatrix.expr.Inverse[basisChangeMatrix] // 
+%   Simplify // MatrixForm
+The eigenvalues of this expression are too convoluted to report here, but they turn out to satisfy the following relations (upon appropriate numbering of the eigenvalues):
 \begin{equation}
     \lambda_3 + \lambda_4
     = \lambda_5 + \lambda_6
@@ -1424,8 +1449,8 @@ Moreover, we note that $\lambda_4-\lambda_3$, $\lambda_6-\lambda_5$, and $\lambd
     4(h_0 + J_{23}^{zz})^2 + S_i,
     \quad i=3,5,7,
 \end{equation}
-where the $S_i$ are the three solutions to the same cubic polynomial.
-If we then assume that $h_0=J_{23}^{zz}$, we conclude from~\cref{eq:GL:fredkin_condition_between_h0_and_J23zz} that
+where the $S_i$ are the three solutions to the same cubic polynomial. This is a polynomial whose coefficients depend on the interaction parameters, and thus also indirectly on the eigenvalues $\lambda_i$.
+If we then assume that $h_0+J_{23}^{zz}=0$, we conclude from~\cref{eq:GL:fredkin_condition_between_h0_and_J23zz} that
 $h_0=-J_{23}^{zz}=3\pi/8+\pi \nu_1/2$ for $\nu_1\in\ZZ$, and the differences $\lambda_{i+1}-\lambda_i$ are then given by
 \begin{equation}
     \lambda_{i+1} - \lambda_i = \pm \sqrt{S_i}.
@@ -1437,8 +1462,9 @@ If one of these differences is zero, then $S_i=0$ for some $i$, which can only b
     \pi^2
     - (4h_2^x)^2
     + (4 J_{13}^{xx})^2
-    - (4 J_{13}^{zz})^2 = 0,
+    - (4 J_{13}^{zz})^2 = 0.
 \end{equation}
+This relation is obtained by imposing the constant term of the cubic polynomial whose solutions are $S_i$ to be vanishing.
 which allows to remove one further coefficient, expressing $J_{13}^{zz}$ as function of $h_2^x$ and $J_{13}^{xx}$:
 \begin{equation}
     J_{13}^{zz} = \pm\frac{1}{4}\sqrt{
@@ -1510,7 +1536,8 @@ In conclusion, we obtain the following class of generators for the Fredkin gate 
 \end{gathered}
 \end{equation}
 where we defined $\tilde n\equiv 4n$ and $\tilde m\equiv 4m$, and this expression is valid for all $n,m\neq0$ such that $m^2\neq n^2$, with the $\pm$ signs independently choosable.
-The eigenvalues of such $\HTildeFred$ are $0$ (with multiplicity two), $\pm 2\pi m$, $\pm2\pi n$, $2\pi(1+\nu)$ and finally $2\pi(\nu+1/2)$.  
+Note that this is still clearly \emph{not} an exhaustive list of generators for the Fredkin, and most likely not even an exhaustive list of generators that use the interactions in the \ansatz given in~\cref{eq:GL:fredkin_ansatz_used_for_analytics}, as we used a few simplifying assumptions through the derivation (namely, that $h_0+J_{23}^{zz}=0$ and that $S_i=0$ for one of the $i$).
+The eigenvalues of this $\HTildeFred$ are $0$ (with multiplicity two), $\pm 2\pi m$, $\pm2\pi n$, $2\pi(1+\nu)$ and finally $2\pi(\nu+1/2)$.  
 For example, choosing $n=1, m=2$, and $\nu=0$ we get the following expression:
 \begin{align}
     \HTildeFred &{=} 
@@ -1530,23 +1557,22 @@ For example, choosing $n=1, m=2$, and $\nu=0$ we get the following expression:
 %   + 3 \[Pi]/4 Sqrt[7/5] z[1] (z[2] + z[3]) + \[Pi]/2 z[1] + 
 %   3 \[Pi]/8
 %  ]
-
-Therefore, also a non-trivial gate of crucial relevance such as the Fredkin gate can be implemented without time-dependent dynamics using only at most two-qubit interactions.
+Therefore, also a non-trivial gate of crucial relevance such as the Fredkin can be implemented without time-dependent dynamics using only one- and two-qubit diagonal interactions.
 The physical reason behind this simplification can be understood from the study of the spectral properties.
 The gate $\UFred$ has only two eigenvalues, $\lambda_\pm=\pm1$,
 with $\lambda_+$ having a sevenfold degeneracy. Such degeneracy makes the propagator generated by $\HFred$ operate in a two-level subspace.
-On the other hand, the spectrum of $\HTildeFred-\HFred$ is $\{{-}4\pi,{-}2\pi,0,0,0,2\pi,2\pi,4\pi\}$, showing that the degeneracy in the spectrum of $\HFred$ is partially lifted when considering 
-$\HTildeFred-\HFred$, and the dynamics thus occurs in an  larger effective Hilbert space.  %Therefore, $\HTildeFred$ breaks some of the symmetries of $\calFred$, it acts on an effectively larger 
+On the other hand, the spectrum of $\HTildeFred-\HFred$ is $\{{-}4\pi,{-}2\pi,0,0,0,2\pi,2\pi,4\pi\}$, showing that the degeneracy in the spectrum of $\HFred$ is partially lifted when considering $\HTildeFred-\HFred$.
+This means that, in the case of $\HTildeFred$, the dynamics occurs in an larger effective Hilbert space.  %Therefore, $\HTildeFred$ breaks some of the symmetries of $\calFred$, it acts on an effectively larger 
 %space where the simulation of  $\calFred$ with a two-body Hamiltonian is possible. 
-Although $\exponential(it\HTildeFred)$ is non-symmetric for most of the evolution times, all the symmetries are restored at $t=1$ and any subsequent integer time. This  shows that breaking the symmetries of $\calU$ and exploiting its degenerate space can help the gate gesign when the set of viable interactions is restricted.
+Consequently, $\exponential(it\HTildeFred)$ does not have the symmetries as $\UFred$ during the evolution (that is, for $t\in(0,1)$), but all of the symmetries are restored at $t=1$. This  shows that breaking the symmetries of $\calU$ and exploiting its degenerate spaces can help the gate design when the set of viable interactions is restricted.
 %END FREDKIN
 
 The above procedure allows to find a unitary $U$ such that
 $U^\dagger\HFred U$ is diagonal and
-$\HFred + 2\pi U D U^\dagger$, where $D$ is diagonal with entries in $\ZZ$, contains only one- and two-qubit interactions.
+$\HFred + 2\pi U D U^\dagger$ contains only one- and two-qubit interactions, where $D$ is diagonal with entries in $\ZZ$.
 This, on the other hand, means that for all three-qubit interaction terms $\bs\sigma_k$, the following must be satisfied
 \begin{equation}
-    \Tr(\bs\sigma_k\HFred) = -2\pi \Tr(U^\dagger\bs\sigma_k U D).
+    \frac18\Tr(\bs\sigma_k\HFred) = -2\pi \Tr(U^\dagger\bs\sigma_k U D).
 \end{equation}
 
 \highlight{Maybe CCZ gate case?}
