@@ -419,18 +419,17 @@ We will show in~\cref{sec:GL:solution_framework} how, by appropriately rotating 
 \section{A solution framework}
 \label{sec:GL:solution_framework}
 
-As showed in~\cref{sec:GL:constraints_on_interaction_pars}, injecting physical constraints into the problem makes it significantly harder to solve.
-Nevertheless, we will show in this section how a few observations can be exploited to significantly simplify the task.
+As showed in~\cref{sec:GL:constraints_on_interaction_pars}, injecting physical constraints into the problem makes it significantly harder to solve. In this section, we will present a general procedure to tackle these kinds of problems.
 
-\tmpHeading{A way to tackle the hardness of constraints}
+\tmpHeading{Tackling constraints on available interactions}
 Piggybacking on the results of~\cref{sec:GL:solutions_matrix_equation_f(A)=B}, consider the general problem of looking for generators $\calH$ such that $e^{i\calH}=\calU$ for a given unitary $\calU$.
 While, as previously discussed, there are in general many possible such $\calH$, there \textit{is} one ``natural'' choice that can be considered as \emph{canonical} in this context. We will refer to this as the \emph{principal generator}, in analogy with the notion of \emph{principal logarithm} used in complex analysis.
-Indeed, while a generic $\calH$ can break the degeneracies of $\calU$, let us denote with $\calH_{\calU}$ a \textit{principal generator}, which is one that preserves the degeneracies of $\calU$.
-Note that computing such a generator is generally a straightforward task.
+Indeed, while a generic generator $\calH$ doesn't in general need to have the same degenerate eigenspaces as $\calU$, let us denote with $\calH_{\calU}$ a \textit{principal generator}, which is one that preserves the degeneracies of $\calU$.
+Note that computing such a generator is generally a straightforward task for small numbers of qubits.
 % Indeed, given an eigendecomposition of $\calU$ 
 % As previously discussed, it is easy to find \textit{one} possible $\calH$ satisfying this requirement. Let us denote such a ``canonical'' generator with $\calH_{\calU}$.
 Any other generator $\calH$ will have to be related to $\calH_{\calU}$ through the equation $e^{i\calH}=e^{i\calH_{\calU}}=\calU$.
-We will show in this section that the following two conditions must be always satisfied by any such $\calH$:
+We will show in this section that any such $\calH$ must satisfy the following two conditions:
 \begin{itemize}
     \item Every such $\calH$ must commute with $\calH_{\calU}$.
     % : $[\calH,\calH_{\calU}]=0$.
@@ -554,7 +553,7 @@ with $\calU_i$ a gate acting only on the $i$-th qubit.
 
 Nevertheless, this example is interesting to show how the technique suggested by~\cref{eq:GL:3conditions} can be put into action.
 \end{examplebox}
-\highlight{Is there a way to do a reasoning like the above for a generic two-qubit gate?}
+
 
 \section{Toffoli gate}
 \label{sec:GL:toffoli}
@@ -565,6 +564,8 @@ Consider now the Toffoli gate $\UToff$, and let $\calP_{\le2}$ denote the set of
 \tmpHeading{Finding the principal generator}
 A principal generator for $\UToff$ is $\HToff=\pi Z_1^- Z_2^- X_3^-$.
 As previously discussed in~\cref{ex:GL:toffoli_physical_constraints}, $\UToff$ has the nondegenerate eigenvector $\ket{1,1,-}$ with eigenvalue $-1$, which implies that any $\calH$ such that $[\calH,\HToff]=0$ must also stabilise $\ket{1,1,-}$.
+
+\tmpHeading{Finding generators commuting with the principal one}
 We then write down the general parametrisation of an Hamiltonian containing only one- and two-qubit interactions:
 \begin{equation}
     \HTildeToff =
@@ -901,9 +902,9 @@ Recalling the definitions of $a,b,N_5,N_6$, we see that the coefficient of $Z_1 
 	P_7 + P_8 = (...) +
 	Z_1 Z_2 X_3 \frac{1 + 4(\nu_1 - \nu_2)}{16\lvert \nu_3 - \nu_4\rvert}.
 \end{equation}
-Substitution of the appropriate values of $\nu_i$ shows that the above term can be used to generate the 3-qubit factor $\pi/8 \,\,Z_1 Z_2 X_3$,
+Substitution of the appropriate values of $\nu_i$ shows that the above term can be used to generate the factor $\pi/8 \,\,Z_1 Z_2 X_3$,
 \emph{without introducing additional 3-qubit factors}.
-In Box~\ref{tcolorbox:toffoli} are given the full expressions for the projectors and the found solutions for the Toffoli gate.
+In Box~\ref{tcolorbox:toffoli} we give the full expressions for the projectors and the solutions found for the Toffoli gate.
 It is also interesting to note that all of the above still holds if the $X_i$ operators are replaced with $Y_i$ operators.
 That is, the expressions found solving for the Toffoli, by simple substitution $X_i \to Y_i$,
 also give a generator with only 2-qubit interactions for the CCY gate
@@ -1007,7 +1008,7 @@ also give a generator with only 2-qubit interactions for the CCY gate
 \subsection{Work diagonalising the 2D blocks}
 \label{subsec:GL:diagonalising_2D_blocks}
 \highlight{(has to be checked)}
-A different way to understand $\HTildeToff$ is to analyse the four two-dimensional subspaces on the main diagonal, exploiting the fact that $\HTildeToff{}$ acts diagonally on the first two qubits.
+A different approach to understand $\HTildeToff$ \highlight{(which Htilde??)} is to analyse the four two-dimensional subspaces on the main diagonal, exploiting the fact that $\HTildeToff{}$ acts diagonally on the first two qubits.
 Straightforward calculations lead to
 \begin{equation*}
 \begin{aligned}
@@ -1122,7 +1123,7 @@ For example, a similar reasoning as above, starting however from the assumptions
 \subsection{\textit{A posteriori} alternative derivation}
 \label{subsec:GL:toffoli_posteriori_derivation}
 
-We will here show a line of thought that could have conceivably led to \cref{SM:eq:GL:toffoli_generator_nu4} (in the case $\nu_4=1$), by direct analysis, and without using any of the previously used techniques.
+We will present here a line of reasoning that could have conceivably led to~\cref{SM:eq:GL:toffoli_generator_nu4} (in the case $\nu_4=1$) by direct analysis.
 It will be useful to keep in mind the expressions of $Z_1 \pm Z_2$:
 \begin{equation}
 \begin{aligned}
@@ -1139,7 +1140,7 @@ which however will generate an $X$ evolution both in the $\ket{00}$ and in the $
 % \begin{equation}
 	$\calH_1 \doteq \on{diag}(-X^-, 0, 0, X^-)$.
 % \end{equation}
-We can remove the term in the $\ket{00}$ sector exploiting the sign difference introduced by $Z_1 + Z_2$, by directly adding an appropriate 1-qubit interaction term:
+We can remove the term in the $\ket{00}$ sector exploiting the sign difference introduced by $Z_1 + Z_2$, by directly adding an appropriate $1$-qubit interaction term:
 \begin{equation}
 \begin{aligned}
 	\calH_2 &= \frac{1}{2} \left[ \calH_1 + \frac{\pi}{2} (1 - X_3) \right] \\
@@ -1148,9 +1149,9 @@ We can remove the term in the $\ket{00}$ sector exploiting the sign difference i
 \label{eq:GL:toffoli_analytical_step2}
 \end{equation}
 where we remember that $\exp(i\pi X^-) = X$.
-\Cref{eq:GL:toffoli_analytical_step2} now correctly reproduces the evolution on $\ket{00}$ and $\ket{11}$, but also wrongly evolves $\ket{01}$ and $\ket{10}$.
+\Cref{eq:GL:toffoli_analytical_step2} now correctly reproduces the evolution on $\ket{00}$ and $\ket{11}$, but also gives wrong results for $\ket{01}$ and $\ket{10}$.
 To remove these additional terms while at the same time leaving the others unaffected we use the fact that
-$\exp(i\pi (1 \pm \bs{\sigma})) = I$, for any normalised vector of sigma matrices: $\bs\sigma \equiv \sum_{i=1}^3 n_i \sigma_i$ with $n_1^2 + n_2^2 + n_3^2 = 1$.
+$\exp(i\pi (1 \pm \bs{\sigma})) = I$, for any normalised vector of Pauli matrices: $\bs\sigma \equiv \sum_{i=1}^3 n_i \sigma_i$ with $n_1^2 + n_2^2 + n_3^2 = 1$.
 To convert the central terms in~\cref{eq:GL:toffoli_analytical_step2} into something like this we observe that we can rewrite the second term in the above equation as
 \begin{equation}
 	\pi/4(1-X_3) = \pi/8(2 - 2 X_3) = \pi/8(5 - 3 - 2 X_3).
