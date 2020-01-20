@@ -87,14 +87,14 @@ A more expressive way to write~\cref{eq:GL:cnot_eigendecomposition} is by introd
     = Z_1^+ + Z_1^- X_2^+ - Z_1^- X_2^-.
     \label{eq:GL:cnot_eigdecomp_with_paulis}
 \end{equation}
-The eigenvalues are therefore $\lambda_{1,2,3}=1$ and $\lambda_4=-1$.
-Can this gate be obtained via a two-qubit time-independent Hamiltonian $\calH$?
+Its eigenvalues are $\lambda_{1,2,3}=1$ and $\lambda_4=-1$.
+Let us consider the question: \emph{can this gate be obtained via a two-qubit time-independent Hamiltonian $\calH$?}
 Consider for the purpose a general parametrisation of the possible two-qubit Hamiltonians, which we can write using the set of Pauli matrices on the two qubits as operatorial basis:
 \begin{equation}
-    \calH({\bslambda}) =
+    \calH_\bslambda =
     \sum_{j,k=0}^4 \lambda_{j,k} \sigma^j_1\sigma^k_2.
 \end{equation}
-Given the decomposition of~\cref{eq:GL:cnot_eigdecomp_with_paulis}, it is natural to use as \ansatz for $\calH_\bslambda$ an expression bearing the same eigenstructure as the CNOT. Let us therefore write
+Given the decomposition in~\cref{eq:GL:cnot_eigdecomp_with_paulis}, it is natural to use as \ansatz for $\calH_\bslambda$ an expression bearing the same eigenstructure as the CNOT. Let us therefore try with
 \begin{equation}
     \calH_\bslambda = \lambda_1 Z_1^+ + \lambda_2 Z_1^- X_2^+ + \lambda_3 Z_1^- X_2^-.
 \end{equation}
@@ -147,15 +147,16 @@ As will be shown in the following sections, the answer is in fact that \emph{yes
 \end{examplebox}
 
 \tmpHeading{Why this is not the end of the story}
-As shown in~\cref{ex:GL:eigendecomposition_cnot,ex:GL:eigendecomposition_Toffoli}, looking for Hermitian generators of few-qubit gates appears to be a fairly straightforward task. There are, however, two notable issues with the analysis conducted so far:
+\Cref{ex:GL:eigendecomposition_cnot,ex:GL:eigendecomposition_Toffoli} show that looking for Hermitian generators of few-qubit gates appears to be a fairly straightforward task. There are, however, two notable issues with the analysis conducted so far:
 \begin{enumerate}
-    \item It lacks in generality: while finding specific generators essentially amounts to computing the eigendecomposition of the target $\calU$, and then the logarithm of the eigenvalues, this says nothing about whether such procedure provides the most general kind of Hamiltonian generator for the given gate. In other words, can \textit{all} generators $\calH$ be obtained this way?
-    \item We have no control over the kind of generators that we obtain with this procedure. For example, in~\cref{ex:GL:eigendecomposition_cnot} we obtained generators containing two-qubit interactions of the form $Z_1 X_2$. Does this mean that this type of interaction term is \textit{necessary} to generate a CNOT? Or is there instead some Hamiltonian that can still generate the CNOT without using such terms?
+    \item It lacks in generality: while finding specific generators essentially amounts to computing the eigendecomposition of the target $\calU$, and then the logarithm of the eigenvalues, this says nothing about whether such procedure provides \emph{the most general} kind of Hamiltonian generator for the target gate. In other words, can \textit{all} generators $\calH$ be obtained this way?
+    \item We have no control over the kind of generators that we obtain with this procedure. For example, in~\cref{ex:GL:eigendecomposition_cnot} we obtained generators containing two-qubit interactions of the form $Z_1 X_2$. Does this mean that this type of interaction term is \textit{necessary} to generate a CNOT? Or is there instead some Hamiltonian that can still generate the CNOT without needed such interactions?
     Similar questions arise in~\cref{ex:GL:eigendecomposition_Toffoli}.
 \end{enumerate}
 
 \tmpHeading{What is the rest of this section about?}
-To address these issues, we will study the underlying mathematical problem in more depth. As it turns out, we can divide such analysis in two parts. In~\cref{sec:GL:solutions_matrix_equation_f(A)=B}, we show how to find general solutions to inverse matrix equations of the form $f(A)=B$. Then, in~\cref{sec:GL:constraints_on_interaction_pars}, we present a way to bring additional constraints on the interaction terms into the discussion.
+To address these issues, we will study the underlying mathematical problem in more detail.
+We divide the analysis in two parts. \Cref{sec:GL:solutions_matrix_equation_f(A)=B} focusses on how to find general solutions to inverse matrix equations of the form $f(A)=B$. Then, in~\cref{sec:GL:constraints_on_interaction_pars}, we present a way to bring additional constraints on the interaction terms into the discussion.
 
 \subsection{Solving matrix equations: \texorpdfstring{$f(A)=B$}{f(A)=B}}
 \label{sec:GL:solutions_matrix_equation_f(A)=B}
