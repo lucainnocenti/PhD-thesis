@@ -556,18 +556,18 @@ Nevertheless, this example is interesting to show how the technique suggested by
 \end{examplebox}
 
 
-\section{Toffoli gate}
+\section{Toffoli gate\ccheck}
 \label{sec:GL:toffoli}
 
 \tmpHeading{The question}
 Consider now the Toffoli gate $\UToff$, and let $\calP_{\le2}$ denote the set of one- and two-qubit Pauli matrices. In this section we ask the question: \emph{is there a time-independent $\calH\in\spanR(\calP_{\le2})$ such that $\exponential(i\calH)=\UToff$?}
 
-\tmpHeading{Finding the principal generator}
+\tmpHeading{Find principal generator $\HToff$}
 A principal generator for $\UToff$ is $\HToff=\pi Z_1^- Z_2^- X_3^-$.
 As previously discussed in~\cref{ex:GL:toffoli_physical_constraints}, $\UToff$ has the nondegenerate eigenvector $\ket{1,1,-}$ with eigenvalue $-1$, which implies that any $\calH$ such that $[\calH,\HToff]=0$ must also stabilise $\ket{1,1,-}$.
 
-\tmpHeading{Finding generators commuting with the principal one}
-We then write down the general parametrisation of an Hamiltonian containing only one- and two-qubit interactions:
+\tmpHeading{Find generators $\HTildeToff$ commuting with $\HToff$}
+The general parametrisation of an Hamiltonian containing one- and two-qubit interactions reads:
 \begin{equation}
     \HTildeToff =
     h_0 I + \sum h_{i,\alpha}\sigma_i^\alpha
@@ -576,7 +576,7 @@ We then write down the general parametrisation of an Hamiltonian containing only
 \end{equation}
 \Cref{eq:GL:general_toffoli_onetwoqubitints} contains $37$ free parameters: $9$ for the one-qubit interactions, $\binom{3}{2}\times 3^2=27$ for the two-qubit interactions, plus one for the identity.
 Imposing $[\HTildeToff,\HToff]=0$ then translates into a series of conditions over these parameters which allows to remove $13$ of them, leaving us with only $24$.
-If we furthermore remove all terms containing $Y_k$ matrices, we are left with the following simplified expression
+If we furthermore remove all terms containing $Y_k$ matrices, we are left with the following simplified expression:
 \begin{equation}
 \begin{aligned}
     \HTildeToff =
@@ -621,10 +621,13 @@ Nevertheless, we can derive solutions by making a few guesses on the values of t
 % \end{gathered}
 % \end{equation}
 
-\subsection{A lucky guess}
+\subsection{A lucky guess \ccheck}
 \label{subsec:GL:lucky_guess}
 
-Let us try here the following values for the coefficients:
+In this section we try to tackle directly the eigenvalue problem~(\ref{eq:GL:3conditions_3rd}) for~\cref{eq:GL:general_toffoli_onetwoqubitints_without_Ys}, using a series of assumptions to reduce the number of free parameters in the \ansatz. The particular choices of coefficients we make here are partly obtained by trial and error, and partly inspired by the numerical results obtained using the methods presented in~\cref{sec:GL:supervised_learning}.
+
+\tmpHeading{Use assumptions to remove free coefficients}
+Consider the following assumptions:
 \begin{equation}
 \begin{gathered}
   h_1^z = h_2^z = -\frac{\pi}{8},\quad
@@ -666,7 +669,7 @@ These give the following simplified expression:
 % Normal@hToff /. {h[n_] :> Subscript[h, n], 
 %   h[n_, m_] :> Subsuperscript[h, n, m], 
 %   j[n_, m_, k_] :> Subsuperscript["J", Row@{n, m}, k]} // MatrixForm
-If we further impose $J_{13}^{xx}=0$, so that the generator is diagonal on the first two qubits, we get
+If moreover $J_{13}^{xx}=0$, so that the generator is diagonal on the first two qubits, we get
 \begin{equation}
 \begin{aligned}
     \HTildeToff &= h_0 I + h_3^x X_3 + h_3^z(1+ Z_2)Z_3
@@ -718,6 +721,7 @@ which finally gives the expression:
 \end{aligned}
 \label{eq:GL:toffoli_HPrime_reduced}
 \end{equation}
+\tmpHeading{Tackle the eigenvalue problem}
 With the above simplified expression it is now possible to directly solve the eigenvalue problem. Note that with this choice of coefficients we are left with a block-diagonal matrix (due to the lack of off-diagonal Pauli matrices on first and second qubits) which depends on only four parameters, the diagonalisation of which is much easier to carry out.
 The four different eigenvalues of $\HPrimeToff{}$ are
 \begin{equation}
@@ -803,7 +807,7 @@ where
 		&= -[(1-4\nu_{12})^2-(4\nu_{34})^2],
 \end{split}
 \end{equation}
-for all integer values of $\nu_i$ such that $c(\nu_1, \nu_2, \nu_3, \nu_4) \ge 0$ (which is the same condition written in~\cref{eq:GL:toffoli_lambdas_condition} in terms of $\lambda_k$).
+for all integer values of $\nu_i$ such that $c(\nu_1, \nu_2, \nu_3, \nu_4) \ge 0$ (which is the same condition written in~\cref{eq:GL:toffoli_lambdas_condition} in terms of $\lambda_k$), with $\nu_{ij}\equiv\nu_i-\nu_j$.
 The corresponding spectrum of $\HPrimeToff$ is
 \begin{equation}
 \begin{aligned}
@@ -816,7 +820,7 @@ The corresponding spectrum of $\HPrimeToff$ is
 while the spectrum of $\HTildeToff$ changes only in that
 $\lambda_4 = 2\pi(\nu_2 + 1/2)$.
 Consistently with this, $\lambda_2$ is also the eigenvalue corresponding to the non-degenerate eigenspace of $\HToff$.
-More specifically, we have
+More explicitly, we have
 \begin{equation}
 \begin{aligned}
 	\ket{\lambda_1} &= \ket{0, 0, +}, \\
@@ -832,13 +836,13 @@ More specifically, we have
 \end{equation}
 where
 \begin{equation}
-\newcommand{\denom}{1 + \bar\nu_{12}}
 \begin{gathered}
-	a = \frac{\lvert\bar\nu_{34}\rvert}{\denom{}},
+	a = \frac{4\nu_{34}}{4\nu_{12}-1},
 	\qquad
-	b = \frac{\sqrt{\bar\nu_{34}^2 - (\bar\nu_{12} + 1)^2}}{\denom{}},
+	b = \frac{\sqrt{c(\nu_1,\nu_2,\nu_3,\nu_4)}}{4\nu_{12}-1},
 \end{gathered}
 \end{equation}
+and $N_5,N_6$ are normalisation constants.
 % \begin{equation}
 % \begin{gathered}
 % 	a = 4\lvert \nu_3 - \nu_4 \rvert / c,
@@ -855,23 +859,23 @@ where
 % \end{gathered}
 % \end{equation}
 It is worth noting that the orthogonality of these eigenvectors follows from the easily verified property of the above coefficients: $a^2 - b^2 = 1$.
-Furthermore, we note that $c(\nu_1, \nu_2, \nu_3, \nu_4) \ge 0$ cannot be satisfied unless $\nu_3 \neq \nu_4$.
-This can also be verified by looking back at~\cref{eq:GL:toffoli_lambdas_vs_parameters}, from which we deduce that $\nu_3=\nu_4$ is only possible if $h_3^x=J_{13}^{zz}=0$, which when used in~\cref{eq:GL:toffoli_HPrime_reduced} gives a matrix whose eigenvalues would not be multiples of $2\pi$.
+Furthermore, we note that $c(\nu_1, \nu_2, \nu_3, \nu_4) \ge 0$ amounts to $|\nu_{34}|\ge|1-4\nu_{12}|$.
+This implies that $\nu_3\neq\nu_4$ must be true for any valid generator. This can also be verified by looking back at~\cref{eq:GL:toffoli_lambdas_vs_parameters}, from which we deduce that $\nu_3=\nu_4$ is only possible if $h_3^x=J_{13}^{zz}=0$, which when used in~\cref{eq:GL:toffoli_HPrime_reduced} gives a matrix whose eigenvalues are not multiples of $2\pi$.
 The condition $\nu_3\neq\nu_4$, in turn, looking at \cref{eq:GL:toffoli_eigenvectors_solution},
-reveals that all the solutions are made possible by a non-trivial lifting of the degeneracy of the subspaces $\ketbra{0,1}$ and $\ketbra{1,0}$.
-A simple example of such a $\HTildeToff$, obtaining with the choice $\nu_1=\nu_2=\nu_3=0$ and $\nu_4=1$, is
+reveals that all the solutions involve a non-trivial lifting of the degeneracy of the subspaces $\ketbra{0,1}$ and $\ketbra{1,0}$.
+A simple example of such a $\HTildeToff$, corresponding to $\nu_1=\nu_2=\nu_3=0$ and $\nu_4=1$, is
 \begin{equation}
     \frac{8}{\pi}\HTildeToff =
     5 I - 2 X_3 - (Z_1 + Z_2)(1 - X_3)
-    - 3 Z_1 Z_2 \pm \sqrt{15}(Z_1 - Z_2)Z_3,
+    - 3 Z_1 Z_2 \pm \sqrt{15}(Z_1 - Z_2)Z_3.
 \end{equation}
-which can be readily verified to satisfy $e^{i\HTildeToff}=\UToff$.
+This can be readily verified to satisfy $e^{i\HTildeToff}=\UToff$.
 
-\highlight{to recheck the following}
-Let us now try to understand how and why the derived $\HPrimeToff{}$ works.
-Let us use the notation $P_i \equiv \ketbra{\lambda_i}$,
+\tmpHeading{Investigating eigenstructure of $\HTildeToff$}
+Let us now try to understand how and why this $\HPrimeToff$ (and thus $\HTildeToff$) works.
+Define $P_i \equiv \ketbra{\lambda_i}$,
 and consider the projector over the last two eigenvectors.
-Highlighting the 3-qubit terms, we find
+Focussing on the 3-qubit terms, we find
 \begin{equation}
 \begin{aligned}
 	P_7 \simeq - N_6^2 \frac{Z_1 Z_2}{4} \bigg[
@@ -884,8 +888,7 @@ Highlighting the 3-qubit terms, we find
 	\bigg].
 \end{aligned}
 \end{equation}
-The term in the Hamiltonian to which these two projectors contribute is
-$2\pi \nu_{3,4} (P_7 + P_8)$, with $\nu_{3,4} = \nu_3 + \lvert \nu_3 - \nu_4\rvert$.
+These projectors enter into the Hamiltonian through $2\pi \nu_{4} (P_7 + P_8)$.
 A little algebra reveals that the 3-qubit terms in $P_7 + P_8$ are
 \begin{equation}
 \begin{aligned}
@@ -898,10 +901,10 @@ A little algebra reveals that the 3-qubit terms in $P_7 + P_8$ are
 	\right].
 \end{aligned}
 \end{equation}
-Recalling the definitions of $a,b,N_5,N_6$, we see that the coefficient of $Z_1 Z_2 Z_3$ vanishes, and the resulting expression becomes
+Using the definitions of $a,b,N_5,N_6$, we see that the coefficient of $Z_1 Z_2 Z_3$ vanishes, and the resulting expression becomes
 \begin{equation}
 	P_7 + P_8 = (...) +
-	Z_1 Z_2 X_3 \frac{1 + 4(\nu_1 - \nu_2)}{16\lvert \nu_3 - \nu_4\rvert}.
+	Z_1 Z_2 X_3 \frac{4\nu_{12}-1}{16\nu_{34}}.
 \end{equation}
 Substitution of the appropriate values of $\nu_i$ shows that the above term can be used to generate the factor $\pi/8 \,\,Z_1 Z_2 X_3$,
 \emph{without introducing additional 3-qubit factors}.
@@ -911,8 +914,15 @@ That is, the expressions found solving for the Toffoli, by simple substitution $
 also give a generator with only 2-qubit interactions for the CCY gate
 (that is, the gate that applies $Y$ to the third qubit conditionally to the first 2 qubits being in the $\ket1$ state).
 
-\begin{tbox}[label=tcolorbox:toffoli]{Toffoli}
+\begin{tbox}[label=tcolorbox:toffoli]{Explicit expressions of projectors for Toffoli \ccheck}
 \fontsize{9pt}{9pt}\selectfont
+    Defining $d\equiv 1/(2a)$ and $e\equiv b/(2a)$ we can write the projectors as follows:
+    % \begin{equation}
+    %     d \equiv \frac{(4\nu_{12} - 1)}{8\nu_{34}},
+    %     \qquad
+    %     e \equiv \frac{\sqrt{c(\bs\nu)}}{8\nu_{34}}.
+    % \end{equation}
+    % We can then write the projectors as follows:
 	\begin{equation*}
 	\begin{aligned}
 		P_1 &= Z_1^+ Z_2^+ X_3^-,
@@ -927,30 +937,35 @@ also give a generator with only 2-qubit interactions for the CCY gate
 	%
 	\begin{equation*}
 	\begin{aligned}
-		P_5 &= Z_1^- Z_2^+ \frac{1}{2\lvert\bar{\nu}_{34}\rvert}
-		\left[
-			\lvert\bar\nu_{34}\rvert +
-			(1 + \bar\nu_{12}) X_3 -
-			\sqrt{-(1 + \bar\nu_{12})^2 + \bar\nu_{34}^2} Z_3
-		\right], \\
-		P_6 &= Z_1^+ Z_2^- \frac{1}{2\lvert\bar{\nu}_{34}\rvert}
-		\left[
-			\lvert\bar\nu_{34}\rvert +
-			(1 + \bar\nu_{12}) X_3 +
-			\sqrt{-(1 + \bar\nu_{12})^2 + \bar\nu_{34}^2} Z_3
-		\right], \\
-		P_7 &= Z_1^- Z_2^+ \frac{1}{2\lvert\bar{\nu}_{34}\rvert}
-		\left[
-			\lvert\bar\nu_{34}\rvert -
-			(1 + \bar\nu_{12}) X_3 +
-			\sqrt{-(1 + \bar\nu_{12})^2 + \bar\nu_{34}^2} Z_3
-		\right], \\
-		P_8 &= Z_1^+ Z_2^- \frac{1}{2\lvert\bar{\nu}_{34}\rvert}
-		\left[
-			\lvert\bar\nu_{34}\rvert -
-			(1 + \bar\nu_{12}) X_3 -
-			\sqrt{-(1 + \bar\nu_{12})^2 + \bar\nu_{34}^2} Z_3
-		\right].
+        P_5 &= Z_1^- Z_2^+ \left( 1/2 + d X_3 - e Z_3 \right), \qquad
+        P_6 = Z_1^+ Z_2^- \left( 1/2 + d X_3 + e Z_3 \right), \\
+        P_7 &= Z_1^- Z_2^+ \left( 1/2 - d X_3 + e Z_3 \right), \qquad
+        P_8 = Z_1^+ Z_2^- \left( 1/2 - d X_3 - e Z_3 \right).
+  %       start old \\
+		% P_5 &= Z_1^- Z_2^+ \frac{1}{2\lvert\bar{\nu}_{34}\rvert}
+		% \left[
+		% 	\lvert\bar\nu_{34}\rvert +
+		% 	(1 + \bar\nu_{12}) X_3 -
+		% 	\sqrt{-(1 + \bar\nu_{12})^2 + \bar\nu_{34}^2} Z_3
+		% \right], \\
+		% P_6 &= Z_1^+ Z_2^- \frac{1}{2\lvert\bar{\nu}_{34}\rvert}
+		% \left[
+		% 	\lvert\bar\nu_{34}\rvert +
+		% 	(1 + \bar\nu_{12}) X_3 +
+		% 	\sqrt{-(1 + \bar\nu_{12})^2 + \bar\nu_{34}^2} Z_3
+		% \right], \\
+		% P_7 &= Z_1^- Z_2^+ \frac{1}{2\lvert\bar{\nu}_{34}\rvert}
+		% \left[
+		% 	\lvert\bar\nu_{34}\rvert -
+		% 	(1 + \bar\nu_{12}) X_3 +
+		% 	\sqrt{-(1 + \bar\nu_{12})^2 + \bar\nu_{34}^2} Z_3
+		% \right], \\
+		% P_8 &= Z_1^+ Z_2^- \frac{1}{2\lvert\bar{\nu}_{34}\rvert}
+		% \left[
+		% 	\lvert\bar\nu_{34}\rvert -
+		% 	(1 + \bar\nu_{12}) X_3 -
+		% 	\sqrt{-(1 + \bar\nu_{12})^2 + \bar\nu_{34}^2} Z_3
+		% \right].
 	\end{aligned}
 	\end{equation*}
 	%
@@ -960,18 +975,18 @@ also give a generator with only 2-qubit interactions for the CCY gate
 		P_3 + P_4 = \frac{1}{4} (1 + Z_1 Z_2) (1 + X_3).
 	\end{equation*}
 	%
-	\begin{align*}
-		P_5 + P_6 = \frac{1}{4\lvert\bar\nu_{34}\rvert} \left[
-			(1 - Z_1 Z_2) \lvert\bar\nu_{34}\rvert +
-			(1 - Z_1 Z_2) X_3 (1 + \bar\nu_{12}) +
-			(Z_1 - Z_2)Z_3 \sqrt{\bar\nu_{34}^2 - (1 + \bar\nu_{12})^2}
-		\right], \\
-		P_7 + P_8 = \frac{1}{4\lvert\bar\nu_{34}\rvert} \left[
-			(1 - Z_1 Z_2) \lvert\bar\nu_{34}\rvert -
-			(1 - Z_1 Z_2) X_3 (1 + \bar\nu_{12}) -
-			(Z_1 - Z_2)Z_3 \sqrt{\bar\nu_{34}^2 - (1 + \bar\nu_{12})^2}
-		\right].
-	\end{align*}
+    \begin{align*}
+        P_5 + P_6 = 
+            \frac{(1 - Z_1 Z_2)}{2} \left(
+                \frac12 + d X_3
+            \right)
+            - \frac{(Z_2 - Z_1)}{2} e Z_3, \\
+        P_7 + P_8 = 
+            \frac{(1 - Z_1 Z_2)}{2} \left(
+                \frac12 - d X_3
+            \right)
+            + \frac{(Z_2 - Z_1)}{2} e Z_3.
+    \end{align*}
 	% \begin{align*} 
 	% 	P_5 + P_6 &= \frac{1}{16} \left[
 	% 	4(1 - Z_1 Z_2)
@@ -1006,178 +1021,105 @@ also give a generator with only 2-qubit interactions for the CCY gate
 	with the last identity holding for $\nu_3\neq \nu_4$.
 \end{tbox}
 
-\subsection{Work diagonalising the 2D blocks}
-\label{subsec:GL:diagonalising_2D_blocks}
-\highlight{(has to be checked)}
-A different approach to understand $\HTildeToff$ \highlight{(which Htilde??)} is to analyse the four two-dimensional subspaces on the main diagonal, exploiting the fact that $\HTildeToff{}$ acts diagonally on the first two qubits.
-Straightforward calculations lead to
-\begin{equation*}
-\begin{aligned}
-	\mel{00}{\HTildeToff}{00} &= \pi \left[(\nu_1+\nu_2)-(\nu_1-\nu_2)X\right], \\
-	\mel{01}{\HTildeToff}{01} &= 2\pi\nu_3 + \pi\lvert\nu_{34}\rvert(1 - \sigma_{01}), \\
-	\mel{10}{\HTildeToff}{10} &= 2\pi\nu_3 + \pi\lvert\nu_{34}\rvert(1 - \sigma_{10}), \\
-	\mel{11}{\HTildeToff}{11} &= \frac{\pi}{2}\left[
-		(1+2(\nu_1+\nu_2))-(1+2\nu_{12})X
-	\right], \\
-\end{aligned}
-\end{equation*}
-where
+\tmpHeading{Understanding block structure of $\HTildeToff$}
+A different approach to understand the $\HTildeToff$ in~\cref{eq:GL:toff_tilde_general_solution} is to analyse the four two-dimensional subspaces on the main diagonal, exploiting the fact that $\HTildeToff$ acts diagonally on the first two qubits.
+We have
 \begin{equation}
 \begin{aligned}
-	\sigma_{01}&\equiv\frac{(1+4\nu_{12})X + \sqrt{c}Z}{4\lvert\nu_{34}\rvert}, \\
-	\sigma_{10}&\equiv\frac{(1+4\nu_{12})X - \sqrt{c}Z}{4\lvert\nu_{34}\rvert}.
+	\mel{00}{\HTildeToff}{00} &=
+    \pi \left[(\nu_1+\nu_2)+\nu_{12} X\right] =
+    2\pi[\nu_1 X^+ + \nu_2 X^-], \\
+	\mel{01}{\HTildeToff}{01} &=
+    \pi(\nu_3+\nu_4) + \frac{\pi}{4}[(4\nu_{12}-1) X + \sqrt{c} Z] =
+    2\pi\left[\nu_3 P_{01}^+ + \nu_4 P_{01}^-\right], \\
+    % 2\pi\nu_3 + \pi\lvert\nu_{34}\rvert(1 - \sigma_{01}), \\
+	\mel{10}{\HTildeToff}{10} &=
+    \pi(\nu_3+\nu_4) + \frac{\pi}{4}[(4\nu_{12}-1) X - \sqrt{c} Z] =
+    2\pi\left[\nu_3 P_{10}^+ + \nu_4 P_{10}^-\right], \\
+    % 2\pi\nu_3 + \pi\lvert\nu_{34}\rvert(1 - \sigma_{10}), \\
+	\mel{11}{\HTildeToff}{11} &=
+    \pi(1 + 2\nu_2) X^- + 2\pi \nu_1 X^+.
+ %    \frac{\pi}{2}\left[
+	% 	(1+2(\nu_1+\nu_2))-(1+2\nu_{12})X
+	% \right], \\
 \end{aligned}
-\end{equation}
-It can be verified that for all values of $\nu_1, \nu_2, \nu_3, \nu_4$, the two-dimensional identity and $X$ are correctly generated in the $\ket{00}$ and $\ket{11}$ spaces, respectively.
-On the other hand, in the $\ket{01}$ and $\ket{10}$ spaces, the two-dimensional identity is generated as long as $\nu_3\neq\nu_4$, as was also derived before.
-
-In particular, the class of solutions given by $\nu_1 = \nu_2 = \nu_3 = 0$ is
-\begin{equation}
-\begin{split}
-	\frac{\pi}{8} \bigg[
-	1 + 4\lvert\nu_4\rvert
-	- 2 X_3 - Z_1 - Z_2
-	+ (Z_1 + Z_2) X_3 \\
-	+ Z_1 Z_2 (1 - 4\lvert\nu_4 \rvert)
-	+ (Z_2 - Z_1) Z_3 \sqrt{16\nu_4^2 - 1}
-	\bigg],
-\end{split}
-\label{SM:eq:GL:toffoli_generator_nu4}
-\end{equation}
-for all $\nu_4\neq 0$.
-It is interesting to look at the explicit form of the exponentials
-generated by this class generators.
-Computing $\exp(i \tilde{\calH} t)$ with $\tilde{\calH}$ as in \cref{SM:eq:GL:toffoli_generator_nu4}, we get the following unitary:
-\begin{equation}
-	\begin{pmatrix}
-		I_2 & \mathbb0 & \mathbb0 & \mathbb0 \\
-		\mathbb0 & S(t, \nu_4) & \mathbb0 & \mathbb0 \\
-		\mathbb0 & \mathbb0 & S(t, \nu_4) & \mathbb0 \\
-		\mathbb0 & \mathbb0 & \mathbb0 & X(t)
-	\end{pmatrix},
+\label{eq:GL:block_structure_HTildetoff}
 \end{equation}
 where
 \begin{equation}
-	S(t, \nu_4) = \begin{pmatrix}
-		a + b & c \\
-		c & a - b
-	\end{pmatrix},
+    P_{01}^\pm \equiv \left(\frac{1\pm\bs\sigma^+}{2}\right), \qquad
+    P_{10}^\pm \equiv \left(\frac{1\pm\bs\sigma^-}{2}\right), \qquad
+    \bs\sigma^\pm \equiv \frac{(4\nu_{12}-1)X\pm\sqrt c Z}{4\nu_{34}}.
 \end{equation}
-\begin{equation}
-\begin{gathered}
-	a = \frac{1 + e^{2i\pi t \nu_4}}{2},
-	\qquad c = \frac{1 - e^{2i\pi t \nu_4}}{8\nu_4},  \\
-	b = \frac{(-1 + e^{2i\pi t \nu_4})\sqrt{16\nu_4^2 - 1}}{8\nu_4},
-\end{gathered}
-\end{equation}
-and
-\begin{equation}
-	X(t) = \frac{1}{2} \begin{pmatrix}
-		(1 + e^{i\pi t}) & (1 - e^{i\pi t}) \\
-		(1 - e^{i\pi t}) & (1 + e^{i\pi t})
-	\end{pmatrix}
-\end{equation}
-For large (in modulus) values of $\nu_4$,
-$a + b \to e^{2i\pi t \nu_4}$, $a - b \to 1$ and $c\to0$,
-so that the exponential becomes
-\begin{equation}
-	\begin{pmatrix}
-		I & & & & &\\
-		& e^{2i\pi t \nu_4} & & & & \\
-		& & 1 & & & \\
-		& & & e^{2i\pi t \nu_4} & & \\
-		& & & & 1 & \\
-		& & & & & X(t)
-	\end{pmatrix},
-\end{equation}
-which very closely resembles the matrix obtained by exponentiating the principal generator
-$\calH_{\on{Toff}} = \pi Z_1^- Z_2^- X_3^-$:
-\begin{equation}
-	\exp(i t \calH_{\on{Toff}}) =
-	\begin{pmatrix}
-		I & & & \\
-		& I & & \\
-		& & I & \\
-		& & & X(t)
-	\end{pmatrix}.
-\end{equation}
-A different solution derived from~\cref{eq:GL:toff_tilde_general_solution} is
-\begin{equation}
-\begin{aligned}
-	\tilde{\calH}_{\on{Toff}} =
-	\frac{9\pi}{8} + \frac{3\pi}{4} X_3 - \frac{\pi}{8} (Z_1 + Z_2)
-	+ \frac{\pi}{8} Z_1 Z_2 \\
-	+ \frac{\pi}{8} (Z_1 + Z_2) X_3
-	- \frac{\sqrt7 \pi}{8} (Z_1 - Z_2) Z_3.
-\end{aligned}
-\end{equation}
-Moreover, it is worth noting that~\cref{eq:GL:toff_tilde_general_solution} is only one possible family of solutions, and that different assumptions will lead to different ones.
-For example, a similar reasoning as above, starting however from the assumptions $J_{23}^{zz}=J_{13}^{zz}$ will lead to solutions such as (note the use of $(Z_1+Z_2)$ terms here, making this solution not derivable from~\cref{eq:GL:toff_tilde_general_solution}):
-\begin{equation}
-\begin{aligned}
-	\HTildeToff{} =\,
-		&\frac{9\pi}{8} - \frac{7\pi}{8}X_3 + \frac{\sqrt{15}\pi}{8} Z_3 + \frac{\pi}{8}Z_1 Z_2 \\
-		&\frac{\pi}{8}(Z_1+Z_2)\left(-1+\frac{5}{2}X_3 + \frac{\sqrt{15}}{2}Z_3\right).
-\end{aligned}
-\end{equation}
+From the fact that $(\bs\sigma^\pm)^2=I$ we know that $P_{01}^\pm$ and $P_{10}^\pm$ are projectors, just as $X^\pm$ are. Moreover, $[P_{01}^+,P_{01}^-]=[P_{10}^+,P_{10}^-]=[X^+,X^-]=0$, from which we can see directly why~\cref{eq:GL:block_structure_HTildetoff} implies that $\HTildeToff$ gives $\UToff$.
 
-\subsection{\textit{A posteriori} alternative derivation}
+% \tmpHeading{Conclusions}
+% \Cref{eq:GL:block_structure_HTildetoff} makes more evident why $\nu_3\neq\nu_4$ is a necessary requirement for this class of generators to work. Indeed, 
+
+\subsection{\textit{A posteriori} alternative derivation \ccheck}
 \label{subsec:GL:toffoli_posteriori_derivation}
 
-We will present here a line of reasoning that could have conceivably led to~\cref{SM:eq:GL:toffoli_generator_nu4} (in the case $\nu_4=1$) by direct analysis.
-It will be useful to keep in mind the expressions of $Z_1 \pm Z_2$:
+We present here a more direct line of reasoning to find a generator for the Toffoli gate. This route is more explicit in the part the different interaction terms play to generate the target gate, but is at the same time more limited, in that only some generators are easily obtainable this way.
+Start with the following expressions for $Z_1 \pm Z_2$:
 \begin{equation}
 \begin{aligned}
 	Z_2 + Z_1 &= \on{diag}(2, 2, 0, 0, 0, 0, -2, -2), \\
 	Z_2 - Z_1 &= \on{diag}(0, 0, -2, -2, 2, 2, 0, 0).
 \end{aligned}
 \end{equation}
-Given that we want to generate a CC-X gate, and remembering that
-$\exp\left[\frac{i\pi}{2}(1-X)\right] = X$, it is reasonable to start building our Hamiltonian as
+Remembering that
+$\exp\left[\frac{i\pi}{2}(1-X)\right] = X$ a reasonable initial guess is
 \begin{equation}
-	\calH_1 = - \pi \left(\frac{Z_1+Z_2}{2}\right)\left(\frac{1-X_3}{2}\right),
+	\calH_1 = - \pi \left(\frac{Z_1+Z_2}{2}\right)\left(\frac{1-X_3}{2}\right).
 \end{equation}
-which however will generate an $X$ evolution both in the $\ket{00}$ and in the $\ket{11}$ sectors, while we want it only in the latter sector:
-% \begin{equation}
-	$\calH_1 \doteq \on{diag}(-X^-, 0, 0, X^-)$.
-% \end{equation}
-We can remove the term in the $\ket{00}$ sector exploiting the sign difference introduced by $Z_1 + Z_2$, by directly adding an appropriate $1$-qubit interaction term:
+This, however, generates an $X$ evolution both in the $\ket{00}$ and in the $\ket{11}$ sectors, whereas we only want it in the latter:
+$\calH_1 = \pi\on{diag}(-X^-, 0, 0, X^-)$.
+We can remove the term in the $\ket{00}$ sector by adding an appropriate $1$-qubit interaction term:
 \begin{equation}
-\begin{aligned}
-	\calH_2 &= \frac{1}{2} \left[ \calH_1 + \frac{\pi}{2} (1 - X_3) \right] \\
-				 &= \pi \on{diag}(0, X^-\!/2, X^-\!/2, X^-),
-\end{aligned}
+% \begin{aligned}
+	\calH_2 = \frac{1}{2} \left[ \calH_1 + \pi X_3^- \right] =
+    \pi \on{diag}(0, X^-\!/2, X^-\!/2, X^-).
+% \end{aligned}
 \label{eq:GL:toffoli_analytical_step2}
 \end{equation}
-where we remember that $\exp(i\pi X^-) = X$.
-\Cref{eq:GL:toffoli_analytical_step2} now correctly reproduces the evolution on $\ket{00}$ and $\ket{11}$, but also gives wrong results for $\ket{01}$ and $\ket{10}$.
-To remove these additional terms while at the same time leaving the others unaffected we use the fact that
-$\exp(i\pi (1 \pm \bs{\sigma})) = I$, for any normalised vector of Pauli matrices: $\bs\sigma \equiv \sum_{i=1}^3 n_i \sigma_i$ with $n_1^2 + n_2^2 + n_3^2 = 1$.
-To convert the central terms in~\cref{eq:GL:toffoli_analytical_step2} into something like this we observe that we can rewrite the second term in the above equation as
+% where we remember that $\exp(i\pi X^-) = X$.
+\Cref{eq:GL:toffoli_analytical_step2} now correctly produces the correct evolution for $\ket{00}$ and $\ket{11}$, but also gives wrong results for $\ket{01}$ and $\ket{10}$.
+To remove these additional terms while at the same time leaving the others unaffected we use the fact that $\exp(i\pi (1 \pm \bs{\sigma})) = I$,for any normalised vector of Pauli matrices: $\bs\sigma \equiv \sum_{i=1}^3 n_i \sigma_i$ with $n_1^2 + n_2^2 + n_3^2 = 1$.
+To convert the central terms in~\cref{eq:GL:toffoli_analytical_step2} into something like this we note that
 \begin{equation}
-	\pi/4(1-X_3) = \pi/8(2 - 2 X_3) = \pi/8(5 - 3 - 2 X_3).
+	\pi/2 X^-_3 = \pi/8(2 - 2 X_3) = \pi/8(5 - 3 - 2 X_3).
 \end{equation}
-Remembering that $Z_1 Z_2 = \on{diag}(1, -1, -1, 1)$, we substitute the above with
+Remembering that $Z_1 Z_2 = \on{diag}(1, -1, -1, 1)$, we then replace the above with
 $\pi/8(5 - 3Z_1 Z_2 - 2X_3)$.
-This change affects only the central terms, converting the expression into:
-$\pi \on{diag}(0, 1 - X/4, 1 - X/4, X^-)$.
-The reason this form is preferable is that we can now simply add a factor in the central terms to convert them into an expression of the form $1 - \bs\sigma$.
-Adding an interaction of the form $\pi \alpha (Z_2 - Z_1)Z_3$ gives
+This change affects only the central terms, due to $Z_1 Z_2$ acting as the identity on the $\ket{00}$ and $\ket{11}$ sectors. We thus get
 \begin{equation}
-	\pi\on{diag}(0, 1 - X/4 - 2\alpha Z, 1 - X/4 + 2\alpha Z, X^-).
+    \calH_3 \equiv \calH_2 + \frac{\pi}{8}(5 - 3Z_1Z_2 - 2X_3)
+    = \pi\on{diag}\left(0, 1- \frac{X}{4}, 1- \frac{X}{4}, X^-\right). 
+\end{equation}
+$\pi \on{diag}(0, 1 - X/4, 1 - X/4, X^-)$.
+The reason this form is preferable is that we can now simply add a factor in the central sectors to convert them into an expression of the form $1 - \bs\sigma$ for some $\bs\sigma$.
+Adding $\pi \alpha (Z_2 - Z_1)Z_3$ gives
+\begin{equation}
+	\pi\on{diag}\left(
+        0,
+        1 - \frac14\left(X + 8\alpha Z\right),
+        1 - \frac14\left(X - 8\alpha Z\right),
+        X^-
+    \right).
 \end{equation}
 For the central terms to exponentiate to the identity we need them to become of the form $1-\bs\sigma$ with normalised $\bs\sigma$.
-This is easily achieved by choosing $\alpha=\pm\sqrt{15}/8$.
-The final expression is therefore:
+This is achieved by choosing $\alpha$ such that $(8\alpha)^2+1=16$, that is, $\alpha=\pm\sqrt{15}/8$.
+The final expression then becomes:
 \begin{equation}
-\begin{aligned}
-	8/\pi \,\, \calH_3 = -(Z_1 + Z_2)(1 - X_3) \\+ (5 - 3Z_1Z_2 - 2 X_3)
-				 \pm \sqrt{15} (Z_2 - Z_1)Z_3.
-\end{aligned}
+% \begin{aligned}
+	8/\pi \,\, \calH_4 = -(Z_1 + Z_2)(1 - X_3)
+        + (5 - 3Z_1Z_2 - 2 X_3)
+        \pm \sqrt{15} (Z_2 - Z_1)Z_3.
+% \end{aligned}
 \end{equation}
 Note that instead of $\pi \alpha (Z_2 - Z_1)Z_3$ we could have equivalently chosen
 $\pi\alpha(Z_2-Z_1)O_3$ for any $O_3 = a Y_3 + b Z_3$ and $a^2 + b^2 = 1$.
-The above reasoning explains the origin of the weird $\sqrt{15}$ factor: it comes as the coordinate necessary to make the vector unitary: for $X/4 + x Z / 4$ to be normalized, $x = \sqrt{15}$ must be satisfied.
+
 
 \section{Fredkin gate \ccheck\ccheck}
 \label{sec:GL:fredkin}
