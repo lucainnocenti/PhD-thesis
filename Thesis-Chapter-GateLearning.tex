@@ -576,7 +576,7 @@ The general parametrisation of an Hamiltonian containing one- and two-qubit inte
 \end{equation}
 \Cref{eq:GL:general_toffoli_onetwoqubitints} contains $37$ free parameters: $9$ for the one-qubit interactions, $\binom{3}{2}\times 3^2=27$ for the two-qubit interactions, plus one for the identity.
 Imposing $[\HTildeToff,\HToff]=0$ then translates into a series of conditions over these parameters which allows to remove $13$ of them, leaving us with only $24$.
-If we furthermore remove all terms containing $Y_k$ matrices, we are left with the following simplified expression:
+If we furthermore remove all terms containing $Y_k$ matrices, we are left with the following simplified expression with $13$ free parameters:
 \begin{equation}
 \begin{aligned}
     \HTildeToff =
@@ -585,10 +585,10 @@ If we furthermore remove all terms containing $Y_k$ matrices, we are left with t
     % + &h_2^x X_2 + J_{23}^{xx} X_2 X_3 + (h_2^x - J_{23}^{xx}) Z_1 X_2 \\
     +&X_2 [h_2^x (1 + Z_1) + J_{23}^{xx} (X_3 - Z_1)] \\
     % + &h_3^z \,Z_3 + J_{13}^{zz} \, Z_1 Z_3\, + (h_3^z - J_{13}^{zz}) Z_2 Z_3 \\
-    +&\,Z_3 [h_3^z(1 + Z_2) + J_{13}^{zz} (Z_1 - Z_2)] \\
+    +&\,Z_3 [h_3^z(1 + Z_1) + J_{23}^{zz} (Z_2 - Z_1)] \\
     + &h_1^z Z_1 + h_2^z Z_2
-    + J_{13}^{zx} Z_1 X_3 + J_{12}^{zz} Z_1 Z_2 + J_{23}^{zx} Z_2 X_3
-    +h_0 I.
+    + J_{13}^{zx} Z_1 X_3 + J_{23}^{zx} Z_2 X_3 + J_{12}^{zz} Z_1 Z_2
+    +h_0 I + h_3^x X_3.
     \label{eq:GL:general_toffoli_onetwoqubitints_without_Ys}
 \end{aligned}
 \end{equation}
@@ -607,7 +607,7 @@ We now need to find values of these coefficients such that the eigenvalues of $\
 Solving this condition directly on~\cref{eq:GL:general_toffoli_onetwoqubitints_without_Ys} remains a daunting task due to the large number of coefficients involved, which results in high-order polynomials when solving the characteristic polynomial of the associated matrix.
 Nevertheless, we can derive solutions by making a few guesses on the values of the coefficients.
 
-\Cref{subsec:GL:lucky_guess,subsec:GL:diagonalising_2D_blocks,subsec:GL:toffoli_posteriori_derivation} give three different routes to derive classes of generators for the Toffoli gate using only one- and two-qubit interaction terms.
+\Cref{subsec:GL:lucky_guess,subsec:GL:toffoli_posteriori_derivation} give three different routes to derive classes of generators for the Toffoli gate using only one- and two-qubit interaction terms.
 % We thus obtain the general form of a generator that respects the symmetries of the Toffoli. Any such $\HTildeToff$ will either preserve $\ket{1,1,-}$ (first row) or annihilate it (the other rows).
 % We write a general real linear combination of the operators listed in~\cref{eq:GL:toffoli_ops_after_commcondition} as
 % \begin{equation}
@@ -641,8 +641,8 @@ Consider the following assumptions:
 These give the following simplified expression:
 \begin{equation}
 \begin{aligned}
-  \HTildeToff &= h_0 I + h_3^x X_3 + h_3^z(1+ Z_2)Z_3
-  + J_{13}^{zz}(Z_1 - Z_2)Z_3 + J_{12}^{zz} Z_1 Z_2 \\
+  \HTildeToff &= h_0 I + h_3^x X_3 + h_3^z(1+ Z_1)Z_3
+  + J_{23}^{zz}(Z_2 - Z_1)Z_3 + J_{12}^{zz} Z_1 Z_2 \\
   + &J_{13}^{xx} [X_1(X_3 - Z_2) + X_2(X_3 - Z_1)]
   - \pi/8 ( Z_1 +  Z_2)(1 - X_3).
   % + \pi/8 (Z_1 + Z_2)X_3
@@ -672,51 +672,26 @@ These give the following simplified expression:
 If moreover $J_{13}^{xx}=0$, so that the generator is diagonal on the first two qubits, we get
 \begin{equation}
 \begin{aligned}
-    \HTildeToff &= h_0 I + h_3^x X_3 + h_3^z(1+ Z_2)Z_3
-    + J_{13}^{zz}(Z_1 - Z_2)Z_3 \\
-    &+ J_{12}^{zz} Z_1 Z_2 - \pi/8 (Z_1 +  Z_2)(1 - X_3).
+    \HTildeToff &= h_0 I + h_3^x X_3 + h_3^z(1+ Z_1)Z_3
+    + J_{23}^{zz}(Z_2 - Z_1)Z_3 + J_{12}^{zz} Z_1 Z_2\\
+    &- \pi/8 (Z_1 +  Z_2)(1 - X_3).
 \end{aligned}
 \end{equation}
 Further assuming $h_3^z=0$, we get
 \begin{equation}
 \begin{aligned}
-    \HTildeToff &= h_0 I + h_3^x X_3 + J_{13}^{zz}(Z_1 - Z_2)Z_3 \\
-   +& J_{12}^{zz} Z_1 Z_2 - \pi/8 ( Z_1 +  Z_2)(1 - X_3),
+    \HTildeToff = h_0 I + h_3^x X_3 + J_{23}^{zz}(Z_2 - Z_1)Z_3
+    + J_{12}^{zz} Z_1 Z_2 - \pi/8 ( Z_1 +  Z_2)(1 - X_3),
 \end{aligned}
 \end{equation}
 which finally gives the expression:
-% Use the following for the version WITH the h_3^z term
-% \begin{equation}
-% \begin{aligned}
-% 	\HPrimeToff{}\equiv \HTildeToff-\HToff =
-% 		\pi/8\, Z_1 Z_2 X_3 + (h_0 - \pi/8)I
-% 		+ (h_3^x + \pi/8) X_3 \\
-% 		+ (J_{12}^{zz} - \pi/8) Z_1 Z_2 +
-% 		J_{13}^{zz} (Z_1 - Z_2)Z_3 +
-% 		h_3^z (1 + Z_2)Z_3.
-% \end{aligned}
-% \label{SM:eq:GL:toffoli_HPrime_reduced}
-% \end{equation}
-% Reproduce with:
-% nicerSymbols[expr_] := expr /. {
-%     h[n_] :> Subscript[h, n], h[n_, m_] :> Subsuperscript[h, n, m], 
-%     j[n_, m_, k_] :> Subsuperscript["J", Row@{n, m}, k]};
-% HToffWithoutJ13xx = QPauliExpr[
-%     h[0] + h[3, x] x[3] - \[Pi]/8 (z[1] + z[2]) (1 - x[3]) + 
-%      j[1, 2, zz] z[1] z[2] +
-%      j[1, 3, xx] (x[1] + x[2]) (1 + x[3]) + 
-%      j[1, 3, zz] (z[1] - z[2]) z[3]
-%     ] /. {j[1, 3, xx] -> 0};
-% HToffCaonical = QPauliExpr[Pi/8 (1 - z[1]) (1 - z[2]) (1 - x[3])];
-% HToffPrime = HToffWithoutJ13xx - HToffCaonical;
-% Normal@HToffPrime // Eigenvalues // Column
 \begin{equation}
 \begin{aligned}
 	\HPrimeToff{}\equiv \HTildeToff-\HToff &=
 		\pi/8\, Z_1 Z_2 X_3 + (h_0 - \pi/8)I
 		+ (h_3^x + \pi/8) X_3 \\
 		&+ (J_{12}^{zz} - \pi/8) Z_1 Z_2 +
-		J_{13}^{zz} (Z_1 - Z_2)Z_3.
+		J_{23}^{zz} (Z_2 - Z_1)Z_3.
 % 		h_3^z (1 + Z_2)Z_3.
 \end{aligned}
 \label{eq:GL:toffoli_HPrime_reduced}
@@ -729,9 +704,9 @@ The four different eigenvalues of $\HPrimeToff{}$ are
     \lambda_1 &= h_0 + h_3^x + J_{12}^{zz}, \\
     \lambda_2 &= h_0 - h_3^x + J_{12}^{zz} - \pi/2, \\
     \lambda_3 &= h_0 - J_{12}^{zz}
-                - \sqrt{(h_3^x)^2+ (2J_{13}^{zz})^2}\\
+                - \sqrt{(h_3^x)^2+ (2J_{23}^{zz})^2}\\
     \lambda_4 &= h_0 - J_{12}^{zz}
-                + \sqrt{(h_3^x)^2+ (2J_{13}^{zz})^2}.
+                + \sqrt{(h_3^x)^2+ (2J_{23}^{zz})^2}.
 \end{cases}
 \end{equation}
 Imposing $\lambda_k=2\pi\nu_k$, we obtain the following conditions on the coefficients:
@@ -742,7 +717,7 @@ Imposing $\lambda_k=2\pi\nu_k$, we obtain the following conditions on the coeffi
     % J_{12}^{zz}/\pi &= 1/8 + \nu_1 - (\nu_2 + \nu_3 + \nu_4)/2,
     \lambda_1 - \lambda_2 &= 2 h_3^x + \pi/2, \\
     \lambda_1 + \lambda_2 &= 2(h_0 + J_{12}^{zz}) - \pi/2, \\
-    \lambda_4 - \lambda_3 &= 2\sqrt{(h_3^x)^2+ (2J_{13}^{zz})^2}, \\
+    \lambda_4 - \lambda_3 &= 2\sqrt{(h_3^x)^2+ (2J_{23}^{zz})^2}, \\
     \lambda_4 + \lambda_3 &= 2(h_0 - J_{12}^{zz}),
 \end{cases}
 \label{eq:GL:toffoli_lambdas_vs_parameters}
@@ -753,12 +728,12 @@ which has the solution:
     h_3^x &= \frac{1}{2}(\lambda_1 - \lambda_2) - \frac{\pi}{4}, \\
     h_0 &= \frac{1}{4}(\lambda_1 + \lambda_2 + \lambda_3 + \lambda_4) + \frac{\pi}{8}, \\
     J_{12}^{zz} &= \frac{1}{4}(\lambda_1 + \lambda_2 - \lambda_3 - \lambda_4) + \frac{\pi}{8}, \\
-    (2J_{13}^{zz})^2 &=
+    (2J_{23}^{zz})^2 &=
     [(\lambda_4-\lambda_3)/2]^2 -
     [(\lambda_1-\lambda_2)/2 - \pi/4]^2.
 \end{cases}
 \end{equation}
-Note that we still did not impose $\lambda_k\in2\pi\ZZ$. For the corresponding Hamiltonian to be physical, we need all the coefficients to be real, and thus in particular $(J_{13}^{zz})^2\ge0$, which gives
+Note that we still did not impose $\lambda_k\in2\pi\ZZ$. For the corresponding Hamiltonian to be physical, we need all the coefficients to be real, and thus in particular $(J_{23}^{zz})^2\ge0$, which gives
 % \begin{equation}
 %     \left(\lambda_4-\lambda_3\right)^2 \ge
 %     \left[(\lambda_1-\lambda_2) - \pi\right]^2
