@@ -1502,18 +1502,18 @@ This, on the other hand, means that for all three-qubit interaction terms $\bs\s
 
 \tmpHeading{Why devise yet another method?}
 As discussed in~\cref{sec:GL:toffoli,sec:GL:fredkin}, finding time-independent Hamiltonians with constrained interactions generating target gates is a nontrivial task. 
-Moreover, the fact that each gate presents a challenge on its own right, hinders the extendibility of the results.
-It is therefore desirable to also have a more flexible approach to solve generic gate learning problems, even if at the cost of forsaking exact results.
+The fact that each gate presents a challenge on its own right further hinders the extendibility of the results.
+It is therefore desirable to have a more flexible approach to solve generic gate learning problems, even if at the cost of forsaking exact results.
 
 \tmpHeading{Converting the problem into a numerical optimisation task}
 A natural way to do this is to transform the problem into a numerical optimisation task. We can do this by defining a suitable cost function whose maximum corresponds to a solution to the original problem.
 Indeed, if $\calU$ is the target gate and $\calH_\bslambda$ a parametrised Hamiltonian containing the allowed interaction terms, then the gate learning problem is equivalent to that of finding parameters $\bslambda_0$ such that $\exponential(i\calH_{\bslambda_0})=\calU$.
-In turn, this can be made into a numerical optimisation problem by introducing some function $f(U, V)$ that quantifies the distance between $U$ and $V$, and looking for the solution to the problem
+In turn, this can be made into a numerical optimisation problem by introducing some function $f(U, V)$ that quantifies the similarity between $U$ and $V$, and looking for the solution to the problem
 \begin{equation}
-    \argmin_\lambda f(\calU, \exponential(i\calH_{\bslambda})).
+    \argmax_\lambda f(\calU, \exponential(i\calH_{\bslambda})).
     \label{eq:GL:gatelearning_as_optimisation}
 \end{equation}
-A natural candidate for such $f$ is $f(A,B)\equiv 1-\barcalF(A,B)$, with $\barcalF(A,B)$ the \textit{average gate fidelity} between $A$ and $B$~\cite{nielsen2002simple,magesan2011gate}. The average gate fidelity can be defined more generally as a way to quantify the distance between a quantum channel $\calE$ and a gate $\calU$, by computing the overlap between $\PP[\calU\ket\psi]$ and $\calE(\PP[\ket\psi])$, averaged over all pure states $\ket\psi$. Explicitly, this reads
+A natural candidate for such $f$ is $f(A,B)\equiv 1-\barcalF(A,B)$, with $\barcalF(A,B)$ the \textit{average gate fidelity} between $A$ and $B$~\cite{nielsen2002simple,magesan2011gate}. The average gate fidelity can be defined more generally as a way to quantify the distance between a quantum channel $\calE$ and a gate $\calU$, by computing the average overlap between $\PP[\calU\ket\psi]$ and $\calE(\PP[\ket\psi])$, averaging over all pure states $\ket\psi$. Explicitly, this reads
 \begin{equation}
     \barcalF(\calE,\calU) = \int d\psi \calF(\calE, \calU, \psi),
 \end{equation}
@@ -1539,8 +1539,8 @@ In the special case of $\calE$ unitary, $\calE(\rho)=\calV\rho \calV^\dagger$ fo
     1 + \frac{1}{D} \abs{\Tr(\calU^\dagger \calV)}^2.
     \label{eq:GL:explicit_fidelity_unitary_unitary}
 \end{equation}
-\highlight{(the formula seems to came from Eq.8, pag.3 of~\mbox{\cite{pedersen2007fidelity}}, as well as from~\mbox{\cite{nielsen2002simple}}, even though here in a different form)}
-\Cref{eq:GL:explicit_fidelity_unitary_unitary} can be leveraged to solve the optimisation problem posed in~\cref{eq:GL:gatelearning_as_optimisation}.
+% \highlight{(the formula seems to came from Eq.8, pag.3 of~\mbox{\cite{pedersen2007fidelity}}, as well as from~\mbox{\cite{nielsen2002simple}}, even though here in a different form)}
+\Cref{eq:GL:explicit_fidelity_unitary_unitary} can be used to solve the optimisation problem posed in~\cref{eq:GL:gatelearning_as_optimisation} more efficiently.
 Given a parametrised Hamiltonian $\calH_{\bslambda}$, define the set of unitaries $\calU_{\bslambda}\equiv\exponential(i\calH_{\bslambda})$. Given a target gate $\calU$, the problem is then reduced to solving
 \begin{equation}
     \argmax_{\bslambda} \abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2.
@@ -1553,13 +1553,18 @@ Given a parametrised Hamiltonian $\calH_{\bslambda}$, define the set of unitarie
 \label{sec:GL:supervised_learning}
 
 \tmpHeading{Why does ML help?}
-As discussed in~\cref{sec:GL:numerical_approach}, while the problem \emph{can} in some cases be approached with standard numerical optimisation techniques, this has in general limited success.
-The problem lies in the mapping $\bslambda\mapsto\abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2$ being not convex, which makes finding the global maximum a generally quite involved task.
-The technique we present here, by borrowing ideas from the field of supervised ML, can be used  to tackle gate design problems more efficiently, thus extending and improving on the ideas presented in~\cite{banchi2016quantum}.
-In particular, the use of automatic differentiation~\cite{baydin2018automatic,bartholomewbiggs2000automatic,wengert1964a,bischof2008advances} brings dramatic improvements, efficiency-wise, thus allowing to explore a variety of different scenarios, and optimising over potentially hundreds of Hamiltonian parameters.
-On top of this, the conditions given in~\cref{sec:GL:solution_framework} further speed-up the numerical training, removing many interaction parameters that are known not to lead to the target gate.
+As discussed in~\cref{sec:GL:numerical_approach}, while the problem can be approached with standard numerical optimisation techniques, this strategy has in general limited success.
+The problem lies in the mapping $\bslambda\mapsto\abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2$ being not convex, which makes finding the global maximum a generally difficult task.
+The technique we present here, by borrowing from ideas used in the field of supervised ML, can be used  to tackle gate design problems more efficiently, thus extending and improving on the ideas presented in~\cite{banchi2016quantum}.
+In particular, the use of \ac{AD}~\cite{baydin2018automatic,bartholomewbiggs2000automatic,wengert1964a,bischof2008advances} brings dramatic improvements, efficiency-wise, thus making it possible to explore a variety of different gate learning scenarios and optimising over potentially hundreds of Hamiltonian parameters.
+On top of this, the conditions given in~\cref{sec:GL:solution_framework} further speed-up the numerical training, allowing to remove unnecessary interaction parameters.
+
+\tmpHeading{Outline of the section}
+In~\cref{subsec:GL:supervised_learning_and_SGD,subsec:GL:backpropagation} we provide the necessary background on supervised learning, SGD, and AD. We then discuss in~\cref{subsec:GL:supervised_learning_for_GL} how and why supervised learning can play a part to solve gate design problems.
+Then,~\cref{subsec:GL:implementation_details} contains the implementation details of the algorithm we used, and~\cref{subsec:GL:supervised_learning_results_noancillae,subsec:GL:supervised_learning_results_withancillae} present the results obtained applying this framework to a variety of target gates.
 
 \subsection{Supervised learning and stochastic gradient descent}
+\label{subsec:GL:supervised_learning_and_SGD}
 
 \tmpHeading{Supervised learning and NNs}
 Supervised learning is the task of inferring or approximating a function, given a dataset of pre-labelled data~\cite{bishop2006pattern,mohri2012foundations}.
@@ -1569,13 +1574,13 @@ where here $y_k=f(x_k)$ is the output that we want the algorithm to associate to
 An important class of supervised learning models are the so-called \acp{NN}~\cite{hechtnielsen1989theory,haykin1998neural}.
 These are parametric non-linear models which play a prominent role in many machine learning tasks, such as dimensionality reduction, classification, and feature extraction.
 Other contexts in which \acp{NN} have also recently proven useful include quantum many-body theory~\cite{amin2016quantum,wang2016discovering,hush2017machine,carleo2017solving,carrasquilla2017machine,torlai2017manybody,broecker2017quantum,deng2017quantum},
-quantum compilation~\cite{swaddle2017generating}, quantum stabilizer codes~\cite{krastanov2017deep} and entanglement quantification~\cite{gray2018machinelearningassisted} and classification~\cite{harney2019entanglement} \highlight{(more refs?)}.
+quantum compilation~\cite{swaddle2017generating}, quantum stabilizer codes~\cite{krastanov2017deep} and entanglement quantification~\cite{gray2018machinelearningassisted} and classification~\cite{harney2019entanglement}. We refer to~\cref{sec:intro:ML} for additional references and background.
 
 \tmpHeading{How does SGD work?}
 A \ac{NN} is \emph{trained} by optimising its parameters using a dataset of pre-labelled data.
 % A common such method is the so-called \ac{SGD}~\cite{bishop2006pattern}.
-A common  way to do this is use variations of a gradient-descent-based technique named \acf{SGD}~\cite{wengert1964a,ruder2016overview}.
-Gradient-descent-based algorithms minimise a given cost function $f(\bs x)$ by iteratively changing $\bs x$ in the direction of maximum decrease of $f$, via the updating rule $\bs x\mapsto\bs x-\eta\grad f(\bs x)$.
+A common way to do this is using a variation of a technique called \acf{SGD}~\cite{wengert1964a,ruder2016overview}.
+Gradient-descent-based algorithms seek to maximise a given cost function $f(\bs x)$ by iteratively changing $\bs x$ in the direction of maximum increase of $f$, via the updating rule $\bs x\mapsto\bs x-\eta\grad f(\bs x)$.
 The parameter $\eta$ is, in this context, commonly referred to as the \emph{learning rate}.
 % Starting from an initial point $\bs x_0$, a number of small steps following the direction of maximum slope, $\grad f(\bs x)$, allow to follow the local gradient and thus reach a local maximum/minimum of the function.
 \emph{Stochastic} gradient descent is, on the other hand, used when the goal is to optimise over \emph{functional relations}. In other words, rather then trying to minimise a cost function with a single variable $f(\bsx)$, the goal is now to minimise a function $f(\bsx,\bs w)$ with respect to its second input $\bs w$, for each value of $\bs x$.
@@ -1587,38 +1592,39 @@ This corresponds to an updating rule of the form
 	\bs w \to \bs w - \eta\grad_{\bs w}f(\bs x;\bs w).
 	\label{eq:GL:updating_rule}
 \end{equation}
-While standard gradient descent, being a local optimisation algorithm, is liable to getting stuck in local minima, \ac{SGD} is generally more robust, in that a local minimum for an input $\bs x$ is often not a local minimum for a different input $\bs x'$.
-A core observation is that, for every input $\bsx$, one has a different parameter landscape $\bsw\mapsto f_\bsw(\bsx)$ over which to perform the gradient descent.
+While standard gradient descent, being a local optimisation algorithm, is liable to getting stuck into local minima, \ac{SGD} is generally more robust.
+A core observation is that, for every input $\bsx$, one has a different parameter landscape $\bsw\mapsto f_\bsw(\bsx)$ over which the gradient descent is performed.
 This new parameter landscape does \emph{not in general have the same local minima as the previous ones, whereas the global minimum is bound to be a minimum for all $\bsx$}.
-In the qubit network scenario that we are tackling, this translates into the fidelity being unitary for all $\ket\psi_{\cal S}$ only for the sets $\bslambda$ such that $\exp(i\calH_\bslambda)=\calU$.
+In the qubit network scenario that we are tackling, this translates into the fidelity being unital for all $\ket\psi$ only for $\bslambda$ such that $\exp(i\calH_\bslambda)=\calU$.
 Many variations of \ac{SGD} are used in different circumstances.
 For example, in the so-called \emph{mini-batch} \ac{SGD}, instead of updating with a single input $\bs x$, one uses a \emph{batch} of inputs $\{\bs x_1,...,\bs x_M\}$, and updates the parameters using the averaged gradient:
 $\bs w\to\bs w-\eta\sum_{k=1}^M\grad_{\bs w}f(\bs x_k; \bs w)/M$.
 More sophisticated updating rules are used to increase the training efficiency in different circumstances.
-Common techniques involve dynamically updating the learning rate, or using \emph{momentum gradient descent}~\cite{goh2017momentum,ruder2016overview} techniques.
+Common techniques involve dynamically updating the learning rate, or using \emph{momentum gradient descent}~\cite{goh2017momentum,ruder2016overview}.
 
 \tmpHeading{How is gate design a supervised learning problem?}
-To see how this class of optimisation problems is relevant to gate design problems, consider the fidelity function $\calF$ defined as
+To see how this class of optimisation algorithms is relevant to gate design problems, consider the fidelity function $\calF$ defined as
 \begin{equation}
-	\calF_\bslambda(\psi) \equiv \mel{\psi}{\calG^\dagger \exp(i \calH_\bslambda)}{\psi},
+	\calF_\bslambda(\psi) \equiv \mel{\psi}{\calU^\dagger \exp(i \calH_\bslambda)}{\psi},
 	\label{eq:GL:def_fidelity}
 \end{equation}
-with $\calG$ the target gate, $\bslambda$ the set of parameters, and $\psi\equiv\ket\psi$ an input state.
+with $\calU$ the target gate, $\bslambda$ the set of parameters, and $\psi\equiv\ket\psi$ an input state.
 The gate design problem is then equivalent to finding $\bslambda$ such that $\calF(\bslambda, \psi)$ is maximised (that is, equal to 1) for all $\psi$.
 One possibility to solve this problem is to consider the average fidelity $\barcalF(\bslambda)$, for which explicit formulas are known~\cite{banchi2011nonperturbative,pedersen2007fidelity,magesan2011gate}.
 Standard optimisation methods, like standard gradient descent or differential evolution~\cite{chakraborty2008advances}, can be applied directly on $\barcalF(\bslambda)$.
-This however, as already discussed in~\cref{sec:GL:numerical_approach}, reveals to be often impractical, due to the complexity of the associated parameter landscapes.
+This however, as discussed in~\cref{sec:GL:numerical_approach}, reveals to be often impractical, due to the complexity of the associated parameter landscapes.
 On the other hand, \ac{SGD} allows to apply a simple and efficient local maximisation method, while at the same time being less prone to getting stuck in local maxima.
-This works particularly well for our problem, because we know that the value of $\bslambda$ corresponding to the target gate are \emph{all and only} those such that \emph{for all inputs $\psi$} the fidelity equals $1$.
+This works particularly well for our problem, because we know that the $\bslambda$ corresponding to the target gate are \emph{all and only} those such that \emph{for all inputs $\psi$} the fidelity equals $1$.
 Indeed, one of the main advantages of this method is its focussing on optimising $\bslambda$ for many fixed states $\psi$, rather than attempting to optimise directly the operator like we did in~\cref{sec:GL:numerical_approach}.
 This is because we know that \emph{for every $\psi$}, the function $\bslambda\mapsto \calF_\bslambda(\psi)$ has a maximum some value of the parameters $\bslambda=\bslambda_0$ (at least when the gate can be implemented with the given restrictions). However, for any other $\bslambda$, changing $\psi$ changes the value of the fidelity. The consequence is that local maxima, which are problematic for optimisation algorithms, will in general disappear when the state $\psi$ is changed during the optimisation, thus making it harder for the optimiser to get stuck into local maxima.
+\highlight{(might need some rephrasing)}
 
 \tmpHeading{Computing the gradients efficiently}
-Efficiency-wise, a critical step in gradient descent algorithms is the evaluation of the gradient.
+A critical step in gradient descent algorithms, efficiency-wise, is the evaluation of the gradient.
 Numerically approximating the gradient, as done in previous works~\cite{banchi2016quantum}, is generally inefficient and scales badly with the number of optimised parameters.
-An alternative to numerical differentiation is \emph{symbolic differentiation}: computing the expressions for the derivatives analytically and then directly use the corresponding expressions in the algorithm. This can give significant improvements over numerical differentiation, but comes with its own set of problems: deriving these expressions manually would make the algorithm less flexible and requiring to be changed for each different cost function; moreover, the expression for the derivative can get very convoluted.
-Here we will instead make use of \acf{AD}~\cite{bartholomewbiggs2000automatic,bischof2008advances,baydin2018automatic}, a technique to compute numerically derivatives of arbitrary functions described in~\cref{subsec:GL:backpropagation}.
-\ac{AD} dramatically improves the training efficiency, allowing to explore a richer variety of circumstances.
+An alternative to numerical differentiation is \emph{symbolic differentiation}: computing the expressions for the derivatives analytically and then hard-code the corresponding expressions into the algorithm. This can give significant improvements over numerical differentiation, but comes with its own set of problems: deriving these expressions manually would make the algorithm less flexible and requiring to be changed for each different cost function; moreover, even if a computer algebra system were used to automatically compute these expressions, there is no guarantee of getting simple or efficient expressions in general, as the derivatives can get very convoluted for complex functions.
+Here we will instead make use of \acf{AD}~\cite{bartholomewbiggs2000automatic,bischof2008advances,baydin2018automatic}.
+\ac{AD} improves significantly the training efficiency, allowing to explore a richer variety of scenarios.
 
 % Another recent application of a machine learning technique to a quantum control problem,
 % to find interactions implementing various 3-qubit gates like Toffoli and Fredkin,
@@ -1631,14 +1637,14 @@ Here we will instead make use of \acf{AD}~\cite{bartholomewbiggs2000automatic,bi
 \subsection{Automatic differentiation and backpropagation}
 \label{subsec:GL:backpropagation}
 
-\tmpHeading{Efficiencty of computing the gradients}
-The gradient evaluation phase is, efficiency-wise, crucial to train a NN.
+\tmpHeading{Efficiency of computing the gradients}
+The gradient evaluation phase is, efficiency-wise, crucial in the training of a NN.
 % In fact, large networks contain many weight parameters $w_k$, and the computation of the gradient $\grad E(\bs w^{(t)})$ requires the computation of $\partial_{w_k} E(\bs w^{(t)})$ for all such $k$.
-Computing the partial derivatives of the cost function with a standard method, like finite differences, has a complexity $\mathcal O(N_{\bs w}^3)$, with $N_{\bs w}$ the number of parameters to differentiate~\cite{bishop2006pattern}.
+Computing the partial derivatives of the cost function with a standard numerical method, like finite differences, has a complexity $\mathcal O(N_{\bs w}^3)$, with $N_{\bs w}$ the number of parameters to differentiate~\cite{bishop2006pattern}.
 This inefficiency can however be avoided using \emph{error backpropagation} via \acf{AD}~\cite{baydin2018automatic,bartholomewbiggs2000automatic,wengert1964a,bischof2008advances}.
 With this technique, the complexity of the gradient evaluation phase can be cut down to $\mathcal O(N_{\bs w}^2)$~\cite{bishop2006pattern}.
 This works by first decomposing the cost function in terms of elementary operations, that is, functions the gradient of which is known analytically.
-In this way a \emph{computational graph}, representing the functional relation between input and output as a sequence of elementary operations applied iteratively, is built.
+In this way we build a \emph{computational graph}: a directed graph representing the functional relation between input and output as a sequence of elementary operations applied iteratively.
 A computational graph is a directed acyclic graph, whose nodes represent the operations, and edges the flowing direction of inputs into outputs (see~\cref{fig:automatic-differentiation}).
 Once the computational graph is built, the derivatives with respect to the model parameters can be computed efficiently.
 This happens in two stages, as schematically illustrated in~\cref{fig:automatic-differentiation}.
@@ -1646,6 +1652,7 @@ At first, every node of the computational graph is progressively evaluated, star
 During this process, the intermediate values of the elementary operations are cached (that is, stored in memory for later use).
 This is the so-called \emph{feed-forward} phase.
 The second phase, the so-called \emph{backpropagation} phase, starts from the output, and consists of progressively evaluating the gradients of the cost function with respect to the independent variables.
+The gradient of the cost function can then be computed easily from these quantities, thanks to the chain rule of differentiation.
 
 % The core mechanism behind backpropagation is the chain rule of differentiation.
 % The name refers to the fact that, exploiting the chain rule of differentiation, the gradient of a complicated function can be expressed in a way that is recursively computed by traversing the neural network in the reverse direction.
@@ -1708,6 +1715,7 @@ For quantum states, the fidelity between these turns out to work well.
 \end{figure}
 
 \subsection{Supervised learning for gate design problems}
+\label{subsec:GL:supervised_learning_for_GL}
 
 \tmpHeading{Don't throw the baby out with the bathwater}
 The main idea is to merge supervised learning techniques with the analytical results derived in~\cref{sec:GL:solution_framework}.
@@ -1814,7 +1822,9 @@ More specifically, the algorithm involves the following steps:
 \label{subsec:GL:supervised_learning_results_noancillae}
 
 \tmpHeading{Target gates used}
-We test our algorithm to train generators for Toffoli, Fredkin, and \emph{double-Fredkin} gates. The ``double-Fredkin'' gate is a \emph{four}-qubit gate which, conditionally on the state of the first qubit, acts either like a Fredkin, or like a Fredkin with reversed control. More explicitly, this is the gate
+We test our algorithm to train generators for Toffoli, Fredkin, and \emph{double-Fredkin} gates.
+Toffoli and Fredkin gates were already defined and discussed in~\cref{sec:GL:toffoli,sec:GL:fredkin}.
+The ``double-Fredkin'' gate is a \emph{four}-qubit gate which, conditionally on the state of the first qubit, acts either like a Fredkin, or like a Fredkin with reversed control. More explicitly, this is the gate
 \begin{equation}
     \calU_{\on{FF}} \equiv \PP_0\otimes \UFred + \PP_1\otimes \calU_{\overline{\on{Fred}}}.
 \end{equation}
@@ -1833,6 +1843,7 @@ For the Toffoli gate, imposing the commutativity condition on such an \ansatz gi
     J_{23}^{zz} (Z_2 - Z_1)Z_3 +
     J_{12}^{xx} (X_1 X_2 + Y_1 Y_2).
 \end{aligned}
+\label{eq:GL:toffoli_reducd_ansatz_for_ML}
 \end{equation}
 \highlight{(add ansatz for the other gates)}
 
@@ -1964,7 +1975,7 @@ We believe that the proposed methodology will be able to significantly help in t
     \includegraphics[width=0.33\textwidth]{fredkin_diagonal_solutions}%
     \includegraphics[width=0.33\textwidth]{doublefredkin_diagonal_initvalues4_8samples}
     \caption{
-        Eight different sets of interaction parameters generating the Toffoli gate [panel {\bf (a)}] and the Fredkin one [panel {\bf (b)}]. For each shown solution the training was started from the \ansatz provided by~\cref{eq:toffoli_diagonal_after_conditions}, and the analogous equation for the Fredkin, respectively. Panel {\bf (c)}: Eight sets of interaction parameters for the ``double Fredkin" gate.
+        Eight different sets of interaction parameters generating Toffoli [panel {\bf (a)}] and Fredkin [panel {\bf (b)}] gates. For each solution shown here the training was started from the \ansatz provided in~\cref{eq:GL:toffoli_reducd_ansatz_for_ML}, and the analogous equation for the Fredkin, respectively. Panel {\bf (c)}: Eight sets of interaction parameters for the ``double Fredkin" gate.
         Each one of the shown solutions corresponds to unit fidelity up to numerical precision (that is, fidelities greater than $1-10^{-16}$).
         We refer to the Supplementary Materials for the details of the optimisations.
     }
