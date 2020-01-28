@@ -245,17 +245,36 @@ This notation, while somewhat nonstandard, has proven useful in some works~\cite
 We will allow the coin operation to change from step to step, while remaining site-independent~\cite{ribeiro2004aperiodic,wjcik2004quasiperiodic,bauls2006quantum}.
 We demonstrate the effectiveness of this framework for the state engineering of $d$-dimensional systems and provide a set of efficiently verifiable necessary and sufficient conditions for a given state to be the output of a \ac{QW} evolution.
 
+% \begin{figure}[tb]
+%     \centering
+%     \subfloat[$20$ steps]{{\includegraphics[width=.4\linewidth]{QW20steps_initstateUp} }}%
+%     \qquad
+%     \subfloat[$40$ steps]{{\includegraphics[width=.4\linewidth]{QW40steps_initstateUp} }}%
+%     % \includegraphics[width=.5\linewidth]{QW20steps_initstateUp}
+%     \caption{
+%         Output amplitudes of $20$ steps of Hadamard walk, with initial state $\ket{\Psi_0}\equiv\ket{\uparrow,0}$.
+%         Blue (circles) and orange (squares) points are the output amplitudes corresponding to the coin state $\ket\uparrow$ and $\ket\downarrow$, respectively.
+%     }
+%     \label{fig:hadamardwalk_Nsteps}
+% \end{figure}
 \begin{figure}[tb]
-    \centering
-    \subfloat[$20$ steps]{{\includegraphics[width=.4\linewidth]{QW20steps_initstateUp} }}%
-    \qquad
-    \subfloat[$40$ steps]{{\includegraphics[width=.4\linewidth]{QW40steps_initstateUp} }}%
-    % \includegraphics[width=.5\linewidth]{QW20steps_initstateUp}
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \caption{$20$ steps}
+        % \label{fig:GL:toffoli_diagonal_solutions}
+        \includegraphics[width=\textwidth]{QW20steps_initstateUp}
+    \end{subfigure}%
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \caption{$40$ steps}
+        % \label{fig:intro:fredkin_diagonal_solutions}
+        \includegraphics[width=\textwidth]{QW40steps_initstateUp}
+    \end{subfigure}
     \caption{
-        Output amplitudes of $20$ steps of Hadamard walk, with initial state $\ket{\Psi_0}\equiv\ket{\uparrow,0}$.
+    	Output amplitudes of $20$ steps of Hadamard walk, with initial state $\ket{\Psi_0}\equiv\ket{\uparrow,0}$.
         Blue (circles) and orange (squares) points are the output amplitudes corresponding to the coin state $\ket\uparrow$ and $\ket\downarrow$, respectively.
     }
-    \label{fig:hadamardwalk_Nsteps}
+    \label{fig:hadamardwalk_Nsteps2}
 \end{figure}
 % reindexForQW[amps_] := Transpose[
 %    {{#[[1]], #[[2, 1]]}, {#[[1]], #[[2, 2]]}} & /@ 

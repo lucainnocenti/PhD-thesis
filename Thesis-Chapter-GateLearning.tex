@@ -1969,15 +1969,43 @@ We believe that the proposed methodology will be able to significantly help in t
     \item Recheck figures captions
 \end{itemize}
 
+% \begin{figure}[tb]
+% % {\bf (a)}\hskip5cm{\bf (b)}\hskip5cm{\bf (c)}
+%     \centering
+%     \textbf{(a)}\includegraphics[width=0.5\textwidth]{toffoli_diagonal_solutions}\\
+%     \includegraphics[width=0.5\textwidth]{fredkin_diagonal_solutions}\\
+%     \includegraphics[width=0.5\textwidth]{doublefredkin_diagonal_initvalues4_8samples}
+%     \caption{
+%         Eight different sets of interaction parameters generating Toffoli [panel {\bf (a)}] and Fredkin [panel {\bf (b)}] gates. For each solution shown here the training was started from the \ansatz provided in~\cref{eq:GL:toffoli_reducd_ansatz_for_ML}, and the analogous equation for the Fredkin, respectively. Panel {\bf (c)}: Eight sets of interaction parameters for the ``double Fredkin" gate.
+%         Each one of the shown solutions corresponds to unit fidelity up to numerical precision (that is, fidelities greater than $1-10^{-16}$).
+%         We refer to the Supplementary Materials for the details of the optimisations.
+%     }
+%     \label{fig:GL:toffoli_diagonal_solutions}
+% \end{figure}
+
 \begin{figure}[tb]
-{\bf (a)}\hskip5cm{\bf (b)}\hskip5cm{\bf (c)}
-    \includegraphics[width=0.33\textwidth]{toffoli_diagonal_solutions}%
-    \includegraphics[width=0.33\textwidth]{fredkin_diagonal_solutions}%
-    \includegraphics[width=0.33\textwidth]{doublefredkin_diagonal_initvalues4_8samples}
+    \vspace{-50pt}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{}
+        \label{fig:GL:toffoli_diagonal_solutions}
+        \includegraphics[width=0.5\textwidth]{toffoli_diagonal_solutions}
+    \end{subfigure} \\
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{}
+        \label{fig:GL:fredkin_diagonal_solutions}
+        \includegraphics[width=0.5\textwidth]{fredkin_diagonal_solutions}
+    \end{subfigure} \\
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{}
+        \label{fig:GL:doublefredkin_diagonal_solutions}
+        \includegraphics[width=0.5\textwidth]{doublefredkin_diagonal_initvalues4_8samples}
+    \end{subfigure}
     \caption{
-        Eight different sets of interaction parameters generating Toffoli [panel {\bf (a)}] and Fredkin [panel {\bf (b)}] gates. For each solution shown here the training was started from the \ansatz provided in~\cref{eq:GL:toffoli_reducd_ansatz_for_ML}, and the analogous equation for the Fredkin, respectively. Panel {\bf (c)}: Eight sets of interaction parameters for the ``double Fredkin" gate.
-        Each one of the shown solutions corresponds to unit fidelity up to numerical precision (that is, fidelities greater than $1-10^{-16}$).
-        We refer to the Supplementary Materials for the details of the optimisations.
+        Eight different sets of interaction parameters generating Toffoli [panel \textbf{(a)}], Fredkin [panel \textbf{(b)}], and double Fredkin [panel \textbf{(c)}] gates. For each solution shown here the training was started from the \ansatz provided in~\cref{eq:GL:toffoli_reducd_ansatz_for_ML}, and the analogous equations for Fredkin and double Fredkin gates.
+        Each one of the solutions corresponds to unit fidelity, up to numerical precision (that is, fidelities greater than $1-10^{-16}$).
     }
     \label{fig:GL:toffoli_diagonal_solutions}
 \end{figure}
