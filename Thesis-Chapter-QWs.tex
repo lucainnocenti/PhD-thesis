@@ -250,7 +250,7 @@ $\ket\Psi\equiv\sum_{k=1}^N \sum_s \Psi_{k,s}\ket{k,s}$ reads
     \sum_{k=1}^N (\Psi_{k,\uparrow}\ket{k,\uparrow} + \Psi_{k,\downarrow}\ket{k+1,\downarrow}),
 \end{equation}
 which means that $\mel{1,\downarrow}{\calS}{\Psi}=\mel{N+1,\uparrow}{\calS}{\Psi}=0$.
-We can restate this result using the matrix notation introduced in~\cref{eq:QWs:matrix_notation} by saying that all and only the states that are the output of a step of \ac{DTQW} evolution have the form
+We can restate this result using the matrix notation introduced in~\cref{eq:QWs:matrix_notation} by saying that all and only the states that are the output of a step of \ac{QW} evolution have the form
 \begin{equation}
     \begin{pmatrix}
         \bullet & 0 \\
@@ -288,7 +288,7 @@ We now consider the possible states after \textit{two} \ac{QW} steps.
 Suppose $\ket\Psi$ spans $n+2$ modes and can be written as
 $\ket\Psi=\calW_{\calC_2}\calW_{\calC_1}\ket*{\Psi^{(-2)}}$
 for some unitaries $\calC_1,\calC_2$ and state $\ket*{\Psi^{(-2)}}$.
-We will show in this section that all such states $\ket\Psi$ must satisfy a specific orthogonality condition on their amplitudes, and that, moreover, this condition, paired with the one discussed in~\cref{sec:QWs:1step_reachability}, is sufficient for a state $\ket\Psi$ to be output of two steps of a \ac{DTQW} dynamic.
+We will show in this section that all such states $\ket\Psi$ must satisfy a specific orthogonality condition on their amplitudes, and that, moreover, this condition, paired with the one discussed in~\cref{sec:QWs:1step_reachability}, is sufficient for a state $\ket\Psi$ to be output of two steps of a \ac{QW} dynamic.
 
 From~\cref{sec:QWs:1step_reachability} we know that $\ket\Psi$ must be such that
 $\Psi_{1,\downarrow}=\Psi_{n+2,\uparrow}=0$.
@@ -820,7 +820,7 @@ The general case of $\ket\Psi$ satisfying
     \text{ for all }s=1,...,\ell-1
     \label{eq:QWs:orthogonality_conditions_vs_inverse_proof_section}
 \end{equation}
-is fully analogous. We start by using $\bs v_1^\dagger \bs v_{n-1}=0$ to find a coin $\calC$ such that $\ket{\Psi'}=\calW_{\calC}^{-1}\ket\Psi$ has vanishing extremal amplitudes. We then observe that the amplitudes of such $\ket{\Psi'}$ must also satisfy~\cref{eq:QWs:orthogonality_conditions_vs_inverse_proof_section} with $m\to m-1$ and $\ell\to\ell-1$.
+is fully analogous. We start by using $\bs v_1^\dagger \bs v_{n-1}=0$ to find a coin $\calC$ such that $\ket{\Psi'}=\calW_{\calC}^{-1}\ket\Psi$ has vanishing extremal amplitudes. We then observe that the amplitudes of such $\ket{\Psi'}$ must also satisfy~\cref{eq:QWs:orthogonality_conditions_vs_inverse_proof_section} with $m\to m-1$ and $\ell\to\ell-1$, and thus iterate the reasoning.
 
 
 
@@ -905,38 +905,38 @@ is fully analogous. We start by using $\bs v_1^\dagger \bs v_{n-1}=0$ to find a 
 % The values of $u_{1, \uparrow}, u_{2,\downarrow}, u^{(0)}_{1, \uparrow}$ and $u^{(0)}_{1, \downarrow}$ are known, so that this equation is readily solved for the elements of $\mathcal C_1$, for any initial state $\ket{\Phi_{in}}$.
 
 
-\subsection{Dimension of space of reachable states}
-\label{sec:QWs:reachable_space}
+% \subsection{Dimension of space of reachable states}
+% \label{sec:QWs:reachable_space}
 
-Given the full characterisation of outputs of~\acp{QW}, a natural next question is: \textit{fixing a number of steps $n$, what portion of the space of $n\times 2$-dimensional states can be obtained with this kind of dynamic?}
-The set of all (pure) states over $n+1$ sites and with a two-dimensional coin is a $[2\times2(n+1)-2]=(4n+2)$-dimensional real manifold.
+% Given the full characterisation of outputs of~\acp{QW}, a natural next question is: \textit{fixing a number of steps $n$, what portion of the space of $n\times 2$-dimensional states can be obtained with this kind of dynamic?}
+% The set of all (pure) states over $n+1$ sites and with a two-dimensional coin is a $[2\times2(n+1)-2]=(4n+2)$-dimensional real manifold (more precisely, this is the complex projective space $\mathbb{CP}^{2n+1}$).
 
-
-The total number of (real) degrees of freedom of a walker state after $n$ steps, considering the two vanishing extremal amplitudes, is $4n - 2$.
-Additionally, the set of constraints in \cref{eq:QWs:general_reachability_conditions} amounts to $2(n-1)$ real conditions.
-It follows that the space of reachable states $\ket*{\Psi^{(n)}}$ has dimension $2n$, to compare with the number of degrees of freedom of a general state living in the same Hilbert space, that is, $4n + 2$.
+% The total number of (real) degrees of freedom of a walker state after $n$ steps, considering the two vanishing extremal amplitudes, is $4n - 2$.
+% Additionally, the set of constraints in \cref{eq:QWs:general_reachability_conditions} amounts to $2(n-1)$ real conditions.
+% It follows that the space of reachable states $\ket*{\Psi^{(n)}}$ has dimension $2n$, to compare with the number of degrees of freedom of a general state living in the same Hilbert space, that is, $4n + 2$.
+% This is consistent with the fact that 
 %Note how this is consistent with our finding that when computing the coin operator generating a state, the phase difference between its columns can be freely chosen. Therefore, the number of parameters characterising all the possible SU(2) coin operators for $n$ steps is $2n$, being each coin operator characterised by only two parameters.
 
 
 \section{Focusing on walker states}
 \label{sec:QWs:focusing_walker_states}
 
-In~\cref{sec:QWs:general_reachability_conditions} we characterised the set of quantum states that can be generated via \ac{DTQW} evolutions.
-Here, we consider the scenario in which one is interested in generating a target \emph{qudit} state over solely the walker's degree of freedom, as opposed to generating a target quantum state in the full walker and coin space.
+In~\cref{sec:QWs:reachability_conditions} we characterised the states that can be generated via \acp{QW}.
+Here, we consider the scenario in which one is interested in generating a target \emph{qudit} state over the walker's degree of freedom, as opposed to a target in the full walker and coin space.
 In other words, we fix a number of steps $n$ and a target superposition over the sites $\ket\phi=\sum_{i=1}^{n+1} u_i\ket i$, and ask whether there is a combination of coins $\{\calC_i\}_{i=1}^{n}$, a final coin state $\ket\gamma$, and an initial state $\ket{\Psi_0}=\ket{1, \alpha}$ for some initial coin state $\ket\alpha$, such that, up to a normalisation factor,
 \begin{equation}
     \mel{\gamma}{\calW_{\calC_{n}} \cdots\calW_{\calC_{1}}}{\Psi_0} = \ket\phi.
 \end{equation}
 Such protocols are clearly probabilistic in general, but this is not a big hurdle provided the projection probabilities are vanishingly small.
 In particular, we are interested in finding whether arbitrary $\ket\phi$ can be generated in this way.
-The main tool that will be used to answer this question is the set of conditions given in~\cref{sec:QWs:reachability_conditions}.
-We will find the answer to be positive, modulo a few degenerate conditions that the $\ket\phi$ needs to satisfy.
+The main tool that will be used to answer this question are the results of~\cref{sec:QWs:reachability_conditions}.
+We will find the answer to be positive, modulo a few degenerate conditions that the $\ket\phi$ need to satisfy.
 For the analytical results, we focus on the case of the coin being projected over $\ket+$,
 and provide numerical results for the more general case.
 
-Let $\ket\phi$ be an arbitrary superposition of $n+1$ walker sites with amplitudes $u_k \equiv \braket{k}{\phi}$.
+Let $\ket\phi$ be an arbitrary superposition of $n+1$ sites with amplitudes $u_k \equiv \braket{k}{\phi}$.
 We want to find a reachable walker state $\ket\Phi$, in the full walker and coin space, such that
-$\ket{+}_c \!\braket{+}{\Phi} \propto \ket\phi \!\otimes\! \ket+$.
+$\ket{+}_c \!\!\!\!\braket{+}{\Phi} \propto \ket\phi \!\otimes\! \ket+$.
 Denoting with $\Phi_{i,s}$ the amplitudes of $\ket\Phi$, this amounts to finding a $\ket\Phi$ whose amplitudes simultaneously satisfy, on top of the reachability conditions of~\cref{eq:QWs:general_reachability_conditions}, the relations
 ${N(\Phi_{i,\uparrow}+\Phi_{i,\downarrow})= u_i}$ for all $i$.
 In order to do this, we parametrize the set of all walker states $\ket\Phi$ whose amplitudes give the target after projection as
@@ -952,10 +952,10 @@ In order to do this, we parametrize the set of all walker states $\ket\Phi$ whos
 \end{equation}
 where $(d_i)_{i=2}^n$ are complex parameters to be determined, and $N\in\RR$ ensures the normalisation.
 Projecting \cref{eq:QWs:parametrized_state_with_ds} over the coin state $\ket+$ gives the correct result for any choice of $d_i$.
-The problem is thus reduced to finding $(d_i)_i$ corresponding to a reachable state.
-If a set of coefficients $(d_i)_i$ is then found to generate a (normalised) target state $\sum_i u_i \ket i$, the associated projection probability is
+The problem is thus reduced to finding $(d_i)_{i=2}^n$ corresponding to a reachable state.
+If a set of coefficients is then found to generate the target state, the associated projection probability is computed as
 $\|\braket{+_c}{\Phi}\|^2=1/2N$.
-From~\cref{sec:QWs:general_reachability_conditions}, we know that $\ket\Phi$ is reachable \textit{if and only if}~\cref{eq:QWs:general_reachability_conditions} is satisfied. Together with~\cref{eq:QWs:parametrized_state_with_ds} these conditions translate into $\sum_{i=1}^{s} \bs v_i^\dagger \bs v_{n-s+i}=0$ for all $s=1,\dots,n-1$, where
+From~\cref{sec:QWs:reachability_conditions}, we know that $\ket\Phi$ is reachable \textit{if and only if}~\cref{eq:QWs:general_reachability_conditions} is satisfied. Together with~\cref{eq:QWs:parametrized_state_with_ds} these conditions translate into $\sum_{i=1}^{s} \bs v_i^\dagger \bs v_{n-s+i}=0$ for all $s=1,\dots,n-1$, where
 \begin{equation}
     \bs v_i \equiv \begin{pmatrix}
         u_i - d_i \\ d_{i+1}
@@ -976,15 +976,17 @@ Explicitly, we then get the following conditions on the parameters $d_i$:
 for every $s=1,\dots,n-1$,
 with $d_1=0$ and $d_{n+1}=u_{n+1}$.
 Isolating the unknowns from the rest of the parameters, we rewrite~\cref{eq:QWs:conditions_for_ds} as
-\begin{equation}\footnotesize
+\begin{equation}%\footnotesize
+\begin{aligned}
     2\sum_{i=2}^s d_i^* d_{i+(n-s)}
-    + \sum_{i=1}^s u_i^* u_{i+(n-s)}
+    + \sum_{i=1}^s u_i^* u_{i+(n-s)} \\
     - \sum_{i=n-s+1}^{n} u_{i-(n-s)}^* d_i
     - \sum_{i=2}^{s} u_{i+(n-s)} d_i^*
     + u_{n+1} d_{s+1}^* 
     = 0.
+\end{aligned}
 \end{equation}
-Then, defining
+If we then define
 \begin{equation}
 \begin{gathered}
     Q_s \equiv 2\sum_{i=2}^s \ketbra{i}{i+(n-s)},
@@ -997,7 +999,7 @@ Then, defining
     \bs\beta_s \equiv -\sum_{i=2}^{s} u_{i+(n-s)}\ket{i} + u_{n+1} \ket{s+1},
 \end{gathered}
 \end{equation}
-we obtain the following system of quadratic equations:
+we conclude that the reachability is equivalent to the following system of complex quadratic equations:
 \begin{equation}
     \tilde{\bs d}^\dagger
     \begin{pmatrix}
@@ -1007,8 +1009,8 @@ we obtain the following system of quadratic equations:
     \tilde{\bs d} = 0.
 \end{equation}
 This shows that the conditions in~\cref{eq:QWs:conditions_for_ds} are equivalent to a system of quadratic equations of the form $\tilde{\bs d}^\dagger M_s \tilde{\bs d}=0$ for all $s=1,\dots,n-1$.
-\highlight{(comments about results, elimination theory, etc.)}
-Splitting in real and imaginary components,~\cref{eq:QWs:conditions_for_ds} becomes a system of $2(n-1)$ real quadratic equations in $2(n-1)$ real variables.
+% \highlight{(comments about results, elimination theory, etc.)}
+Splitting into real and imaginary components,~\cref{eq:QWs:conditions_for_ds} becomes a system of $2(n-1)$ real quadratic equations in $2(n-1)$ real variables.
 It follows that~\cref{eq:QWs:conditions_for_ds} has solutions for almost all target states, except for a subset of states of measure zero.
 More generally, \cref{eq:QWs:conditions_for_ds}
 can be solved numerically with ease for small $n$, giving multiple solutions for any randomly selected target state.
@@ -1018,19 +1020,19 @@ Further analysis of the analytical solution for two steps is provided in~\cref{s
 A solution of~\cref{eq:QWs:conditions_for_ds}, once found, can be used to compute the coin parameters producing a target $\ket\Phi$ as shown in~\cref{sec:QWs:coin_operators_generating_state}.
 This effectively allows to generate superpositions of $n+1$ sites using $n$ steps of \ac{QW} evolution, via projection of the coin state over $\ket+$ at the end of walk.
 However, the projection makes this scheme probabilistic, so it is important to ensure that the generation probabilities are not vanishingly small.
-We tested this with up to 5 steps analysing the solutions of \cref{eq:QWs:conditions_for_ds}, and with up to 20 steps finding the coin parameters generating target states using a more general numerical maximisation algorithm.
+We tested this with up to $5$ steps analysing the solutions of \cref{eq:QWs:conditions_for_ds}, and with up to $20$ steps finding the coin parameters generating target states using a more general numerical maximisation algorithm.
 The results of these analyses are given in~\cref{sec:QWs:numerical_solution_reachability_conditions,sec:QWs:numerical_fid_max},
 where we also consider the approximate (namely, with fidelity smaller than 1) engineering of target states,
 and the robustness of the method with respect to imperfections of the coin parameters.
 We will also find that in the vast majority of instances the numerical maximisation identifies coin parameters able to generate arbitrary target states with both high probabilities and fidelities.
-\footnote{The code used to produce these results is freely available at \href{https://github.com/lucainnocenti/QSE-with-QW-code}{https://github.com/lucainnocenti/QSE-with-QW-code}.}
+The code used to produce these results is freely available at \href{https://github.com/lucainnocenti/QSE-with-QW-code}{https://github.com/lucainnocenti/QSE-with-QW-code}.
 
 \subsection{Analytical solutions for two steps}
 \label{sec:QWs:analytical_sol_2steps}
 
 In this section we study the solutions obtained in the case of 2 steps, asking which states are reachable and with what probabilities, as well as the stability of these solutions with respect to small perturbations of the coin parameters.
 
-In the simplest case, $n=2$,~\cref{eq:QWs:conditions_for_ds} reduces to the single equation:
+In the $n=2$ case~\cref{eq:QWs:conditions_for_ds} reduces to the single condition:
 \begin{equation}
     u_1^* d_2 - u_3 d_2^* = u_1^* u_2.
 \end{equation}
@@ -1431,8 +1433,8 @@ by properly fine-tuning the optimisation algorithm.
 \section{Conclusions}
 \label{sec:QWs:conclusions}
 We provided a set of equations characterising the states reachable by a coined \ac{QW} evolution, when letting the coin operation change from step to step.
-We then derived a set of conditions characterising the quantum states, spanning only the walker's positions, that are probabilistically reachable after projection of the coin at the end of the walk.
-Finally, we proposed a protocol to experimentally implement the quantum state engineering scheme with linear optics, using orbital and spin angular momentum of a photon to encode spatial and coin degrees of freedom of the walker.
+We then derived a set of conditions characterising the quantum states, spanning only the walker's positions, that are probabilistically reachable after projection of the coin at the end of the walk, discussing both analytical and numerical methods to find the coins generating a target state.
+% Finally, we proposed a protocol to experimentally implement the quantum state engineering scheme with linear optics, using orbital and spin angular momentum of a photon to encode spatial and coin degrees of freedom of the walker.
 Given the ubiquity of \acp{QW}, our approach should facilitate the engineering of high-dimensional quantum states in a wide range of physical systems.
 
 
