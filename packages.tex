@@ -66,8 +66,8 @@
 \newacro{SLM}{Spatial Light Modulator}
 \newacro{SAM}{Spin Angular Momentum}
 \newacro{OAM}{Orbital Angular Momentum}
-\newacro{QWP}{Quarter-wave Plate}
-\newacro{HWP}{Half-wave Plate}
+\newacro{QWP}{Quarter-Wave Plate}
+\newacro{HWP}{Half-Wave Plate}
 \newacro{VVB}{Vector Vortex Beam}
 \newacro{PBS}{Polarising Beamsplitter}
 \newacro{QP}{Q-Plate}
@@ -220,10 +220,39 @@
     sorting=ynt,
     backref=true,
     firstinits=false,
+    uniquelist=false, % to suppress multiple author names being used
     uniquename=false,
+    % nohashothers=true, nosortothers=true,
     natbib
 ]{biblatex}
 \renewcommand{\cite}{\parencite}
+
+\DeclareNameFormat{labelname}{%
+  \ifcase\value{uniquename}%
+    \usebibmacro{name:family}
+      {\namepartfamily}
+      {\namepartgiven}
+      {\namepartprefix}
+      {\namepartsuffix}%
+  \or
+    \ifuseprefix
+      {\usebibmacro{name:given-family}
+        {\namepartfamily}
+        {\namepartgiveni}
+        {\namepartprefix}
+        {\namepartsuffixi}}
+      {\usebibmacro{name:given-family}
+        {\namepartfamily}
+        {\namepartgiveni}
+        {\namepartprefixi}
+        {\namepartsuffixi}}%
+  \or
+    \usebibmacro{name:given-family}
+      {\namepartfamily}
+      {\namepartgiven}
+      {\namepartprefix}
+      {\namepartsuffix}%
+  \fi}
 
 % -------------- START AUTHORYEAR FIX
 % \usepackage{twoopt}
@@ -275,7 +304,8 @@
 % ------------------- END AUTHORYEAR FIX
 
 % ---------------- START SECOND FIX
-% Just for demo
+
+
 \ExecuteBibliographyOptions{maxcitenames=1}
 
 \DeclareFieldFormat{citehyperref}{%
@@ -312,9 +342,6 @@
     \restorebibmacro{textcite}%
     \usebibmacro{textcite}}}
 
-% \renewcommand{\baselinestretch}{1.2}
-% \setlength{\parskip}{\smallskipamount}
-% \setlength{\parindent}{0pt}
 % ---------------- END SECOND FIX
 
 

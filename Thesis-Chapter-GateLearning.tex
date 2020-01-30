@@ -556,7 +556,7 @@ Nevertheless, this example is interesting to show how the technique suggested by
 \end{examplebox}
 
 
-\section{Toffoli gate\ccheck}
+\section{Toffoli gate}
 \label{sec:GL:toffoli}
 
 \tmpHeading{The question}
@@ -621,7 +621,7 @@ Nevertheless, we can derive solutions by making a few guesses on the values of t
 % \end{gathered}
 % \end{equation}
 
-\subsection{A lucky guess \ccheck}
+\subsection{A lucky guess}
 \label{subsec:GL:lucky_guess}
 
 In this section we try to tackle directly the eigenvalue problem~(\ref{eq:GL:3conditions_3rd}) for~\cref{eq:GL:general_toffoli_onetwoqubitints_without_Ys}, using a series of assumptions to reduce the number of free parameters in the \ansatz. The particular choices of coefficients we make here are partly obtained by trial and error, and partly inspired by the numerical results obtained using the methods presented in~\cref{sec:GL:supervised_learning}.
@@ -889,7 +889,7 @@ That is, the expressions found solving for the Toffoli, by simple substitution $
 also give a generator with only 2-qubit interactions for the CCY gate
 (that is, the gate that applies $Y$ to the third qubit conditionally to the first 2 qubits being in the $\ket1$ state).
 
-\begin{tbox}[label=tcolorbox:toffoli]{Explicit expressions of projectors for Toffoli \ccheck}
+\begin{tbox}[label=tcolorbox:toffoli]{Explicit expressions of projectors for Toffoli}
 \fontsize{9pt}{9pt}\selectfont
     Defining $d\equiv 1/(2a)$ and $e\equiv b/(2a)$ we can write the projectors as follows:
     % \begin{equation}
@@ -1031,7 +1031,7 @@ From the fact that $(\bs\sigma^\pm)^2=I$ we know that $P_{01}^\pm$ and $P_{10}^\
 % \tmpHeading{Conclusions}
 % \Cref{eq:GL:block_structure_HTildetoff} makes more evident why $\nu_3\neq\nu_4$ is a necessary requirement for this class of generators to work. Indeed, 
 
-\subsection{\textit{A posteriori} alternative derivation \ccheck}
+\subsection{\textit{A posteriori} alternative derivation}
 \label{subsec:GL:toffoli_posteriori_derivation}
 
 We present here a more direct line of reasoning to find a generator for the Toffoli gate. This route is more explicit in the part the different interaction terms play to generate the target gate, but is at the same time more limited, in that only some generators are easily obtainable this way.
@@ -1096,7 +1096,7 @@ Note that instead of $\pi \alpha (Z_2 - Z_1)Z_3$ we could have equivalently chos
 $\pi\alpha(Z_2-Z_1)O_3$ for any $O_3 = a Y_3 + b Z_3$ and $a^2 + b^2 = 1$.
 
 
-\section{Fredkin gate \ccheck\ccheck}
+\section{Fredkin gate}
 \label{sec:GL:fredkin}
 % BEGIN FREDKIN
 
@@ -1899,7 +1899,7 @@ This choice of hyperparameters is mostly empirical, and it is possible for diffe
 
 \tmpHeading{What do these results tell us?}
 The above provides further evidence for the flexibility of the supervised learning approach, which can produce solutions with good fidelities even in more restrictive scenarios, closer to the capabilities of state of the art experimental architectures.
-Furthermore, the values of the interaction strengths for many of the presented solutions are found to be compatible with the capabilities of state of the art circuit-QED architectures with gate times of the order of tens of nanoseconds~\cite{potocnik2018studying}.
+Furthermore, the values of the interaction strengths for many of the presented solutions are found to be compatible with the capabilities of state of the art circuit-QED architectures with gate times of the order of tens of nanoseconds~\cite{potočnik2018studying}.
 
 \tmpHeading{Online repository storing the code}
 Additional solutions and data, as well as the code used to produce them, is available in the GitHub repository
