@@ -43,12 +43,12 @@ From this point of view, \ac{ML} algorithms might appear to be no different than
 Indeed, the ``simple'' problem of ``fitting a model'' to a given dataset, when no further assumptions are made over the type of data and model, is such a generic and hard problem that vastly different techniques and ideas are required to handle it in different circumstances.
 
 \tmpHeading{``Quantum machine learning''?}
-In particular, the intersection of \ac{ML} and quantum information science is also currently under intense study, and falls generically under the name of \ac{QML}~\cite{wittek2014quantum,schuld2014introduction,adcock2015advances,biamonte2017quantum}.
+In particular, the intersection of \ac{ML} and quantum information is also currently under intense study, and falls generically under the name of \ac{QML}~\cite{wittek2014quantum,schuld2014introduction,adcock2015advances,biamonte2017quantum}.
 Due to the wide reach of both fields, \ac{QML} inevitably branched out into several different directions of study.
 The terminology of was first used to refer to quantum algorithms tackling \ac{ML} tasks more efficiently~\cite{giovannetti2008quantum,harrow2009quantum,lloyd2013quantum,lloyd2014quantum,rebentrost2014quantum,lloyd2016quantum,rebentrost2018quantum,rebentrost2016quantum}. This line of study can therefore be considered as a subfield of quantum computation and quantum algorithm development focussed on the task of big data processing. An important body of work followed this path~\cite{wittek2014quantum,schuld2014introduction,dunjko2017machine,ciliberto2018quantum,schuld2018supervised,perdomo-ortiz2018opportunities}. This direction of study is now sometimes referred to as \emph{quantum-enhanced machine learning}, to distinguish it from other subfields of the much-encompassing label ``\ac{QML}''.
 Another direction of study, more focussed on the theoretical foundations of \emph{learning} in a quantum mechanical context, is \emph{quantum learning theory}~\cite{aaronson2007learnability,aaronson2017shadow,arunachalam2017survey,aaronson2018online,rocchetto2019experimental}.
 % \cite{giovannetti2008quantum,harrow2009quantum,sentís2012quantum,lloyd2013quantum,lloyd2014quantum,rebentrost2014quantum,wiebe2014quantum,aaronson2015read,sentís2015quantum,lloyd2016quantum,rebentrost2018quantum,schuld2016prediction,rebentrost2016quantum,childs2017quantum}.
-Yet another field of study falling under the umbrella term ``\ac{QML}'' concerns how \emph{classical} \ac{ML} can assist in finding solutions to problems in the field of quantum information science~\cite{zdeborov2017machine,spears2018deep,carleo2019machine}.
+Yet another field of study falling under the umbrella term ``\ac{QML}'' concerns how \emph{classical} \ac{ML} can assist in finding solutions to problems in the field of quantum information~\cite{zdeborov2017machine,spears2018deep,carleo2019machine}.
 This latter topic is what a large part of this thesis will be devoted to.
 % ############################# TO ADD BACK IF TIME ALLOWS
 % \tmpHeading{Hybrid approaches}
@@ -65,11 +65,11 @@ Classical neural networks have even recently been used to find physical model de
 
 \tmpHeading{Supervised learning for quantum information science}
 Supervised learning, in particular, provides powerful tools to build algorithms able to pick up patterns from sets of pre-labelled data.
-In the context of quantum information science, \ac{ML} techniques have been showcased as a flexible tool to solve complex optimisation tasks in different areas~\cite{zdeborov2017machine,carrasquilla2017machine,carleo2017solving,van2017learning,schoenholz2016structural,torlai2017manybody,rocchetto2019experimental,melnikov2018active,banchi2016quantum,fujita2018construction,innocenti2018supervised}.
+In the context of quantum information, \ac{ML} techniques have been showcased as a flexible tool to solve complex optimisation tasks in different areas~\cite{zdeborov2017machine,carrasquilla2017machine,carleo2017solving,van2017learning,schoenholz2016structural,torlai2017manybody,rocchetto2019experimental,melnikov2018active,banchi2016quantum,fujita2018construction,innocenti2018supervised}.
 In particular, supervised learning techniques were recently demonstrated to solve \emph{gate design} problems~\cite{banchi2016quantum,innocenti2018supervised,innocenti2018approximate}.
 
 \tmpHeading{How does all of this concern us?}
-In this thesis, we will discuss ways to meaningfully apply ideas from ML to assist in finding solutions for problems arising in the context of theoretical and experimental quantum information science.
+In this thesis, we will discuss ways to meaningfully apply ideas from ML to assist in finding solutions for problems arising in the context of theoretical and experimental quantum information.
 In~\cref{chapter:gate_learning} we will show how the core idea underlying the training of most ML algorithms, the so-called \emph{stochastic gradient descent} algorithm, can be used in an original fashion to find better solutions in the context of designing Hamiltonians to generate target quantum gates.
 In~\cref{chapter:ML_VVBs}, various ML algorithms will instead be used to reconstruct properties of states from experimental dataset, making for more efficient and flexible experimental detection pipelines.
 
