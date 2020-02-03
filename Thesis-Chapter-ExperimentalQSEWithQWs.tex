@@ -3,7 +3,7 @@
 \chapter{Experimental engineering of qudit states}
 \label{chapter:experimental_engineering_qudits}
 
-\tmpHeading{Summary of the work} In this section we present an experimental implementation of the state engineering scheme discussed in~\cref{chapter:quantum_walks} to engineer target qudit states, leveraging the \emph{coin space} of a \ac{QW} as an auxiliary degree of freedom.
+\tmpHeading{Summary of the work} In this section we present an experimental implementation of the state engineering scheme discussed in~\cref{chapter:quantum_walks}, leveraging the \emph{coin space} of a \ac{QW} as an auxiliary degree of freedom to engineer target qudits.
 We use for the purpose an experimental apparatus implementing time-dependent \acp{QW} in the polarisation and \ac{OAM} degrees of freedom~\cite{zhang2010implementation,goyal2013implementing,cardano2015quantum}, exploiting the so-called \acp{QP}~\cite{marrucci2006optical} to implement the controlled-shit QW operation.
 To benchmark and showcase the potential of the apparatus, we demonstrate the engineering of several classes of states.
 The work described in this chapter can be found in~\cite{giordani2019experimental}.
@@ -16,9 +16,10 @@ The work described in this chapter can be found in~\cite{giordani2019experimenta
 % \tmpHeading{What will we conclude from the chapter?}
 % The quality of the generated states and the feasibility of the experimental protocol that we have put in place, demonstrate the effectiveness of a hybrid platform for quantum state engineering. Such platform holds together a programmable quantum system, the photonic \ac{QW} in the angular momentum, and classical optimisation algorithms to effectively generate a given target \highlight{???}.
 
-\tmpHeading{Outline of chapter}
-\Cref{sec:expQWs:OAMintro} contains a brief overview of \ac{OAM} and \acp{VVB}.
-In~\cref{sec:expQWs:experimental_apparatus} we describe how the protocol put forward in~\cref{chapter:quantum_walks} is used to experimentally engineer six-dimensional qudits. We then discuss in~\cref{sec:expQWs:projection_probs} the projection probabilities associated with the generated states, and give our conclusions in~\cref{sec:expQWs:conclusions}.
+\tmpHeading{Chapter outline}
+\Cref{sec:expQWs:OAMintro} gives a brief overview of \ac{OAM} and \acp{VVB}.
+In~\cref{sec:expQWs:experimental_apparatus} we describe how the protocol put forward in~\cref{chapter:quantum_walks} is used to experimentally engineer six-dimensional qudits.
+We then present and discuss the experimental results in~\cref{sec:expQWs:results}, and give our conclusions and outlook in~\cref{sec:expQWs:conclusions}.
 
 
 \section{Orbital angular momentum of light}
@@ -148,7 +149,7 @@ The state fidelity between generated and target states is estimated by projectin
 \begin{figure}[tb]
 \includegraphics[width=\textwidth]{experimental-QSE-1.pdf}
 \caption{
-	More detailed representation of the quantum state engineering protocol also given in~\cref{fig:expQWs:proposal_exp}, but with a focus on our specific implementation.
+	More detailed representation of the quantum state engineering protocol also given in~\cref{fig:expQWs:proposal_exp}, with a focus on our specific implementation.
 	\textbf{(a)} At each step the coin operator is changed to obtain a target state in the output.
 	\textbf{(b)} A single-photon source, composed of a \ac{PPKTP} crystal, generates pairs of photons that are coupled in a SMF. One photon acts as trigger while the other is prepared in the state $\ket{+}\otimes \ket{0}$ through polarisation controllers and a \ac{PBS}. Five sets of \acp{QWP} and \acp{HWP} implement the coin operators at each step. Five \acp{QP} implement the shift operation after each coin operation.
 	The detection stage consists of a \ac{PBS} followed by a \ac{SLM}, a \ac{SMF} and an \ac{APD}.
@@ -179,32 +180,28 @@ computational basis states, completely balanced states, random states, Fourier b
 % We start by generating the elements of the computational basis corresponding to the eigenstates of the \ac{OAM}: $\{\ket{m} \}=\{\ket{\pm5}, \ket{\pm3},\ket{\pm1} \}$. We then generate superpositions of two computational basis states, and then proceed with more complex states such as spin-coherent states, the elements of the Fourier basis, and lastly random states.
 % The quantum state fidelities are calculated projecting onto the elements of an orthonormal basis containing the target state.
 \Cref{table:expQWs:summary} contains a summary of the states engineered with the corresponding fidelities and generation probabilities,
-while~\cref{table:expQWs:random_states_amps} gives explicitly the random target states we used.
+while~\cref{table:expQWs:random_states_amps} gives the explicitly the random target states we used.
 In~\cref{fig:expQWs:results_cat_states,fig:VVBs:results_SCS_states} we give the experimental results for the generation of cat-like states and \acp{SCS}, respectively.
-
+The fidelity between experimentally synthesised and target states are computed by projecting the state on an orthonormal basis which contains the target state.
 % In~\cref{fig:VVBs:results_SCS_states}\textbf{f}, we report the fidelities for all the experimentally engineered states.
 % The red area shows the average fidelity and its uncertainty ($\mathcal{F}{=}0.954 \pm 0.001$). Such test provides further evidence of the effectiveness of our engineering strategy.
 
-% Why Fourier basis states?
-% This choice is motivated by the importance of the quantum Fourier transform in quantum algorithms \cite{nielsen2002quantum}, as well as its role in identifying mutually unbiased bases for quantum cryptography and communication in high-dimensions~\cite{durt2010mutually,bandyopadhyay2002new,brierley2009constructing,dambrosio2013test}.
-
-
-\tmpHeading{Results}
-% , including the Fourier basis \highlight{???} and the randomly sampled qudits,
-
-% \tmpHeading{Results cat states}
-% We generate four cat-like states, changing the relative phase between $\ket5$ and $\ket{-5}$.
-% we report the experimental results for the generation of four cat-like states., which are conveniently pictured as states pointing towards the poles of a Bloch-like ball \highlight{(???)}.
-% The coherence between the components of the states was tested by tuning their relative phase.
-The fidelity between experimentally synthesised and target states are computed by projecting the state on an orthonormal basis which contains the target state. The results are reported in~\cref{fig:expQWs:results_cat_states}.
+\tmpHeading{Scaling of projection probabilities}
+% As mentioned in~\cref{sec:QWs:focusing_walker_states}, multiple \ac{QW} dynamics can, after projection of the coin, lead to the same target state.
+% These different solutions will in general correspond to different projection probabilities.
+% To find the coin operators leading to each target state we used the numerical optimisation method presented in~\cref{sec:QWs:numerical_fid_max}.
+% To assess the average scaling on the projection probability, we simulated QWs of up to $20$ steps using the algorithm of~\cref{sec:QWs:numerical_fid_max} to find coin operations generating different target states. We found the projection probabilities to have a roughly linear scaling, and remain $\ge 15\%$ for up to $20$ steps of our protocol, as shown in~\cref{fig:expQWs:avgProbabilitiesVsStepNumber}.
+In~\cref{fig:expQWs:avgProbabilitiesVsStepNumber} we give the \textit{average} projection probability as a function of the number of steps. These probabilities are calculated by averaging the projection probabilities obtained by running the optimisation algorithm given in~\cref{sec:QWs:numerical_fid_max} over many uniformly sampled random states, for various numbers of steps. We find the average projection probability to decrease roughly linearly with the number of steps. If we assume this linear decrease to also hold for larger numbers of steps, the average projection probability would be dropping to $\sim 0.1$ at around $25$ steps, and remains $\ge15\%$ for up to $20$ steps.
+We note that this likely underestimates the real probabilities. Indeed, as already mentioned, this optimisation method finds only one among many solutions for a given target, and thus generally not the optimal one in terms of projection probability. Moreover, increasing the step number also increases the number of paths with which a state can be generated, which means that, with this method, we can expect the underestimation to be even more significant for larger step numbers.
+Further evidence suggesting that this method underestimates the real average probabilities is obtained by computing the full set of solutions and taking the optimal one, which can be done for up to five steps. Indeed, as shown in~\cref{sec:QWs:numerical_fid_max}, with this method we find the real optimal average probabilities for three, four, and five steps to be consistently $\sim 0.33$, with no detectable decreasing behaviour.
 
 \begin{table}[tbh]
 \centering\footnotesize
 \begin{tabular}{lcc|lcc}
 \toprule
-Target State & $Probability$  & $\mathcal{F}_{exp}$  & Target State & $Probability$  & $\mathcal{F}_{exp}$ \\
+Target State & Probability  & Fidelity & Target State & Probability  & Fidelity \\
 \midrule
- $\quad\ket{-5}$ & $0.5$  & $0.981 \pm 0.007\quad$ & $\quad\ket{\on{QFT}_1}\qquad $ & $0.14$ & $0.969\pm 0.007$\\
+ $\quad\ket{-5}$ & $0.5$  & $0.981 \pm 0.007\quad$ & $\quad\ket{\on{QFT}_1}$ & $0.14$ & $0.969\pm 0.007$\\
  $\quad\ket{-3}$ & $0.5$ & $0.982 \pm 0.007\quad$ & $\quad\ket{\on{QFT}_2}$ & $0.17$ & $0.923\pm 0.022$ \\
  $\quad\ket{-1}$ & $0.5$ & $0.960 \pm 0.007\quad$ & $\quad\ket{\on{QFT}_3}$ & $0.17$ & $0.911\pm 0.011$\\ 
  $\quad\ket{1}$ & $0.5$ & $0.995 \pm 0.007\quad$ & $\quad\ket{\on{QFT}_4}$&$0.17$ &  $0.980\pm 0.011$ \\
@@ -224,9 +221,10 @@ $\quad\frac{1}{\sqrt{2}}\left(\ket{S_1}+i\ket{S_2}\right)$ & $0.23$ & $0.964 \pm
 \bottomrule
 \end{tabular}
 \caption{%
-	Summary of the measured states with relative generation probabilities and experimental quantum state fidelities.
-	For the Fourier basis the convention employed is the following: $\ket{\on{QFT}_k}=\frac{1}{\sqrt{6}}\sum_{j=1}^{6}e^{\frac{ i \pi jk }{3}}\ket{j}$, where $\{\ket{j}\}$ stands for the logical basis that in our case corresponds to the \ac{OAM} eigenstates $\{\ket{m} \}$. The notation $\ket{r_k}$ and $\ket{c_k}$ refers to real and complex random states respectively. Amplitudes of real states have been sampled uniformly in the range $\left[0,1\right]$ and then normalised. In the case of complex states we have sampled the real and imaginary part separately in the range $\left[-0.5,0.5\right]$.
-	\highlight{fix horrible formatting}%
+	Generated states with associated projection probabilities and fidelities.
+	Left column: computational basis states $\ket k$ with $k\in\{-5,-3,-1,1,3,5\}$, cat-like states, and \acp{SCS} $\ket{S_i}$ and their superpositions.
+	Right column: Fourier basis states $\ket{\on{QFT}_k}$, random real states $\ket{r_k}$, and random complex states $\ket{c_k}$.
+	The Fourier basis states are defined as $\ket{\on{QFT}_k}=\frac{1}{\sqrt{6}}\sum_{j=1}^{6}e^{\frac{ i \pi jk }{3}}\ket{j}$.
 }
 \label{table:expQWs:summary}
 \end{table}
@@ -249,7 +247,10 @@ $\qquad\ket{c_4}\qquad$& $\left( 0.06+0.07i, 0.30-0.37i, -0.23+0.08i, 0.11-0.13i
 $\qquad\ket{c_5}\qquad$& $\left( 0.07+0.14i, 0.48-0.34i, -0.41-0.18i, -0.41-0.09i, -0.10+0.32i, 0.32+0.18i\right)$\\
 \bottomrule
 \end{tabular}
-\caption{Amplitudes of random states.}
+\caption{
+	Amplitudes of the random target states. \highlight{come sono stati semplati?...}
+	The real states $\ket{r_k}$ have been sampled uniformly in the range $\left[0,1\right]$ and then normalised. In the case of complex states we have sampled the real and imaginary part separately in the range $\left[-0.5,0.5\right]$.
+}
 \label{table:expQWs:random_states_amps}
 \end{table}
 
@@ -257,10 +258,10 @@ $\qquad\ket{c_5}\qquad$& $\left( 0.07+0.14i, 0.48-0.34i, -0.41-0.18i, -0.41-0.09
 \label{subsec:expQWs:catstates}
 
 \tmpHeading{What do we mean by ``cat-like states''}
-\emph{Schrödinger's cat states} are quantum superpositions of macroscopically distinct states~\cite{yurke1986generating,bužek1995quantum}. In the context of QWs, we can consider \emph{cat-like states} as coherent superpositions of two extremal sites of the walker, that is, states of the form $\alpha\ket{5}+\beta\ket{-5}$~\cite{zhang2016creating}. The isomorphism between \ac{OAM} with an angular momentum of quantum number $n/2$ allows to put in correspondence the position states $\ket{\pm 5}$ of the walker with angular momentum states with minimum and maximum projections onto the quantisation axis $\ket{\pm 5/2}$ (for simplicity of notation, we will use position states only). Such isomorphism makes a coherent superposition state such as $(\ket{5}+e^{i\varphi}\ket{-5})/\sqrt{2}$ (with $\varphi$ a suitable phase) into a faithful angular momentum SCS~\cite{militello2006distilling}. 
+\emph{Schrödinger's cat states} are quantum superpositions of macroscopically distinct states~\cite{yurke1986generating,bužek1995quantum}.
+These states play an important role in the investigations of the foundations of quantum mechanics~\cite{schrodinger1935gegenwartige} and their generation is at the core of various quantum engineering protocols~\cite{brune1992manipulation, monroe1996schrodinger,agarwal1997atomic, zhang2016creating}.
+In the context of QWs, we define \emph{cat-like states} as coherent superpositions of two extremal sites of the walker, that is, in our case, states of the form $\alpha\ket{5}+\beta\ket{-5}$~\cite{zhang2016creating}. The isomorphism between \ac{OAM} with an angular momentum of quantum number $n/2$ allows to put in correspondence the position states $\ket{\pm 5}$ of the walker with angular momentum states with minimum and maximum projections onto the quantisation axis $\ket{\pm 5/2}$ (for simplicity of notation, we will use position states only). Such isomorphism makes a coherent superposition state such as $(\ket{5}+e^{i\varphi}\ket{-5})/\sqrt{2}$ (with $\varphi$ a suitable phase) into a faithful angular momentum SCS~\cite{militello2006distilling}. 
 % Experimental generation of cat-like states has been previously reported in atomic systems~\cite{leibfried2005creation}.
-
-\emph{Angular-momentum Schrödinger cat states}~\cite{militello2006distilling} are here understood as superpositions of extremal walker positions. The correspondence between the position space of the walker and an angular momentum of quantum number $n/2$, which will be explained later in this section, makes the \ac{QW} perfectly suited to synthesise this class of states. Schrödinger cat states play a crucial role in the investigations on foundations of quantum mechanics~\cite{schrodinger1935gegenwartige}\highlight{sbadabem} and their generation is at the core of various quantum engineering protocols~\cite{brune1992manipulation, monroe1996schrodinger,agarwal1997atomic, zhang2016creating}. The second class of states that we consider are \emph{spin-coherent states}~\cite{ulyanov1999spin}, which are the spin-like counterpart of \emph{coherent states} of a quantum harmonic oscillator. Finally, in order to validate the flexibility of our approach, we demonstrate high-quality engineering of both balanced, and randomly sampled states \highlight{(REWRITE)}.
 
 
 \begin{figure}[tb]
@@ -276,6 +277,8 @@ $\qquad\ket{c_5}\qquad$& $\left( 0.07+0.14i, 0.48-0.34i, -0.41-0.18i, -0.41-0.09
 
 \subsection{Spin-coherent states}
 \label{subsec:expQWs:SCSs}
+
+The second class of states that we consider are \emph{spin-coherent states}~\cite{ulyanov1999spin}, which are the spin-like counterpart of \emph{coherent states} of a quantum harmonic oscillator.
 
 \tmpHeading{What are SCSs?}
 A second class of states considered are \acp{SCS}~\cite{radcliffe1971some,arecchi1972atomic,agarwal1997atomic,markham2003classicality,chryssomalakos2018geometry}.
@@ -366,25 +369,6 @@ which thus quantifies the effect of quantum coherence as the deviation of $Q_j(\
     \label{insieme}
 \end{figure}
 
-
-\section{Behaviour of projection probabilities}
-\label{sec:expQWs:projection_probs}
-
-% \tmpHeading{In this section...}
-% In this section we provide a qualitative discussion about the relationship between projection probabilities and the quantum walk steps.
-
-\tmpHeading{The same target can correspond to multiple projection probabilities}
-As already mentioned in~\cref{sec:QWs:focusing_walker_states}, multiple \ac{QW} dynamics can, after projection of the coin, lead to the same target state.
-These different solutions will, however, in general correspond to different projection probabilities.
-% However, for more than five steps, a general method to compute the full set of solutions is not known, and solutions have to be found via a numerical optimisation~\cite{innocenti2017quantum}.
-% This method, while computationally more efficient, only produces one of the possible solutions, and thus not necessarily the solution corresponding to the optimal projection probability.
-For the target OAISJDOIAJSDOIASJDOIASJDOIJ
-Nonetheless, we find that the projections probabilities obtained by running such numerical optimisation remain $\ge 15\%$ for up to $20$ steps of our protocol.
-
-\tmpHeading{Estimate the scaling of projection probabilities}
-In~\cref{fig:expQWs:avgProbabilitiesVsStepNumber} we give the \textit{average} projection probability as a function of the number of steps. These probabilities are calculated by averaging the projection probabilities obtained by running the optimisation algorithm over uniformly sampled random states, for various numbers of steps. We find the average projection probability to decrease roughly linearly with the number of steps. If we assume this linear decrease to also hold for larger numbers of steps, the average projection probability would be dropping to $\sim 0.1$ at around $25$ steps, that is, for target qudit states of dimension $26$.
-It is, however, important to note that this data grossly underestimates the real average probabilities. Indeed, as already mentioned, the optimisation method used here only finds one among many solutions for a given target, and thus generally not the optimal one. Moreover, increasing the step number also increases the number of paths with which a state can be generated, which means that, with this method, we can expect the underestimation to be even more significant for larger step numbers.
-Further evidence suggesting that this method underestimates the real average probabilities is obtained by computing the full set of solutions and taking the optimal one, which can be done for up to five steps. Indeed, as shown in~\cref{sec:QWs:numerical_fid_max}, with this method we find the real optimal average probabilities for three, four, and five steps to be consistently $\sim 0.33$, with no detectable decreasing behaviour.
 
 \begin{figure}[tb]
     \centering
