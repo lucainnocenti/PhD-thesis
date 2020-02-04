@@ -3,41 +3,34 @@
 \chapter{Vector vortex beam recognition}
 \label{chapter:ML_VVBs}
 
-\tmpHeading{What is this chapter about?}
+\tmpHeading{Summary of the chapter}
 In this chapter we present a method to classify experimental states with nontrivial orbital angular momentum structure using~\acf{ML} techniques. The employed experimental apparatus is similar to the one used in~\cref{chapter:experimental_engineering_qudits}.
 The goal is to classify experimentally generated states from the sole knowledge of their intensity profile as captured with a CCD camera.
-In particular, we apply \ac{ML} to characterise experimental \acfp{VVB} generated using the platform presented in~\cref{chapter:experimental_engineering_qudits}.
-We will find that a range of supervised and unsupervised learning techniques are suitable to tackle this problem, and can provide useful insights regarding the structure of experimentally produced states. The algorithms we employ are fully independent on the specifics of the generation apparatus, and are thus applicable in a wide variety of situations.
-This approach not requiring neither additional interferometry stabilisation, nor spatial filtering, it provides a robust strategy to decode information stored in \acp{VVB}, and therefore represents a promising pathway to managing high-dimensional quantum systems. 
+For the purpose, we use \ac{ML} algorithms to characterise experimental \acfp{VVB} generated using the same platform as~\cref{chapter:experimental_engineering_qudits}.
+We will find that a range of supervised and unsupervised learning techniques are suitable to tackle this problem, and provide useful insights regarding the structure of experimentally produced states.
+We first train \acp{CNN} to classify experimental images.
+We then discuss how the joint application of \ac{DR} and \acp{SVM} can also be used to classify states, and even obtain a full description of a state from its intensity profile.
+These algorithms are fully independent on the specifics of the experimental apparatus, and are thus applicable in a variety of situations.
 
-\tmpHeading{ML and structured light}
-As discussed in~\cref{sec:intro:ML}, \ac{ML} has recently emerged as a versatile toolbox to tackle a variety of tasks arising in experimental platforms. It has, in particular, proven useful to characterise quantum protocols and dynamics~\cite{carrasquilla2019reconstructing,giordani2018experimental, agresti2019pattern,lumino2018experimental,rocchetto2019experimental,butler2018machine,fischer2006predicting,melnikov2018active,wang2017experimental}.
+\tmpHeading{Previous applications of ML to structured light}
+As discussed in~\cref{sec:intro:ML}, \ac{ML} provides a versatile toolbox to tackle a variety of tasks arising in experimental platforms. It has, in particular, proven useful to characterise quantum protocols and dynamics~\cite{carrasquilla2019reconstructing,giordani2018experimental, agresti2019pattern,lumino2018experimental,rocchetto2019experimental,butler2018machine,fischer2006predicting,melnikov2018active,wang2017experimental}.
 In the context of structured light, \acfp{NN} have been used to classify \ac{OAM} states of classical light for long distance free-space communication, even in the presence of environmental turbulence~\cite{krenn2014communication,krenn2016twisted,doster2017machine,park2018demultiplexing,lohani2018turbulence,li2018joint}.
 
-\tmpHeading{How do we use ML?}
-We leverage both supervised and unsupervised learning techniques. We start by training a \ac{CNN} to classify experimental images belonging to predefined classes of states. This method gives good prediction accuracy, while remaining fairly problem-agnostic and thus useful for diverse applications. However, while providing high prediction accuracy, NN-based methods are difficult to interpret.
-We thus also propose an alternative technique based on the joint application of \ac{DR} and supervised learning.
-This method provides a geometrical description of the underlying space associated to the experimental data.
-While significantly easier to use, such approach gives comparable results to CNN,
-at the cost of being more tailored to the specifics of the problem.
-
-\tmpHeading{Our work makes significant steps forward...}
-Our work makes significant steps forward with respect to previous endeavours: while~\cite{krenn2014communication,krenn2016twisted,doster2017machine, park2018demultiplexing, lohani2018turbulence, li2018joint} leverage \acp{NN} to process \ac{OAM} states, our work is the first to tackle \acp{VVB}. Moreover, owing to the variety of techniques we deploy, we can address both classification and regression tasks, thus enabling the reconstruction of the input states in relevant cases of structured light beams.
+\tmpHeading{The novelty of our work}
+In contrast to these previous endeavours, we deal with the classification of \acp{VVB}. Moreover, owing to the variety of techniques we deploy, we can address both classification and regression tasks, thus enabling the reconstruction of the input states in relevant cases of structured light beams.
 Our findings demonstrate the reliability of a broader class of ML methods, providing novel recognition methods to deal with \ac{VVB}, which are a building block for several information protocols with high-dimensional systems.
-
+This approach requires neither additional interferometry stabilisation nor spatial filtering. This makes it a robust strategy to decode information stored in \acp{VVB}, and a promising pathway to manage high-dimensional quantum systems. 
 
 \begin{figure}[tb]
 	\centering
    \includegraphics[width=0.8\textwidth]{VVBs-Fig1.pdf}
     \caption{
-    	\textbf{(a)} High-order Poincar\'e sphere representation for $|m_{1,2}|=1$. Each point on the sphere surface corresponds to specific polarisation patterns. 
-	    \textbf{(b)} A radially polarised \ac{VVB}: at a given point in the trasversal plane the polarisation vector has a different orientation. The Stokes parameters vary accordingly in the plane.
-	    \textbf{(c)} Colour encoding of the polarisation pattern. 
-	    The legend reports the correspondence between colours and the various polarisations.
-	    On the right we have the resulting colour pattern for the VVB in panel {\bf b}.
-	    Grey colour corresponds to unpolarised light.
-	    \textbf{(d)} Experimental apparatus for the generation of \acp{VVB}. A continuous-wave laser emits a Gaussian beam ${\rm TEM}_{00}$ at $808$ nm. Light undergoes a 5-step quantum walk realised through a sequence of waveplates and QPs.
-    	A CCD camera-based detection stage acquires information on the Stokes parameters and the polarisation pattern. Based on the intensity measured at each pixels of the  camera, Stokes parameters are evaluated and converted into RGB-coloured pictures.
+    	\textbf{(a)} High-order Poincar\'e sphere representation for $|m_{1,2}|=1$. Each point on the sphere corresponds to a VVB. 
+	    \textbf{(b)} The intensity profile of a radially polarised \ac{VVB}, in which the polarisation direction always points outwards from the centre.
+	    \textbf{(c)} An example of a colour-encoded VVB.
+	    The legend reports the correspondence between colours and the different polarisations.
+	    \textbf{(d)} Simple schematic of the experimental apparatus used to generate the \acp{VVB}. A continuous-wave laser emits a Gaussian beam $\on{TEM}_{00}$ at $\SI{808}{\nm}$. The light undergoes a $5$-step QW evolution, realised through a sequence of waveplates and QPs.
+    	A CCD camera-based detection stage acquires the output intensity profiles, after projecting onto different polarisation states, thus allowing to compute the associated Stokes parameters.
     }%
     \label{fig:VVBs:poinc_sphere}
 \end{figure}
@@ -45,43 +38,37 @@ Our findings demonstrate the reliability of a broader class of ML methods, provi
 
 \section{Experimental generation of Vector Vortex Beams}
 
-\tmpHeading{OAM and LG modes}
-\acf{OAM} states of light can be described using \ac{LG} modes.
-These are solutions of the Helmholtz equation in the paraxial approximation, indexed by two integer numbers $(m, p)$, with $m$ describing the azimuthal phase structure of the beam, and $p$ its radial intensity profile.
-Each \ac{LG} mode carries a set amount of \ac{OAM}, which in the single-photon regime equals $\hbar m$~\cite{allen1992orbital}.
-
-\tmpHeading{What are VVBs?}
-
 \tmpHeading{VVBs}
-\acfp{VVB} are obtained by superposing orthogonal polarisations with different \acp{OAM}~\cite{padgett2004lights}.
+\acfp{VVB} are superpositions of orthogonal polarisations states coupled with different \ac{OAM} states~\cite{padgett2004lights}.
 More specifically, the electric field $\bs{E}_{m_1m_2p}$ of a \ac{VVB} decomposes as the sum of two~\ac{LG} modes with same $p$ and different azimuthal numbers $m_1>m_2$ carried by orthogonal polarisations:
-$\bs{E}_{m_1m_2p}=\Vec{e}_L \cos{ \frac{\theta}{2}}\text{ LG$_{m_1p}$} +\Vec{e}_R e^{i \phi} \sin{ \frac{\theta}{2}}\text{ LG$_{m_2p}$}$,
-where $\theta\in[0,\pi], \phi\in[0,2\pi]$ and the unit vectors $\Vec{e}_{L,R}$ stand for left and right circular polarisation, respectively.
-For the purpose of this work we can ignore the radial number, setting $p=0$.
-For any given value of the parameters $(m_1$, $m_2, \theta, \phi)$, the polarisation pattern of a \ac{VVB} can be mapped onto a generalised Poincar\'e sphere (cf.~\cref{fig:VVBs:poinc_sphere}). In particular, we use the higher-order Poincar\'e representation in which the poles represent eigenstates of the total angular momentum but with opposite signs~\cite{milione2011higherorder}.
-These polarisation patterns are reconstructed via the \emph{Stokes parameters} $S_{j}~(j=1,2,3)$, obtained by
-measuring the output intensities $I_{b_j,1},I_{b_j,2}$ associated to a given choice of polarisation basis $\{b_j \}=\{b_1=( H,V )$, $b_2=( D,A )$, $b_3=( L,R )\}$ as $S_{b_j}=(I_{b_j,1}-I_{b_j,2})/(I_{b_j,1}+I_{b_j,2})$.
+\begin{equation}
+	\bs{E}_{m_1m_2p} =
+	\bs{e}_L \cos(\theta/2)\on{LG}_{m_1p} +
+	\bs{e}_R e^{i \phi} \sin(\theta/2)\on{LG}_{m_2p},
+\end{equation}
+where $\theta\in[0,\pi], \phi\in[0,2\pi]$ and the unit vectors $\bs{e}_{L,R}$ represent left and right circular polarisation, respectively.
+For the purpose of this work we can ignore the radial number, fixing $p=0$.
+For any given value of the parameters $(m_1, m_2, \theta, \phi)$, the polarisation pattern of a \ac{VVB} can be represented as a point in a \emph{generalised Poincar\'e sphere}, as also shown in~\cref{fig:VVBs:poinc_sphere}.
+% In particular, we use the higher-order Poincar\'e representation in which the poles represent eigenstates of the total angular momentum but with opposite signs~\cite{milione2011higherorder}.
+Each VVB can be characterised via its \emph{Stokes parameters} $(S_1,S_2,S_3)$.
+These are defined in terms of the output intensities associated to different polarisation measurements.
+Projecting the polarisation onto the three standard mutually unbiased bases: $b_1=(H,V), b_2=(D,A), b_3=(L,R)$, and denoting the intensities corresponding to a given basis $b_j$ with $(I_{b_j,1},I_{b_j,2})$, the Stokes parameters are defined as
+\begin{equation}
+	S_{b_j} = \frac{I_{b_j,1}-I_{b_j,2}}{I_{b_j,1}+I_{b_j,2}}.
+\end{equation}
 %This is a way to characterise a state via its \emph{Stokes parameters} at every point of the transverse %profile.
 %To do this, we first measure the output intensities $I_{b_j,1},I_{b_j,2}$ associated to a given choice of %polarisation basis $b_j$, and then compute the value of the corresponding Stokes parameter $S_{b_j}$ as %$S_{b_j}=(I_{b_j,1}-I_{b_j,2})/(I_{b_j,1}+I_{b_j,2})$.
 %The canonical choice for the polarisation bases is $b_1=(H,V), b_2=(D,A)$ and $b_3=(L,R)$.
 %%
-For a \ac{VVB}, the values of $S_j$ depend on the coordinates in the transverse propagation plane~\cite{cardano2012polarization}.
-
-\tmpHeading{VVBs with RGB encoding}
-To visualise the polarisation patterns of \acp{VVB}, we use an RGB colour encoding in which the values of $S_j$ are interpreted as strengths of the corresponding colour. In~\cref{fig:VVBs:poinc_sphere}\textbf{b-c} we report an example of such colour encoding for radially polarised \acp{VVB}.
-A natural way to generate~\acp{VVB} is using \acp{QP}~\cite{marrucci2006optical,cardano2012polarization}, which are inhomogeneous birefringent plates modifying the OAM of the incoming light conditionally to its polarisation. 
-In our scheme, \acp{VVB} are generated via a sequence of polarisation-controlling waveplates interspersing $5$ cascaded QPs (cf.~\cref{fig:VVBs:poinc_sphere}\textbf{d}).
-The apparatus implements a discrete-time QW in the angular momentum, where the order of LG modes takes the role of the \emph{walker} and it is changed according to the polarisation state, which embodies the \emph{coin} degree of freedom~\cite{zhang2010implementation,goyal2013implementing,cardano2015quantum,innocenti2017quantum,giordani2019experimental}.
-%This apparatus implements a discrete-time QW in the OAM and polarisation degrees of freedom, in which the order of each LG mode takes the role of the \emph{walker}, and the polarisation that of the \emph{coin} degree of freedom
-This allows to generate several classes of VVBs with OAM quantum numbers taking odd values in the interval $\{-5,..,5\}$.
-We then collect images associated with different \acp{VVB} and use them to train and benchmark our ML-based approaches to classification , as discussed in the next sections.
-
-
-\tmpHeading{State engineering scheme}
-We use the same experimental platform presented in~\cref{chapter:experimental_engineering_qudits}, with $5$ \acp{QP} in cascade that can be interspaced by either \acp{HWP} or \acp{QWP}. 
-% The HWPs compensate the polarisation flip operated by the QPs for the generation of higher order \ac{LG} modes. Conversely, the QWP acts on circular polarisations as an Hadamard transformation. 
+It is worth noting that the Stokes parameters are the classical counterparts of the coordinates of density matrices in state space, upon replacement of intensities with probabilities.
+As already discussed in~\cref{chapter:experimental_engineering_qudits}, we generate VVBs via sequences of polarisation-controlling waveplates interspersing $5$ cascaded QPs.
+% This allows to generate VVBs with OAM quantum numbers taking odd values in the interval $\{-5,..,5\}$.
 Using different sets of these waveplates between consecutive QPs, we can generate VVBs corresponding to different pairs $(m_1,m_2)$ of OAM quantum numbers, and parameters $(\theta, \phi)$.
-%sof the higher the increases the \ac{OAM} values associated to a \ac{VVB}. Moreover, using quarter waveplates it is possible to generate \acp{VVB} characterised by Laguerre Gauss modes with different azimuthal numbers $m_{1}>m_{2}$.
+The accessible OAM azimuthal quantum numbers accessible with this scheme correspond to the walker states accessible via a $5$-step QW. These are $\pm1,\pm3$, and $\pm5$.
+
+\tmpHeading{Colour-encoding VVBs}
+To visualise the polarisation patterns of \acp{VVB}, we use an RGB colour encoding in which the values of $S_j$ are represented via the strength of a corresponding colour. We give an example of such colour encoding in~\cref{fig:VVBs:poinc_sphere}.
+We then collect images associated with different \acp{VVB} and use them to train and benchmark our ML-based approaches to classification , as discussed in the next sections.
 
 
 \tmpHeading{How are images collected?}
@@ -357,3 +344,12 @@ While paving the way to further experimental validations -- potentially also in 
 
 \textit{Note--} During the reviewing process of this manuscript, the authors
 became aware of a related work~\cite{liu2019superhighresolution} addressing a similar topic.
+
+
+\tmpHeading{How do we use ML?}
+% We leverage both supervised and unsupervised learning techniques.
+We start by training a \ac{CNN} to classify experimental images belonging to predefined classes of states. This method gives good prediction accuracy, while remaining fairly problem-agnostic and thus useful for diverse applications. However, while providing high prediction accuracy, NN-based methods are difficult to interpret.
+We thus also propose an alternative technique based on the joint application of \ac{DR} and supervised learning.
+This method provides a geometrical description of the underlying space associated to the experimental data.
+While significantly easier to use, such approach gives comparable results to CNN,
+at the cost of being more tailored to the specifics of the problem.

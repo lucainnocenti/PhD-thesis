@@ -35,7 +35,8 @@ Despite the Poynting vector $\bs E\times \bs B$ always pointing in the propagati
 Since Allen's groundbreaking work, the OAM of light found several applications in quantum information theory~\cite{allen1999orbital,padgett2004lights,barnett2007orbital,molina-terriza2007twisted,franke-arnold2008advances,yao2011orbital,padgett2017orbital,erhard2017twisted,cozzolino2019highdimensional}.
 In particular, OAM of photons has been used for communication protocols~\cite{langford2004measuring}, quantum metrology~\cite{dambrosio2013photonic}, as well as to study quantum correlations~\cite{leach2010quantum} and quantum entanglement~\cite{mair2001entanglement,vaziri2002experimental,dada2011experimental,pors2011highdimensional,fickler2012quantum,malik2016multiphoton}.
 % that is proportional to $\ell$, which is the quantum number that determines the azimuthal phase profile of the field.
-The most common types of helical laser beams carrying OAM are \ac{LG} modes, here denoted with $LG_p^\ell$. These are solutions of the Helmholtz equation in cylindrical coordinates in the paraxial approximation. LG modes are characterised by the two quantum numbers $p$ and $\ell$, respectively characterising the radial and azimuthal structure of the mode. A characteristic feature of these beams is their azimuthal phase dependence: $LG_p^\ell\sim e^{i\ell\phi}$ with $\phi$ the azimuthal coordinate in the plane transverse to the propagation direction. LG modes carry an integer amount of OAM.
+The most common types of helical laser beams carrying OAM are \ac{LG} modes, here denoted with $LG_p^\ell$. These are solutions of the Helmholtz equation in cylindrical coordinates in the paraxial approximation. LG modes are defined by the two quantum numbers $p$ and $\ell$, respectively characterising the radial and azimuthal structure of the mode. A characteristic feature of these beams is their azimuthal phase dependence: $LG_p^\ell\sim e^{i\ell\phi}$ with $\phi$ the azimuthal coordinate in the plane transverse to the propagation direction. LG modes carry an integer amount of OAM.
+In~\cref{fig:expQWs:LG_profile_L0P2Z03,fig:expQWs:LG_profile_L1P2Z03} we give two examples of the transverse intensity profile of LG modes with different azimuthal quantum numbers $\ell$.
 % ~\cite{mair2001entanglement,kwiat1993highvisibility,howell2004realization,}
 
 \tmpHeading{Coupling OAM with polarisation}
@@ -76,14 +77,20 @@ include integrated photonics~\cite{chen2018mapping,cai2012integrated,liu2017dire
     \begin{minipage}{0.45\textwidth}
         \centering
         \includegraphics[width=1\textwidth]{Figures/OAM/LGBeamProfile_L0P2Z03.png} % first figure itself
-        \caption{Transverse profile of an OAM state with $\ell=0, p=2, z=3$.}
+        \caption{
+        	Transverse profile of an OAM state with $\ell=0, p=2$.
+        	% Transverse profile of an OAM state with $\ell=0, p=2, z=3$.
+        }
         \label{fig:expQWs:LG_profile_L0P2Z03}
     \end{minipage}\hfill
     \begin{minipage}{0.45\textwidth}
         \centering
         \vspace{-30pt}%
         \includegraphics[width=1\textwidth]{Figures/OAM/LGBeamProfile_L1P2Z03.png} % second figure itself
-        \caption{Transverse profile of an OAM state with $\ell=1, p=2, z=3$.}
+        \caption{
+        	Transverse profile of an OAM state with $\ell=1, p=2$.
+        	% Transverse profile of an OAM state with $\ell=1, p=2, z=3$.
+        }
         \label{fig:expQWs:LG_profile_L1P2Z03}
     \end{minipage}
 \end{figure}
@@ -190,8 +197,8 @@ The fidelity between experimentally synthesised and target states are computed b
 % These different solutions will in general correspond to different projection probabilities.
 % To find the coin operators leading to each target state we used the numerical optimisation method presented in~\cref{sec:QWs:numerical_fid_max}.
 % To assess the average scaling on the projection probability, we simulated QWs of up to $20$ steps using the algorithm of~\cref{sec:QWs:numerical_fid_max} to find coin operations generating different target states. We found the projection probabilities to have a roughly linear scaling, and remain $\ge 15\%$ for up to $20$ steps of our protocol, as shown in~\cref{fig:expQWs:avgProbabilitiesVsStepNumber}.
-In~\cref{fig:expQWs:avgProbabilitiesVsStepNumber} we give the \textit{average} projection probability as a function of the number of steps. These probabilities are calculated by averaging the projection probabilities obtained by running the optimisation algorithm given in~\cref{sec:QWs:numerical_fid_max} over many uniformly sampled random states, for various numbers of steps. We find the average projection probability to decrease roughly linearly with the number of steps. If we assume this linear decrease to also hold for larger numbers of steps, the average projection probability would be dropping to $\sim 0.1$ at around $25$ steps, and remains $\ge15\%$ for up to $20$ steps.
-We note that this likely underestimates the real probabilities. Indeed, as already mentioned, this optimisation method finds only one among many solutions for a given target, and thus generally not the optimal one in terms of projection probability. Moreover, increasing the step number also increases the number of paths with which a state can be generated, which means that, with this method, we can expect the underestimation to be even more significant for larger step numbers.
+In~\cref{fig:expQWs:avgProbabilitiesVsStepNumber} we give the \textit{average} projection probability as a function of the number of steps. These probabilities are calculated by averaging the projection probabilities obtained by running the optimisation algorithm given in~\cref{sec:QWs:numerical_fid_max} over many uniformly sampled random states, for various numbers of steps. We find the average projection probability to decrease roughly linearly with the number of steps. If we assume this linear decrease to also hold for larger numbers of steps, the average projection probability would be dropping to $\sim 0.1$ at around $25$ steps, and remains $\ge 0.15$ for up to $20$ steps.
+We note that this likely underestimates the actual probabilities. Indeed, as already mentioned, this optimisation method finds only one among many solutions for a given target, and thus generally not the optimal one in terms of projection probability. Moreover, increasing the step number also increases the number of paths with which a state can be generated, which means that, with this method, we can expect the underestimation to be even more significant for larger step numbers.
 Further evidence suggesting that this method underestimates the real average probabilities is obtained by computing the full set of solutions and taking the optimal one, which can be done for up to five steps. Indeed, as shown in~\cref{sec:QWs:numerical_fid_max}, with this method we find the real optimal average probabilities for three, four, and five steps to be consistently $\sim 0.33$, with no detectable decreasing behaviour.
 
 \begin{table}[tbh]
