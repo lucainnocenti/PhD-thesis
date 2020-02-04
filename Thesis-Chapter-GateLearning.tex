@@ -1609,15 +1609,13 @@ To see how this class of optimisation algorithms is relevant to gate design prob
 	\label{eq:GL:def_fidelity}
 \end{equation}
 with $\calU$ the target gate, $\bslambda$ the set of parameters, and $\psi\equiv\ket\psi$ an input state.
-The gate design problem is then equivalent to finding $\bslambda$ such that $\calF(\bslambda, \psi)$ is maximised (that is, equal to 1) for all $\psi$.
-One possibility to solve this problem is to consider the average fidelity $\barcalF(\bslambda)$, for which explicit formulas are known~\cite{banchi2011nonperturbative,pedersen2007fidelity,magesan2011gate}.
-Standard optimisation methods, like standard gradient descent or differential evolution~\cite{chakraborty2008advances}, can be applied directly on $\barcalF(\bslambda)$.
+The gate design problem is then equivalent to finding $\bslambda$ such that $\calF_\bslambda(\psi)$ is maximised (that is, equal to 1) for all $\psi$.
+One possibility is to consider the average fidelity $\barcalF(\bslambda)$, as in~\cref{sec:GL:numerical_approach}, and look for its maximum using standard optimisation methods, such as standard gradient descent or differential evolution~\cite{chakraborty2008advances}.
 This however, as discussed in~\cref{sec:GL:numerical_approach}, reveals to be often impractical, due to the complexity of the associated parameter landscapes.
-On the other hand, \ac{SGD} allows to apply a simple and efficient local maximisation method, while at the same time being less prone to getting stuck in local maxima.
+On the other hand, \ac{SGD} allows to apply a simple and efficient local maximisation method, being at the same time less prone to getting stuck into local maxima.
 This works particularly well for our problem, because we know that the $\bslambda$ corresponding to the target gate are \emph{all and only} those such that \emph{for all inputs $\psi$} the fidelity equals $1$.
 Indeed, one of the main advantages of this method is its focussing on optimising $\bslambda$ for many fixed states $\psi$, rather than attempting to optimise directly the operator like we did in~\cref{sec:GL:numerical_approach}.
 This is because we know that \emph{for every $\psi$}, the function $\bslambda\mapsto \calF_\bslambda(\psi)$ has a maximum some value of the parameters $\bslambda=\bslambda_0$ (at least when the gate can be implemented with the given restrictions). However, for any other $\bslambda$, changing $\psi$ changes the value of the fidelity. The consequence is that local maxima, which are problematic for optimisation algorithms, will in general disappear when the state $\psi$ is changed during the optimisation, thus making it harder for the optimiser to get stuck into local maxima.
-\highlight{(might need some rephrasing)}
 
 \tmpHeading{Computing the gradients efficiently}
 A critical step in gradient descent algorithms, efficiency-wise, is the evaluation of the gradient.
@@ -1938,11 +1936,11 @@ This average fidelity can be written explicitly in terms of the components of th
 \tmpHeading{Results for QFT, half-adder, Toffredkin}
 \Cref{fig:GL:parameters_QFT_Toffredkin_halfadder} shows the sets of Hamiltonian parameters that were obtained through the training procedure, for each target gate.
 \begin{itemize}
-    \item (\textbf{\emph{Toffredkin}}) The Toffredkin gate was found with unit fidelity, up to numerical precision, using a single ancillary qubit. In~\cref{fig:GL:toffredkin_fidVSpars} is shown how the fidelity varies with the Hamiltonian parameters. Fig.~\ref{fig:GL:toffredkin_finalmatrix} reports the final matrix over the full four-qubit network.
+    \item (\textbf{\emph{Toffredkin}}) The Toffredkin gate was found with unit fidelity, up to numerical precision, using a single ancillary qubit. In~\cref{fig:GL:toffredkin_fidVSpars} is shown how the fidelity varies with the Hamiltonian parameters. \Cref{fig:GL:toffredkin_finalmatrix} reports the final matrix over the full four-qubit network.
     \item \textbf{\emph{(QFT)}} In the case of the \ac{QFT}, we performed a series of training runs with different numbers of ancillae, using from zero to five ancillary qubits.
     We observed the best results when using $0$, $3$, and $5$ ancillae, the average fidelities being $0.987$, $0.991$, and $0.988$ respectively.
     It is important to note that due to the heuristic nature of our optimization method, better results might be achieved using different initial conditions or optimization parameters.
-    In~\cref{fig:GL:parameters_QFT_Toffredkin_halfadder,fig:GL:qft3q+5a_fidVSpars} we show the final parameters, and the dependence of the final fidelities with respect to the parameters, for the case of $5$ ancillary qubits.
+    In~\cref{fig:GL:qft3q+5a_fidVSpars} we present the dependence of the fidelities with respect to the parameters, for the case of $5$ ancillary qubits.
     \item \textbf{\emph{(Half-adder)}} Finally, the half-adder was realised with average fidelity $\barcalF\simeq0.999997$ with a single ancillary qubit.
     Again, in~\cref{fig:GL:halfadder_fidVSpars} we report the behaviour of $\calF_\bslambda$ upon variations of $\bslambda$, and in~\cref{fig:GL:halfadder_finalmatrix} we give the final unitary gate, over the full four-qubit network, found via the optimisation.
 \end{itemize}
@@ -1958,16 +1956,12 @@ These results provide further evidence in support of the power and flexibility o
 \section{Conclusions}
 \label{sec:GL:conclusions}
 
-\highlight{(to actually do properly)}
-We have reported on strategies for supervised learning-assisted synthesis of multi-qubit quantum gates. The general scheme of our gate design is based on the use of a limited set of resources (such as two-qubit gates) that, in general, would not be sufficient for arbitrary gate design. However, the catalyst effect brought about by the use of machine learning -- specifically, stochastic momentum gradient descent -- is sufficient to overcome the limitation of our resources and deliver high-quality complex quantum gates. We have demonstrated the performance of our scheme by addressing the significant cases of a half-adder and a \ac{QFT} circuit. Moreover, we have shown the flexibility of our approach by addressing a novel type of gate that puts together the paradigmatic quantum Toffoli and Fredkin gates.
+We have reported on strategies for supervised learning-assisted synthesis of multi-qubit quantum gates. The general scheme of our gate design is based on the use of a limited set of resources (such as two-qubit gates) that, in general, would not be sufficient for arbitrary gate design. However, the catalyst effect brought about by the use of machine learning -- specifically, stochastic momentum gradient descent -- is sufficient to overcome the limitation of our resources and deliver high-quality complex quantum gates.
+We demonstrated the performance of our scheme by finding novel time-independent generators for nontrivial three-qubit interactions such as Toffoli, Fredkin, and Toffredkin gates, as well as four-qubit gates which acts as different three-qubit gates conditionally on a fourth one.
+To further test the efficiency of our approach we addressed the significant cases of a half-adder and a \ac{QFT} circuit.
+% Moreover, we have shown the flexibility of our approach by addressing a novel type of gate that puts together the paradigmatic quantum Toffoli and Fredkin gates.
 
 We believe that the proposed methodology will be able to significantly help in the task of designing complex evolutions suitable for the simulation of the dynamics of networks of information carriers, lowering the complexity associated with gate decomposition, and simply adopting well-known techniques of classical machine learning.
-
-\highlight{(Other things to do)}
-\begin{itemize}
-    \item Recheck figures ordering and numbering
-    \item Recheck figures captions
-\end{itemize}
 
 % \begin{figure}[tb]
 % % {\bf (a)}\hskip5cm{\bf (b)}\hskip5cm{\bf (c)}
@@ -2247,6 +2241,18 @@ We believe that the proposed methodology will be able to significantly help in t
     \label{fig:GL:toffredkin_fidVSpars}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{verona-toffredkin_finalmatrix}
+    \caption{
+        Final \textbf{Toffredkin} gate found from the supervised learning training.
+        In this representation, the ancillary qubit is the first one, so that the top-left $8\times8$ submatrix describes the evolution of states when the ancillary qubit starts as $\ket0$.
+        Notably, it is clear from the matrix that the gate acts diagonally on the ancillary qubits, which therefore effectively acts as a control qubit.
+        When this control ancillary qubit is $\ket0$, the other three qubits evolve according to the Toffredkin gate.
+    }
+    \label{fig:GL:toffredkin_finalmatrix}
+\end{figure}
+
 \renewcommand{\graphicswithlabel}[3]{%
     \begin{tikzpicture}
         \node[anchor=north west] (A) at (0, 0)%
@@ -2299,18 +2305,6 @@ We believe that the proposed methodology will be able to significantly help in t
         % \textbf{(d)} Like \emph{(c)} but for $\lambda_2$.
     }
     \label{fig:GL:halfadder_fidVSpars}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{verona-toffredkin_finalmatrix}
-    \caption{
-        Final \textbf{Toffredkin} gate found from the supervised learning training.
-        In this representation, the ancillary qubit is the first one, so that the top-left $8\times8$ submatrix describes the evolution of states when the ancillary qubit starts as $\ket0$.
-        Notably, it is clear from the matrix that the gate acts diagonally on the ancillary qubits, which therefore effectively acts as a control qubit.
-        When this control ancillary qubit is $\ket0$, the other three qubits evolve according to the Toffredkin gate.
-    }
-    \label{fig:GL:toffredkin_finalmatrix}
 \end{figure}
 
 \begin{figure}

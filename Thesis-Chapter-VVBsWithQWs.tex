@@ -3,15 +3,18 @@
 \chapter{Vector vortex beam recognition}
 \label{chapter:ML_VVBs}
 
-We show in this chapter a method to classify generated states with nontrivial orbital angular momentum structure, using~\acf{ML} techniques. We use a similar experimental apparatus as the one presented in~\cref{chapter:experimental_engineering_qudits} to generate the states.
+\tmpHeading{What is this chapter about?}
+In this chapter we present a method to classify experimental states with nontrivial orbital angular momentum structure using~\acf{ML} techniques. The employed experimental apparatus is similar to the one used in~\cref{chapter:experimental_engineering_qudits}.
+The goal is to classify experimentally generated states from the sole knowledge of their intensity profile as captured with a CCD camera.
+In particular, we apply \ac{ML} to characterise experimental \acfp{VVB} generated using the platform presented in~\cref{chapter:experimental_engineering_qudits}.
+We will find that a range of supervised and unsupervised learning techniques are suitable to tackle this problem, and can provide useful insights regarding the structure of experimentally produced states. The algorithms we employ are fully independent on the specifics of the generation apparatus, and are thus applicable in a wide variety of situations.
+This approach not requiring neither additional interferometry stabilisation, nor spatial filtering, it provides a robust strategy to decode information stored in \acp{VVB}, and therefore represents a promising pathway to managing high-dimensional quantum systems. 
 
 \tmpHeading{ML and structured light}
-\acf{ML} has recently emerged as a versatile toolbox to tackle a variety of tasks arising in experimental platforms. It has, in particular, proven useful to characterise quantum protocols and dynamics~\cite{carrasquilla2019reconstructing,giordani2018experimental, agresti2019pattern,lumino2018experimental,rocchetto2019experimental,butler2018machine,fischer2006predicting,melnikov2018active,wang2017experimental}\highlight{more refs?}.
+As discussed in~\cref{sec:intro:ML}, \ac{ML} has recently emerged as a versatile toolbox to tackle a variety of tasks arising in experimental platforms. It has, in particular, proven useful to characterise quantum protocols and dynamics~\cite{carrasquilla2019reconstructing,giordani2018experimental, agresti2019pattern,lumino2018experimental,rocchetto2019experimental,butler2018machine,fischer2006predicting,melnikov2018active,wang2017experimental}.
 In the context of structured light, \acfp{NN} have been used to classify \ac{OAM} states of classical light for long distance free-space communication, even in the presence of environmental turbulence~\cite{krenn2014communication,krenn2016twisted,doster2017machine,park2018demultiplexing,lohani2018turbulence,li2018joint}.
-In this chapter, we apply \ac{ML} to characterise experimental \acfp{VVB} generated using the \ac{QW}-based platform presented in~\cref{chapter:experimental_engineering_qudits}~\cite{innocenti2017quantum,giordani2019experimental}.
-This approach not requiring neither additional interferometry stabilisation, nor spatial filtering, it provides a robust strategy to decode information stored in \acp{VVB}, and there represents a promising pathway to handle high-dimensional quantum systems. 
 
-\tmpHeading{How is ML been used?}
+\tmpHeading{How do we use ML?}
 We leverage both supervised and unsupervised learning techniques. We start by training a \ac{CNN} to classify experimental images belonging to predefined classes of states. This method gives good prediction accuracy, while remaining fairly problem-agnostic and thus useful for diverse applications. However, while providing high prediction accuracy, NN-based methods are difficult to interpret.
 We thus also propose an alternative technique based on the joint application of \ac{DR} and supervised learning.
 This method provides a geometrical description of the underlying space associated to the experimental data.

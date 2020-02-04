@@ -32,12 +32,10 @@ $\bs M =\bs r\times(\bs E\times \bs B)$. This can be decomposed in an \emph{intr
 The spin angular momentum is often understood to be due to an internal degree of freedom of the fields, and is what we usually refer to as the \emph{polarisation} of the field. The OAM is instead a property of the spatial structure of the field.
 A first experimental demonstration of transfer of \emph{spin} angular momentum of light to matter was given in~\cite{beth1936mechanical}. A few decades later, Allen and collaborators showed that specific types of laser modes also carry an amount of \emph{orbital} angular momentum, due to the nontrivial phase structure of their transverse beam profile~\cite{allen1992orbital}.
 Despite the Poynting vector $\bs E\times \bs B$ always pointing in the propagation direction for transverse beams, and thus $\bs r\times(\bs E\times\bs B)$ being vanishing in such direction, Allen et al. realised that the TEM$_{p\ell q}$ laser modes are in general \emph{not} transverse, but rather have a component in the propagation direction. Because of this, they could show that, for this fields, $\bs M$ has a component in the propagation direction, and thus the beams carry OAM.
-% that is proportional to $\ell$, which is the quantum number that determines the azimuthal phase profile of the field.
-The most common types of helical laser beams carrying OAM are \ac{LG} modes, here denoted with $LG_p^\ell$. These are solutions of the Helmholtz equation in cylindrical coordinates in the paraxial approximation. A characteristic feature of these beams
-% that will be used in the context of our work
-is their azimuthal phase dependence: $LG_p^\ell\sim e^{i\ell\phi}$ with $\phi$ the azimuthal coordinate in the plane transverse to the propagation direction. LG modes carry an integer amount of OAM.
 Since Allen's groundbreaking work, the OAM of light found several applications in quantum information theory~\cite{allen1999orbital,padgett2004lights,barnett2007orbital,molina-terriza2007twisted,franke-arnold2008advances,yao2011orbital,padgett2017orbital,erhard2017twisted,cozzolino2019highdimensional}.
 In particular, OAM of photons has been used for communication protocols~\cite{langford2004measuring}, quantum metrology~\cite{dambrosio2013photonic}, as well as to study quantum correlations~\cite{leach2010quantum} and quantum entanglement~\cite{mair2001entanglement,vaziri2002experimental,dada2011experimental,pors2011highdimensional,fickler2012quantum,malik2016multiphoton}.
+% that is proportional to $\ell$, which is the quantum number that determines the azimuthal phase profile of the field.
+The most common types of helical laser beams carrying OAM are \ac{LG} modes, here denoted with $LG_p^\ell$. These are solutions of the Helmholtz equation in cylindrical coordinates in the paraxial approximation. LG modes are characterised by the two quantum numbers $p$ and $\ell$, respectively characterising the radial and azimuthal structure of the mode. A characteristic feature of these beams is their azimuthal phase dependence: $LG_p^\ell\sim e^{i\ell\phi}$ with $\phi$ the azimuthal coordinate in the plane transverse to the propagation direction. LG modes carry an integer amount of OAM.
 % ~\cite{mair2001entanglement,kwiat1993highvisibility,howell2004realization,}
 
 \tmpHeading{Coupling OAM with polarisation}
@@ -79,13 +77,14 @@ include integrated photonics~\cite{chen2018mapping,cai2012integrated,liu2017dire
         \centering
         \includegraphics[width=1\textwidth]{Figures/OAM/LGBeamProfile_L0P2Z03.png} % first figure itself
         \caption{Transverse profile of an OAM state with $\ell=0, p=2, z=3$.}
-        \label{fig:expQWs:gaussian_profile_L0P2Z03}
+        \label{fig:expQWs:LG_profile_L0P2Z03}
     \end{minipage}\hfill
     \begin{minipage}{0.45\textwidth}
         \centering
+        \vspace{-30pt}%
         \includegraphics[width=1\textwidth]{Figures/OAM/LGBeamProfile_L1P2Z03.png} % second figure itself
         \caption{Transverse profile of an OAM state with $\ell=1, p=2, z=3$.}
-        \label{fig:expQWs:gaussian_profile_L1P2Z03}
+        \label{fig:expQWs:LG_profile_L1P2Z03}
     \end{minipage}
 \end{figure}
 
@@ -248,7 +247,7 @@ $\qquad\ket{c_5}\qquad$& $\left( 0.07+0.14i, 0.48-0.34i, -0.41-0.18i, -0.41-0.09
 \bottomrule
 \end{tabular}
 \caption{
-	Amplitudes of the random target states. \highlight{come sono stati semplati?...}
+	Amplitudes of the random target states.
 	The real states $\ket{r_k}$ have been sampled uniformly in the range $\left[0,1\right]$ and then normalised. In the case of complex states we have sampled the real and imaginary part separately in the range $\left[-0.5,0.5\right]$.
 }
 \label{table:expQWs:random_states_amps}
@@ -275,14 +274,36 @@ In the context of QWs, we define \emph{cat-like states} as coherent superpositio
 \label{fig:expQWs:results_cat_states}
 \end{figure}
 
+\begin{figure}[tb]
+\includegraphics[width=\textwidth]{experimental-QSE-3.pdf}
+\caption{
+	Experimental results for the engineering of \acp{SCS} and their coherent superposition:
+	\textbf{(a)} Bloch-sphere representation for the mutually orthogonal \acp{SCS} $\ket{S_1}$ and $\ket{S_2}$.
+	\textbf{(b)} Probability distributions associated to the projection of $\ket{S_1}$ onto the computational basis. As previously explained, we also consider the contribution of even \ac{OAM} components.
+	\textbf{(c)} Probability distribution corresponding to the basis that contains the target state itself $\ket{S_1}$, generated with the fidelity reported in the panel. Such orthonormal basis, $\{S_i\}_i$ with $i=1 ...6$, contains eigenstates of $\hat{S}_x$ for a particle with spin $s=5/2$ that are in turn all spin-coherent states.
+	\textbf{(d)} Experimental probability distribution on computational basis for $\ket{\psi_2}=\frac{1}{\sqrt{2}}\left(\ket{S_1}- \ket{S_2} \right)$. Only components $\{-5, -1, 3\}$, corresponding to logical states $\{1,3,5\}$, have non-zero probabilities.
+	\textbf{(e)} Quantum state fidelity evaluated measuring state $\ket{\psi_2}$ on the orthonormal basis that contains state $\ket{\psi_1}$, as described in the main text. 
+	\textbf{(f)} Summary of quantum state fidelities for the $32$ states generated in the experiment. The average fidelity, $\bar{\calF}=0.954\pm 0.001$, is reported by the magenta area.
+}
+\label{fig:VVBs:results_SCS_states}
+\end{figure}
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=0.8\linewidth]{experimentalQSE-averagesAndVariances_rerundata_manysteps.pdf}
+    \caption{
+    	Average projection probability obtained for randomly sampled target states with different numbers of steps. Each point corresponds to an average over a sample of $2000$ uniformly sampled random target states of the given dimension. For each target, an optimisation algorithm is used to find a solution producing it, as discussed in~\cref{sec:QWs:numerical_fid_max}. The error bars represent the standard deviation associated with each point. The red dashed line is a linear fit. It should be noted that, as discussed in~\cref{sec:QWs:numerical_fid_max}, this data provides only a lower bound to the real average probabilities.%
+    }
+    \label{fig:expQWs:avgProbabilitiesVsStepNumber}
+\end{figure}
+
 \subsection{Spin-coherent states}
 \label{subsec:expQWs:SCSs}
 
-The second class of states that we consider are \emph{spin-coherent states}~\cite{ulyanov1999spin}, which are the spin-like counterpart of \emph{coherent states} of a quantum harmonic oscillator.
+% The second class of states that we consider are \emph{spin-coherent states}~\cite{ulyanov1999spin}, which are the spin-like counterpart of \emph{coherent states} of a quantum harmonic oscillator.
 
 \tmpHeading{What are SCSs?}
-A second class of states considered are \acp{SCS}~\cite{radcliffe1971some,arecchi1972atomic,agarwal1997atomic,markham2003classicality,chryssomalakos2018geometry}.
-\acp{SCS} are the counterparts of coherent states of the harmonic oscillator for a particle with spin $s$. They are eigenstates --- with eigenvalue $s$ --- of the component of the total spin-momentum operator $S_{\theta,\phi}$ along the direction identified by the spherical angles $(\theta, \phi)$~\cite{arecchi1972atomic,agarwal1997atomic,ulyanov1999spin,lee2015visualizing}.
+\acfp{SCS} are the counterparts of coherent states of the harmonic oscillator for a particle with spin $s$~\cite{radcliffe1971some,arecchi1972atomic,agarwal1997atomic,markham2003classicality,chryssomalakos2018geometry}. They are the eigenstates, with eigenvalue $s$, of $S_{\theta,\phi}$, the component of the total spin-momentum operator along the direction identified by the spherical angles $(\theta, \phi)$~\cite{arecchi1972atomic,agarwal1997atomic,ulyanov1999spin,lee2015visualizing}.
 A decomposition of such states over the $\{\ket{m}\}$ basis of the projected spin along the $z$-direction, $S_z$, reads
 \begin{equation}
 \begin{aligned}
@@ -339,52 +360,29 @@ Using such expressions, we can compute $Q_j(\alpha,\beta)$ to investigate its fe
 \begin{equation}
 Q_j(\alpha,\beta)=Q_{inc}(\alpha,\beta)+\text{sign}_j\text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)],
 \end{equation}
-which pinpoints the contribution coming from the fixed-phase relation typical of a coherent superposition. We thus focus on state $\ket{\psi_2}$, which is the one that has been addressed in our experimental endeavors, and look at the term $-\text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)]$, and represent it in the spherical polar plane defined above. Fig.~\ref{insieme} {\bf (a)} shows the results of our calculations. 
+which pinpoints the contribution coming from the fixed-phase relation typical of a coherent superposition. We thus focus on state $\ket{\psi_2}$, which is the one that has been addressed in our experimental endeavors, and look at the term $-\text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)]$, and represent it in the spherical polar plane defined above. Fig.~\ref{fig:expQWs:SCS_plots} {\bf (a)} shows the results of our calculations. 
 
 Such interference term exhibits 10 equally separated lobes, and is clearly displays both rotation and inversion symmetry. In fact, one can show that, for a generic value of $s$, the interference term in the corresponding $Q$ function exhibits $4s$ equally spaced lobes. It is worth mentioning that in Ref.~\cite{agarwal1997atomic} another figure of merit for the analysis of the effects of the interference term was adopted. More specifically, Ref.~\cite{agarwal1997atomic} studied the form of 
 \begin{equation}
 \frac{Q_j(\alpha,\beta)}{Q_{inc,j}(\alpha,\beta)}=1+\text{sign}_j\frac{2\text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)]}{Q_{inc,j}(\alpha,\beta)},
 \end{equation}
-which thus quantifies the effect of quantum coherence as the deviation of $Q_j(\alpha,\beta)$ from $1$, whose representation in the chosen spherical polar space is a sphere of unit radius. When making use of such figure of merit, we find Fig.~\ref{insieme} {\bf (b)}, which shows a lobate behavior significantly different from the (incoherent) spherical trend. 
-
-\begin{figure}[tb]
-\includegraphics[width=\textwidth]{experimental-QSE-3.pdf}
-\caption{
-	Experimental results for the engineering of \acp{SCS} and their coherent superposition:
-	\textbf{(a)} Bloch-sphere representation for the mutually orthogonal \acp{SCS} $\ket{S_1}$ and $\ket{S_2}$.
-	\textbf{(b)} Probability distributions associated to the projection of $\ket{S_1}$ onto the computational basis. As previously explained, we also consider the contribution of even \ac{OAM} components.
-	\textbf{(c)} Probability distribution corresponding to the basis that contains the target state itself $\ket{S_1}$, generated with the fidelity reported in the panel. Such orthonormal basis, $\{S_i\}_i$ with $i=1 ...6$, contains eigenstates of $\hat{S}_x$ for a particle with spin $s=5/2$ that are in turn all spin-coherent states.
-	\textbf{(d)} Experimental probability distribution on computational basis for $\ket{\psi_2}=\frac{1}{\sqrt{2}}\left(\ket{S_1}- \ket{S_2} \right)$. Only components $\{-5, -1, 3\}$, corresponding to logical states $\{1,3,5\}$, have non-zero probabilities.
-	\textbf{(e)} Quantum state fidelity evaluated measuring state $\ket{\psi_2}$ on the orthonormal basis that contains state $\ket{\psi_1}$, as described in the main text. 
-	\textbf{(f)} Summary of quantum state fidelities for the $32$ states generated in the experiment. The average fidelity, $\bar{\calF}=0.954\pm 0.001$, is reported by the magenta area.
-}
-\label{fig:VVBs:results_SCS_states}
-\end{figure}
+which thus quantifies the effect of quantum coherence as the deviation of $Q_j(\alpha,\beta)$ from $1$, whose representation in the chosen spherical polar space is a sphere of unit radius. When making use of such figure of merit, we find Fig.~\ref{fig:expQWs:SCS_plots} {\bf (b)}, which shows a lobate behavior significantly different from the (incoherent) spherical trend. 
 
 \begin{figure}[tb]
     \centering
     {\bf (a)}\hskip8cm{\bf (b)}\\
     \includegraphics[width=\columnwidth]{experimentalQSE-Insieme.jpg}
     \caption{Spherical polar plot of the interference term $-\text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)]$ in the $Q_2(\alpha,\beta)$ function.}
-    \label{insieme}
+    \label{fig:expQWs:SCS_plots}
 \end{figure}
 
-
-\begin{figure}[tb]
-    \centering
-    \includegraphics[width=0.8\linewidth]{experimentalQSE-averagesAndVariances_rerundata_manysteps.pdf}
-    \caption{
-    	Average projection probability obtained for randomly sampled target states with different numbers of steps. Each point corresponds to an average over a sample of $2000$ uniformly sampled random target states of the given dimension. For each target, an optimisation algorithm is used to find a solution producing it, as discussed in~\cref{sec:QWs:numerical_fid_max}. The error bars represent the standard deviation associated with each point. The red dashed line is a linear fit. It should be noted that, as discussed in~\cref{sec:QWs:numerical_fid_max}, this data provides only a lower bound to the real average probabilities.%
-    }
-    \label{fig:expQWs:avgProbabilitiesVsStepNumber}
-\end{figure}
 
 
 \section{Conclusions}
 \label{sec:expQWs:conclusions}
 
-We provided an experimental demonstration of the \ac{QW}-based state engineering scheme described in~\cref{chapter:quantum_walks}, using a photonics apparatus with \ac{OAM} and polarisation as the degrees of freedom of the \ac{QW}.
-More specifically, we implemented a five-step \ac{QW}, with full control on the preparation, choice of coin operations, and detection stages. To showcase the effectiveness of the protocol, we demonstrated the synthesis of a number of classes of states.
+In this chapter we provided an experimental demonstration of the state engineering protocol given in~\cref{chapter:quantum_walks}. The QW dynamics were implemented with a photonics apparatus using \ac{OAM} and polarisation as the degrees of freedom of the walker.
+More specifically, we implemented a five-step \ac{QW} with full control on the preparation, choice of coin operations, and detection stages. To showcase the effectiveness of the protocol, we demonstrated the synthesis of different classes of states.
 Our results reinforce the idea that numerical optimisation complementing a complex \ac{QW} dynamics is effective for high-dimensional state engineering.
 % A natural generalisation of this novel paradigm could be the engineering in the multipartite scenario, exploiting quantum correlations between multiple walkers. Regarding the research of the coin, further improvements of our approach can be envisaged by identifying appropriate routines to optimize the state engineering process in the presence of actual experimental imperfections.
 % To this end, machine learning algorithms can be a promising add-on to our numerical optimisation approach to adapt the coin operators to a given experimental implementation.
