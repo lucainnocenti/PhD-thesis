@@ -4,21 +4,22 @@
 \label{chapter:ML_VVBs}
 
 \tmpHeading{Summary of the chapter}
-In this chapter we present a method to classify experimental states with nontrivial orbital angular momentum structure using~\acf{ML} techniques. The employed experimental apparatus is similar to the one used in~\cref{chapter:experimental_engineering_qudits}.
+In this chapter we present a method to classify experimental states with nontrivial orbital angular momentum structure using~\acf{ML} techniques.
+% The employed experimental apparatus is similar to the one used in~\cref{chapter:experimental_engineering_qudits}.
 The goal is to classify experimentally generated states from the sole knowledge of their intensity profile as captured with a CCD camera.
-For the purpose, we use \ac{ML} algorithms to characterise experimental \acfp{VVB} generated using the same platform as~\cref{chapter:experimental_engineering_qudits}.
-We will find that a range of supervised and unsupervised learning techniques are suitable to tackle this problem, and provide useful insights regarding the structure of experimentally produced states.
+For the purpose, we use \ac{ML} algorithms to characterise experimental \acfp{VVB} generated using the platform presented in~\cref{chapter:experimental_engineering_qudits}.
+We will find that a range of supervised and unsupervised learning techniques are suitable to tackle this problem, and provide useful insights on the structure of experimentally produced states.
 We first train \acp{CNN} to classify experimental images.
 We then discuss how the joint application of \ac{DR} and \acp{SVM} can also be used to classify states, and even obtain a full description of a state from its intensity profile.
 These algorithms are fully independent on the specifics of the experimental apparatus, and are thus applicable in a variety of situations.
 
 \tmpHeading{Previous applications of ML to structured light}
 As discussed in~\cref{sec:intro:ML}, \ac{ML} provides a versatile toolbox to tackle a variety of tasks arising in experimental platforms. It has, in particular, proven useful to characterise quantum protocols and dynamics~\cite{carrasquilla2019reconstructing,giordani2018experimental, agresti2019pattern,lumino2018experimental,rocchetto2019experimental,butler2018machine,fischer2006predicting,melnikov2018active,wang2017experimental}.
-In the context of structured light, \acfp{NN} have been used to classify \ac{OAM} states of classical light for long distance free-space communication, even in the presence of environmental turbulence~\cite{krenn2014communication,krenn2016twisted,doster2017machine,park2018demultiplexing,lohani2018turbulence,li2018joint}.
+In the context of structured light, \acp{NN} have been used to classify \ac{OAM} states of classical light for long distance free-space communication, even in the presence of environmental turbulence~\cite{krenn2014communication,krenn2016twisted,doster2017machine,park2018demultiplexing,lohani2018turbulence,li2018joint}.
 
 \tmpHeading{The novelty of our work}
-In contrast to these previous endeavours, we deal with the classification of \acp{VVB}. Moreover, owing to the variety of techniques we deploy, we can address both classification and regression tasks, thus enabling the reconstruction of the input states in relevant cases of structured light beams.
-Our findings demonstrate the reliability of a broader class of ML methods, providing novel recognition methods to deal with \ac{VVB}, which are a building block for several information protocols with high-dimensional systems.
+In contrast to these previous endeavours, we deal with the classification of \acp{VVB}. Moreover, owing to the variety of techniques we deploy, we can address both classification and regression tasks, thus enabling the reconstruction of the input states in a variety of scenarios involving structured light beams.
+Our findings demonstrate the reliability of a broader class of ML techniques, providing novel recognition methods to deal with \acp{VVB}, which are a building block for several information protocols with high-dimensional systems.
 This approach requires neither additional interferometry stabilisation nor spatial filtering. This makes it a robust strategy to decode information stored in \acp{VVB}, and a promising pathway to manage high-dimensional quantum systems. 
 
 \begin{figure}[tb]
@@ -52,7 +53,7 @@ For any given value of the parameters $(m_1, m_2, \theta, \phi)$, the polarisati
 % In particular, we use the higher-order Poincar\'e representation in which the poles represent eigenstates of the total angular momentum but with opposite signs~\cite{milione2011higherorder}.
 Each VVB can be characterised via its \emph{Stokes parameters} $(S_1,S_2,S_3)$.
 These are defined in terms of the output intensities associated to different polarisation measurements.
-Projecting the polarisation onto the three standard mutually unbiased bases: $b_1=(H,V), b_2=(D,A), b_3=(L,R)$, and denoting the intensities corresponding to a given basis $b_j$ with $(I_{b_j,1},I_{b_j,2})$, the Stokes parameters are defined as
+Projecting the polarisation onto the three standard mutually unbiased bases, $b_1=(H,V), b_2=(D,A), b_3=(L,R)$, and denoting the two intensities corresponding to a given basis $b_j$ with $(I_{b_j,1},I_{b_j,2})$, the Stokes parameters are defined as
 \begin{equation}
 	S_{b_j} = \frac{I_{b_j,1}-I_{b_j,2}}{I_{b_j,1}+I_{b_j,2}}.
 \end{equation}
@@ -61,33 +62,22 @@ Projecting the polarisation onto the three standard mutually unbiased bases: $b_
 %The canonical choice for the polarisation bases is $b_1=(H,V), b_2=(D,A)$ and $b_3=(L,R)$.
 %%
 It is worth noting that the Stokes parameters are the classical counterparts of the coordinates of density matrices in state space, upon replacement of intensities with probabilities.
-As already discussed in~\cref{chapter:experimental_engineering_qudits}, we generate VVBs via sequences of polarisation-controlling waveplates interspersing $5$ cascaded QPs.
+In particular, for states living in a two-dimensional space, the Stokes parameters correspond to the coordinates in the Bloch sphere (which is often referred to as a \emph{Poincaré sphere} in this context).
+
+\tmpHeading{Experimental generation and detection of VVBs}
+As already discussed in~\cref{chapter:experimental_engineering_qudits}, we generate VVBs via polarisation-controlling waveplates interspersing $5$ cascaded QPs.
 % This allows to generate VVBs with OAM quantum numbers taking odd values in the interval $\{-5,..,5\}$.
-Using different sets of these waveplates between consecutive QPs, we can generate VVBs corresponding to different pairs $(m_1,m_2)$ of OAM quantum numbers, and parameters $(\theta, \phi)$.
-The accessible OAM azimuthal quantum numbers accessible with this scheme correspond to the walker states accessible via a $5$-step QW. These are $\pm1,\pm3$, and $\pm5$.
+% Using different configurations of waveplates we can generate different VVBs.
+% corresponding to different pairs $(m_1,m_2)$ of OAM quantum numbers, and parameters $(\theta, \phi)$.
+The OAM azimuthal quantum numbers accessible with this scheme correspond to the walker states accessible via a $5$-step QW, that is, $\pm1,\pm3$, and $\pm5$.
+Generated VVBs are characterised by the values of the three Stokes parameters at each point of their transverse profile. This amounts to collecting six intensities per pixel. The detection is carried out with a \ac{CCD} camera with resolution $1360 \times 1024$. 
+We find, however, that a resolution of $128 \times 128$ is already sufficient for the tasks we consider, and the training stages are significantly sped up by reducing the resolution of the images (and thus the dimensionality of the handled data). We coarse-grain the images by integrating sub-matrices of the appropriate dimensions.
 
 \tmpHeading{Colour-encoding VVBs}
-To visualise the polarisation patterns of \acp{VVB}, we use an RGB colour encoding in which the values of $S_j$ are represented via the strength of a corresponding colour. We give an example of such colour encoding in~\cref{fig:VVBs:poinc_sphere}.
-We then collect images associated with different \acp{VVB} and use them to train and benchmark our ML-based approaches to classification , as discussed in the next sections.
-
-
-\tmpHeading{How are images collected?}
-The experimental images are collected using a \ac{CCD} with a resolution of $1360 \times 1024$. 
-However, we note that a resolution of $128 \times 128$ is already sufficient for the classification tasks we consider. Indeed, the training stage of the algorithms can be significantly speeds up by coarse-graining the images via an integration of its sub-blocks without any loss of information. 
-
-\tmpHeading{Stokes parameters}
-For each generated \ac{VVB}, we measure the transverse intensity profile corresponding to each of the two outputs associated with each one of the three independent polarisation bases: $b_1=(H,V), b_2=(D,R)$, and $b_3=(L,R)$, where $\ket L\equiv \frac{1}{\sqrt2}(\ket H + \ket V)$, $\ket R\equiv \frac{1}{\sqrt2}(\ket H - \ket V), \ket D\equiv \frac{1}{\sqrt2}(\ket H + i \ket V), \ket R\equiv \frac{1}{\sqrt2}(\ket H - i \ket V)$.
-This amounts, for each generated \ac{VVB}, to acquiring six intensities for each pixel of the \ac{CCD}. This representation is however redundant, as the properties of the VVBs only depend on the relation between the two intensities in each polarisation basis (which, in the single-photon regime, would correspond to the two outcome probabilities).
-We therefore represent states using the \emph{higher-order Poincar\'e representation} \cite{milione2011higherorder,cardano2012polarization}. In this representation, each state is mapped into its three \emph{Stokes numbers} $S_{b_j}$, which equal the difference between the two intensities in each choice of polarisation basis:
-\begin{equation}
-  S_{b_j} = \frac{I_{b_j,1} - I_{b_j,2}}{I_{b_j,1} + I_{b_j,2}},
-\end{equation}
-where $b_j$ is one of the three canonical polarisation bases, and $I_{b_j,1}, I_{b_j,2}$ are the intensities corresponding to the two possible outcomes when measuring in the basis $b_j$.
-In this representation, we therefore associate three real numbers to each each pixel in the \ac{CCD} camera. This means that each detected state is characterised by $128\times128\times3$ real numbers. To visualise these states, we represent the three Stokes numbers $S_{b_j}$ using an RGB colour encoding. In particular, the strengths of the colours red, green and blue are associated with the $S_{1}$, $S_{2}$ and $S_{3}$ parameters,  respectively.
-This allows us to map each VVB state into a three-channel coloured image.
-
-For the purpose of the classification algorithms described in~\cref{sec:VVBs:classification,sec:VVBs:dimensionality_reduction,sec:VVBs:SVMs}, each state is represented as a real vector of length $128\times128\times 3$.
-
+To represent visually VVBs' polarisation patterns, we use a Red-Green-Blue (RGB) colour encoding, mapping each $S_j$ into the strength of one of the primary colours.
+More precisely, for each pixel of the CCD, the value of the red channel is set to $255\times(S_1+1)/2$, so that the red channel is saturated when $S_1=1$ and empty when $S_1=-1$ (remembering that $S_i\in[-1,1]$). Green and blue channels are defined similarly with $S_2$ and $S_3$.
+An example of such colour encoding is given in~\cref{fig:VVBs:poinc_sphere}.
+These images can also be understood as vectors of length $3\times M$ with $M$ the total number of pixels supported by the CCD camera. These vectors are what the ML algorithms use.
 
 \begin{figure}[tb]
 	\centering
@@ -121,17 +111,26 @@ For the purpose of the classification algorithms described in~\cref{sec:VVBs:cla
 \label{sec:VVBs:CNNs}
 
 \tmpHeading{What do we use CNNs for?}
-We show here how to train a \ac{CNN} to retrieve the parameters $(m_1,m_2)$ characterising a given VVB from experimentally measured Stokes parameters.
-This means to feed the algorithm with input images corresponding to one of a number of possible classes of states, and train the network to give as output the corresponding value of the OAM numbers $(m_1,m_2)$.
-Moreover, we train the network to recognise the parameters $(\theta,\phi)$ for a given measurement of Stokes parameters, when all the input states have the same OAM numbers $(m_1,m_2)$.
+We show here how to train a \ac{CNN} to retrieve the parameters characterising a given VVB.
+The goal is, given a dataset of experimental images of VVBs, to train the CNN to give as output the corresponding value of the OAM numbers $(m_1,m_2)$.
+We furthermore consider the task of estimating the values of $(\theta,\phi)$ for a given state, assuming a dataset of states all sharing the same values of $(m_1,m_2)$.
 
 \tmpHeading{What are CNNs?}
-\acp{CNN} are translation-invariant deep NNs well-suited for image classification~\cite{lecun2015deep}, to recognise off-centre images and segmented handwritten digits~\cite{simard2003best,ciresan2011flexible},
-and for facial recognition tasks~\cite{matsugu2003subject}. 
-In their simplest form, \acp{CNN} work by first applying a \emph{convolutional layer}, which consists of a series of nonlinear transformations applied to the input images, followed by a \emph{max-pooling layer}, which downsamples and filters the information extracted by the previous layer. Finally, a fully connected layer functions as a \emph{classifier}, categorising the information extracted in the previous layers into one of a small number of possible output categories.
+\acp{CNN} are translation-invariant deep NNs designed to handle image classification tasks~\cite{lecun2015deep}. Among their countless applications, CNNs have been used to recognise off-centre images and segmented handwritten digits~\cite{simard2003best,ciresan2011flexible},
+and for facial recognition tasks~\cite{matsugu2003subject}.
+In its simplest form, a \ac{CNN} works by first applying a \emph{convolutional layer},
+ % which consists of a series of nonlinear transformations applied to the input images,
+followed by a \emph{max-pooling layer}, and finally a \emph{fully connected layer}.
+Overall, this builds up a mapping from each image to one of a series of discrete possible outputs, representing the categories defining the problem under consideration.
+% , categorising the information extracted in the previous layers into one of a small number of possible output categories.
+The idea of the convolution layer is to extract local features from the image.
+This is done by computing the inner product of every $k\times k$ subset of the image with a fixed $k\times k$ matrix, which in this context is called a \emph{filter}. Each such filter extracts a specific type of feature from the image. The output of this process is called a \emph{feature map}. Multiple filters, and thus multiple feature maps, can be applied to the same image, to extract different features.
+A nonlinear function is then applied to the feature maps. A common choice is mapping each pixel into a binary value. This nonlinearity is crucial, lest the whole process be linear and thus unable to capture interesting features from the images.
+After convolution and nonlinearity, a \emph{max pooling} stage follows. This consists of a down-sampling of the feature maps, achieved for example by subdividing each feature map into $\ell\times \ell$ blocks, and mapping each such block into its average value.
+The pooling layer is used to extract the most relevant features from the feature maps, thus reducing noise and increasing the efficiency of training.
+Finally, a fully connected layer is applied to the output of the max-pooling stage, mapping its output to one of the different classes defining the problem.
+This stage operates like a standard NN layer.
 
-\tmpHeading{CNNs more in detail}
-We describe here in more detail the structure of the \ac{CNN} used to classify the experimental images.
 In a standard \ac{CNN}, the convolution in a particular location $(x,y)$ is obtained by computing the inner product between a $k \times k$ sub region of the input image and a filter of the same size. Repeating this process for each location on the input image, it is possible to obtain an activation map associated to specific features. Typically, more than one filter is used in one convolution layer and $N$ features are extracted.
 A max-pooling layer is used immediately after the convolutional layer to reduce the number of parameters. The output of the previous layer are then divided into blocks of size $p \times p$, and the $\max$ function is applied over each block.
 Finally, a fully connected layer classifiers the data by determining which features are most correlate to a particular class.
