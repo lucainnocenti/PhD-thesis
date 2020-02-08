@@ -46,6 +46,7 @@ More specifically, the electric field $\bs{E}_{m_1m_2p}$ of a \ac{VVB} decompose
 	\bs{E}_{m_1m_2p} =
 	\bs{e}_L \cos(\theta/2)\on{LG}_{m_1p} +
 	\bs{e}_R e^{i \phi} \sin(\theta/2)\on{LG}_{m_2p},
+	\label{eq:VVBs:definition_VVBs_field}
 \end{equation}
 where $\theta\in[0,\pi], \phi\in[0,2\pi]$ and the unit vectors $\bs{e}_{L,R}$ represent left and right circular polarisation, respectively.
 For the purpose of this work we can ignore the radial number, fixing $p=0$.
@@ -94,7 +95,7 @@ These images can also be understood as vectors of length $3\times M$ with $M$ th
 
 \begin{figure}[tb]
     \centering
-    \includegraphics[width=0.8\textwidth]{VVBs-Fig3.pdf}
+    \includegraphics[width=0.7\textwidth]{VVBs-Fig3.pdf}
     \caption{
 	    \textbf{(a)} Comparison between expected and recorded polarisation patterns for some \acp{VVB} of the ensemble in table, with the corresponding values $(m_1,m_2)$.
 	    \textbf{(b)} Scaling of the average accuracy per class when classifying states into one of the $15$ VVB classes,
@@ -111,72 +112,87 @@ These images can also be understood as vectors of length $3\times M$ with $M$ th
 \label{sec:VVBs:CNNs}
 
 \tmpHeading{What do we use CNNs for?}
-We show here how to train a \ac{CNN} to retrieve the parameters characterising a given VVB.
-The goal is, given a dataset of experimental images of VVBs, to train the CNN to give as output the corresponding value of the OAM numbers $(m_1,m_2)$.
-We furthermore consider the task of estimating the values of $(\theta,\phi)$ for a given state, assuming a dataset of states all sharing the same values of $(m_1,m_2)$.
+We showcase the potential of \acp{CNN} to retrieve a description of the states generating a given experimental dataset.
+In particular, we test CNNs on two separate classification tasks.
+First, we train a CNN to find the OAM numbers $(m_1,m_2)$ corresponding to input VVB images. Then, assuming a dataset produced using only VVBs with fixed $(m_1,m_2)$, we train a CNN to find the values of $(\theta,\phi)$ for each VVB.
 
 \tmpHeading{What are CNNs?}
 \acp{CNN} are translation-invariant deep NNs designed to handle image classification tasks~\cite{lecun2015deep}. Among their countless applications, CNNs have been used to recognise off-centre images and segmented handwritten digits~\cite{simard2003best,ciresan2011flexible},
 and for facial recognition tasks~\cite{matsugu2003subject}.
-In its simplest form, a \ac{CNN} works by first applying a \emph{convolutional layer},
+In its simplest form, a \ac{CNN} consists of a \emph{convolutional layer},
  % which consists of a series of nonlinear transformations applied to the input images,
 followed by a \emph{max-pooling layer}, and finally a \emph{fully connected layer}.
-Overall, this builds up a mapping from each image to one of a series of discrete possible outputs, representing the categories defining the problem under consideration.
+These build up a mapping from each image to one of an element of a finite set of outputs (the \emph{classes} defining the problem under consideration, which in our case would be the $(m_1,m_2)$ pairs).
 % , categorising the information extracted in the previous layers into one of a small number of possible output categories.
-The idea of the convolution layer is to extract local features from the image.
-This is done by computing the inner product of every $k\times k$ subset of the image with a fixed $k\times k$ matrix, which in this context is called a \emph{filter}. Each such filter extracts a specific type of feature from the image. The output of this process is called a \emph{feature map}. Multiple filters, and thus multiple feature maps, can be applied to the same image, to extract different features.
-A nonlinear function is then applied to the feature maps. A common choice is mapping each pixel into a binary value. This nonlinearity is crucial, lest the whole process be linear and thus unable to capture interesting features from the images.
-After convolution and nonlinearity, a \emph{max pooling} stage follows. This consists of a down-sampling of the feature maps, achieved for example by subdividing each feature map into $\ell\times \ell$ blocks, and mapping each such block into its average value.
-The pooling layer is used to extract the most relevant features from the feature maps, thus reducing noise and increasing the efficiency of training.
-Finally, a fully connected layer is applied to the output of the max-pooling stage, mapping its output to one of the different classes defining the problem.
-This stage operates like a standard NN layer.
-
-In a standard \ac{CNN}, the convolution in a particular location $(x,y)$ is obtained by computing the inner product between a $k \times k$ sub region of the input image and a filter of the same size. Repeating this process for each location on the input image, it is possible to obtain an activation map associated to specific features. Typically, more than one filter is used in one convolution layer and $N$ features are extracted.
-A max-pooling layer is used immediately after the convolutional layer to reduce the number of parameters. The output of the previous layer are then divided into blocks of size $p \times p$, and the $\max$ function is applied over each block.
-Finally, a fully connected layer classifiers the data by determining which features are most correlate to a particular class.
-At the beginning, the filters of the features extractors are randomly initialised. Consequently, they are computed via a back-propagation process to optimise the classification of a training set.
+\begin{itemize}
+	\item (\textbf{\emph{Convolutional layer}})
+		The idea of the convolutional layer is to extract local features from the image.
+		This is done by computing the inner product of every $k\times k$ subset of the image with a fixed $k\times k$ matrix, which in this context is called a \emph{filter}. Each such filter extracts a specific type of feature from the image. The output of this process is called a \emph{feature map}. Multiple filters, and thus multiple feature maps, can be applied to the same image, to extract different features.
+		The filters are randomly initialised, and then adjusted during the training via a standard back-propagation process.
+		A nonlinear function is then applied to the feature maps. A common choice is mapping each pixel into a binary value. This nonlinearity is crucial, lest the whole process be linear and thus unable to capture interesting features.
+	\item (\textbf{\emph{Pooling layer}})
+		After convolution and nonlinearity follows a \emph{max pooling} stage. Here, the feature maps are down-sampled, for example by subdividing each feature map into $\ell\times \ell$ blocks, and mapping each such block into its average value.
+		This is used to filter out the most relevant features from the feature maps, thus reducing noise and increasing the efficiency of training.
+	\item (\textbf{\emph{Fully connected layer}})
+		Finally, a fully connected layer is applied to the output of the max-pooling stage, mapping its output to one of the different classes defining the problem.
+		This stage operates like a standard NN layer.
+		This is the layer at which the final decision is reached: based on the activations of the final neurons in this layer, the network takes a decision as to which class the input belongs to (for example by choosing the neuron with the largest activation).
+\end{itemize}
+Note that most CNNs will not actually follow this simple structure, but rather contain different numbers of convolutional, pooling, and fully connected layers in different arrangements and with different parameters, depending on the specific applications.
 
 \tmpHeading{Categorisation into discrete classes}
-The network is first fed with a training set made out of simulated images of \acp{VVB} achievable with a five-step \ac{QW}.
-The task is then to discern between $15$ classes, corresponding to the pairs $(m_1,m_2)$ in Fig.~\ref{fig:VVBs:resultsCNN}\textbf{a}.
-For each class we generate states with $\theta=\pi/2$ and $\phi\in[0,2\pi]$. The size of the training set is $400$ images per class. Additional $100$ simulated images per class are used to benchmark the performance during training. In these conditions, the network achieves an accuracy of $100\%$. 
-We then collect $100$ experimental images per class, to use as new validation set (cf. Fig.~\ref{fig:VVBs:class_techniques}{\bf a}). Fig.~\ref{fig:VVBs:resultsCNN}{\bf a}-{\bf b} shows the mean accuracy per class against the fraction of experimental images gradually inserted in the training set, starting from one consisting of computer-generated images only.
-Remarkably, a small increase of the number of experimental images in the training set results in a good accuracy reached by the network (cf. Fig.~\ref{fig:VVBs:resultsCNN}{\bf b}): an average accuracy of $\sim 0.989$ is already obtained when $12.5\%$ of the training set is composed of experimental images.
+We first feed the network with a training dataset of simulated images of \acp{VVB}. The goal is to classify states in $15$ classes, each one defined by a pair of OAM numbers $(m_1,m_2)$, as per~\cref{fig:VVBs:resultsCNN}\textbf{a}.
+For each class we generate states with $\theta=\pi/2$ and $\phi\in[0,2\pi]$. The size of the training set is $400$ images per class.
+% Additional $100$ simulated images per class are used to benchmark the performance during training. In these conditions, the network achieves an accuracy of $100\%$.
+We then collect $100$ experimental images per class, to use as test set.
+To test the effectiveness of using simulated images to classify experimental ones, we add different fractions of experimental images into the training dataset.
+\Cref{fig:VVBs:resultsCNN}{\bf a}-{\bf b} shows the mean accuracy per class against the fraction of experimental images added to the training dataset.
+Remarkably, a small increase of the number of experimental images in the training set results in a good accuracy reached by the network: $12.5\%$ is already sufficient to achieve an average accuracy of $\sim 0.989$.
 
 
 \tmpHeading{Retrieving the position in the Poincaré sphere}
-We use a similar approach to retrieve the position on the Poincaré sphere corresponding to states generated with fixed $(m_1,m_2)$.
-We then test the performance of the CNN in the classification of each recorded VVB according to the values $(\theta,\phi)$ for $m_2=-m_1=1$.
-To achieve this, the network should discriminate rotations in the polarisation patterns (i.e. changes in $\phi$) and variations in the colour tone (i.e. changes in $\theta$). A drawback of using any type of classifier for this task is that VVBs with $|m_i|\gg1$ display a polarisation pattern whose periodicity decreases as $\frac{2\pi}{|m_1-m_2|}$ (cf. Fig.~\mbox{\ref{fig:VVBs:resultsCNN}}{\bf a})~\cite{fickler2012quantum,dambrosio2013photonic}.
-This complicates the recognition of $\phi$, as changes in the phase generate only small rotations of the pattern.
-Furthermore, the classification of the VVB on the sphere requires a discretisation of $\theta$ and $\phi$, which results in dividing the sphere in sectors. This means that VVBs placed at the borders of these intervals are more difficult to assign to a specific class.
-The network is then trained with simulated images corresponding to different positions on the sphere. 
-%(that is, different values of $(\theta,\phi)$).
-The latter is divided in 26 sectors as follows: $\theta$ is divided in $3$ intervals $\left[k \frac{\pi}{8}, (k+2) \frac{\pi}{8}\right]$ ($k=2n+1$, $n \in \{0,1,2\}$), while $\phi$ is split in the 8 classes $\left[t \frac{\pi}{4}, (t+1) \frac{\pi}{4}\right]$ with $t \in \{0,...,7\} $. The remaining two classes, representing the two poles, correspond to $\theta \in \left[0, \frac{\pi}{8}\right]$ and $ \left[ \frac{7}{8} \pi, \pi\right]$, with no distinction in $\phi$ [cf. Fig. \ref{fig:VVBs:PCAresults}{\bf a}].
-We generate $500$ images per class in the training set, and $125$ per class for the validation one. The maximum accuracy  achieved is $\sim 0.90$. This result, which is inferior with respect to what is achieved by only inferring $m_{1,2}$,  confirms the sub-optimality of the method when we had to artificially coarse-grain two continuous parameters.
+We also test the network on a different problem: assuming $(m_1,m_2)$ is fixed, retrieve the parameters $(\theta,\phi)$ characterising the VVB (remembering the definition of VVBs as given in~\cref{eq:VVBs:definition_VVBs_field}).
+In particular, we train a CNN to retrieve the values $(\theta,\phi)$ characterising VVBs corresponding to the OAM quantum numbers $m_1=-m_2=1$.
+The network is thus trained to discriminate both rotations in the polarisation patterns (corresponding to changes of $\phi$), and variations in the colour tone (corresponding to changes of $\theta$).
+To frame this as a classification task, we partition the sphere in $26$ disjoint sectors.
+Working in spherical coordinates, we partition $\theta$ is in the $3$ intervals $\left[k \frac{\pi}{8}, (k+2) \frac{\pi}{8}\right]$ with $k=1,3,5$, and $\phi$ in the $8$ intervals $\left[t \frac{\pi}{4}, (t+1) \frac{\pi}{4}\right]$ with $t \in \{0,...,7\}$.
+This leaves two classes surrounding the two poles of the sphere, corresponding to $\theta \in \left[0, \frac{\pi}{8}\right]$ and $\theta\in\left[ \frac{7}{8} \pi, \pi\right]$.
+Partitioning makes the classification of VVBs closer to the border of two sectors harder, but nonetheless provides useful information about the suitability of CNNs for this kind of task.
+We train the CNN with $500$ simulated images per class in the training set, and $125$ per class in the validation one. The maximum accuracy  achieved is $\sim 0.90$.
+The suboptimality of this result can be understood as consequence of framing the problem as a classification task. Training a CNN for the corresponding regression task will potentially give much better results.
 
-\tmpHeading{How did we implement the CNN?}
-To build and train the \ac{CNN} we used the Python library \emph{Keras}~\cite{chollet2015keras}.
-We used a CNN with three feature extractors and one classifier. In each convolution layer we apply $32$ filters of size $3 \times 3 \times 3$ and as activation function is used the Rectified Linear Unit (ReLU). Subsequently, the max function is applied over blocks of size $2 \times 2 \times 3$  in max-pooling layers. %\redComm{(unclear)}. 
-The final classification is performed by a fully connected layer which uses a sigmoid activation function. The network training consists of a finite number of epochs each of which composed of $200$ training steps and $100$ validation steps. 
+\tmpHeading{How do we implement the CNN?}
+To build and train the \ac{CNN} we use the Python library \emph{Keras}~\cite{chollet2015keras}.
+We use three feature extractors and one classifier. Each convolution layer uses $32$ filters of size $3 \times 3 \times 3$, using a Rectified Linear Unit (ReLU) as activation function, and unit stride. The ReLU is the function $x\mapsto \max(x,0)$.
+This means that, given each input image of dimension $3\times 128\times128$ (three colour channels per each pixel in the $128\times128$ grid), the $i$-th activation map contains the values obtained by computing the inner products of the $i$-th filter with each $3\times 3$ contiguous block of the image. Each filter potentially acts differently on the different colour channels, so that, effectively, each colour map is the results of using three $3\times3$ filters (one per colour channel) on the three channels of the image.
+Explicitly, we can write each input image as a three-index tensor $\calI_{\alpha,ij}\equiv\calI^\alpha_{ij}$, with $\alpha=1,2,3$ the colour channels and $i,j=1,...,128$ the pixels indices.
+We can then write the set of filters as the tensors $\calF_{k\alpha mn}\equiv\calF^{k\alpha}_{mn}$, with $k=1,..,32$ indexing the different filters.
+The activation maps are then obtained as
+\begin{equation}
+	\calM_{k\alpha pq} = (\calF^{k\alpha}\star\calI^{\alpha})_{pq} \equiv
+	\sum_{mn} \calF^{k\alpha}_{mn} \calI^\alpha_{R[p,q]_{mn}}
+\end{equation}
+where $\star$ denotes the $2$D convolution operation, which consists in computing the inner product of $\calI^\alpha$ with the different $3\times3$ blocks of $\calF^{k\alpha}$. To explicit the convolution operation, we denoted with $R[p,q]$ the indices of a $3\times3$ block corresponding to the indices $p,q$.
+Explicitly, $R[p,q]_{mn}\equiv (p+m-2,q+n-2)$, so that for example $R[1,1]$ covers the $3\times3$ submatrix surrounding the $(1,1)$ element of the image (which is the upper-left pixel). Whenever $R[p,q]$ covers pixels that fall outside of the boundaries of the image, like is the case for $R[1,1]$, it is standard practice to apply some \emph{binning} to the image, which in this case amounts to add a single row or column of zeros on each side of the image. This is done to avoid having the bordering pixels being given a lesser weight than the rest.
+Once the activation maps are computed, the ReLU activation function is applied element-wise to $\calM_{k\alpha pq}$.
+
+The pooling layer uses the $\max$ function, applied . This means that  is applied over blocks of size $2 \times 2 \times 3$ in max-pooling layers. %\redComm{(unclear)}. 
+The final classification is performed by a fully connected layer which uses a sigmoid activation function. The network training consists of a finite number of epochs, each of which is composed of $200$ training steps and $100$ validation steps. 
 
 
 \section{Dimensionality reduction}
 \label{sec:VVBs:dimensionality_reduction}
 
-\tmpHeading{What do we use DR for?}
-We now present an alternative approach to classify \acp{VVB} from experimental data, leveraging \ac{DR}.
+\tmpHeading{Same results with a simpler method?}
+While CNNs provide good performance for general image classification tasks, we can hope to achieve similar performances in the tasks we are interested in by exploiting additional structure that we know is intrinsic to our dataset, due to it consisting of a set of intensities associated with states of light.
+Here, we present an alternative approach to classify \acp{VVB} from experimental data, leveraging \ac{DR} to expose the intrinsic structure of the dataset.
 
 
-\subsection{Dimensionality Reduction and Principal Component Analysis}
-
-\tmpHeading{What is DR?}
+\tmpHeading{DR and PCA}
 \acf{DR} is a class of algorithms whose goal is to find low-dimensional encodings of high-dimensional datasets~\cite{cunningham2008dimension,fodor2002survey}.
-This can have several advantages, from easing data visualisation, to improving the efficiency of classification and regression algorithms, which can be applied on the reduced representation of the data.
-
-\tmpHeading{PCA}
+This has several applications, from data visualisation, to improving the efficiency of classification and regression algorithms, which can be applied on the reduced representation of the data.
 A classical \ac{DR} algorithm is \acf{PCA}.
-In its simplest form, \ac{PCA} is a \emph{linear} \ac{DR} algorithm which, given a dataset of vectors in some high-dimensional space $\RR^n$, finds the directions which capture the maximum amount of information about the dataset~\cite{jolliffe2011principal,jolliffe2016principal}.
+In its simplest form, \ac{PCA} is a \emph{linear} \ac{DR} algorithm which, given a dataset of vectors in a high-dimensional space $\RR^n$, finds the directions which capture the maximum amount of information about the dataset~\cite{jolliffe2011principal,jolliffe2016principal}.
 More specifically, given a dataset comprised of $N$ real vectors of length $M$, we define the \emph{data matrix} $\bs X$ as the $N\times M$ matrix whose $i$-th row is the $i$-th dataset vector. \ac{PCA} then finds the vectors $\bs a\in\RR^{M}$ that maximise the variance of $\bs X\bs a$. This turns out to be equivalent to diagonalising $\bs S\equiv \tilde{\bs X}^T\tilde{\bs X}/(N-1)$, where $\tilde{\bs X}$ is the \emph{centered data matrix}, which is equal to $\bs X$ modulo each of its columns shifted in order to average to zero.
 The first $k$ \emph{principal components} found by \ac{PCA} are then the $k$ eigenvectors of $\bs S$ corresponding to the largest $k$ eigenvalues.
 Note that these principal components are themselves vectors of the same ``type'' as the data vectors. This means that \ac{PCA} effectively generates a set of data vectors which ``optimally represent'' the information content of the given dataset.
