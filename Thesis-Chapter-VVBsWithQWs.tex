@@ -127,7 +127,8 @@ These build up a mapping from each image to one of an element of a finite set of
 \begin{itemize}
 	\item (\textbf{\emph{Convolutional layer}})
 		The idea of the convolutional layer is to extract local features from the image.
-		This is done by computing the inner product of every $k\times k$ subset of the image with a fixed $k\times k$ matrix, which in this context is called a \emph{filter}. Each such filter extracts a specific type of feature from the image. The output of this process is called a \emph{feature map}. Multiple filters, and thus multiple feature maps, can be applied to the same image, to extract different features.
+		This is done by computing the inner product of every $k\times k$ block of the image with a fixed $k\times k$ matrix, which in this context is called a \emph{filter}. The filter is applied sequentially to each $k\times k$ block, starting from one corner and moving at discrete steps. The size of these steps is known as the \emph{stride}.
+		Each such filter extracts a specific type of feature from the image. The output of this process is called a \emph{feature map}. Multiple filters, and thus multiple feature maps, can be applied to the same image, to extract different features.
 		The filters are randomly initialised, and then adjusted during the training via a standard back-propagation process.
 		A nonlinear function is then applied to the feature maps. A common choice is mapping each pixel into a binary value. This nonlinearity is crucial, lest the whole process be linear and thus unable to capture interesting features.
 	\item (\textbf{\emph{Pooling layer}})
@@ -162,30 +163,120 @@ We train the CNN with $500$ simulated images per class in the training set, and 
 The suboptimality of this result can be understood as consequence of framing the problem as a classification task. Training a CNN for the corresponding regression task will potentially give much better results.
 
 \tmpHeading{How do we implement the CNN?}
-To build and train the \ac{CNN} we use the Python library \emph{Keras}~\cite{chollet2015keras}.
-We use three feature extractors and one classifier. Each convolution layer uses $32$ filters of size $3 \times 3 \times 3$, using a Rectified Linear Unit (ReLU) as activation function, and unit stride. The ReLU is the function $x\mapsto \max(x,0)$.
-This means that, given each input image of dimension $3\times 128\times128$ (three colour channels per each pixel in the $128\times128$ grid), the $i$-th activation map contains the values obtained by computing the inner products of the $i$-th filter with each $3\times 3$ contiguous block of the image. Each filter potentially acts differently on the different colour channels, so that, effectively, each colour map is the results of using three $3\times3$ filters (one per colour channel) on the three channels of the image.
-Explicitly, we can write each input image as a three-index tensor $\calI_{\alpha,ij}\equiv\calI^\alpha_{ij}$, with $\alpha=1,2,3$ the colour channels and $i,j=1,...,128$ the pixels indices.
-We can then write the set of filters as the tensors $\calF_{k\alpha mn}\equiv\calF^{k\alpha}_{mn}$, with $k=1,..,32$ indexing the different filters.
-The activation maps are then obtained as
+To build and train the \acp{CNN} we use the Python library \emph{Keras}~\cite{chollet2015keras}.
+We use three convolutional layers) and one classifier. Each convolutional layer uses $32$ filters of size $3 \times 3 \times 3$, with a Rectified Linear Unit (ReLU) as activation function, and unit stride. The ReLU is the function $x\mapsto \max(x,0)$.
+This means that, for each input image of dimension $3\times 128\times128$ (three colour channels per each pixel in the $128\times128$ grid), the $i$-th activation map contains the values obtained by computing the inner products of the $i$-th filter with each $3\times 3$ contiguous block of the image. Each filter potentially acts differently on the different colour channels, so that, effectively, each colour map is the results of using three $3\times3$ filters (one per colour channel) on the three channels of the image.
+Explicitly, we write each input image as a three-index tensor $\calI_{\alpha,ij}\equiv\calI^\alpha_{ij}$, with $\alpha=1,2,3$ the colour channels and $i,j=1,...,128$ the pixels indices.
+Writing the filters as the tensor $\calF_{k\alpha mn}\equiv\calF^{k\alpha}_{mn}$, with $k=1,..,32$ indexing the different filters, we then compute the activation maps $\calM_{k\alpha pq}$ as
 \begin{equation}
-	\calM_{k\alpha pq} = (\calF^{k\alpha}\star\calI^{\alpha})_{pq} \equiv
-	\sum_{mn} \calF^{k\alpha}_{mn} \calI^\alpha_{R[p,q]_{mn}}
+	\calM_{k,\alpha, p,q} = (\calF^{k\alpha}\star\calI^{\alpha})_{pq} \equiv
+	\sum_{mn} \calF^{k\alpha}_{mn} \calI^\alpha_{R[p,q]_{mn}},
 \end{equation}
 where $\star$ denotes the $2$D convolution operation, which consists in computing the inner product of $\calI^\alpha$ with the different $3\times3$ blocks of $\calF^{k\alpha}$. To explicit the convolution operation, we denoted with $R[p,q]$ the indices of a $3\times3$ block corresponding to the indices $p,q$.
-Explicitly, $R[p,q]_{mn}\equiv (p+m-2,q+n-2)$, so that for example $R[1,1]$ covers the $3\times3$ submatrix surrounding the $(1,1)$ element of the image (which is the upper-left pixel). Whenever $R[p,q]$ covers pixels that fall outside of the boundaries of the image, like is the case for $R[1,1]$, it is standard practice to apply some \emph{binning} to the image, which in this case amounts to add a single row or column of zeros on each side of the image. This is done to avoid having the bordering pixels being given a lesser weight than the rest.
-Once the activation maps are computed, the ReLU activation function is applied element-wise to $\calM_{k\alpha pq}$.
+Explicitly, $R[p,q]_{mn}\equiv (p+m-2,q+n-2)$, so that for example $R[1,1]$ covers the $3\times3$ submatrix surrounding the $(1,1)$ element of the image (which is the upper-left pixel). Whenever $R[p,q]$ covers pixels that fall outside of the boundaries of the image, like is the case for $R[1,1]$, it is standard practice to apply some \emph{padding} to the image, which in this case amounts to adding a single row or column of zeros on each side of the image. This is done to avoid having the bordering pixels being given a lesser weight than the rest.
+Once the activation maps are computed, the ReLU activation function is applied element-wise to $\calM_{k,\alpha, p,q}$.
+This process is also illustrated with an explicit example in~\cref{fig:VVBs:convolutions_example}.
+The pooling layer acts on the previously computed activation maps by reducing the number of parameters. In particular, the $\max$ function is applied to every $2\times2$ block of the previous layers' output, meaning that every such block is sent to its greatest element.
+The classification is finally performed by a fully connected layer which uses a sigmoid activation function. The network training consists of a finite number of epochs, each of which is composed of $200$ training steps and $100$ validation steps.
 
-The pooling layer uses the $\max$ function, applied . This means that  is applied over blocks of size $2 \times 2 \times 3$ in max-pooling layers. %\redComm{(unclear)}. 
-The final classification is performed by a fully connected layer which uses a sigmoid activation function. The network training consists of a finite number of epochs, each of which is composed of $200$ training steps and $100$ validation steps. 
+% channel1 = ConstantArray[0, {7, 7}];
+% channel1[[2 ;; 6, 2 ;; 6]] = RandomInteger[{0, 2}, {5, 5}];
+% channel2 = ConstantArray[0, {7, 7}];
+% channel2[[2 ;; 6, 2 ;; 6]] = RandomInteger[{0, 2}, {5, 5}];
+% channel3 = ConstantArray[0, {7, 7}];
+% channel3[[2 ;; 6, 2 ;; 6]] = RandomInteger[{0, 2}, {5, 5}];
+
+% filter1 = RandomInteger[{-1, 1}, {3, 3}];
+% filter2 = RandomInteger[{-1, 1}, {3, 3}];
+% filter3 = RandomInteger[{-1, 1}, {3, 3}];
+
+% grayBorderingSquares[size_Integer] := {LightGray,
+%      Rectangle[{#1, #2} - 0.45, {#1, #2} + 0.45] &[##]
+%      } & @@@ Select[
+%     Tuples[Range@size, {2}],
+%     Min@# == 1 || Max@# == size &
+%     ];
+% greenInsideSquares[size_Integer] := {LightGreen,
+%      Rectangle[{#1, #2} - 0.45, {#1, #2} + 0.45] &[##]
+%      } & @@@ Select[
+%     Tuples[Range@7, {2}],
+%     Min@# > 1 && Max@# < size &
+%     ];
+% squaresGrid[xs_, ys_, color_] := {color,
+%    Rectangle[{#[[1]], #[[2]]} - 0.45, {#[[1]], #[[2]]} + 0.45] & /@ 
+%     Tuples@{xs, ys}
+%    };
+
+% numbersInMatrix[matrix_] := Table[
+%    Text[matrix[[Dimensions[matrix][[2]] + 1 - j, i]], {i, j}],
+%    {i, 1, Dimensions[matrix][[1]]}, {j, 1, Dimensions[matrix][[2]]}
+%    ];
+
+% tripleCopy[expr_, size_] := 
+%   Translate[expr, {0, #}] & /@ {0, -size - 1, -2 size - 2};
+
+% fig = With[{size = Length@channel1}, Graphics[{
+%     {grayBorderingSquares@size, greenInsideSquares@size} // 
+%      tripleCopy[#, size] &,
+%     Translate[numbersInMatrix@#[[1]], {0, #[[2]]}] & /@ Thread@{
+%        {channel1, channel2, channel3}, {0, -size - 1, -2 size - 2}
+%        }
+%     (*{FaceForm[],EdgeForm[{Thick,Red}],Rectangle[{#2,
+%     size+1-#1}-0.45,{#2,size+1-#1}+0.45]&[1,3]}*)
+%     , 
+%     tripleCopy[#, size] &@
+%      {FaceForm[], EdgeForm[{Thickness@0.01, Red}], 
+%       Rectangle[{5, 5} - 0.48, {7, 7} + 0.45] &[1, 3]},
+%     Sequence @@ With[{xmin = 7, xmax = 12.5},
+%       tripleCopy[#, size] &@
+%        {Thick, Dashed, Red,
+%         {Line@{{xmin, 4.5}, {xmax, 4.5}}},
+%         {Line@{{xmin, 7.5}, {xmax, 7.5}}},
+%         {Line@{{xmax - 3, 4.5}, {xmax - 3, 7.5}}},
+%         {Line@{{xmax, 4.5}, {xmax, 7.5}}}}
+%       ],
+%     squaresGrid[Range[10, 12], Range[5, 7], LightRed] // 
+%      tripleCopy[#, size] &,
+%     Translate[numbersInMatrix[filter1], {9, 4}],
+%     Translate[numbersInMatrix[filter2], {9, 4 - size - 1}],
+%     Translate[numbersInMatrix[filter3], {9, 4 - 2 size - 2}],
+%     Arrow@{{13, 6}, {15, 6}} // tripleCopy[#, size] &,
+%     {FaceForm[], EdgeForm[{Black, Thick, Dashed}], 
+%       Rectangle[{16, 6} - 0.5, {16, 6} + 0.5]} // 
+%      tripleCopy[#, size] &,
+%     Text[Style[
+%       Total[Flatten@channel1[[;; 3, 5 ;; 7]]*Flatten@filter1], 
+%       Bold], {16, 6}],
+%     Text[Style[
+%       Total[Flatten@channel2[[;; 3, 5 ;; 7]]*Flatten@filter2], 
+%       Bold], {16, 6 - size - 1}],
+%     Text[Style[
+%       Total[Flatten@channel3[[;; 3, 5 ;; 7]]*Flatten@filter3], 
+%       Bold], {16, 6 - 2 size - 2}]
+%     }, ImageSize -> 300]]
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=0.5\linewidth]{VVBs-CNNconvolutions-scheme-1row}
+    \caption{
+    	Simple illustration of how a filter is applied to an input image.
+    	The green square represents an input image, focussing on a single channel. In our notation, assuming the first channel, this would be $(\calI^1_{ij})_{ij}$ with $i,j=1,...,5$.
+    	The gray squares represent the padding applied to the image.
+    	The dashed red square is a $3\times 3$ filter, which is here shown applied to the upper-right $3\times3$ block of the image.
+    	In our notation, the filter is $\calF^{1,1}$ (assuming $k=1$ for the first filter). The thick red square is $R[1,5]$. The dashed black rectangle on the right contains the result of computing the inner product of the filter with the highlighted block of the image.
+    	Being the result $1>0$, the ReLU nonlinearity leaves it unchanged.
+    }%
+    \label{fig:VVBs:convolutions_example}
+\end{figure}
 
 
 \section{Dimensionality reduction}
 \label{sec:VVBs:dimensionality_reduction}
 
-\tmpHeading{Same results with a simpler method?}
-While CNNs provide good performance for general image classification tasks, we can hope to achieve similar performances in the tasks we are interested in by exploiting additional structure that we know is intrinsic to our dataset, due to it consisting of a set of intensities associated with states of light.
-Here, we present an alternative approach to classify \acp{VVB} from experimental data, leveraging \ac{DR} to expose the intrinsic structure of the dataset.
+\tmpHeading{A different approach to classify images}
+While CNNs provide good performance for general image classification tasks, the specific structure of the datasets we deal with can be leveraged to make for more efficient algorithms. In particular, we know that the datasets consist of intensity patterns associated with (mostly pure) quantum states.
+% we can hope to achieve similar performances in the tasks we are interested in by exploiting additional structure that we know is intrinsic to our dataset, due to it consisting of a set of intensities associated with states of light.
+In this section we present alternative approaches to extract information the dataset of interest, using \ac{DR} to expose the intrinsic structure of the dataset.
 
 
 \tmpHeading{DR and PCA}
@@ -198,20 +289,22 @@ The first $k$ \emph{principal components} found by \ac{PCA} are then the $k$ eig
 Note that these principal components are themselves vectors of the same ``type'' as the data vectors. This means that \ac{PCA} effectively generates a set of data vectors which ``optimally represent'' the information content of the given dataset.
 
 \tmpHeading{PCA and VVBs}
-The rationale behind using \ac{PCA} in the context of \acp{VVB} is that, although experimental images live in extremely high-dimensional spaces (whose dimension is of the order of the number of pixels in the \ac{CCD} camera), the underlying dimension of the generated \acp{VVB} is typically much lower.
-This means that, although the experimental dataset might \emph{a priori} seem like a complicated bundle of high-dimensional vectors, the underlying data is actually characterizable by a small number of parameters. Furthermore, the linearity of the mapping from the full to the reduced space makes it preserve many of its geometrical properties.
-This is a form of \emph{unsupervised} learning, as we gain useful information about the origin of the images are inferred without feeding the algorithm with any knowledge of the underlying process.
+The rationale behind using \ac{PCA} in the context of \acp{VVB} is that, although experimental images live in extremely high-dimensional spaces (whose dimension is of the order of the number of pixels of the \ac{CCD} camera), the underlying dimension of the generated \acp{VVB} is typically much lower.
+This means that, although the experimental dataset might \emph{a priori} seem like a complicated bundle of high-dimensional vectors, the underlying data is actually characterizable by a small number of parameters.
+% Furthermore, the linearity of the mapping from the full to the reduced space makes it preserve many of its geometrical properties.
+This is a form of \emph{unsupervised} learning, in that we gain useful information about the the images without feeding the algorithm with any prior knowledge about their structure.
 
 
-\tmpHeading{For example...}
-For example, in our case, each row of $\bs X$ is a vector of length $128\times128\times3$ containing the Stokes parameters $S_{b_1}, S_{b_2}, S_{b_3}$ for each pixel of the camera.
-Because each image corresponds to such a vector, and vice versa each such vector corresponds to the image of a \ac{VVB}, we can represent the principal components found by \ac{PCA} again in the form of images, which allows us to gain some intuition into the type of principal components that optimally represent the data according to \ac{PCA}.
+% \tmpHeading{For example...}
+% For example, in our case, each row of $\bs X$ is a vector of length $128\times128\times3$ containing the Stokes parameters $S_{b_1}, S_{b_2}, S_{b_3}$ for each pixel of the camera.
+% Because each image corresponds to such a vector, and vice versa each such vector corresponds to the image of a \ac{VVB}, we can represent the principal components found by \ac{PCA} again in the form of images, which allows us to gain some intuition into the type of principal components that optimally represent the data according to \ac{PCA}.
 
 
 \subsection{Retrieving states from probabilities}
 
 \tmpHeading{Measuring in a single measurement basis}
-Collecting experimental intensity images with the \ac{CCD} camera is akin to collecting the statistics associated to measuring a specific state in a fixed measurement basis. Despite this not being, in general, sufficient to reconstruct a quantum state, it can be when some assumptions on the input state or the type of measurement~\cite{banchi2018multiphoton}.
+Collecting experimental intensity images with the \ac{CCD} camera is akin to collecting the statistics resulting from a specific state measured in a fixed measurement basis.
+In general, this is not sufficient to fully reconstruct the corresponding state, but in specific circumstances it is possible to obtain a full description of a state from the results in a single measurement basis~\cite{banchi2018multiphoton}.
 More specifically, let $\rho$ be the density matrix characterising the state. The corresponding observed statistics in a chosen measurement basis is given by the set of probabilities
 \begin{equation}
 	p_k = (\calU\rho\calU^\dagger)_{kk}
