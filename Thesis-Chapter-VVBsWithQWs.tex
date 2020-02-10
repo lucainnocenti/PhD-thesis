@@ -303,26 +303,27 @@ This is a form of \emph{unsupervised} learning, in that we gain useful informati
 \subsection{Retrieving states from probabilities}
 
 \tmpHeading{Measuring in a single measurement basis}
-Collecting experimental intensity images with the \ac{CCD} camera is akin to collecting the statistics resulting from a specific state measured in a fixed measurement basis.
-In general, this is not sufficient to fully reconstruct the corresponding state, but in specific circumstances it is possible to obtain a full description of a state from the results in a single measurement basis~\cite{banchi2018multiphoton}.
-More specifically, let $\rho$ be the density matrix characterising the state. The corresponding observed statistics in a chosen measurement basis is given by the set of probabilities
+Collecting experimental intensity images with the \ac{CCD} camera is akin to measuring output probabilities in a fixed measurement basis.
+In general, this is not sufficient to fully reconstruct a state.
+However, when specific conditions are met, a full reconstruction is still possible in these circumstances~\cite{banchi2018multiphoton}.
+More specifically, let $\rho$ be the density matrix characterising a state, and let us assume that this state is low-rank (that is, only a small number $n$ of eigenvalues of $\rho$ are non-vanishing).
+The output probabilities corresponding to a measurement in the computational basis following the application of a unitary $\calU$ can be written as
 \begin{equation}
 	p_k = (\calU\rho\calU^\dagger)_{kk}
-	    = \sum_{ij}\calU_{ki}\bar\calU_{kj}\rho_{ij},
+	    = \sum_{ij}\calU_{ki}\bar\calU_{kj}\rho_{ij}.
 \end{equation}
-for some unitary $\calU$.
-This means that the mapping between density matrices and detected probabilities is linear: $\bs p=\Psi(\rho)$ for some linear map $\Psi$. This implies that many geometrical features of the space of states is preserved in the probabilities space. Moreover, a suitable choice of $\Psi$ will allow to retrieve $\rho$ from the knowledge of $\bs p$.
+Note that this situation models what happens when we measure VVBs with a CCD camera: VVBs are sparse in the OAM-polarisation basis (they are effectively two-dimensional), and measurement in the position basis can be described as a projective measurement following a unitary $\calU$ describing the change of basis.
+This means that the mapping between density matrices and detected probabilities is linear: $\bs p=\Psi(\rho)$ for some linear map $\Psi$.
+We can represent $\Psi$ as a (generally non-square) matrix, for example by describing it via its action on the coefficients of $\rho$ in some operatorial basis.
+Given $\rho=\sum_k c_k \sigma_k$ for some basis $\{\sigma_k\}_k$ of traceless Hermitians, we have the induced linear mapping $p_j = \sum_k \Psi_{jk}c_k$, with $\Psi_{jk}\equiv\Psi(\sigma_k)_j$ the matrix elements of $\Psi$.
+This linearity implies that many geometrical features of the space of states are preserved in the space of probabilities. Moreover, a suitable choice of $\Psi$ will allow to retrieve $\rho$ from the knowledge of $\bs p$.
 For this to be possible, $\Psi$ needs to have a number of rows greater than or equal to the number of columns. Physically, this amounts to the measurement basis containing a sufficient number of elements. More specifically, $\Psi$ needs to be \emph{left-invertible}, which is the case when its columns are linearly independent.
 
-
 \tmpHeading{Application to experimental VVB images}
-In our case, $\rho$ is a description of a VVB in the OAM-polarisation basis, while $\calU$ is the unitary mapping this basis into the position basis, which is the one that CCD cameras naturally operate on. In principle, one might need to take care of the different dimensionalities of these two spaces (the OAM space is countable while the position one is not), but this is easily fixed by discretising the position space, which is what is done naturally by the finite number of pixels of the CCD camera. 
-In other words, $\rho$ describes the state in the OAM-polarisation basis, which is the basis in which the generated states are efficiently described, whereas $\calU\rho\calU^\dagger$ describes the same state in the position basis, which is the one in which the CCD camera operates on.
-The set of detected probabilities is then given by $\bs p=\on{diag}(\calU\rho\calU^\dagger)\equiv\Psi(\rho)$,
-where $\Psi$ is defined as the linear map that sends $\rho$ to the set of measured probabilities $\bs p$.
-It should be noted that, while here we use a formalism and vocabulary evocative of quantum states, the states actually used in the experiment are classical. This in no way impacts the formal description of the protocol, and the only thing that should change when the states used are classical is that the probabilities $\bs p$ should be reinterpreted as intensities.
-Crucially, the linearity of $\Psi$ implies that it preserves the \emph{convexity} of the space of states, and therefore many of its geometrical features.
-For example, if we consider the set of states of the form $c_0 \ket{\uparrow,m=m_1} + c_1 \ket{\downarrow,m=m_2}$ with $m_1\neq m_2$, then the associated density matrices will be arranged to form a three-dimensional sphere embedded in the full state space (because these are effectively different states of a single qubit).
+In our case, $\rho$ is a description of a VVB in the OAM-polarisation basis, which is the basis in which it is sparse, while $\calU$ is the unitary mapping this basis into the position basis, which is the one that CCD cameras naturally operate on. In principle, one might need to take care of the different dimensionality of these spaces (the OAM space is countable while the position one is not), but this is easily fixed by discretising the position space, which is what is done naturally by the finite number of pixels of the CCD camera. 
+The set of detected probabilities is then given by $\bs p=\on{diag}(\calU\rho\calU^\dagger)\equiv\Psi(\rho)$.
+Crucially, the linearity of $\Psi$ implies that it preserves the \emph{convexity} of the space of states.
+For example, if we consider the set of states of the form $c_0 \ket{\uparrow,m=m_1} + c_1 \ket{\downarrow,m=m_2}$ with $m_1\neq m_2$, the corresponding density matrices will be arranged to form a three-dimensional sphere embedded in the full state space (because these are effectively different states of a single qubit).
 Thanks to the linearity of $\Psi$, \emph{the corresponding probabilities $\bs p$ will also be contained in a spherical surface}, up to possible rescaling of the axes.
 In other words, the Bloch sphere of the original two-dimensional system is still present, albeit hidden, in the experimental images, embedded into an extremely high-dimensional space.
 
@@ -332,11 +333,11 @@ In other words, the Bloch sphere of the original two-dimensional system is still
     \includegraphics[width=0.8\linewidth]{VVBs-Fig4.pdf}
     \caption{
 		\textbf{(a)} High order Poincar\'e sphere for \acp{VVB} with $|m_{1,2}|=1$. Magenta-coloured parallels (Blue-coloured meridians) mark intervals between consecutive values of $\theta$ ($\phi$). 
-		Along a meridian the colours of the pattern vary from the hottest to the coldest one. Along a parallel, the patterns rotate. 
+		Along a meridian the colours of the pattern vary from the hottest to the coldest one. Along a parallel, the patterns rotate.
 		\textbf{(b)}
 		Comparison between experimental and simulated \ac{VVB} images for different angles $(\theta, \phi)$.
 		\textbf{(c)}
-		Distribution of fidelities obtained comparing each experimental VVBs with its reduced 3D representations given by PCA. Projecting each image onto its first three principal axes and rescaling brings the data (orange points) onto a sphere in 3D, as shown in the inset. The inner (outer) black (semi-transparent) sphere is added for contrast [radius equal to that of the point with smaller (larger) radius].
+		Distribution of fidelities obtained comparing each experimental VVBs with its reduced 3D representations given by PCA. Projecting each image onto its first three principal axes and rescaling brings the data (orange points) onto a sphere in 3D, as shown in the inset. The inner (outer) black (semi-transparent) sphere is added for contrast [radius equal to that of the point with smaller (larger) radius]. \highlight{togliere la sfera}
 		\textbf{(d)}
 		Average prediction accuracy of a linear \ac{SVM} classifier, trained and tested after applying linear DR to the data, against the number of reduced dimensions $n_c$.
 		For each of the 15 classes (cf.~\cref{fig:VVBs:resultsCNN}a) in which the experimental dataset was divided, we show in the inset the true-table. 
@@ -348,13 +349,14 @@ In other words, the Bloch sphere of the original two-dimensional system is still
 \subsection{Results}
 
 \tmpHeading{PCA applied to experimental data}
-As a notable example, we apply these observations to VVBs with $m_2=-m_1=1$, which can be pictured as lying on a sphere, in the higher-order Poincaré representation. 
-of the form $c_0 \ket{L,m=1} + c_1 \ket{R, m=-1}$ with $\abs{c_0}^2+|c_1|^2=1$.
-The inclusion of only two orthogonal basis states makes these states effectively equivalent to a single qubit. 
-Indeed, \ac{PCA} applied to the experimental dataset of~\cref{fig:VVBs:PCAresults}\textbf{b}, 
-reveals that only three directions capture most of the information content of the images. Projecting the images along these three principal components, we recover that the data is arranged in the form of a three-dimensional sphere embedded in the high-dimensional space of experimental (cf. inset of~\cref{fig:VVBs:PCAresults}\textbf{c}).
-Remarkably, this was not obvious from the experimental dataset alone, but was easily found via \ac{DR}. This result highlights the potential of \ac{DR} to  reveal features of the underlying states generating a given experimental dataset, also in the presence of experimental noisy conditions.
-To assess the accuracy of such reconstruction, we compute the average fidelity $\mathcal F_{\text{avg}}$ between the expected state and the one found by our analysis with PCA. As shown in the histogram of Fig.~\ref{fig:VVBs:PCAresults}c,  this is found to be $\mathcal F_{\text{avg}}\sim0.96$ (standard deviation $\sim0.01$), thus certifying the quality of the reconstruction.
+As a notable example, we apply these observations to VVBs with $m_2=-m_1=1$.
+These are the states of the form $c_0 \ket{L,m=1} + c_1 \ket{R, m=-1}$ with $\abs{c_0}^2+|c_1|^2=1$.
+We find that applying PCA to a dataset of images corresponding to these VVBs naturally produces the underlying Bloch sphere representation.
+Indeed, applying \ac{PCA} to this experimental dataset, three principal components are found to sufficient to capture most of the information. Projecting the images along the corresponding axes, we find that, in the reduced representation, the dataset is arranged in good approximation on a three-dimensional sphere.
+Remarkably, this was not obvious from the experimental dataset alone, but was easily found via \ac{DR}. This result highlights the potential of \ac{DR} to reveal features of the states generating a given experimental dataset, also in the presence of experimental noisy conditions.
+To assess the accuracy of such reconstruction, we computed the average fidelity $\calF_{\on{avg}}$ between the expected state and the one found by our analysis with PCA.
+The fidelity is found to be $\calF_{\on{avg}}\sim0.96$, with standard deviation $\sim0.01$, thus certifying the quality of the reconstruction.
+The full histogram of fidelities is shown in~\cref{fig:VVBs:PCAresults}\textbf{c}, 
 
 \begin{figure}[tb]
   \centering
@@ -370,15 +372,15 @@ To assess the accuracy of such reconstruction, we compute the average fidelity $
 
 
 \tmpHeading{Toy examples of application of PCA to VVBs}
-To see the usefulness of these ideas to understand the type of states generated by a given apparatus, we consider here two examples of applications of \ac{PCA} for different types of input states. 
-In all of these cases, \ac{PCA} is applied without any previous knowledge of the type of states that underly the observed experimental images, and is therefore to be considered a type of \emph{unsupervised learning}.
+To illustrate the usefulness of these ideas in understanding the type of states generated by a given apparatus, we consider here two examples of applications of \ac{PCA} for different types of input states. 
+In all of these cases, \ac{PCA} is applied without any previous knowledge of the type of states that underlie the observed experimental images, and is therefore to be considered a type of \emph{unsupervised learning}.
 Consider a simulated set of images corresponding to VVBs of the form
 $c_1\ket{L,m=1}+c_2\ket{R,m=2}$ and
-$c_1\ket{L,m=1}+c_2\ket{R,m=4}$, where the coefficients $c_i$ are sampled uniformly at random from the set of $c_{1},c_2\in\mathbb{C}$  such that $|c_1|^2+|c_2|^2=1$ (\emph{i.e.} uniformly sampled on the Bloch sphere).
-Applying PCA to this dataset, we find six non-vanishing singular values, whose associated principal components are given in Fig.~\ref{fig:S1}a.
-This is consistent with the dimension of the subspace  spanned by states of the form $\mathcal S_1=\{c_1\ket{L,1}+c_2\ket{R,2}, c_3\ket{L,1}+c_4\ket{R,4}\}$,  as the set of corresponding density matrices is spanned by the six orthogonal matrices
-$X^{(1,2)}, X^{(1,4)}, Y^{(1,2)},Y^{(1,4)},Z^{(1,2)}\pm Z^{(1,4)}$, where $X^{(i,j)}=\ketbra{i}{j}+\ketbra{j}{i}$ is the Pauli $X$ matrix acting on the $(i,j)$ subspace, and similarly for $Y^{(i,j)}$ and $Z^{(i,j)}$.
-On the other hand, if the dataset under consideration consists of states of the form $\mathcal S_2=\{c_1\ket{L,1}+c_2\ket{R,2}, c_3\ket{L,3}+c_4\ket{R,4}\}$, then \ac{PCA} finds \emph{seven} principal components associated with non-vanishing singular values (see Fig.~\ref{fig:S1}a).
+$c_1\ket{L,m=1}+c_2\ket{R,m=4}$, where the coefficients $c_i$ are sampled uniformly at random from the set of $c_{1},c_2\in\mathbb{C}$  such that $|c_1|^2+|c_2|^2=1$.
+Applying PCA to this dataset, we find six non-vanishing singular values, whose associated principal components are given in~\cref{fig:S1}\textbf{a}.
+This is consistent with the dimension of the subspace  spanned by the states in $\calS_1\equiv\{c_1\ket{L,1}+c_2\ket{R,2}, c_3\ket{L,1}+c_4\ket{R,4}\}$,  as the set of corresponding density matrices is spanned by the six orthogonal matrices
+$X^{(1,2)}, X^{(1,4)}, Y^{(1,2)},Y^{(1,4)},Z^{(1,2)}\pm Z^{(1,4)}$, where $X^{(i,j)}=\ketbra{i}{j}+\ketbra{j}{i}$ is the Pauli $X$ matrix acting on the $(i,j)$ subspace, and $Y^{(i,j)}$ and $Z^{(i,j)}$ are similarly defined.
+On the other hand, if the dataset under consideration consists of states in the space $\mathcal S_2=\{c_1\ket{L,1}+c_2\ket{R,2}, c_3\ket{L,3}+c_4\ket{R,4}\}$, then \ac{PCA} finds \emph{seven} principal components associated with non-vanishing singular values, as again shown in~\cref{fig:S1}\textbf{a}.
 This is consistent with the underlying state space being spanned by the seven orthogonal Hermitians:
 \begin{equation}
 \begin{gathered}
@@ -389,21 +391,20 @@ This is consistent with the underlying state space being spanned by the seven or
     -Z^{(1,2)} - Z^{(1,3)} + 3 Z^{(1,4)}.
 \end{gathered}
 \end{equation}
-These matrices can be obtained by direct analysis of the type of states contained in $\mathcal S_2$ and then finding a set of orthogonal Hermitian matrices generating the corresponding set of density matrices.
-It is worth noting how this method provides a quick and easy way to gain useful information about the dimensionality of generated states, as well as about other properties such as specific symmetries, which, as shown in~\cref{fig:S1}, are often picked up by the principal components.
+These matrices can be derived by direct analysis by finding a set of orthogonal Hermitians generating the set of density matrices in $\calS_2$.
+This method thus provides a quick and easy way to obtain useful information about the dimensionality of generated states, as well as about other properties such as specific symmetries, which, as shown in~\cref{fig:S1}, are often picked up by the principal components.
 
 
 \section{Support vector machines}
 \label{sec:VVBs:SVMs}
 
-\subsection{What are they?}
 
 \tmpHeading{What are SVMs?}
-\acfp{SVM} are a class of \emph{supervised learning} algorithms, whose goal is to classify data by finding an optimal partition of the feature space such that all the vectors with the same training label lie on the same classification sector.
-In particular, \emph{linear} \acp{SVM} try to separate the data linearly, that is, look for an optimal separating hyperplane.
+\acfp{SVM} are a class of \emph{supervised learning} algorithms, whose goal is to classify data into discrete classes. \acp{SVM} work by finding an partition of the feature space such that all the vectors with the same training label lie on the same classification sector, if at all possible.
+In particular, \emph{linear} \acp{SVM} aims to separate the data linearly, that is, look for an optimal separating hyperplane.
 
 \tmpHeading{The math of linear SVMs}
-A SVM takes as input a training set of labelled data of the form $\{(\bs x_1,\ell_1),...,(\bs x_n,\ell_n)\}$ where $\bs x_i\in\RR^N$ and $\ell_i$ is one of two possible labels, $N\in\NN$ being here the dimension of the feature vectors. If there are only two possible labels, we can conventionally assume $\ell_i\in\{-1,1\}$.
+SVMs take as input a training set of labelled data of the form $\{(\bs x_1,\ell_1),...,(\bs x_n,\ell_n)\}$, where $\bs x_i\in\RR^N$ and $\ell_i$ is one of two possible labels. If there are only two possible labels, we conventionally assume $\ell_i\in\{-1,1\}$.
 The goal is to find a linear separation, which is characterised by two parameters $\bs w$ and $b$ which identify an hyperplane as the set of $\bs x\in\RR^N$ such that $\bs w\cdot\bs x=\bs b$. We want this hyperplane to be such that, for all training vectors $\bs x_i$, the constraint $\ell_i(\bs w\cdot\bs x_i-\bs b)\ge1$ is satisfied.
 New data is then categorised using the \emph{classifier} $g_{\bs w,\bs b}(\bs x)=2\Theta(\bs w\cdot\bs x-\bs b)-1$, which equals $\pm1$ depending on whether the point $\bs x$ is on one side or the other of the separation determined by $\bs w,\bs b$.
 This is the so-called \emph{hard-margin} SVM, because this is only possible if every single training point is strictly on one or the other side of the separating hyperplane.
