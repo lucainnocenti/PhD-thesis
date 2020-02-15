@@ -8,16 +8,17 @@ Synthesising target quantum operations is pivotal in a variety of contexts in qu
 In particular, \emph{unitary} gates play a key role in the majority of schemes and algorithms for quantum computation, and are more generally a fundamental component of most quantum information protocols.
 
 \tmpHeading{What is gate compilation}
-Implementing a target unitary gate is, however, often a daunting task. Different techniques are used to do this, depending on the specifics of the experimental context, and other constraints of the problem.
+Implementing a target unitary gate is, however, often a daunting task. Different techniques are used to do this, depending for instance on the experimental context.
 For example, in photonics architectures one has usually only access to a toolbox of ``elementary components'', corresponding to beamsplitters and phaseshifters, which are then used to build up more complex operations.
 In this context, a complex operation $\calU$, is obtained by finding a suitable sequence of elementary operations $\calG_i$ such that $\calU=\prod_i \calG_i$. Given a fixed set of such \textit{elementary gates} $\{\calG_i\}_i$, finding a suitable combination of gates is highly nontrivial. This task is often referred to as \textit{gate compilation}, or \textit{gate synthesis}~\cite{mottonen2004quantum,nielsen2006quantum,nakajima2009synthesis,loke2014optqc,loke2016optqc,maslov2017basic,swaddle2017generating,ashouri2018survey}.
-Solving gate compilation problems is especially important in the light of the recent significant experimental advances in the construction of experimental quantum devices, especially superconducting~\cite{devoret2013superconducting,arute2019quantum} and ion trap~\cite{blatt2008entangled,debnath2016demonstration} architectures.
+Solving gate compilation problems is especially important in light of the recent significant experimental advances in the construction of experimental quantum devices, especially superconducting~\cite{devoret2013superconducting,arute2019quantum} and ion trap~\cite{blatt2008entangled,debnath2016demonstration} architectures.
 
 \tmpHeading{Gate synthesis via continuous parameters in the Hamiltonian}
 A different type of problem is the one faced when, instead of a discrete set of gates, one is able to tune continuous parameters of an underlying dynamics.
 In this scenario, the experimenter has only access to some parameters $\bslambda\equiv(\lambda_1,...,\lambda_k)$ of the system \textit{Hamiltonian} $\calH_{\bslambda}$, and wants to find the values of $\bslambda$ that achieve a target transformation.
-One might for example be interested in driving a fixed input to a target output.
-In this scenario, it is common to allow for \textit{time-dependent} dynamics. This makes it easier, in general, to achieve different types of evolutions, but at the same times also makes for a significantly harder optimisation problem, as one then has to look for an optimal \textit{function} $t\mapsto\bslambda(t)$, rather than just an optimal value $\bslambda\in\mathbb R^n$.
+One might for example be interested in driving an input to a target output.
+In this scenario, it is common to allow for \textit{time-dependent} dynamics.
+This simplifies the achievement of 3different types of evolutions, but at the same times also makes for a significantly harder optimisation problem, as one then has to look for an optimal \textit{function} $t\mapsto\bslambda(t)$, rather than just an optimal value $\bslambda\in\mathbb R^n$.
 This types of problems are usually referred to as \textit{quantum (optimal) control} problems~\cite{dalessandro2007introduction,werschnik2007quantum,dong2010quantum}.
 
 \tmpHeading{What problem do \emph{we} set up to solve?}
