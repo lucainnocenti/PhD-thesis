@@ -4,7 +4,7 @@
 \label{chapter:gate_learning}
 
 \tmpHeading{Synthesising quantum operation}
-Synthesising target quantum operations is pivotal in a variety of contexts in quantum information science, for example in quantum simulation~\cite{feynman1982simulating,lloyd1996universal}, and quantum computation~\cite{deutsch1985quantum,gottesman1998theory,nielsen2002quantum,ladd2010quantum}.
+Synthesising target quantum operations is pivotal in a variety of contexts in quantum information science, such as quantum simulation~\cite{feynman1982simulating,lloyd1996universal}, and quantum computation~\cite{deutsch1985quantum,gottesman1998theory,nielsen2002quantum,ladd2010quantum}.
 In particular, \emph{unitary} gates play a key role in the majority of schemes and algorithms for quantum computation, and are more generally a fundamental component of most quantum information protocols.
 
 \tmpHeading{What is gate compilation}
@@ -18,7 +18,7 @@ A different type of problem is the one faced when, instead of a discrete set of 
 In this scenario, the experimenter has only access to some parameters $\bslambda\equiv(\lambda_1,...,\lambda_k)$ of the system \textit{Hamiltonian} $\calH_{\bslambda}$, and wants to find the values of $\bslambda$ that achieve a target transformation.
 One might for example be interested in driving an input to a target output.
 In this scenario, it is common to allow for \textit{time-dependent} dynamics.
-This simplifies the achievement of 3different types of evolutions, but at the same times also makes for a significantly harder optimisation problem, as one then has to look for an optimal \textit{function} $t\mapsto\bslambda(t)$, rather than just an optimal value $\bslambda\in\mathbb R^n$.
+This simplifies the achievement of different types of evolutions, but at the same times also makes for a significantly harder optimisation problem, as one then has to look for an optimal \textit{function} $t\mapsto\bslambda(t)$, rather than just an optimal value $\bslambda\in\mathbb R^n$.
 This types of problems are usually referred to as \textit{quantum (optimal) control} problems~\cite{dalessandro2007introduction,werschnik2007quantum,dong2010quantum}.
 
 \tmpHeading{What problem do \emph{we} set up to solve?}
