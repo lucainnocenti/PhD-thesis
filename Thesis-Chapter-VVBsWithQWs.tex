@@ -74,6 +74,8 @@ The OAM azimuthal quantum numbers accessible with this scheme correspond to the 
 Generated VVBs are characterised by the values of the three Stokes parameters at each point of their transverse profile. This amounts to collecting six intensities per pixel. The detection is carried out with a \ac{CCD} camera with resolution $1360 \times 1024$. 
 We find, however, that a resolution of $128 \times 128$ is already sufficient for the tasks we consider, and the training stages are significantly sped up by reducing the resolution of the images (and thus the dimensionality of the handled data). We coarse-grain the images by integrating sub-matrices of the appropriate dimensions.
 
+\highlight{(includere nuova sezione hyGG blabla)}
+
 \tmpHeading{Colour-encoding VVBs}
 To represent visually VVBs' polarisation patterns, we use a Red-Green-Blue (RGB) colour encoding, mapping each $S_j$ into the strength of one of the primary colours.
 More precisely, for each pixel of the CCD, the value of the red channel is set to $255\times(S_1+1)/2$, so that the red channel is saturated when $S_1=1$ and empty when $S_1=-1$ (remembering that $S_i\in[-1,1]$). Green and blue channels are defined similarly with $S_2$ and $S_3$.
@@ -88,7 +90,8 @@ These images can also be understood as vectors of length $3\times M$ with $M$ th
 	Working principles of \acp{CNN}. The training set consists of a series of simulated images, plus some others collected from the experimental platform.
 	\textbf{(b)}
 	Classification scheme using linear \ac{PCA}.
-	After reducing the dimensionality of the dataset via \ac{PCA}, a linear \ac{SVM} is used to classify experimental images. 
+	After reducing the dimensionality of the dataset via \ac{PCA}, a linear \ac{SVM} is used to classify experimental images.
+	\highlight{(aggiornare figura e caption da paper)}
 	}
 	\label{fig:VVBs:class_techniques}
 \end{figure}
@@ -102,6 +105,7 @@ These images can also be understood as vectors of length $3\times M$ with $M$ th
 	    against the fraction of experimental images in the training set. 
 	    Inset: best truth table.
 	    Rows (columns) stand for the possible $(m_1,m_2)$ pairs (as assigned by the CNN). The matrix elements have been averaged over $100$ experimental images per class.
+	    \highlight{(togliere plot e mettere nuovi risultati (e ficcare github da qualche parte))}
     }%
     \label{fig:VVBs:resultsCNN}
 \end{figure}
@@ -434,6 +438,7 @@ The average classification accuracy is $\sim 98 \%$. This result confirms that t
   \includegraphics[width=0.9\textwidth]{Figures/VVBs/VVBs-svcAccuracies_15classes_halftrainingdata_40dims_linear.pdf}
   \caption{
       Classification accuracies given by the SVM classifier used on the reduced dataset obtained via PCA.
+      \highlight{aggiornare figura, mettere quelle dal paper}
     }
     \label{fig:VVBs:SVC_accuracies}
 \end{figure}
@@ -442,7 +447,7 @@ The average classification accuracy is $\sim 98 \%$. This result confirms that t
 \section{Conclusions}
 \label{sec:VVBs:conclusions}
 
-We presented a novel approach to classify \acp{VVB} leveraging ML techniques. We demonstrated how the use of inference strategies based on CNNs, PCA, and SVMs allows to extract efficiently properties of high-dimensional photonic \ac{VVB} systems.
+We presented a novel approach to classify \acp{VVB} leveraging ML techniques. We demonstrated how the use of inference strategies based on CNNs, PCA, and SVMs allows to extract efficiently properties of high-dimensional photonics \ac{VVB} systems.
 In particular, we used DR to probe the underlying geometrical properties of experimentally generated VVBs, without requiring prior knowledge about the physics of the generation apparatus.
 % By embedding a variety of \ac{ML} algorithms into our experimental pipeline, the task of characterising structured light is made significantly broader in the methods, ranging from supervised to unsupervised learning, and more flexible in the applications, classification and regression tasks.
 %Then, the investigation of different techniques in the ML field has provided a more general framework for the characterization of structured light.  

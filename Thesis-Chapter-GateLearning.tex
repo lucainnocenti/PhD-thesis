@@ -34,11 +34,12 @@ To work around the complexity of the associated optimisation problem, a techniqu
 
 \tmpHeading{Outline of our contributions}
 Building upon~\cite{banchi2016quantum}, we show that the gate learning strategy presented there can be significantly improved, both from an algorithmic and from a fundamental perspective~\cite{innocenti2018supervised}.
-On the one hand, by integrating \ac{AD} techniques into the optimisation routine, we can speed-up dramatically the numerical optimisation routine, thus making testing and looking for solutions to specific problems significantly easier.
-On the other hand, by improving our understanding of the underlying mathematical problem, we propose a solution framework that allows to further speed-up the numerics exploiting the symmetries of the target gates, and in some cases even allows to derive exact solutions without the need of the numerical apparatus.
+On the one hand, we speed-up dramatically the numerical optimisation routines by integrating \ac{AD} techniques into the optimisation routine. This makes testing and looking for solutions to specific problems significantly easier.
+On the other hand, by further analysing the underlying mathematical problem, we devise a solution framework to further speed-up the numerics by exploiting the symmetries of the target gate, and in some cases even allows to derive exact solutions without the need of the numerical apparatus.
 
 \tmpHeading{Chapter outline}
 In~\cref{sec:GL:problem_details} we explain in detail the mathematics underlying gate learning problems, and how physical constraints on the possible Hamiltonian parameters can be brought into the discussion. In~\cref{sec:GL:solution_framework} we finally provide one of the main results of the chapter, in the form of a solution framework that will prove useful both to solve gate learning problems exactly and to speed-up the numerical optimisations when needed. In~\cref{sec:GL:toffoli} we present the analytical results on the implementability of the Toffoli gate, while in~\cref{sec:GL:fredkin} those concerning the Fredkin gate. We continue in~\cref{sec:GL:numerical_approach} by discussing how the problem can be massaged to make it solvable via a numerical optimisation approach, and finally in~\cref{sec:GL:supervised_learning} we show how \ac{ML} techniques can be used to obtain even further efficiency improvements.
+The work described in this chapter can be found in~\cite{innocenti2018approximate,innocenti2018supervised}.
 
 
 \section{Time-independent dynamics for target gates}

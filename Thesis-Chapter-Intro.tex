@@ -200,7 +200,7 @@ The choice of coin operator $\calC$ is what defines a particular \ac{QW}.
 A standard choice is the \textit{Hadamard coin}: $\calC=H$ with $H$ the Hadamard matrix, defined via its action on the computational basis as
 $H\ket0=\ket+$ and $H\ket1=\ket-$, where $\ket\pm\equiv\frac{1}{\sqrt2}(\ket0\pm\ket1)$.
 
-\begin{example}[label=ex:hadamard_walk]
+\begin{examplebox}[label=ex:hadamard_walk]{Hadamard walk evolution}
 Consider an initial state $\ket{\Psi_0}\equiv\ket{\uparrow,0}$ evolving through a QW with Hadamard coin. We write here for ease of notation the coin states as $\uparrow,\downarrow$ rather than $0$ and $1$.
 The first coin operation sends this to $\ket{+,0}\equiv\frac{1}{\sqrt2}(\ket\uparrow+\ket\downarrow)\otimes\ket0$. The shift $\calS$ then gives
 \begin{equation}
@@ -233,12 +233,12 @@ The calculation proceeds similarly for larger numbers of steps.
 Note how the walker proceeds asymmetrically, even though the direct classical analogue of an Hadamard walk would be a random walk with equal probabilities of going left or right at every step.
 This is due to the interference effects, and the fact that the Hadamard treats $\ket\uparrow$ and $\ket\downarrow$ asymmetrically.
 See~\cref{fig:intro:hadamardwalk_Nsteps2} for a simulation of the Hadamard walk with $20$ and $40$ steps, which shows clearly the asymmetry present in the output states.
-\end{example}
+\end{examplebox}
 
 \tmpHeading{A more efficient formalism for QWs}
-One feature emerging from~\cref{ex:hadamard_walk} is how, at each step, a subset of the possible walker's positions are never occupied. More precisely, if the walker starts in a single fixed position, say $\ket0$, then at odd-numbered steps only even-numbered positions will be occupied.
-This symmetry can be exploited to make simulations more efficient, and better expose underlying structure of the dynamics.
-We will thus use a variation of~\cref{eq:qws_shitty_definition_cshift}, in which instead of the walker moving either left or right, it either stays still or moves in one direction (say, right):
+One feature emerging from~\cref{ex:hadamard_walk} is how, at each step, a subset of the possible walker's positions always correspond to vanishing amplitudes. More precisely, if the walker starts in a fixed position, say $\ket0$, then at odd-numbered steps only even-numbered positions are occupied.
+This symmetry can be exploited to make simulations more efficient, and better expose the underlying structure of the dynamics.
+We will thus use a variation of~\cref{eq:qws_shitty_definition_cshift} in which instead of the walker moving left or right, it either stays still or moves in one direction (say, right):
 \begin{equation}
     \calS = \PP_0\otimes I + \PP_1\otimes \EE_+
     =\ketbra0\otimes I +\ketbra1\otimes\sum_k\ketbra{k+1}{k}.
@@ -246,7 +246,7 @@ We will thus use a variation of~\cref{eq:qws_shitty_definition_cshift}, in which
 This notation, while somewhat nonstandard, has proven useful before~\cite{hoyer2009faster,montero2013unidirectional,montero2015quantum}, and will be used in~\cref{sec:intro:QWs} to obtain most of our analytical results.
 
 \tmpHeading{How we use QWs}
-QWs will be used in~\cref{chapter:quantum_walks,chapter:experimental_engineering_qudits,chapter:ML_VVBs}. We characterise the possible outputs of time-dependent QWs in~\cref{chapter:quantum_walks}, use this result to engineer target qudits in~\cref{chapter:ML_VVBs}, and then exploit the QW dynamics to generate states of light with nontrivial spatial structure, and showcase ML algorithms to analyse them.
+QWs will be used in~\cref{chapter:quantum_walks,chapter:experimental_engineering_qudits,chapter:ML_VVBs}. We characterise the possible outputs of time-dependent QWs in~\cref{chapter:quantum_walks}, use this result to engineer target qudits in~~\cref{chapter:experimental_engineering_qudits}, and showcase ML algorithms to analyse them in~\cref{chapter:ML_VVBs}.
 % We will allow the coin operation to change from step to step, while remaining site-independent~\cite{ribeiro2004aperiodic,wjcik2004quasiperiodic,bauls2006quantum}.
 % We demonstrate the effectiveness of this framework for the state engineering of $d$-dimensional systems and provide a set of efficiently verifiable necessary and sufficient conditions for a given state to be the output of a \ac{QW} evolution.
 
