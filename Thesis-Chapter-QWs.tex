@@ -5,28 +5,31 @@
 \label{chapter:quantum_walks}
 
 \tmpHeading{What is this chapter about}
-In this chapter, we provide a complete characterisation of the possible outputs of time-dependent discrete-time \acfp{QW} on a line (we refer to~\cref{sec:intro:QWs} for a general review of background and literature on \acp{QW}).
+In this chapter, we provide a complete characterisation of the possible outputs of time-dependent discrete-time \acfp{QW} on a line. We refer to~\cref{sec:intro:QWs} for a general review of background and literature on \acp{QW}.
 We prove that, by projecting the state of the coin onto a specific final state after the last step, arbitrary qudits can be engineered via a suitable choice of coin operators.
 
 \tmpHeading{Chapter outline}
-In~\cref{sec:QWs:motivation} we give an overview of the relevant existing literature, contextualising our work and explaining its interest and timeliness.
-In~\cref{sec:QWs:setup} we present the notation and mathematics that will be needed in the rest of the chapter.
+% In~\cref{sec:QWs:motivation} we give an overview of the relevant existing literature, contextualising our work and explaining its interest and timeliness.
+In~\cref{sec:QWs:motivation} contextualising our work into the existing literature, and explaining its interest and timeliness.
+In~\cref{sec:QWs:setup} we present the notation and mathematics used in the rest of the chapter.
 We then characterise in~\cref{sec:QWs:reachability_conditions} the possible output states of one-dimensional, time-dependent~\acp{QW}, in the form of necessary and sufficient conditions certifying whether a given state can be the output of a \ac{QW} evolution.
-These results are then used in~\cref{sec:QWs:focusing_walker_states}, where we derive conditions to fulfil to generate target qudit states through the projection of the coin at the end of a suitably engineered QW evolution \highlight{(meh)}.
-This result will then be used in~\cref{chapter:experimental_engineering_qudits}, where we will report on an experimental quantum optical implementation of the protocol presented in~\cref{sec:QWs:focusing_walker_states}, using \acf{OAM} and polarisation of single-photons as walker and coin degrees of freedom.
+These results are then used in~\cref{sec:QWs:focusing_walker_states}, where we derive conditions to fulfil to generate target qudit states through the projection of the coin at the end of a suitably engineered QW evolution.
+This result is then used in~\cref{chapter:experimental_engineering_qudits}, where we report on an experimental quantum optical implementation of the protocol using \acf{OAM} and polarisation of single photons.
 The work described in this chapter can be found in~\cite{innocenti2017quantum}.
 
 \section{Motivation}
 \label{sec:QWs:motivation}
 
 \tmpHeading{High-dimensional quantum states}
-High-dimensional quantum states are of paramount importance from both a foundational and applicative perspective. They exhibit a rich entanglement structure~\cite{horodecki2009quantum} and allow for stronger violations of local realism~\cite{vértesi2010closing,brunner2014bell, lapkiewicz2011experimental} than their qubit counterparts. Even at the single-system level, they illustrate the contextual character of quantum mechanics in a way that cannot result from entanglement~\cite{klyachko2008simple,lapkiewicz2011experimental}. 
-In the framework of quantum communication, high-dimensional systems guarantee higher security and increased transmission rates~\cite{bechmannpasquinucci2000quantum, cerf2002security, bru2002optimal, acin2003security, karimipour2002quantum, durt2004security, nunn2013largealphabet, mower2013highdimensional, lee2014entanglementbased, zhong2015photonefficient}, allowing also for convenient solutions to problems such as quantum bit commitment~\cite{langford2004measuring} and  Byzantine agreement~\cite{fitzi2001quantum}.
+High-dimensional quantum states are of paramount importance from both a foundational and applicative perspective. They exhibit a rich entanglement structure~\cite{horodecki2009quantum} and allow for stronger violations of local realism than their qubit counterparts~\cite{vértesi2010closing,brunner2014bell, lapkiewicz2011experimental}.
+Even at the single-system level, they can be used to showcase the contextual character of quantum mechanics beyond entanglement~\cite{klyachko2008simple,lapkiewicz2011experimental}. 
+In the context of quantum communication, high-dimensional systems guarantee higher security and increased transmission rates~\cite{bechmannpasquinucci2000quantum, cerf2002security, bru2002optimal, acin2003security, karimipour2002quantum, durt2004security, nunn2013largealphabet, mower2013highdimensional, lee2014entanglementbased, zhong2015photonefficient}, and allow for efficient solutions to problems such as quantum bit commitment~\cite{langford2004measuring} and  Byzantine agreement~\cite{fitzi2001quantum}.
 Other applications include spatial imaging~\cite{howland2013efficient}, quantum emulation~\cite{buluta2009quantum,neeley2009emulation}, quantum computation~\cite{bartlett2002quantum, ralph2007efficient,lanyon2008simplifying,campbell2012magicstate,campbell2014enhanced}, quantum error correction~\cite{chuang1997bosonic,duclos-cianci2013kitaev,michael2016class}, and quantum machine learning~\cite{paparo2014quantum}.
 
 \tmpHeading{Engineering high-dimensional qudits}
-The past decades have seen a steady interest in the engineering of high-dimensional quantum states. %, with ongoing investigations spanning various physical platforms. Among the latter, quantum optical systems play a prominent role, where 
-In quantum optics in particular, proposed engineering strategies leveraged types of encoding including time-energy~\cite{thew2004belltype, bessire2014versatile}, polarisation~\cite{bogdanov2004qutrit}, path~\cite{osullivanhale2005pixel,hu2020experimental}, \ac{OAM}~\cite{mair2001entanglement, mclaren2012entangled, krenn2013entangled, krenn2014generation, zhang2016engineering}, and frequency~\cite{bernhard2013shaping, jin2016simple}. These strategies generally depend on the specific setting under consideration, and a unified framework is lacking. 
+Experimentally engineering high-dimensional quantum states remains however a nontrivial task.
+% The past decades have seen a steady interest in the engineering of high-dimensional quantum states. %, with ongoing investigations spanning various physical platforms. Among the latter, quantum optical systems play a prominent role, where 
+In quantum optics, proposed engineering strategies use several types of encodings, including time-energy~\cite{thew2004belltype, bessire2014versatile}, polarisation~\cite{bogdanov2004qutrit}, path~\cite{osullivanhale2005pixel,hu2020experimental}, \ac{OAM}~\cite{mair2001entanglement, mclaren2012entangled, krenn2013entangled, krenn2014generation, zhang2016engineering}, and frequency~\cite{bernhard2013shaping, jin2016simple}. These strategies generally depend on the specific setting under consideration, and a unified framework is lacking. 
 % Here we make a significant step in this direction by proposing a strategy based on the ubiquitous dynamics offered by \acp{QW}.
 % A promising way to achieve a higher degree of platform-universality is the use of the rich dynamics offered by \acp{QW} (see~\cref{sec:intro:QWs} for background information). These can be thought of as the quantum counterparts of classical random walks and comprise -- in their discrete version -- a qudit, named \emph{walker}, endowed with an internal two-dimensional degree of freedom dubbed \emph{coin}~\cite{ambainis2001onedimensional}.
 On the other hand, owing to their ubiquity, QWs offer a promising venue to devise state engineering protocols that are applicable to a variety of different physical systems.
