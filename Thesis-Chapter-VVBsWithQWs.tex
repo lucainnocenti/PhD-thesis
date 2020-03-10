@@ -4,10 +4,9 @@
 \label{chapter:ML_VVBs}
 
 \tmpHeading{Summary of the chapter}
-In this chapter we present a method to classify experimental states with nontrivial orbital angular momentum structure using~\acf{ML} techniques.
+In this chapter we present a method to classify experimental states with nontrivial \ac{OAM} structure using~\acf{ML} techniques.
 % The employed experimental apparatus is similar to the one used in~\cref{chapter:experimental_engineering_qudits}.
-The goal is to classify experimentally generated states from the sole knowledge of their intensity profile as captured with a CCD camera.
-For the purpose, we use \ac{ML} algorithms to characterise experimental \acfp{VVB} generated using the platform presented in~\cref{chapter:experimental_engineering_qudits}.
+The goal is to classify \ac{VVB} states generated states using the platform presented in~\cref{chapter:experimental_engineering_qudits}, from the sole knowledge of their intensity profile as captured with a CCD camera.
 We will find that a range of supervised and unsupervised learning techniques are suitable to tackle this problem, and provide useful insights on the structure of experimentally produced states.
 We first train \acp{CNN} to classify experimental images.
 We then discuss how the joint application of \ac{DR} and \acp{SVM} can also be used to classify states, and even obtain a full description of a state from its intensity profile.
@@ -18,9 +17,9 @@ As discussed in~\cref{sec:intro:ML}, \ac{ML} provides a versatile toolbox to tac
 In the context of structured light, \acp{NN} have been used to classify \ac{OAM} states of classical light for long distance free-space communication, even in the presence of environmental turbulence~\cite{krenn2014communication,krenn2016twisted,doster2017machine,park2018demultiplexing,lohani2018turbulence,li2018joint}.
 
 \tmpHeading{The novelty of our work}
-In contrast to these previous endeavours, we deal with the classification of \acp{VVB}. Moreover, owing to the variety of techniques we deploy, we can address both classification and regression tasks, thus enabling the reconstruction of the input states in a variety of scenarios involving structured light beams.
-Our findings demonstrate the reliability of a broader class of ML techniques, providing novel recognition methods to deal with \acp{VVB}, which are a building block for several information protocols with high-dimensional systems.
-This approach requires neither additional interferometry stabilisation nor spatial filtering. This makes it a robust strategy to decode information stored in \acp{VVB}, and a promising pathway to manage high-dimensional quantum systems. 
+In contrast to these previous endeavours, we deal with the classification of \acp{VVB}. Moreover, owing to the variety of techniques we deploy, we can address both classification and regression tasks, thus enabling the reconstruction of input states in several experimental scenarios.
+Our findings showcase the reliability of a broader class of ML techniques, and provide novel recognition methods suitable to \acp{VVB}.
+This approach requires neither additional interferometry stabilisation nor spatial filtering, thus making it a robust strategy to decode information stored in \acp{VVB}, and a promising pathway to manage high-dimensional quantum systems. 
 
 \begin{figure}[tb]
 	\centering
@@ -74,40 +73,68 @@ The OAM azimuthal quantum numbers accessible with this scheme correspond to the 
 Generated VVBs are characterised by the values of the three Stokes parameters at each point of their transverse profile. This amounts to collecting six intensities per pixel. The detection is carried out with a \ac{CCD} camera with resolution $1360 \times 1024$. 
 We find, however, that a resolution of $128 \times 128$ is already sufficient for the tasks we consider, and the training stages are significantly sped up by reducing the resolution of the images (and thus the dimensionality of the handled data). We coarse-grain the images by integrating sub-matrices of the appropriate dimensions.
 
-\highlight{(includere nuova sezione hyGG blabla)}
-
 \tmpHeading{Colour-encoding VVBs}
-To represent visually VVBs' polarisation patterns, we use a Red-Green-Blue (RGB) colour encoding, mapping each $S_j$ into the strength of one of the primary colours.
+To represent visually the polarisation patterns of VVBs, we use a Red-Green-Blue (RGB) colour encoding, mapping each $S_j$ into the strength of one of the primary colours.
 More precisely, for each pixel of the CCD, the value of the red channel is set to $255\times(S_1+1)/2$, so that the red channel is saturated when $S_1=1$ and empty when $S_1=-1$ (remembering that $S_i\in[-1,1]$). Green and blue channels are defined similarly with $S_2$ and $S_3$.
 An example of such colour encoding is given in~\cref{fig:VVBs:poinc_sphere}.
 These images can also be understood as vectors of length $3\times M$ with $M$ the total number of pixels supported by the CCD camera. These vectors are what the ML algorithms use.
 
+% \tmpHeading{Imperfections in the OAM beams generation}
+% \Cref{eq_si:qplate} summarises the action of the QPs on LG modes.
+% The output fields generated by such devices are \textit{Hypergeometric-Gaussian modes} (HyGG), an over-complete family of solutions to Helmholtz equation that display a phase term $e^{i m \phi}$ as the LG beams~\cite{Karimi:07}. Their expression in cylindrical coordinates $(r,\phi,z)$ is
+% \begin{align}
+%     \text{HyGG}_{p'm} & = i^{|m| +1} \sqrt{\frac{2^{p'+|m|+1}}{\pi \Gamma (p'+|m|+1)}}\frac{\Gamma(1+\frac{p'}{2}+|m|)}{\Gamma(|m|+1)} \notag\\
+%     & \times \zeta^{\frac{p'}{2}}(\zeta + i)^{-(1+|m|+\frac{p'}{2})} \rho^{|m|} e^{\frac{-(i \rho^2)}{\zeta + i}} \notag \\
+%     & \times {}_{1}F_1\left( -\frac{p'}{2}, 1 + |m|; \frac{\rho^2}{\zeta(\zeta+i)}\right) e^{i m \phi},
+% \end{align}
+% %
+% where $\zeta={z}/{z_R}$ ($z_R$ is the Rayleigh range), $\rho ={r}/{w_0}$ with $w_0$ the beam waist, and ${}_{1}F_{1}$ the Hypergeometric function.
+% \begin{figure}[tb]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{VVBs-hyGG.pdf}
+%     \caption{
+%     	\textbf{Role of the radial modes.}
+%     	Simulated images of a VVB generated with HyGG modes. In the calculation we have considered two HyGG modes with $(m_1,m_2)=(-3,1)$ propagating for $z\sim 1\,m$ with a Rayleigh range $z_R\sim 4\,m$. Comparison of the intensities recorded in the polarization measurements in the experiment.
+%     }
+%     \label{fig:VVBs:hyGG}
+% \end{figure}
+
+% The transformation actually operated by a $q$-plate with $q=0.5$ on a LG modes with zero radial number is 
+% \cite{Karimi:09}
+% \begin{align}
+%   \Vec{e}_L \text{ LG}_m &\stackrel{\text{QP}}{\longrightarrow} \Vec{e}_R\,\text{HyGG}_{|m|-|m+1|,m+1}   
+% \end{align}
+% The resulting HyGG beam carries OAM equal to $m+1$, but when expressed in the LG basis, it comprises the superposition of several modes with non-zero radial number, namely $\text{HyGG}_{|m|-|m+1|,m+1}=\sum_p c_p \text{LG}_{p,m+1}$. The contributions of the radial modes with $p>0$ can be neglected for $\zeta \ll 1$ and large $m$. For a detailed description of the coefficients $c_p$ see~\cite{Karimi:07,Karimi:09, cardano2015quantum}.
+
+% In~\cref{fig:VVBs:hyGG} we report the comparison between the simulated images computed by considering HyGG modes instead of LGs and images recorded in the experiment. The two vortexes in the VVB carry respectively OAM equal to $(m_1,m_2)=(-3,1)$, more precisely we consider a state in the form $ \Vec{e}_R\,\text{HyGG}_{-1,-3}+\Vec{e}_L\,\text{HyGG}_{-1,1}$. The simulation's parameters, such as $\zeta$, were adapted to reproduce the conditions of the experiment.
+
+% Even if such simple model of the experimental imperfections seems to be fit for the purpose, it is worth noting that other sources of noise could be investigated. First, in our simple model of the radial-mode contribution via HyGG modes, we did not consider the step-by-step conversion 
+% operated by the cascaded $q$-plate system in the setup. A more rigorous calculation could take into account the propagation and conversion of the several radial contributions at each step. Other effects in this direction are the non ideal conversion efficiencies: residual lower-$m$ components propagate inside the principal beam and can modify the polarization pattern and the relative weights of the radial modes. In the end, relative misalignment among $q$-plates singularities could affects the quality of the VVBs.
+
+% While the inclusion of all such considerations in the calculation of the training set could enhance the performance of a classifier in labelling experimental data, we leave it as a  perspective for a future work. On the other hand, a rigorous model of the imperfections is a complex task and makes the training set tied to the specifics of the experimental apparatus. Consequently, including some experimental images in the training set remains a possible solution.
+
+% These were obtained with a CNN composed of three convolutional and max-pooling layers, and two fully connected layers. Each convolutional layer uses $32$ filters of size $3\times3\times3$, with ReLU activation function. The pooling layers apply the max operation to blocks of size $2\times2\times3$. Finally, the fully connected layers use the softmax activation function, defined as $\bs x\mapsto (e^{x_i}/\sum_j e^{x_j})_i$.
+
+% \href{https://github.com/lucainnocenti/ML-classification-of-VVBs}{lucainnocenti/ML-classification-of-VVBs}.}
+
 \begin{figure}[tb]
 	\centering
-	\includegraphics[width=\textwidth]{conc_VVB_2.pdf}
+	\includegraphics[width=0.82\textwidth]{VVBs-classification_pipelines_allgreen.pdf}
 	\caption{
-	\textbf{(a)}
-	Working principles of \acp{CNN}. The training set consists of a series of simulated images, plus some others collected from the experimental platform.
-	\textbf{(b)}
-	Classification scheme using linear \ac{PCA}.
-	After reducing the dimensionality of the dataset via \ac{PCA}, a linear \ac{SVM} is used to classify experimental images.
-	\highlight{(aggiornare figura e caption da paper)}
+	Outline of classification scheme via CNNs \textbf{(a)} and PCA+SVM \textbf{(b)}.
+	When using the CNN, the network is fed with complete images.
+	On the other hand, the SVM classifier is fed with the reduced representation of the images, obtained via PCA.
 	}
 	\label{fig:VVBs:class_techniques}
 \end{figure}
 
 \begin{figure}[tb]
     \centering
-    \includegraphics[width=0.7\textwidth]{VVBs-Fig3.pdf}
+    \includegraphics[width=0.7\textwidth]{VVBs-classification_with_CNN_schematics.pdf}
     \caption{
-	    \textbf{(a)} Comparison between expected and recorded polarisation patterns for some \acp{VVB} of the ensemble in table, with the corresponding values $(m_1,m_2)$.
-	    \textbf{(b)} Scaling of the average accuracy per class when classifying states into one of the $15$ VVB classes,
-	    against the fraction of experimental images in the training set. 
-	    Inset: best truth table.
-	    Rows (columns) stand for the possible $(m_1,m_2)$ pairs (as assigned by the CNN). The matrix elements have been averaged over $100$ experimental images per class.
-	    \highlight{(togliere plot e mettere nuovi risultati (e ficcare github da qualche parte))}
+    	Comparison between simulated and experimental polarisation patterns for a sample of \acp{VVB}.
     }%
-    \label{fig:VVBs:resultsCNN}
+    \label{fig:VVBs:simVsExp}
 \end{figure}
 
 
@@ -116,9 +143,9 @@ These images can also be understood as vectors of length $3\times M$ with $M$ th
 \label{sec:VVBs:CNNs}
 
 \tmpHeading{What do we use CNNs for?}
-We showcase the potential of \acp{CNN} to retrieve a description of the states generating a given experimental dataset.
-In particular, we test CNNs on two separate classification tasks.
-First, we train a CNN to find the OAM numbers $(m_1,m_2)$ corresponding to input VVB images. Then, assuming a dataset produced using only VVBs with fixed $(m_1,m_2)$, we train a CNN to find the values of $(\theta,\phi)$ for each VVB.
+We showcase the potential of \acp{CNN} to characterise experimentally generated states.
+In particular, we test CNNs on two separate classification tasks:
+finding the OAM numbers $(m_1,m_2)$ corresponding to input VVBs, and, assuming a dataset of VVBs with fixed $(m_1,m_2)$, finding the values of $(\theta,\phi)$ characterising each VVB image.
 
 \tmpHeading{What are CNNs?}
 \acp{CNN} are translation-invariant deep NNs designed to handle image classification tasks~\cite{lecun2015deep}. Among their countless applications, CNNs have been used to recognise off-centre images and segmented handwritten digits~\cite{simard2003best,ciresan2011flexible},
@@ -126,15 +153,29 @@ and for facial recognition tasks~\cite{matsugu2003subject}.
 In its simplest form, a \ac{CNN} consists of a \emph{convolutional layer},
  % which consists of a series of nonlinear transformations applied to the input images,
 followed by a \emph{max-pooling layer}, and finally a \emph{fully connected layer}.
-These build up a mapping from each image to one of an element of a finite set of outputs (the \emph{classes} defining the problem under consideration, which in our case would be the $(m_1,m_2)$ pairs).
-% , categorising the information extracted in the previous layers into one of a small number of possible output categories.
+These build up a mapping from each image to one of a finite number of output \emph{classes} defining the problem under consideration. In our case, the classes would be the $(m_1,m_2)$ pairs.
+More precisely, the different layers operate as follows:
 \begin{itemize}
 	\item (\textbf{\emph{Convolutional layer}})
 		The idea of the convolutional layer is to extract local features from the image.
-		This is done by computing the inner product of every $k\times k$ block of the image with a fixed $k\times k$ matrix, which in this context is called a \emph{filter}. The filter is applied sequentially to each $k\times k$ block, starting from one corner and moving at discrete steps. The size of these steps is known as the \emph{stride}.
-		Each such filter extracts a specific type of feature from the image. The output of this process is called a \emph{feature map}. Multiple filters, and thus multiple feature maps, can be applied to the same image, to extract different features.
-		The filters are randomly initialised, and then adjusted during the training via a standard back-propagation process.
-		A nonlinear function is then applied to the feature maps. A common choice is mapping each pixel into a binary value. This nonlinearity is crucial, lest the whole process be linear and thus unable to capture interesting features.
+		This is done by computing the inner product of every $k\times k$ block of the image with a fixed $k\times k$ matrix, referred to as a \emph{filter} in this context. The filter is applied sequentially to each $k\times k$ block of the image.
+		% The size of these steps is known as the \emph{stride}. A stride of $1$ corresponds to the filter being applied to every single $k\times k$ contiguous block of the input.
+		% Larger strides mean that some blocks are skipped.
+		Each such filter extracts a specific feature from the image. The output of this process is called a \emph{feature map}. Multiple filters, and thus multiple feature maps, can be applied to the same image, to extract different features.
+		The values of the filters, as well as the weights and biases of their connections with their input, are parameters to be trained.
+		If the input images have dimensions $n_{ch}\times N_x\times N_y$, with $N_x,N_y$ width and height and $n_{ch}$ the number of \emph{channels} of the image (\emph{e.g.} $n_{ch}=3$ for RGB images), then a convolutional layer with $N_c$ filters will produce an output of size $N_c\times N_x\times N_y$.
+		Convolutional layers are typically followed by a nonlinear function, applied elementwise to the outputs. A common choice is the so-called Rectified Linear Unit (ReLU), defined as $x\mapsto\max(x,0)$.
+		This nonlinearity is crucial, lest the whole process be linear and thus unable to capture interesting features.
+		Explicitly, we write each input image as a three-index tensor $\calI_{\alpha,ij}\equiv\calI^\alpha_{ij}$, with $\alpha=1,2,3$ the colour channels and $i,j=1,...,128$ indexing the pixels.
+		Writing the filters as the tensor $\calF_{k\alpha mn}\equiv\calF^{k\alpha}_{mn}$, with $k=1,..,32$ indexing the different filters, we then compute the activation maps $\calM_{k\alpha pq}$ as
+		\begin{equation}
+			\calM_{k\alpha pq} = (\calF^{k\alpha}\star\calI^{\alpha})_{pq} \equiv
+			\sum_{mn} \calF^{k\alpha}_{mn} \calI^\alpha_{R[p,q]_{mn}},
+		\end{equation}
+		where $\star$ denotes the $2$D convolution operation, which consists in computing the inner product of $\calF^{k\alpha}$ with the different $3\times3$ blocks of $\calI^\alpha$. Here, $R[p,q]$ denotes the indices of a $3\times3$ block surrounding the indices $p,q$.
+		Explicitly, $R[p,q]_{mn}\equiv (p+m-2,q+n-2)$ with $m,n=1,2,3$, so that for example $R[1,1]$ covers the $3\times3$ submatrix surrounding the $(1,1)$ element of the image (which is the upper-left pixel). Whenever $R[p,q]$ covers pixels that fall outside of the boundaries of the image, like is the case for $R[1,1]$, it is standard practice to apply some \emph{padding} to the image, which in this case amounts to adding a single row or column of zeros on each side of the image. This is done to avoid having the bordering pixels being given a lesser weight than the rest.
+		Once the activation maps are computed, the ReLU activation function is applied element-wise to $\calM_{k\alpha pq}$.
+		This process is also illustrated in~\cref{fig:VVBs:convolutions_example}.
 	\item (\textbf{\emph{Pooling layer}})
 		After convolution and nonlinearity follows a \emph{max pooling} stage. Here, the feature maps are down-sampled, for example by subdividing each feature map into $\ell\times \ell$ blocks, and mapping each such block into its average value.
 		This is used to filter out the most relevant features from the feature maps, thus reducing noise and increasing the efficiency of training.
@@ -143,45 +184,10 @@ These build up a mapping from each image to one of an element of a finite set of
 		This stage operates like a standard NN layer.
 		This is the layer at which the final decision is reached: based on the activations of the final neurons in this layer, the network takes a decision as to which class the input belongs to (for example by choosing the neuron with the largest activation).
 \end{itemize}
-Note that most CNNs will not actually follow this simple structure, but rather contain different numbers of convolutional, pooling, and fully connected layers in different arrangements and with different parameters, depending on the specific applications.
-
-\tmpHeading{Categorisation into discrete classes}
-We first feed the network with a training dataset of simulated images of \acp{VVB}. The goal is to classify states in $15$ classes, each one defined by a pair of OAM numbers $(m_1,m_2)$, as per~\cref{fig:VVBs:resultsCNN}\textbf{a}.
-For each class we generate states with $\theta=\pi/2$ and $\phi\in[0,2\pi]$. The size of the training set is $400$ images per class.
-% Additional $100$ simulated images per class are used to benchmark the performance during training. In these conditions, the network achieves an accuracy of $100\%$.
-We then collect $100$ experimental images per class, to use as test set.
-To test the effectiveness of using simulated images to classify experimental ones, we add different fractions of experimental images into the training dataset.
-\Cref{fig:VVBs:resultsCNN}{\bf a}-{\bf b} shows the mean accuracy per class against the fraction of experimental images added to the training dataset.
-Remarkably, a small increase of the number of experimental images in the training set results in a good accuracy reached by the network: $12.5\%$ is already sufficient to achieve an average accuracy of $\sim 0.989$.
-
-
-\tmpHeading{Retrieving the position in the Poincaré sphere}
-We also test the network on a different problem: assuming $(m_1,m_2)$ is fixed, retrieve the parameters $(\theta,\phi)$ characterising the VVB (remembering the definition of VVBs as given in~\cref{eq:VVBs:definition_VVBs_field}).
-In particular, we train a CNN to retrieve the values $(\theta,\phi)$ characterising VVBs corresponding to the OAM quantum numbers $m_1=-m_2=1$.
-The network is thus trained to discriminate both rotations in the polarisation patterns (corresponding to changes of $\phi$), and variations in the colour tone (corresponding to changes of $\theta$).
-To frame this as a classification task, we partition the sphere in $26$ disjoint sectors.
-Working in spherical coordinates, we partition $\theta$ is in the $3$ intervals $\left[k \frac{\pi}{8}, (k+2) \frac{\pi}{8}\right]$ with $k=1,3,5$, and $\phi$ in the $8$ intervals $\left[t \frac{\pi}{4}, (t+1) \frac{\pi}{4}\right]$ with $t \in \{0,...,7\}$.
-This leaves two classes surrounding the two poles of the sphere, corresponding to $\theta \in \left[0, \frac{\pi}{8}\right]$ and $\theta\in\left[ \frac{7}{8} \pi, \pi\right]$.
-Partitioning makes the classification of VVBs closer to the border of two sectors harder, but nonetheless provides useful information about the suitability of CNNs for this kind of task.
-We train the CNN with $500$ simulated images per class in the training set, and $125$ per class in the validation one. The maximum accuracy  achieved is $\sim 0.90$.
-The suboptimality of this result can be understood as consequence of framing the problem as a classification task. Training a CNN for the corresponding regression task will potentially give much better results.
+Note that this is only the most basic structure found in CNNs. Actual CNNs will often contain different numbers of convolutional, pooling, and fully connected layers in different arrangements and with different parameters, depending on the specific applications.
 
 \tmpHeading{How do we implement the CNN?}
 To build and train the \acp{CNN} we use the Python library \emph{Keras}~\cite{chollet2015keras}.
-We use three convolutional layers) and one classifier. Each convolutional layer uses $32$ filters of size $3 \times 3 \times 3$, with a Rectified Linear Unit (ReLU) as activation function, and unit stride. The ReLU is the function $x\mapsto \max(x,0)$.
-This means that, for each input image of dimension $3\times 128\times128$ (three colour channels per each pixel in the $128\times128$ grid), the $i$-th activation map contains the values obtained by computing the inner products of the $i$-th filter with each $3\times 3$ contiguous block of the image. Each filter potentially acts differently on the different colour channels, so that, effectively, each colour map is the results of using three $3\times3$ filters (one per colour channel) on the three channels of the image.
-Explicitly, we write each input image as a three-index tensor $\calI_{\alpha,ij}\equiv\calI^\alpha_{ij}$, with $\alpha=1,2,3$ the colour channels and $i,j=1,...,128$ the pixels indices.
-Writing the filters as the tensor $\calF_{k\alpha mn}\equiv\calF^{k\alpha}_{mn}$, with $k=1,..,32$ indexing the different filters, we then compute the activation maps $\calM_{k\alpha pq}$ as
-\begin{equation}
-	\calM_{k,\alpha, p,q} = (\calF^{k\alpha}\star\calI^{\alpha})_{pq} \equiv
-	\sum_{mn} \calF^{k\alpha}_{mn} \calI^\alpha_{R[p,q]_{mn}},
-\end{equation}
-where $\star$ denotes the $2$D convolution operation, which consists in computing the inner product of $\calI^\alpha$ with the different $3\times3$ blocks of $\calF^{k\alpha}$. To explicit the convolution operation, we denoted with $R[p,q]$ the indices of a $3\times3$ block corresponding to the indices $p,q$.
-Explicitly, $R[p,q]_{mn}\equiv (p+m-2,q+n-2)$, so that for example $R[1,1]$ covers the $3\times3$ submatrix surrounding the $(1,1)$ element of the image (which is the upper-left pixel). Whenever $R[p,q]$ covers pixels that fall outside of the boundaries of the image, like is the case for $R[1,1]$, it is standard practice to apply some \emph{padding} to the image, which in this case amounts to adding a single row or column of zeros on each side of the image. This is done to avoid having the bordering pixels being given a lesser weight than the rest.
-Once the activation maps are computed, the ReLU activation function is applied element-wise to $\calM_{k,\alpha, p,q}$.
-This process is also illustrated with an explicit example in~\cref{fig:VVBs:convolutions_example}.
-The pooling layer acts on the previously computed activation maps by reducing the number of parameters. In particular, the $\max$ function is applied to every $2\times2$ block of the previous layers' output, meaning that every such block is sent to its greatest element.
-The classification is finally performed by a fully connected layer which uses a sigmoid activation function. The network training consists of a finite number of epochs, each of which is composed of $200$ training steps and $100$ validation steps.
 
 % channel1 = ConstantArray[0, {7, 7}];
 % channel1[[2 ;; 6, 2 ;; 6]] = RandomInteger[{0, 2}, {5, 5}];
@@ -273,6 +279,27 @@ The classification is finally performed by a fully connected layer which uses a 
     \label{fig:VVBs:convolutions_example}
 \end{figure}
 
+\tmpHeading{Categorisation into discrete classes}
+We first feed the network with a training dataset of simulated \acp{VVB}. The goal is to classify states in $15$ classes, each one defined by a pair of OAM numbers $(m_1,m_2)$, as per~\cref{fig:VVBs:simVsExp}.
+For each class we generate states with $\theta=\pi/2$ and $\phi\in[0,2\pi]$. The size of the training set is $400$ images per class.
+% Additional $100$ simulated images per class are used to benchmark the performance during training. In these conditions, the network achieves an accuracy of $100\%$.
+We then collect $100$ experimental images per class, to use as test set.
+To test the effectiveness of using simulated images to classify experimental ones, we add different fractions of experimental images into the training dataset.
+\Cref{fig:VVBs:simVsExp} shows the mean accuracy per class against the fraction of experimental images added to the training dataset.
+Remarkably, a small increase of the number of experimental images in the training set results in a good accuracy reached by the network: $12.5\%$ is already sufficient to achieve an average accuracy of $\sim 0.989$.
+
+
+\tmpHeading{Retrieving the position in the Poincaré sphere}
+We also test the network on a different problem: assuming $(m_1,m_2)$ is fixed, retrieve the parameters $(\theta,\phi)$ characterising the VVB (remembering the definition of VVBs as given in~\cref{eq:VVBs:definition_VVBs_field}).
+In particular, we train a CNN to retrieve the values $(\theta,\phi)$ characterising VVBs corresponding to the OAM quantum numbers $m_1=-m_2=1$.
+The network is thus trained to discriminate both rotations in the polarisation patterns (corresponding to changes of $\phi$), and variations in the colour tone (corresponding to changes of $\theta$).
+To frame this as a classification task, we partition the sphere in $26$ disjoint sectors.
+Working in spherical coordinates, we partition $\theta$ is in the $3$ intervals $\left[k \frac{\pi}{8}, (k+2) \frac{\pi}{8}\right]$ with $k=1,3,5$, and $\phi$ in the $8$ intervals $\left[t \frac{\pi}{4}, (t+1) \frac{\pi}{4}\right]$ with $t \in \{0,...,7\}$.
+This leaves two classes surrounding the two poles of the sphere, corresponding to $\theta \in \left[0, \frac{\pi}{8}\right]$ and $\theta\in\left[ \frac{7}{8} \pi, \pi\right]$.
+Partitioning makes the classification of VVBs closer to the border of two sectors harder, but nonetheless provides useful information about the suitability of CNNs for this kind of task.
+We train the CNN with $500$ simulated images per class in the training set, and $125$ per class in the validation one. The maximum accuracy  achieved is $\sim 0.90$.
+The suboptimality of this result can be understood as consequence of framing the problem as a classification task. Training a CNN for the corresponding regression task will potentially give much better results.
+
 
 \section{Dimensionality reduction}
 \label{sec:VVBs:dimensionality_reduction}
@@ -344,7 +371,7 @@ In other words, the Bloch sphere of the original two-dimensional system is still
 		Distribution of fidelities obtained comparing each experimental VVBs with its reduced 3D representations given by PCA. Projecting each image onto its first three principal axes and rescaling brings the data (orange points) onto a sphere in 3D, as shown in the inset. The inner (outer) black (semi-transparent) sphere is added for contrast [radius equal to that of the point with smaller (larger) radius]. \highlight{togliere la sfera}
 		\textbf{(d)}
 		Average prediction accuracy of a linear \ac{SVM} classifier, trained and tested after applying linear DR to the data, against the number of reduced dimensions $n_c$.
-		For each of the 15 classes (cf.~\cref{fig:VVBs:resultsCNN}a) in which the experimental dataset was divided, we show in the inset the true-table. 
+		For each of the 15 classes (cf.~\cref{fig:VVBs:simVsExp}) in which the experimental dataset was divided, we show in the inset the true-table. 
     }%
     \label{fig:VVBs:PCAresults}
 \end{figure}
@@ -430,17 +457,28 @@ What's more, the geometrical picture offered by the reduced representation tells
 We use half of the dataset for training, and the other half for testing the resulting accuracy.
 We found a \emph{linear} SVM, instead of a more commonly employed SVM with RBF kernel, to give better accuracies: $\sim98\%$ vs the $\sim94\%$ using the RBF kernel.
 In~\cref{fig:VVBs:PCAresults}\textbf{d}, we highlight how the average overall accuracy depends on the dimension of the reduced representation: $\sim 25$ dimensions are already sufficient for good accuracies.
-A breakdown of the classification performance is reported in~\cref{fig:VVBs:SVC_accuracies}.
+A breakdown of the classification performance is reported in~\cref{fig:VVBs:accuracies15classes_SVC}.
 The average classification accuracy is $\sim 98 \%$. This result confirms that the description provided by \ac{PCA} is sufficient to capture the important features of the generated states, thus allowing for significantly more efficient classification schemes.
 
 \begin{figure}[tb]
   \centering
-  \includegraphics[width=0.9\textwidth]{Figures/VVBs/VVBs-svcAccuracies_15classes_halftrainingdata_40dims_linear.pdf}
+  \includegraphics[width=0.7\textwidth]{Figures/VVBs/VVBs-svcAccuracies_15classes_halftrainingdata_40dims_usedInPaper.pdf}
+  % \includegraphics[width=0.9\textwidth]{Figures/VVBs/VVBs-svcAccuracies_15classes_halftrainingdata_40dims_linear.pdf}
   \caption{
       Classification accuracies given by the SVM classifier used on the reduced dataset obtained via PCA.
       \highlight{aggiornare figura, mettere quelle dal paper}
     }
-    \label{fig:VVBs:SVC_accuracies}
+    \label{fig:VVBs:accuracies15classes_SVC}
+\end{figure}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.7\textwidth]{Figures/VVBs/VVBs-accuracies15classes_CNN2.pdf}
+  % \includegraphics[width=0.9\textwidth]{Figures/VVBs/VVBs-svcAccuracies_15classes_halftrainingdata_40dims_linear.pdf}
+  \caption{
+      Classification accuracies given by the SVM classifier used on the reduced dataset obtained via CNN.
+    }
+    \label{fig:VVBs:accuracies15classes_CNN}
 \end{figure}
 
 
