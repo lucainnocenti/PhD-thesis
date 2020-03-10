@@ -145,29 +145,29 @@ These images can also be understood as vectors of length $3\times M$ with $M$ th
 \tmpHeading{What do we use CNNs for?}
 We showcase the potential of \acp{CNN} to characterise experimentally generated states.
 In particular, we test CNNs on two separate classification tasks:
-finding the OAM numbers $(m_1,m_2)$ corresponding to input VVBs, and, assuming a dataset of VVBs with fixed $(m_1,m_2)$, finding the values of $(\theta,\phi)$ characterising each VVB image.
+1) finding the OAM numbers $(m_1,m_2)$ corresponding to input VVBs and 2) assuming a dataset of VVBs with fixed $(m_1,m_2)$, finding the values of $(\theta,\phi)$ characterising each VVB image.
 
 \tmpHeading{What are CNNs?}
 \acp{CNN} are translation-invariant deep NNs designed to handle image classification tasks~\cite{lecun2015deep}. Among their countless applications, CNNs have been used to recognise off-centre images and segmented handwritten digits~\cite{simard2003best,ciresan2011flexible},
 and for facial recognition tasks~\cite{matsugu2003subject}.
 In its simplest form, a \ac{CNN} consists of a \emph{convolutional layer},
  % which consists of a series of nonlinear transformations applied to the input images,
-followed by a \emph{max-pooling layer}, and finally a \emph{fully connected layer}.
+followed by a \emph{max-pooling layer}, and finally a \emph{fully connected layer}, as also shown schematically in~\cref{fig:VVBs:class_techniques}.
 These build up a mapping from each image to one of a finite number of output \emph{classes} defining the problem under consideration. In our case, the classes would be the $(m_1,m_2)$ pairs.
 More precisely, the different layers operate as follows:
 \begin{itemize}
 	\item (\textbf{\emph{Convolutional layer}})
 		The idea of the convolutional layer is to extract local features from the image.
-		This is done by computing the inner product of every $k\times k$ block of the image with a fixed $k\times k$ matrix, referred to as a \emph{filter} in this context. The filter is applied sequentially to each $k\times k$ block of the image.
+		This is done by computing the inner product of every $k\times k$ block of the image with a fixed $k\times k$ matrix, referred to as a \emph{filter} in this context. The filter is applied sequentially to each $k\times k$ block of the image. This is also shown schematically in~\cref{fig:VVBs:convolutions_example}.
 		% The size of these steps is known as the \emph{stride}. A stride of $1$ corresponds to the filter being applied to every single $k\times k$ contiguous block of the input.
 		% Larger strides mean that some blocks are skipped.
 		Each such filter extracts a specific feature from the image. The output of this process is called a \emph{feature map}. Multiple filters, and thus multiple feature maps, can be applied to the same image, to extract different features.
-		The values of the filters, as well as the weights and biases of their connections with their input, are parameters to be trained.
+		% The values of the filters, as well as the weights and biases of their connections with their input, are parameters to be trained.
 		If the input images have dimensions $n_{ch}\times N_x\times N_y$, with $N_x,N_y$ width and height and $n_{ch}$ the number of \emph{channels} of the image (\emph{e.g.} $n_{ch}=3$ for RGB images), then a convolutional layer with $N_c$ filters will produce an output of size $N_c\times N_x\times N_y$.
 		Convolutional layers are typically followed by a nonlinear function, applied elementwise to the outputs. A common choice is the so-called Rectified Linear Unit (ReLU), defined as $x\mapsto\max(x,0)$.
-		This nonlinearity is crucial, lest the whole process be linear and thus unable to capture interesting features.
+		Introducing nonlinearity is crucial, lest the whole process be linear and thus unable to capture interesting features.
 		Explicitly, we write each input image as a three-index tensor $\calI_{\alpha,ij}\equiv\calI^\alpha_{ij}$, with $\alpha=1,2,3$ the colour channels and $i,j=1,...,128$ indexing the pixels.
-		Writing the filters as the tensor $\calF_{k\alpha mn}\equiv\calF^{k\alpha}_{mn}$, with $k=1,..,32$ indexing the different filters, we then compute the activation maps $\calM_{k\alpha pq}$ as
+		Writing the filters as a tensor $\calF_{k\alpha mn}\equiv\calF^{k\alpha}_{mn}$, with $k=1,..,32$ indexing the different filters, we can compute the activation maps $\calM_{k\alpha pq}$ as
 		\begin{equation}
 			\calM_{k\alpha pq} = (\calF^{k\alpha}\star\calI^{\alpha})_{pq} \equiv
 			\sum_{mn} \calF^{k\alpha}_{mn} \calI^\alpha_{R[p,q]_{mn}},
@@ -175,16 +175,47 @@ More precisely, the different layers operate as follows:
 		where $\star$ denotes the $2$D convolution operation, which consists in computing the inner product of $\calF^{k\alpha}$ with the different $3\times3$ blocks of $\calI^\alpha$. Here, $R[p,q]$ denotes the indices of a $3\times3$ block surrounding the indices $p,q$.
 		Explicitly, $R[p,q]_{mn}\equiv (p+m-2,q+n-2)$ with $m,n=1,2,3$, so that for example $R[1,1]$ covers the $3\times3$ submatrix surrounding the $(1,1)$ element of the image (which is the upper-left pixel). Whenever $R[p,q]$ covers pixels that fall outside of the boundaries of the image, like is the case for $R[1,1]$, it is standard practice to apply some \emph{padding} to the image, which in this case amounts to adding a single row or column of zeros on each side of the image. This is done to avoid having the bordering pixels being given a lesser weight than the rest.
 		Once the activation maps are computed, the ReLU activation function is applied element-wise to $\calM_{k\alpha pq}$.
-		This process is also illustrated in~\cref{fig:VVBs:convolutions_example}.
 	\item (\textbf{\emph{Pooling layer}})
-		After convolution and nonlinearity follows a \emph{max pooling} stage. Here, the feature maps are down-sampled, for example by subdividing each feature map into $\ell\times \ell$ blocks, and mapping each such block into its average value.
-		This is used to filter out the most relevant features from the feature maps, thus reducing noise and increasing the efficiency of training.
+		After convolution and nonlinearity follows a \emph{max-pooling} stage. Here, the feature maps are down-sampled, by partitioning each feature map into blocks of size $\ell\times \ell$, and mapping each such block into its maximum value (other types of pooling are possible, for example by mapping each block into its average value).
+		This is used to retain only the most relevant features from the feature maps, thus reducing noise and increasing the efficiency of training.
 	\item (\textbf{\emph{Fully connected layer}})
-		Finally, a fully connected layer is applied to the output of the max-pooling stage, mapping its output to one of the different classes defining the problem.
+		A fully connected layer is finally applied to the output of the max-pooling stage.
 		This stage operates like a standard NN layer.
-		This is the layer at which the final decision is reached: based on the activations of the final neurons in this layer, the network takes a decision as to which class the input belongs to (for example by choosing the neuron with the largest activation).
+		This is the layer in which the networks takes a decision as to which class the input image belongs to: the chosen class is the one corresponding to the output neuron with the largest activation.
+		More precisely, such a fully connected NN takes as input an array $\bs x^{\on{in}}$ and applies an affine transformation, effectively implementing the mapping
+		\begin{equation}
+			\bs x^{\on{in}}\mapsto \bs x^{\on{out}}
+			\equiv
+			\left(
+				\sum_k w_{jk} x^{\on{in}}_k + b_j
+			\right)_j,
+		\end{equation}
+		where $\bs x^{\on{out}}$ is a vector of length equal to the number of output neurons (in the cases studied here, the number of output classes), and the parameters $w_{jk},b_j$ are referred to as the \emph{weights} and \emph{biases} of the network. The output of the network is obtained by applying a nonlinear function, often the \emph{sigmoid function} $\sigma(x)\equiv 1/(1+e^{-x})$, to the outputs.
+		In the context of our CNN, this fully connected layer takes as input the set of outputs of the previous max-pooling layer (simple flattening is applied to convert the three-dimensional tensors produced by the pooling layers into a form suitable for the fully connected layer).
 \end{itemize}
 Note that this is only the most basic structure found in CNNs. Actual CNNs will often contain different numbers of convolutional, pooling, and fully connected layers in different arrangements and with different parameters, depending on the specific applications.
+
+\tmpHeading{Training the network}
+The free parameters of the CNN, that is, all the weights and biases connecting the neurons at different layers, as well as the values of the filters, are trained using \ac{SGD}. This is the same algorithm described in~\cref{subsec:GL:supervised_learning_and_SGD}.
+\ac{SGD} operates by first initialising the parameters with random values, then using a \emph{batch} of training images $\{(\bs x_k,\ell_k)\}_k$ to compute the Euclidean distance between the outputs produced by the network when fed with the images, and the corresponding labels (which are the outputs the network should give when ideally trained).
+Here, $\bs x_k$ denote the input images, while $\ell_k$ the class corresponding to the $k$-th image, expressed as an integer number.
+This distance is used as the \emph{cost function} that the algorithm seeks to minimise.
+Denoting with $f_\bslambda$ the mapping implemented by the network when its parameters have values $\bslambda$, this distance reads
+\begin{equation}
+	L_\bslambda(\bs x_k,\ell_k) = \frac{1}{N_{\on{batch}}}
+	\sum_k \|f_\bslambda(\bs x_k)-\bs e_{\ell_k}\|^2,
+\end{equation}
+where $N_{\on{batch}}$ is the number of elements in the batch, and $\bs e_{\ell_k}$ is the vector with size equal to the number of classes, and elements $(\bs e_{\ell_k})_j=\delta_{j,\ell_k}$.
+We then tune the parameters of the network to make this distance smaller, by updating them in the direction of the gradient of the distance function:
+\begin{equation}
+	\bslambda \to
+	\bslambda - \eta \nabla_\bslambda f_\bslambda(\bs x_k),
+	\label{eq:VVBs:naive_updating_rule}
+\end{equation}
+where the real parameter $\eta>0$ is the \emph{learning rate}, used to determine the speed of the training.
+In actual implementation, we often use variations of~\cref{eq:VVBs:naive_updating_rule} that are more robust and converge quicker in most applications.
+An updating rule that is often used in state-of-the-art application is referred to as the \textsc{Adam}~\cite{ruder2016overview}, which uses different learning rates for different parameters, and adapts it conditionally to the recent training history of that parameter.
+\highlight{(reread)}
 
 \tmpHeading{How do we implement the CNN?}
 To build and train the \acp{CNN} we use the Python library \emph{Keras}~\cite{chollet2015keras}.
@@ -280,14 +311,22 @@ To build and train the \acp{CNN} we use the Python library \emph{Keras}~\cite{ch
 \end{figure}
 
 \tmpHeading{Categorisation into discrete classes}
-We first feed the network with a training dataset of simulated \acp{VVB}. The goal is to classify states in $15$ classes, each one defined by a pair of OAM numbers $(m_1,m_2)$, as per~\cref{fig:VVBs:simVsExp}.
-For each class we generate states with $\theta=\pi/2$ and $\phi\in[0,2\pi]$. The size of the training set is $400$ images per class.
+We first showcase CNNs to classify experimental and simulated VVBs into $15$ different classes characterised by their OAM numbers $(m_1, m_2)$, as per~\cref{fig:VVBs:simVsExp}.
+For each class we generate states with $\theta=\pi/2$ and $\phi\in[0,2\pi]$.
+% The size of the training set is $400$ images per class.
+We find that training and testing CNNs with simulated images easily leads to $100\%$ accuracy. This remains true when the training and testing datasets comprise simulated images with added white noise.
 % Additional $100$ simulated images per class are used to benchmark the performance during training. In these conditions, the network achieves an accuracy of $100\%$.
-We then collect $100$ experimental images per class, to use as test set.
-To test the effectiveness of using simulated images to classify experimental ones, we add different fractions of experimental images into the training dataset.
-\Cref{fig:VVBs:simVsExp} shows the mean accuracy per class against the fraction of experimental images added to the training dataset.
-Remarkably, a small increase of the number of experimental images in the training set results in a good accuracy reached by the network: $12.5\%$ is already sufficient to achieve an average accuracy of $\sim 0.989$.
+On the other hand, we find that training on simulated images is not enough to teach the network to categorise experimental ones. A possible reason for this is that experimental images can be quite different than the simulated ones, as can be already seen in the images provided in~\cref{fig:VVBs:simVsExp}. Indeed, the simulated images assume a perfect superposition of states with two different OAM numbers, whereas the states produced by \acp{QP} are closer to \emph{Hypergeometric-Gaussian modes}~\cite{karimi2007hypergeometricgaussian}. These are a different family of solutions of the Helmoltz equation in cylindrical coordinates. We show a few examples of such beams in~\cref{fig:VVBs:hyGG}.
+In this work we stick with the simpler OAM beams for simplicity.
 
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Figures/VVBs/VVBs-hyGG.pdf}
+    \caption{
+    	asd
+    }%
+    \label{fig:VVBs:hyGG}
+\end{figure}
 
 \tmpHeading{Retrieving the position in the Poincaré sphere}
 We also test the network on a different problem: assuming $(m_1,m_2)$ is fixed, retrieve the parameters $(\theta,\phi)$ characterising the VVB (remembering the definition of VVBs as given in~\cref{eq:VVBs:definition_VVBs_field}).

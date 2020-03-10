@@ -1785,7 +1785,7 @@ Our implementation allows to train arbitrary target gates parametrised via a tim
 Any $\calH_\bslambda$ depending linearly on the parameters, $\calH_\bslambda=\sum_i \lambda_i \sigma_i$ for Hermitians $\sigma_i$, can be used.
 This is made possible by the flexibility of \ac{AD}, which allows to automatically build an efficiently differentiable computational graph, without needing to hard-code the structure of the Hamiltonian and its derivatives with respect to $\lambda_i$.
 
-\tmpHeading{Handling complex numbers with real frameworks}
+\tmpHeading{Handling complex numbers}
 While the cost function $\calF$ is always real, some of the intermediate calculations needed to compute it involve complex numbers.
 While this poses no fundamental problems, many of the \ac{ML} libraries do not support \ac{AD} over functions with complex inputs or outputs.
 We worked around this problem using a similar trick to the one reported in~\cite{leung2017speedup}.
