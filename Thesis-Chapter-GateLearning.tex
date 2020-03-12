@@ -22,23 +22,29 @@ This simplifies the achievement of different types of evolutions, but at the sam
 This types of problems are usually referred to as \textit{quantum (optimal) control} problems~\cite{dalessandro2007introduction,werschnik2007quantum,dong2010quantum}.
 
 \tmpHeading{What problem do \emph{we} set up to solve?}
-In this chapter, we consider a gate engineering strategy that is both \emph{single-shot} and \emph{time-independent}. With \emph{single-shot} strategy we here refer to strategies which do not involve implementing a target gate using a sequence of other gates. This property is desirable, in that requiring the use of multiple gates to implement a single target one increases the complexity and coherence times of the circuit.
-A \emph{time-independent} strategy is instead one that that avoids implementing a target operation using a sequence of other gates, but at the same time does \emph{not} require time-dependent dynamics. This would imply simpler dynamics, generally easier to implement experimentally.
+In this chapter, we focus on gate engineering protocols that are both \emph{single-shot} and \emph{time-independent}.
+These are strategies which involve using a fixed set of constant-strength interactions, as opposed to approaches such as gate compilation or quantum control, in which the types and strengths of the interactions are time-dependent.
+% With \emph{single-shot} strategy we refer to strategies which do not involve implementing a target gate using a sequence of other gates. This property is desirable, in that requiring the use of multiple gates to implement a single target one increases the complexity and coherence times of the circuit.
+% A \emph{time-independent} strategy is instead one that that avoids implementing a target operation using a sequence of other gates, but at the same time does \emph{not} require time-dependent dynamics. This would imply simpler dynamics, generally easier to implement experimentally.
 
 \tmpHeading{A previous work in this direction: \emph{Banchi et al. 2016}}
-A first step in this direction was presented in~\cite{banchi2016quantum}.
-The idea was there to look for time-\emph{independent} few-qubit Hamiltonians $\calH$ producing a target unitary gate after a fixed time. They, in particular, considered the cases of the three-qubit Toffoli and Fredkin gates as target, and admitted \emph{four} qubits in the evolution, using the fourth one as an \emph{ancillary} qubit, which is traced out at the end of the evolution.
-This work showed that such nontrivial three-qubit gates can be implemented with simple single-shot, time-independent dynamics, by using a scheme with $3+1$ qubits.
-This was achieved by solving numerically for the values of the interaction parameters, in a given Hamiltonian \ansatz, resulting in the target evolution.
-To work around the complexity of the associated optimisation problem, a technique inspired by the way many \ac{ML} models are trained, namely, \ac{SGD}, was used.
+A first step in this direction was presented in~\cite{banchi2016quantum}, which proposed a strategy to find time-\emph{independent} few-qubit Hamiltonians producing a target operation.
+In particular, they focused on generating target three-qubit gates such as Toffoli and Fredkin, using an additional one as ancilla to be traced out at the end of the evolution.
+% This work showed that such nontrivial three-qubit gates can be implemented with simple single-shot, time-independent dynamics, by using a scheme with $3+1$ qubits.
+To find the values of the interaction parameters, they used a numerical optimisation technique called \ac{SGD}. This algorithm is the workhorse of most supervised learning algorithms, and the novel idea to apply it in the context of gate learning is what allowed for much improved results compared to what can be obtained via standard optimisation algorithms.
+% This was achieved by solving numerically for the values of the interaction parameters, in a given Hamiltonian \ansatz, resulting in the target evolution.
+% To work around the complexity of the associated optimisation problem, a technique inspired by the way many \ac{ML} models are trained, namely, \ac{SGD}, was used.
 
 \tmpHeading{Our contributions}
-Building upon~\cite{banchi2016quantum}, we show that the gate learning strategy presented there can be significantly improved, both from an algorithmic and from a fundamental perspective~\cite{innocenti2018supervised}.
-On the one hand, we speed-up dramatically the numerical optimisation routines by integrating \ac{AD} techniques into the optimisation routine. This makes testing and looking for solutions to specific problems significantly easier.
+Building upon~\cite{banchi2016quantum}, we show that the gate learning strategy presented there can be significantly improved, both from an algorithmic and a fundamental perspective~\cite{innocenti2018supervised}.
+On one hand, we speed-up dramatically the numerical optimisation routines by integrating \ac{AD} techniques into the optimisation routine. This makes searching and testing for solutions to specific problems significantly easier.
 On the other hand, by further analysing the underlying mathematical problem, we devise a solution framework to further speed-up the numerics by exploiting the symmetries of the target gate, and in some cases even allows to derive exact solutions without the need of the numerical apparatus.
 
 \tmpHeading{Chapter outline}
-In~\cref{sec:GL:problem_details} we explain in detail the mathematics underlying gate learning problems, and how physical constraints on the possible Hamiltonian parameters can be brought into the discussion. In~\cref{sec:GL:solution_framework} we finally provide one of the main results of the chapter, in the form of a solution framework that will prove useful both to solve gate learning problems exactly and to speed-up the numerical optimisations when needed. In~\cref{sec:GL:toffoli} we present the analytical results on the implementability of the Toffoli gate, while in~\cref{sec:GL:fredkin} those concerning the Fredkin gate. We continue in~\cref{sec:GL:numerical_approach} by discussing how the problem can be massaged to make it solvable via a numerical optimisation approach, and finally in~\cref{sec:GL:supervised_learning} we show how \ac{ML} techniques can be used to obtain even further efficiency improvements.
+In~\cref{sec:GL:problem_details} we explain the mathematical details underlying gate learning problems, and how physical constraints on the possible Hamiltonian parameters enter the discussion. In~\cref{sec:GL:solution_framework} we present a general framework to solve gate learning problems, applicable to find both analytical and numerical solutions.
+In~\cref{sec:GL:toffoli} we present the analytical results on the implementability of the Toffoli gate, while in~\cref{sec:GL:fredkin} those concerning the Fredkin gate.
+In~\cref{sec:GL:numerical_approach} we discuss how the problem can be tackled using numerical optimisation.
+Finally, in~\cref{sec:GL:supervised_learning} we present novel \ac{ML} techniques that further speed-up the search for solutions.
 The work described in this chapter can be found in~\cite{innocenti2018approximate,innocenti2018supervised}.
 
 
@@ -47,19 +53,29 @@ The work described in this chapter can be found in~\cite{innocenti2018approximat
 
 \newcommand{\setOfHamiltonians}{\calH[\bullet]}
 
-\tmpHeading{Mathematical formulation}
-Here, we explore a different approach to devise target unitary evolutions. More specifically, we ask the following question: is there a way to implement a given target gate \emph{without} decomposing it as a sequence of simpler gates, \emph{and} without using a time-dependent dynamics, \emph{and} without the aid of additional ancillary resources?
+\tmpHeading{The question}
+Here, we explore a different approach to devise target unitary evolutions. More specifically, we ask the question: \emph{is there a way to implement a given target gate \emph{without} decomposing it as a sequence of simpler gates, \emph{and} without using a time-dependent dynamics, \emph{and} without the aid of additional ancillary resources?}
 In other words, given a target operation $\calU$, and a set of possible candidate Hamiltonians $\setOfHamiltonians\equiv \{\calH_{\bslambda}\}_{\bslambda}\subseteq\on{Herm}$\footnote{Here, $\on{Herm}\equiv\on{Herm}(N)$ is the set of Hermitian $N\times N$ matrices with complex entries, for some integer $N\ge2$. The dimension $N$ will be taken to be understood from the context.},
 can we find a \emph{time-independent} Hamiltonian $\calH\in\setOfHamiltonians$ such that, at some time $t$, we have $\calU = e^{-it \calH}$?
 \footnote{Throughout this work, we will only consider the cases of operations and Hamiltonians acting on \emph{finite-dimensional} systems (generally sets of qubits).}
-Note that, if no restriction is imposed on $\setOfHamiltonians$, then the problem is always trivially solvable. Indeed, let us write the eigendecomposition of $\calU$ as $\calU=\sum_k e^{i\varphi_k}\PP_k$ for some normalised set of orthogonal projectors $\PP_j\equiv\ketbra j$, which thus satisfy $\PP_j\PP_k=\delta_{jk}\PP_j$ and $\sum_k\PP_k=I_N$, and phases $\varphi_k\in\RR$.
-Then any $\calH$ of the form $\calH = -\sum_k \varphi_k\mathbb P_k$ satisfies $e^{-i\calH}=\calU$.
-The interesting cases, both from a theoretical and practical perspective, are therefore when $\setOfHamiltonians$ is constrained (for example, we might require a solution that only uses specific types of interactions between the qubits).
+
+\tmpHeading{Restrictions on the Hamiltonians}
+Note that, if no restriction is imposed on $\setOfHamiltonians$, then the problem is always trivially solvable. Indeed, if the eigendecomposition of $\calU$ reads
+\begin{equation}
+    \calU=\sum_k e^{i\varphi_k}\PP_k
+    \quad\text{ with }\quad
+    \PP_j\equiv\ketbra j,
+    \quad \varphi_k\in\RR,
+\end{equation}
+% $\calU=\sum_k e^{i\varphi_k}\PP_k$ for some normalised set of orthogonal projectors $\PP_j\equiv\ketbra j$, which thus satisfy $\PP_j\PP_k=\delta_{jk}\PP_j$ and $\sum_k\PP_k=I_N$, and phases $\varphi_k\in\RR$.
+then any $\calH$ of the form $\calH = -\sum_k \varphi_k\mathbb P_k$ satisfies $e^{-i\calH}=\calU$.
+The interesting cases, both from a theoretical and practical perspective, are when $\setOfHamiltonians$ is constrained (for example, we might require a solution that only uses specific types of interactions between the qubits).
 Here, we will consider the case of $\setOfHamiltonians$ being a set of Hamiltonians parametrised by a number of continuous parameters (in other words, it's taken to be a parametrised surface in $\on{Herm}(N)$).
 We will therefore always assume that there is a continuous mapping $\RR^\ell\ni\bslambda\mapsto\calH_\bslambda\in\on{Herm}$ such that $\setOfHamiltonians=\calH(I)$ for some $I\subseteq\RR^\ell$ (which will be usually taken to equal $\RR^\ell$ for simplicity).
 
 \tmpHeading{A few tricks to simplify the math}
-We can also consider the time $t$ as part of the definition of $\calH$. This amounts to a rescaling of the energy levels, as $t$ always only appears multiplied with $\calH$, and therefore we can directly work on $t\calH$, which is equivalent to setting $t=1$. Once a suitable $\calH$ is found, we can always rescale it so that the target is implemented after a desired time $t^*$ by writing $\calH=t^*(\calH/t^*)$. Finally, to ease the calculations, we will consider the equivalent problem of finding $\calH$ such that $\calU=e^{i\calH}$ (rather than $\calU=e^{-i\calH}$), as the solutions to one can be seamlessly translated into solutions to the other problem.
+We can consider the time $t$ as part of the definition of $\calH$, which only amounts to a rescaling of the energy levels. This means that we can focus on the $t=1$ case without loss of generality.
+Once a suitable $\calH$ is found, we can always rescale it so that the target is implemented after a desired time $t^*$ by writing $\calH=t^*(\calH/t^*)$. Finally, to ease the calculations, we will consider the equivalent problem of finding $\calH$ such that $\calU=e^{i\calH}$ (rather than $\calU=e^{-i\calH}$), as the solution to one problem is seamlessly translated to a solution to the other.
 
 \tmpHeading{A few examples}
 For concreteness, let us analyse what happens when we try to find Hamiltonian generators for a few common two- and three-qubit gates, such as the CNOT and the Toffoli gate.
@@ -72,25 +88,25 @@ In matrix notation, this reads
     \PP_0\otimes I_2 + \PP_1\otimes X,
 \end{equation}
 where $\PP_k\equiv\ketbra k$ and $X$ is the Pauli $X$ gate.
-The eigendecomposition of this matrix is
-\begin{equation}
-    \on{CNOT} =
-    \ketbra{0,0} + \ketbra{0,1} + \ketbra{1,+} - \ketbra{1,-}.
-    \label{eq:GL:cnot_eigendecomposition}
-\end{equation}
-A more expressive way to write~\cref{eq:GL:cnot_eigendecomposition} is by introducing the projectors $X^\pm\equiv(1\pm X)/2$, and the similarly defined $Y^\pm$ and $Z^\pm$ ($X,Y,Z$ always denote the one-qubit Pauli matrices here).
-\Cref{eq:GL:cnot_eigendecomposition} is then equivalently written as
+The eigendecomposition of this matrix reads
+% \begin{equation}
+%     \on{CNOT} =
+%     \ketbra{0,0} + \ketbra{0,1} + \ketbra{1,+} - \ketbra{1,-}.
+%     \label{eq:GL:cnot_eigendecomposition}
+% \end{equation}
 \begin{equation}
     \on{CNOT} =
     Z^+_1 Z^+_2 + Z^+_1 Z^-_2
     + Z^-_1 X^+_2
     - Z^-_1 X^-_2
-    = Z_1^+ + Z_1^- X_2^+ - Z_1^- X_2^-.
+    = Z_1^+ + Z_1^- X_2^+ - Z_1^- X_2^-,
     \label{eq:GL:cnot_eigdecomp_with_paulis}
 \end{equation}
+where $X^\pm\equiv(1\pm X)/2$, and $Y^\pm$ and $Z^\pm$ are similarly defined ($X,Y,Z$ denote the one-qubit Pauli matrices).
 Its eigenvalues are $\lambda_{1,2,3}=1$ and $\lambda_4=-1$.
-Let us consider the question: \emph{can this gate be obtained via a two-qubit time-independent Hamiltonian $\calH$?}
-Consider for the purpose a general parametrisation of the possible two-qubit Hamiltonians, which we can write using the set of Pauli matrices on the two qubits as operatorial basis:
+
+Consider the question: \emph{can this gate be obtained via a two-qubit time-independent Hamiltonian $\calH$?}
+A general parametrisation of the possible two-qubit Hamiltonians, written using the set of Pauli matrices on the two qubits as operatorial basis, reads
 \begin{equation}
     \calH_\bslambda =
     \sum_{j,k=0}^4 \lambda_{j,k} \sigma^j_1\sigma^k_2.
@@ -144,20 +160,20 @@ Note how expanding this Hamiltonian we get
 which contains three-qubit interaction terms (the $Z_1 Z_2 X_3$ factor). While this is to be expected, being the Toffoli is a non-trivial three-qubit gate, these types of terms make practically implementing the Hamiltonian significantly harder.
 Indeed, natural interactions, and in particular interactions that can be easily implemented in experiments, generally involve only one- and two-qubit interaction terms.
 It is then natural to wonder about whether this is a \emph{necessary} feature of time-independent generators of the Toffoli.
-As will be shown in the following sections, the answer is in fact that \emph{yes}, it is possible to find time-independent Hamiltonians that generate a Toffoli using up to two-qubit interactions.
+As will be shown in~\cref{sec:GL:toffoli}, it is indeed possible to find time-independent Hamiltonians that generate the Toffoli gate using only up to two-qubit interactions.
 \end{examplebox}
 
 \tmpHeading{Why this is not the end of the story}
 \Cref{ex:GL:eigendecomposition_cnot,ex:GL:eigendecomposition_Toffoli} show that looking for Hermitian generators of few-qubit gates appears to be a fairly straightforward task. There are, however, two notable issues with the analysis conducted so far:
 \begin{enumerate}
-    \item It lacks in generality: while finding specific generators essentially amounts to computing the eigendecomposition of the target $\calU$, and then the logarithm of the eigenvalues, this says nothing about whether such procedure provides \emph{the most general} kind of Hamiltonian generator for the target gate. In other words, can \textit{all} generators $\calH$ be obtained this way?
+    \item It lacks of generality: while finding specific generators essentially amounts to computing the eigendecomposition of the target $\calU$, and then the logarithm of the eigenvalues, this says nothing about whether such procedure provides \emph{the most general} kind of Hamiltonian generator for the target gate: can all generators $\calH$ be obtained this way?
     \item We have no control over the kind of generators that we obtain with this procedure. For example, in~\cref{ex:GL:eigendecomposition_cnot} we obtained generators containing two-qubit interactions of the form $Z_1 X_2$. Does this mean that this type of interaction term is \textit{necessary} to generate a CNOT? Or is there instead some Hamiltonian that can still generate the CNOT without needed such interactions?
     Similar questions arise in~\cref{ex:GL:eigendecomposition_Toffoli}.
 \end{enumerate}
 
 \tmpHeading{What is the rest of this section about?}
 To address these issues, we will study the underlying mathematical problem in more detail.
-We divide the analysis in two parts. \Cref{sec:GL:solutions_matrix_equation_f(A)=B} focusses on how to find general solutions to inverse matrix equations of the form $f(A)=B$. Then, in~\cref{sec:GL:constraints_on_interaction_pars}, we present a way to bring additional constraints on the interaction terms into the discussion.
+We divide the analysis in two parts. \Cref{sec:GL:solutions_matrix_equation_f(A)=B} focuses on how to find general solutions to inverse matrix equations of the form $f(A)=B$. Then, in~\cref{sec:GL:constraints_on_interaction_pars}, we present a way to bring additional constraints on the interaction terms into the discussion.
 
 \subsection{Solving matrix equations: \texorpdfstring{$f(A)=B$}{f(A)=B}}
 \label{sec:GL:solutions_matrix_equation_f(A)=B}
@@ -199,7 +215,7 @@ We then have
 \end{equation}
 where we defined the ``rotated projectors'' $\tildePP_k\equiv U^\dagger \PP U$.
 While this rewriting is inconsequential in~\cref{eq:GL:rewriting_proj_with_rotated_projs}, such rotations of the degenerate eigenspaces turn out to be important when looking for solutions of $f(A)=B$.
-Indeed, consider again~\cref{eq:GL:f(A)=B_eigendecomp_proof} and focus on a single eigenspace $\PP_j^B$ such that $\Tr\PP_j^B=d_j>1$ (assuming $B$ has one). Write an arbitrary decomposition of $\PP_j^B$ in terms of on unit-trace projectors as $\PP_j^B=\sum_{\ell=1}^{d_j}\PP^B_{j,\ell}$.
+Indeed, consider again~\cref{eq:GL:f(A)=B_eigendecomp_proof} and focus on a single eigenspace $\PP_j^B$ such that $\Tr\PP_j^B=d_j>1$ (assuming $B$ has one). Write an arbitrary decomposition of $\PP_j^B$ in terms of unit-trace projectors as $\PP_j^B=\sum_{\ell=1}^{d_j}\PP^B_{j,\ell}$.
 Let $\{\lambda_{j,\ell}\}_{\ell=1}^{d_j}\subseteq f^{-1}(\lambda_j^B)$ be a subset of inverses of $\lambda_j^B$. Then, any $A$ which has $\lambda_{j,\ell}$ as eigenvalues within the eigenspace $\PP_j^B$ is a suitable solution for $f^{-1}(B)$.
 In other words, we have
 \begin{equation}
@@ -212,7 +228,7 @@ Note how this means that $f^{-1}(B)$ can break the degeneracies in $B$, thanks t
 We now give a few examples of the freedom allowed by degeneracies in the target gate.
 
 \begin{examplebox}[label={ex:GL:solutions_f(A)=I2}]{Decomposition two-dimensional identity matrix}
-Consider the two-dimensional identity matrix $I_2$, and an arbitrary complex function $f$ defined on the complex unit circle. \emph{What is then the set of matrices $A$ such that $f(A)=I_2$?}
+Consider the two-dimensional identity matrix $I_2$, and an arbitrary complex function $f$ defined on the complex unit circle, and suppose we are interested in the set of matrices $A$ such that $f(A)=I_2$.
 Note that $I_2=P+Q$ for any pair of orthogonal projectors $P,Q$, and $\lambda P + \mu Q\in f^{-1}(I_2)$ for any $\lambda,\mu\in f^{-1}(1)$.
 This can be equivalently stated saying that, for any pair of orthonormal states $\ket u$ and $\ket v$, we have
 $\lambda \ketbra u + \mu \ketbra v\in f^{-1}(I_2)$.
@@ -224,15 +240,15 @@ Going further, we parametrise the set of all such vectors writing (we can define
 \end{cases}
 \end{equation}
 This provides us with a parametrisation for the set of solutions $f^{-1}(B)$:
-\begin{equation}
-\begin{aligned}
-    A = &\lambda\left(\cos^2(\alpha) \PP_0 + \sin^2(\alpha) \PP_1 + \sin(2\alpha)\Re[e^{i\theta}\ketbra{1}{0}]\right) \\
-    +&\mu\left(
-        \sin^2(\alpha) \PP_0 + \cos^2(\alpha) \PP_1 - \sin(2\alpha)\Re[e^{i\theta}\ketbra{1}{0}]
-    \right),
-\end{aligned}
-\end{equation}
-or in matrix form,
+% \begin{equation}
+% \begin{aligned}
+%     A = &\lambda\left(\cos^2(\alpha) \PP_0 + \sin^2(\alpha) \PP_1 + \sin(2\alpha)\Re[e^{i\theta}\ketbra{1}{0}]\right) \\
+%     +&\mu\left(
+%         \sin^2(\alpha) \PP_0 + \cos^2(\alpha) \PP_1 - \sin(2\alpha)\Re[e^{i\theta}\ketbra{1}{0}]
+%     \right),
+% \end{aligned}
+% \end{equation}
+% or in matrix form,
 \begin{equation}
     A = \begin{pmatrix}
         \lambda \cos^2(\alpha)+\mu\sin^2(\alpha) &
@@ -291,7 +307,7 @@ Specialising~\cref{eq:GL:general_form_f-1B} to the specific eigenstructure of $\
 where
 $\PP_4\equiv\ketbra 4\equiv\ketbra{1,-}$, the projectors 
 $\{\tildePP_j\}_{j=1}^3$ define an arbitrary splitting of the degenerate eigenspace $\ker[(\CNOT-I_4)]$ into orthonormal vectors, and $\lambda_j,\mu\in\CC$ are such that $e^{i\lambda_j}=1$ and $e^{i\mu}=-1$.
-These last conditions identify $\lambda_j\in2\pi\ZZ$ and $\mu\in\pi + 2\pi\ZZ$.
+Such conditions identify $\lambda_j\in2\pi\ZZ$ and $\mu\in\pi + 2\pi\ZZ$.
 % \begin{equation}
 %     \lambda_{j,\ell} = 2\pi n_{j,\ell},
 %     \quad
@@ -310,7 +326,7 @@ A generic generator for the CNOT can thus be written as
 It is worth stressing how the set of viable generators $\calH$ has both a discrete and a continuous degree of freedom.
 \end{examplebox}
 
-In the rest of the thesis, we will focus on the case $f(A)\equiv e^{iA}$, which is the case of relevance to find Hamiltonian generators of target unitaries.
+In the rest of the thesis, we will focus on $f(A)\equiv e^{iA}$, which is the case of relevance to find Hamiltonian generators of target unitaries.
 
 \subsection{Adding physical practical constraints}
 \label{sec:GL:constraints_on_interaction_pars}
@@ -868,7 +884,7 @@ This can be readily verified to satisfy $e^{i\HTildeToff}=\UToff$.
 Let us now try to understand how and why this $\HPrimeToff$ (and thus $\HTildeToff$) works.
 Define $P_i \equiv \ketbra{\lambda_i}$,
 and consider the projector over the last two eigenvectors.
-Focussing on the 3-qubit terms, we find
+Focusing on the 3-qubit terms, we find
 \begin{equation}
 \begin{aligned}
 	P_7 \simeq - N_6^2 \frac{Z_1 Z_2}{4} \bigg[
@@ -1639,7 +1655,7 @@ One possibility is to consider the average fidelity $\barcalF(\bslambda)$, as in
 This however, as discussed in~\cref{sec:GL:numerical_approach}, reveals to be often impractical, due to the complexity of the associated parameter landscapes.
 On the other hand, \ac{SGD} allows to apply a simple and efficient local maximisation method, being at the same time less prone to getting stuck into local maxima.
 This works particularly well for our problem, because we know that the $\bslambda$ corresponding to the target gate are \emph{all and only} those such that \emph{for all inputs $\psi$} the fidelity equals $1$.
-Indeed, one of the main advantages of this method is its focussing on optimising $\bslambda$ for many fixed states $\psi$, rather than attempting to optimise directly the operator like we did in~\cref{sec:GL:numerical_approach}.
+Indeed, one of the main advantages of this method is its focusing on optimising $\bslambda$ for many fixed states $\psi$, rather than attempting to optimise directly the operator like we did in~\cref{sec:GL:numerical_approach}.
 This is because we know that \emph{for every $\psi$}, the function $\bslambda\mapsto \calF_\bslambda(\psi)$ has a maximum some value of the parameters $\bslambda=\bslambda_0$ (at least when the gate can be implemented with the given restrictions). However, for any other $\bslambda$, changing $\psi$ changes the value of the fidelity. The consequence is that local maxima, which are problematic for optimisation algorithms, will in general disappear when the state $\psi$ is changed during the optimisation, thus making it harder for the optimiser to get stuck into local maxima.
 
 \tmpHeading{Computing the gradients efficiently}
