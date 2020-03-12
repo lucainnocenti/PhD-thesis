@@ -32,7 +32,7 @@ This work showed that such nontrivial three-qubit gates can be implemented with 
 This was achieved by solving numerically for the values of the interaction parameters, in a given Hamiltonian \ansatz, resulting in the target evolution.
 To work around the complexity of the associated optimisation problem, a technique inspired by the way many \ac{ML} models are trained, namely, \ac{SGD}, was used.
 
-\tmpHeading{Outline of our contributions}
+\tmpHeading{Our contributions}
 Building upon~\cite{banchi2016quantum}, we show that the gate learning strategy presented there can be significantly improved, both from an algorithmic and from a fundamental perspective~\cite{innocenti2018supervised}.
 On the one hand, we speed-up dramatically the numerical optimisation routines by integrating \ac{AD} techniques into the optimisation routine. This makes testing and looking for solutions to specific problems significantly easier.
 On the other hand, by further analysing the underlying mathematical problem, we devise a solution framework to further speed-up the numerics by exploiting the symmetries of the target gate, and in some cases even allows to derive exact solutions without the need of the numerical apparatus.
@@ -47,14 +47,13 @@ The work described in this chapter can be found in~\cite{innocenti2018approximat
 
 \newcommand{\setOfHamiltonians}{\calH[\bullet]}
 
-\tmpHeading{Mathematical formulation of the problem}
+\tmpHeading{Mathematical formulation}
 Here, we explore a different approach to devise target unitary evolutions. More specifically, we ask the following question: is there a way to implement a given target gate \emph{without} decomposing it as a sequence of simpler gates, \emph{and} without using a time-dependent dynamics, \emph{and} without the aid of additional ancillary resources?
 In other words, given a target operation $\calU$, and a set of possible candidate Hamiltonians $\setOfHamiltonians\equiv \{\calH_{\bslambda}\}_{\bslambda}\subseteq\on{Herm}$\footnote{Here, $\on{Herm}\equiv\on{Herm}(N)$ is the set of Hermitian $N\times N$ matrices with complex entries, for some integer $N\ge2$. The dimension $N$ will be taken to be understood from the context.},
 can we find a \emph{time-independent} Hamiltonian $\calH\in\setOfHamiltonians$ such that, at some time $t$, we have $\calU = e^{-it \calH}$?
 \footnote{Throughout this work, we will only consider the cases of operations and Hamiltonians acting on \emph{finite-dimensional} systems (generally sets of qubits).}
 Note that, if no restriction is imposed on $\setOfHamiltonians$, then the problem is always trivially solvable. Indeed, let us write the eigendecomposition of $\calU$ as $\calU=\sum_k e^{i\varphi_k}\PP_k$ for some normalised set of orthogonal projectors $\PP_j\equiv\ketbra j$, which thus satisfy $\PP_j\PP_k=\delta_{jk}\PP_j$ and $\sum_k\PP_k=I_N$, and phases $\varphi_k\in\RR$.
 Then any $\calH$ of the form $\calH = -\sum_k \varphi_k\mathbb P_k$ satisfies $e^{-i\calH}=\calU$.
-\highlight{(Do we need to include the relevant linear algebra background at some point?)}
 The interesting cases, both from a theoretical and practical perspective, are therefore when $\setOfHamiltonians$ is constrained (for example, we might require a solution that only uses specific types of interactions between the qubits).
 Here, we will consider the case of $\setOfHamiltonians$ being a set of Hamiltonians parametrised by a number of continuous parameters (in other words, it's taken to be a parametrised surface in $\on{Herm}(N)$).
 We will therefore always assume that there is a continuous mapping $\RR^\ell\ni\bslambda\mapsto\calH_\bslambda\in\on{Herm}$ such that $\setOfHamiltonians=\calH(I)$ for some $I\subseteq\RR^\ell$ (which will be usually taken to equal $\RR^\ell$ for simplicity).
@@ -62,7 +61,7 @@ We will therefore always assume that there is a continuous mapping $\RR^\ell\ni\
 \tmpHeading{A few tricks to simplify the math}
 We can also consider the time $t$ as part of the definition of $\calH$. This amounts to a rescaling of the energy levels, as $t$ always only appears multiplied with $\calH$, and therefore we can directly work on $t\calH$, which is equivalent to setting $t=1$. Once a suitable $\calH$ is found, we can always rescale it so that the target is implemented after a desired time $t^*$ by writing $\calH=t^*(\calH/t^*)$. Finally, to ease the calculations, we will consider the equivalent problem of finding $\calH$ such that $\calU=e^{i\calH}$ (rather than $\calU=e^{-i\calH}$), as the solutions to one can be seamlessly translated into solutions to the other problem.
 
-\tmpHeading{A few examples for concreteness}
+\tmpHeading{A few examples}
 For concreteness, let us analyse what happens when we try to find Hamiltonian generators for a few common two- and three-qubit gates, such as the CNOT and the Toffoli gate.
 
 \begin{examplebox}[label={ex:GL:eigendecomposition_cnot}]{Eigendecomposition of CNOT}
@@ -163,7 +162,7 @@ We divide the analysis in two parts. \Cref{sec:GL:solutions_matrix_equation_f(A)
 \subsection{Solving matrix equations: \texorpdfstring{$f(A)=B$}{f(A)=B}}
 \label{sec:GL:solutions_matrix_equation_f(A)=B}
 
-\tmpHeading{What is this section about?}
+\tmpHeading{Goal of the section}
 Let $A,B$ be normal matrices such that $f(A)=B$ for some function $f$ (assumed to be regular on the spectrum of $A$), with $f(A)$ defined as usual on the eigenvalues of $A$.
 In this section we will provide a full characterisation of the set of solutions $A\in f^{-1}(B)$ .
 
@@ -422,6 +421,7 @@ We will show in~\cref{sec:GL:solution_framework} how, by appropriately rotating 
 \section{A solution framework}
 \label{sec:GL:solution_framework}
 
+\tmpHeading{Goal of the section}
 As showed in~\cref{sec:GL:constraints_on_interaction_pars}, injecting physical constraints into the problem makes it significantly harder to solve. In this section, we will present a general procedure to tackle these kinds of problems.
 
 \tmpHeading{Tackling constraints on available interactions}
@@ -626,6 +626,7 @@ Nevertheless, we can derive solutions by making a few guesses on the values of t
 \subsection{A lucky guess}
 \label{subsec:GL:lucky_guess}
 
+\tmpHeading{Goal of the section}
 In this section we try to tackle directly the eigenvalue problem~(\ref{eq:GL:3conditions_3rd}) for~\cref{eq:GL:general_toffoli_onetwoqubitints_without_Ys}, using a series of assumptions to reduce the number of free parameters in the \ansatz. The particular choices of coefficients we make here are partly obtained by trial and error, and partly inspired by the numerical results obtained using the methods presented in~\cref{sec:GL:supervised_learning}.
 
 \tmpHeading{Use assumptions to remove free coefficients}
@@ -787,30 +788,45 @@ where
 for all integer values of $\nu_i$ such that $c(\nu_1, \nu_2, \nu_3, \nu_4) \ge 0$ (which is the same condition written in~\cref{eq:GL:toffoli_lambdas_condition} in terms of $\lambda_k$), with $\nu_{ij}\equiv\nu_i-\nu_j$.
 The corresponding spectrum of $\HPrimeToff$ is
 \begin{equation}
-\begin{aligned}
-	\lambda_1 &= \lambda_2 = 2\pi \nu_1, \\
-	\lambda_3 &= \lambda_4 = 2\pi \nu_2, \\
-	\lambda_5 &= \lambda_6 = 2\pi \nu_3, \\
-	\lambda_7 &= \lambda_8 = 2\pi \nu_4, 
-\end{aligned}
+% \begin{aligned}
+	\lambda_1 = \lambda_2 = 2\pi \nu_1, \quad
+	\lambda_3 = \lambda_4 = 2\pi \nu_2, \quad
+	\lambda_5 = \lambda_6 = 2\pi \nu_3, \quad
+	\lambda_7 = \lambda_8 = 2\pi \nu_4, 
+% \end{aligned}
 \end{equation}
 while the spectrum of $\HTildeToff$ changes only in that
 $\lambda_4 = 2\pi(\nu_2 + 1/2)$.
 Consistently with this, $\lambda_2$ is also the eigenvalue corresponding to the non-degenerate eigenspace of $\HToff$.
 More explicitly, we have
 \begin{equation}
-\begin{aligned}
-	\ket{\lambda_1} &= \ket{0, 0, +}, \\
-	\ket{\lambda_2} &= \ket{1, 1, +}, \\
-	\ket{\lambda_3} &= \ket{0, 0, -}, \\
-	\ket{\lambda_4} &= \ket{1, 1, -}, \\
-	\ket{\lambda_5} &= \ket{1, 0} \otimes N_5\left[(a - b) \ket0 + \ket1 \right], \\
-	\ket{\lambda_6} &= \ket{0, 1} \otimes N_6\left[(a + b) \ket0 + \ket1 \right], \\
-	\ket{\lambda_7} &= \ket{1, 0} \otimes N_6\left[(a + b) \ket0 - \ket1 \right], \\
-	\ket{\lambda_8} &= \ket{0, 1} \otimes N_5\left[(a - b) \ket0 - \ket1 \right],
-\end{aligned}
+\begin{gathered}
+    \ket{\lambda_1} = \ket{0, 0, +}, \quad
+    \ket{\lambda_2} = \ket{1, 1, +}, \quad
+    \ket{\lambda_3} = \ket{0, 0, -}, \quad
+    \ket{\lambda_4} = \ket{1, 1, -}, \\
+    \begin{aligned}
+    \ket{\lambda_5} &= \ket{1, 0} \otimes N_5\left[(a - b) \ket0 + \ket1 \right], \quad
+    \ket{\lambda_6} = \ket{0, 1} \otimes N_6\left[(a + b) \ket0 + \ket1 \right], \\
+    \ket{\lambda_7} &= \ket{1, 0} \otimes N_6\left[(a + b) \ket0 - \ket1 \right], \quad
+    \ket{\lambda_8} = \ket{0, 1} \otimes N_5\left[(a - b) \ket0 - \ket1 \right],
+    \end{aligned}
+\end{gathered}
 \label{eq:GL:toffoli_eigenvectors_solution}
 \end{equation}
+% \begin{equation}
+% \begin{aligned}
+% 	\ket{\lambda_1} &= \ket{0, 0, +}, \quad
+% 	\ket{\lambda_2} = \ket{1, 1, +}, \quad
+% 	\ket{\lambda_3} &&= \ket{0, 0, -}, \quad
+% 	\ket{\lambda_4} = \ket{1, 1, -}, \\
+% 	\ket{\lambda_5} &= \ket{1, 0} \otimes N_5\left[(a - b) \ket0 + \ket1 \right], \quad
+% 	\ket{\lambda_6} &&= \ket{0, 1} \otimes N_6\left[(a + b) \ket0 + \ket1 \right], \\
+% 	\ket{\lambda_7} &= \ket{1, 0} \otimes N_6\left[(a + b) \ket0 - \ket1 \right], \quad
+% 	\ket{\lambda_8} &&= \ket{0, 1} \otimes N_5\left[(a - b) \ket0 - \ket1 \right],
+% \end{aligned}
+% \label{eq:GL:toffoli_eigenvectors_solution}
+% \end{equation}
 where
 \begin{equation}
 \begin{gathered}
@@ -867,17 +883,26 @@ Focussing on the 3-qubit terms, we find
 \end{equation}
 These projectors enter into the Hamiltonian through $2\pi \nu_{4} (P_7 + P_8)$.
 A little algebra reveals that the 3-qubit terms in $P_7 + P_8$ are
-\begin{equation}
-\begin{aligned}
-	- \frac{Z_1 Z_2 Z_3}{8} \left[
-		N_6^2\big((a+b)^2 - 1\big)
-		+ N_5^2 \big((a-b)^2 - 1\big)
-	\right] \\
-	+ \frac{Z_1 Z_2 X_3}{4} \left[
-		N_6^2(a+b) + N_5^2(a-b)
-	\right].
-\end{aligned}
-\end{equation}
+% \begin{equation}
+% \begin{aligned}
+% 	- \frac{Z_1 Z_2 Z_3}{8} \left[
+% 		N_6^2\big((a+b)^2 - 1\big)
+% 		+ N_5^2 \big((a-b)^2 - 1\big)
+% 	\right] \\
+% 	+ \frac{Z_1 Z_2 X_3}{4} \left[
+% 		N_6^2(a+b) + N_5^2(a-b)
+% 	\right].
+% \end{aligned}
+% \end{equation}
+\begin{equation}\scalebox{0.92}{$\displaystyle
+    - \frac{Z_1 Z_2 Z_3}{8} \left[
+        N_6^2\big((a+b)^2 - 1\big)
+        + N_5^2 \big((a-b)^2 - 1\big)
+    \right]
+    + \frac{Z_1 Z_2 X_3}{4} \left[
+        N_6^2(a+b) + N_5^2(a-b)
+    \right].
+$}\end{equation}
 Using the definitions of $a,b,N_5,N_6$, we see that the coefficient of $Z_1 Z_2 Z_3$ vanishes, and the resulting expression becomes
 \begin{equation}
 	P_7 + P_8 = (...) +
@@ -1213,12 +1238,10 @@ and imposing~\cref{eq:GL:3conditions_2nd}, we cut the number of parameters $\bsl
 
 Imposing the following further constraints:
 \begin{equation}
-\begin{gathered}
     h_3^z = h_2^z = h_2^y = 0, \quad
-    h_1^z = \pi/2, \\
+    h_1^z = \pi/2, \quad
     J_{13}^{yy} = 0,\quad
     J_{23}^{yy} = J_{23}^{xx} = J_{23}^{zz},
-\end{gathered}
 \end{equation}
 we get the following simplified expression
 \begin{equation}
@@ -1234,40 +1257,40 @@ we get the following simplified expression
 \end{aligned}
 \label{eq:GL:fredkin_ansatz_used_for_analytics}
 \end{equation}
-\highlight{(decide if we want to include these kinds of code snippets to generate automatically the expressions)}
-\begin{lstlisting}[language=Mathematica]
-oneAndDiagTwoQubitIntsIndices = Select[
-    Tuples[Range[0, 3], {3}],
-    Or[
-        Map[Last] @ Tally @ DeleteCases[0] @ # == {2},
-        Length @ DeleteCases[0] @ # <= 1
-    ]&
-];
-pauliProduct[indices_] := KroneckerProduct @@ (PauliMatrix /@ indices);
-generalGeneratorHam = (c@@# pauliProduct[#]) & /@ oneAndDiagTwoQubitIntsIndices // Total;
-fredkinPrincipalGenerator = Dot[
-    pauliProduct[0, 0, 0] - pauliProduct[3, 0, 0],
-    pauliProduct[0, 0, 0] - pauliProduct[0, 1, 1] - 
-    pauliProduct[0, 2, 2] - pauliProduct[0, 3, 3]
-] / 8;
-solutionsForParameters = With[{
-        commutatorElements = Flatten[#1.#2 - #2.#1 &[
-            fredkinPrincipalGenerator, generalGeneratorHam]]},
-    Solve[
-        Thread[commutatorElements == 0],
-        DeleteDuplicates @ Cases[generalGeneratorHam, c[__], Infinity]
-    ]
-];
-generalGeneratorHam = generalGeneratorHam /. solutionsForParameters[[1]];
-Map[
-    (# -> Tr[Dot[pauliProduct @@ #, ConjugateTranspose@generalGeneratorHam]] / 8) &, 
-    Tuples[Range[0, 3], {3}]
-] // FullSimplify[#, c[__] \[Element] Reals] & //
-     ReplaceAll[#, Join[
-        Thread[{c[0, 0, 3], c[0, 3, 0], c[0, 2, 0], c[2, 0, 2]} -> 0],
-        {c[3, 0, 0] -> Pi/2, c[0, 2, 2] -> c[0, 1, 1], c[0, 3, 3] -> c[0, 1, 1]}
-     ]] & // DeleteCases[_ -> 0] // Column
-\end{lstlisting}
+
+% \begin{lstlisting}[language=Mathematica]
+% oneAndDiagTwoQubitIntsIndices = Select[
+%     Tuples[Range[0, 3], {3}],
+%     Or[
+%         Map[Last] @ Tally @ DeleteCases[0] @ # == {2},
+%         Length @ DeleteCases[0] @ # <= 1
+%     ]&
+% ];
+% pauliProduct[indices_] := KroneckerProduct @@ (PauliMatrix /@ indices);
+% generalGeneratorHam = (c@@# pauliProduct[#]) & /@ oneAndDiagTwoQubitIntsIndices // Total;
+% fredkinPrincipalGenerator = Dot[
+%     pauliProduct[0, 0, 0] - pauliProduct[3, 0, 0],
+%     pauliProduct[0, 0, 0] - pauliProduct[0, 1, 1] - 
+%     pauliProduct[0, 2, 2] - pauliProduct[0, 3, 3]
+% ] / 8;
+% solutionsForParameters = With[{
+%         commutatorElements = Flatten[#1.#2 - #2.#1 &[
+%             fredkinPrincipalGenerator, generalGeneratorHam]]},
+%     Solve[
+%         Thread[commutatorElements == 0],
+%         DeleteDuplicates @ Cases[generalGeneratorHam, c[__], Infinity]
+%     ]
+% ];
+% generalGeneratorHam = generalGeneratorHam /. solutionsForParameters[[1]];
+% Map[
+%     (# -> Tr[Dot[pauliProduct @@ #, ConjugateTranspose@generalGeneratorHam]] / 8) &, 
+%     Tuples[Range[0, 3], {3}]
+% ] // FullSimplify[#, c[__] \[Element] Reals] & //
+%      ReplaceAll[#, Join[
+%         Thread[{c[0, 0, 3], c[0, 3, 0], c[0, 2, 0], c[2, 0, 2]} -> 0],
+%         {c[3, 0, 0] -> Pi/2, c[0, 2, 2] -> c[0, 1, 1], c[0, 3, 3] -> c[0, 1, 1]}
+%      ]] & // DeleteCases[_ -> 0] // Column
+% \end{lstlisting}
 This gives the following expression for $\HPrimeFred\equiv\HTildeFred-\HFred$:
 \begin{equation}
 \begin{aligned}
@@ -1286,10 +1309,11 @@ This gives the following expression for $\HPrimeFred\equiv\HTildeFred-\HFred$:
 While much simpler, this expression is still too cumbersome to solve the eigenvalue equation directly.
 However, we notice that two eigenvalues of~\cref{eq:GL:HPrimeFred_expression_after_commcond} have an easy expression:
 \begin{equation}
-\begin{aligned}
-    \lambda_1 &= \frac{1}{2}( -3\pi + 2h_0 - 6J_{23}^{zz}), \\
-    \lambda_2 &= \frac{1}{2}( \pi   + 2h_0 - 6J_{23}^{zz}),
-\end{aligned}
+% \begin{aligned}
+    \lambda_1 = \frac{1}{2}( -3\pi + 2h_0 - 6J_{23}^{zz}),
+    \qquad
+    \lambda_2 = \frac{1}{2}( \pi   + 2h_0 - 6J_{23}^{zz}),
+% \end{aligned}
 \label{eq:GL:fredkin_first_two_nice_eigenvalues}
 \end{equation}
 % Reproduce the above with MMA with:
@@ -1496,7 +1520,7 @@ This, on the other hand, means that for all three-qubit interaction terms $\bs\s
     \frac18\Tr(\bs\sigma_k\HFred) = -2\pi \Tr(U^\dagger\bs\sigma_k U D).
 \end{equation}
 
-\highlight{Maybe CCZ gate case?}
+% \highlight{Maybe CCZ gate case?}
 
 
 \section{A straightforward numerical approach}
@@ -1534,7 +1558,6 @@ The integration can be carried out explicitly, getting an expression for $\barca
 where $K(\calE)$ denotes the natural representation of $\calE$~\cite{watrous2018theory}, whose matrix elements read
 $K(\calE)_{ij,k\ell}\equiv\langle i|\calE(\ketbra{k}{\ell})|j\rangle$, and
 $D$ is the dimension of the underlying space (thus $D=2^n$ for an $n$-qubit system).
-\highlight{(do we need to include the relevant background on quantum channels?)}
 In the special case of $\calE$ unitary, $\calE(\rho)=\calV\rho \calV^\dagger$ for some unitary $\calV$,~\cref{eq:GL:explicit_fidelity_map_unitary} becomes
 \begin{equation}
     (D+1) \barcalF(\calU, \calV) =
@@ -1902,8 +1925,7 @@ The above provides further evidence for the flexibility of the supervised learni
 Furthermore, the values of the interaction strengths for many of the presented solutions are found to be compatible with the capabilities of state of the art circuit-QED architectures with gate times of the order of tens of nanoseconds~\cite{potočnik2018studying}.
 
 \tmpHeading{Online repository storing the code}
-Additional solutions and data, as well as the code used to produce them, is available in the GitHub repository
-\href{https://github.com/lucainnocenti/quantum-gate-learning-1803.07119}{lucainnocenti/quantum-gate-learning-1803.07119}.
+Additional solutions and data, as well as the code used to produce them, is available on \href{https://github.com/lucainnocenti/quantum-gate-learning-1803.07119}{GitHub}\footnote{https://github.com/lucainnocenti/quantum-gate-learning-1803.07119}.
 This repository contains all the code used to reproduce the solutions presented in this paper, as well as to train arbitrary gates on arbitrary numbers of qubits.
 Even more generally, arbitrary (linearly) parametrised matrices can be used as training model, allowing a high degree of flexibility.
 

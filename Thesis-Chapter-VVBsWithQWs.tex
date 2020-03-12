@@ -16,7 +16,7 @@ These algorithms are fully independent on the specifics of the experimental appa
 As discussed in~\cref{sec:intro:ML}, \ac{ML} provides a versatile toolbox to tackle a variety of tasks arising in experimental platforms. It has, in particular, proven useful to characterise quantum protocols and dynamics~\cite{carrasquilla2019reconstructing,giordani2018experimental, agresti2019pattern,lumino2018experimental,rocchetto2019experimental,butler2018machine,fischer2006predicting,melnikov2018active,wang2017experimental}.
 In the context of structured light, \acp{NN} have been used to classify \ac{OAM} states of classical light for long distance free-space communication, even in the presence of environmental turbulence~\cite{krenn2014communication,krenn2016twisted,doster2017machine,park2018demultiplexing,lohani2018turbulence,li2018joint}.
 
-\tmpHeading{The novelty of our work}
+\tmpHeading{Novelty of the work}
 In contrast to these previous endeavours, we deal with the classification of \acp{VVB}. Moreover, owing to the variety of techniques we deploy, we can address both classification and regression tasks, thus enabling the reconstruction of input states in several experimental scenarios.
 Our findings showcase the reliability of a broader class of ML techniques, and provide novel recognition methods suitable to \acp{VVB}.
 This approach requires neither additional interferometry stabilisation nor spatial filtering, thus making it a robust strategy to decode information stored in \acp{VVB}, and a promising pathway to manage high-dimensional quantum systems. 
@@ -132,7 +132,7 @@ These images can also be understood as vectors of length $3\times M$ with $M$ th
     \centering
     \includegraphics[width=0.7\textwidth]{VVBs-classification_with_CNN_schematics.pdf}
     \caption{
-    	Comparison between simulated and experimental polarisation patterns for a sample of \acp{VVB}.
+    	Comparison between simulated and experimental polarisation patterns for a sample of \acp{VVB}. Each image is produced by a VVB with OAM numbers $(m_1, m_2)$ belonging to one of the classes listed in the table.
     }%
     \label{fig:VVBs:simVsExp}
 \end{figure}
@@ -196,7 +196,7 @@ More precisely, the different layers operate as follows:
 Note that this is only the most basic structure found in CNNs. Actual CNNs will often contain different numbers of convolutional, pooling, and fully connected layers in different arrangements and with different parameters, depending on the specific applications.
 
 \tmpHeading{Training the network}
-The free parameters of the CNN, that is, all the weights and biases connecting the neurons at different layers, as well as the values of the filters, are trained using \ac{SGD}. This is the same algorithm described in~\cref{subsec:GL:supervised_learning_and_SGD}.
+The free parameters of the CNN, which comprise the weights and biases connecting the neurons at different layers, as well as the values of the filters, are trained using \ac{SGD}. This is the same algorithm described in~\cref{subsec:GL:supervised_learning_and_SGD}.
 \ac{SGD} operates by first initialising the parameters with random values, then using a \emph{batch} of training images $\{(\bs x_k,\ell_k)\}_k$ to compute the Euclidean distance between the outputs produced by the network when fed with the images, and the corresponding labels (which are the outputs the network should give when ideally trained).
 Here, $\bs x_k$ denote the input images, while $\ell_k$ the class corresponding to the $k$-th image, expressed as an integer number.
 This distance is used as the \emph{cost function} that the algorithm seeks to minimise.
@@ -212,12 +212,9 @@ We then tune the parameters of the network to make this distance smaller, by upd
 	\bslambda - \eta \nabla_\bslambda f_\bslambda(\bs x_k),
 	\label{eq:VVBs:naive_updating_rule}
 \end{equation}
-where the real parameter $\eta>0$ is the \emph{learning rate}, used to determine the speed of the training.
+where the real parameter $\eta>0$ is the \emph{learning rate}, which determines the speed of the training.
 In actual implementation, we often use variations of~\cref{eq:VVBs:naive_updating_rule} that are more robust and converge quicker in most applications.
-An updating rule that is often used in state-of-the-art application is referred to as the \textsc{Adam}~\cite{ruder2016overview}, which uses different learning rates for different parameters, and adapts it conditionally to the recent training history of that parameter.
-\highlight{(reread)}
-
-\tmpHeading{How do we implement the CNN?}
+An updating rule that is often used in state-of-the-art applications is the so-called \textsc{Adam} optimiser~\cite{ruder2016overview}, which uses different learning rates for different parameters, and adapts it conditionally to the recent training history of that parameter.
 To build and train the \acp{CNN} we use the Python library \emph{Keras}~\cite{chollet2015keras}.
 
 % channel1 = ConstantArray[0, {7, 7}];
@@ -311,22 +308,29 @@ To build and train the \acp{CNN} we use the Python library \emph{Keras}~\cite{ch
 \end{figure}
 
 \tmpHeading{Categorisation into discrete classes}
-We first showcase CNNs to classify experimental and simulated VVBs into $15$ different classes characterised by their OAM numbers $(m_1, m_2)$, as per~\cref{fig:VVBs:simVsExp}.
-For each class we generate states with $\theta=\pi/2$ and $\phi\in[0,2\pi]$.
+We first showcase CNNs to classify experimental and simulated VVBs into $15$ different classes characterised by their OAM numbers as per~\cref{fig:VVBs:simVsExp}.
+For each class we consider states with $\theta=\pi/2$ and $\phi\in[0,2\pi]$.
+We tested different CNN architectures, the details of which can be found in the \href{https://github.com/lucainnocenti/ML-classification-of-VVBs}{GitHub repository}~\footnote{https://github.com/lucainnocenti/ML-classification-of-VVBs}.
 % The size of the training set is $400$ images per class.
-We find that training and testing CNNs with simulated images easily leads to $100\%$ accuracy. This remains true when the training and testing datasets comprise simulated images with added white noise.
-% Additional $100$ simulated images per class are used to benchmark the performance during training. In these conditions, the network achieves an accuracy of $100\%$.
-On the other hand, we find that training on simulated images is not enough to teach the network to categorise experimental ones. A possible reason for this is that experimental images can be quite different than the simulated ones, as can be already seen in the images provided in~\cref{fig:VVBs:simVsExp}. Indeed, the simulated images assume a perfect superposition of states with two different OAM numbers, whereas the states produced by \acp{QP} are closer to \emph{Hypergeometric-Gaussian modes}~\cite{karimi2007hypergeometricgaussian}. These are a different family of solutions of the Helmoltz equation in cylindrical coordinates. We show a few examples of such beams in~\cref{fig:VVBs:hyGG}.
-In this work we stick with the simpler OAM beams for simplicity.
+\begin{itemize}
+	\item Training and testing CNNs with simulated images leads to $100\%$ accuracy. This remains true when training and testing datasets comprise simulated images with added white noise.
+	We could achieve this already with a CNN using two convolutional layers, each using $16$ activation maps (that is, there are $16$ different filters used per convolutional layer), each followed by a max-pooling layer, and a final hidden fully connected layer with $32$ neurons, amounting to a total number of $\sim5$k trainable parameters.
+	\item On the other hand, training on simulated images is not enough to teach the network to categorise experimental ones. A possible reason for this is that experimental images can be quite different from simulated ones. Indeed, simulated images assume a perfect superposition of states with two different OAM numbers, whereas the states produced by \acp{QP} are closer to \emph{Hypergeometric-Gaussian modes}~\cite{karimi2007hypergeometricgaussian}. These are a different family of solutions of the Helmoltz equation in cylindrical coordinates.
+	% We show examples of such beams in~\cref{fig:VVBs:hyGG}.
+	In this work we stick with the simpler OAM beams for simplicity, but it is likely that using a better model for the simulation would allow to classify experimental images training solely on simulated ones.
+	\item Finally, we find that a small number of experimental images are enough to allow the network to generalise and be able to categorise the rest of them.
+	We train a CNN using $20$ experimental images per class, and test it on the remaining $\sim1700$ ones, and achieve a $\sim 99\%$ accuracy on the test set.
+	We achieve this using a CNN using three convolutional layers followed by a max-pooling layer each, and a hidden fully connected layer with $64$ neurons, amounting to a total of $\sim38$k parameters.
+\end{itemize}
 
-\begin{figure}[tb]
-    \centering
-    \includegraphics[width=0.8\linewidth]{Figures/VVBs/VVBs-hyGG.pdf}
-    \caption{
-    	asd
-    }%
-    \label{fig:VVBs:hyGG}
-\end{figure}
+% \begin{figure}[tb]
+%     \centering
+%     \includegraphics[width=0.7\linewidth]{Figures/VVBs/VVBs-hyGG.pdf}
+%     \caption{
+%     	Comparison between simulated images of VVBs generated with HyGG modes. In the calculation we have considered two HyGG modes with $(m_1,m_2)=(-3,1)$ propagating for $z\sim 1\,m$ with a Rayleigh range $z_R\sim 4\,m$. Comparison of the intensities recorded in the polarization measurements in the experiment.
+%     }%
+%     \label{fig:VVBs:hyGG}
+% \end{figure}
 
 \tmpHeading{Retrieving the position in the Poincaré sphere}
 We also test the network on a different problem: assuming $(m_1,m_2)$ is fixed, retrieve the parameters $(\theta,\phi)$ characterising the VVB (remembering the definition of VVBs as given in~\cref{eq:VVBs:definition_VVBs_field}).
@@ -337,7 +341,7 @@ Working in spherical coordinates, we partition $\theta$ is in the $3$ intervals 
 This leaves two classes surrounding the two poles of the sphere, corresponding to $\theta \in \left[0, \frac{\pi}{8}\right]$ and $\theta\in\left[ \frac{7}{8} \pi, \pi\right]$.
 Partitioning makes the classification of VVBs closer to the border of two sectors harder, but nonetheless provides useful information about the suitability of CNNs for this kind of task.
 We train the CNN with $500$ simulated images per class in the training set, and $125$ per class in the validation one. The maximum accuracy  achieved is $\sim 0.90$.
-The suboptimality of this result can be understood as consequence of framing the problem as a classification task. Training a CNN for the corresponding regression task will potentially give much better results.
+The suboptimality of this result can be understood as consequence of framing the problem as a classification task. Training a CNN for the corresponding regression task will potentially give much better results. This is however generally a nontrivial task. We will thus here choose a different route to approach this regression task, leveraging dimensionality reduction paired with SVM classifiers, as discussed in the next sections.
 
 
 \section{Dimensionality reduction}
@@ -402,12 +406,13 @@ In other words, the Bloch sphere of the original two-dimensional system is still
     \centering
     \includegraphics[width=0.8\linewidth]{VVBs-Fig4.pdf}
     \caption{
-		\textbf{(a)} High order Poincar\'e sphere for \acp{VVB} with $|m_{1,2}|=1$. Magenta-coloured parallels (Blue-coloured meridians) mark intervals between consecutive values of $\theta$ ($\phi$). 
+		\textbf{(a)}
+		High order Poincaré sphere for \acp{VVB} with $|m_{1,2}|=1$. Magenta-coloured parallels (Blue-coloured meridians) mark intervals between consecutive values of $\theta$ ($\phi$). 
 		Along a meridian the colours of the pattern vary from the hottest to the coldest one. Along a parallel, the patterns rotate.
 		\textbf{(b)}
 		Comparison between experimental and simulated \ac{VVB} images for different angles $(\theta, \phi)$.
 		\textbf{(c)}
-		Distribution of fidelities obtained comparing each experimental VVBs with its reduced 3D representations given by PCA. Projecting each image onto its first three principal axes and rescaling brings the data (orange points) onto a sphere in 3D, as shown in the inset. The inner (outer) black (semi-transparent) sphere is added for contrast [radius equal to that of the point with smaller (larger) radius]. \highlight{togliere la sfera}
+		Distribution of fidelities obtained comparing each experimental VVBs with its reduced 3D representations given by PCA. Projecting each image onto its first three principal axes and rescaling brings the data (orange points) onto a sphere in 3D, as shown in the inset. The inner (outer) black (semi-transparent) sphere is added for contrast [radius equal to that of the point with smaller (larger) radius].
 		\textbf{(d)}
 		Average prediction accuracy of a linear \ac{SVM} classifier, trained and tested after applying linear DR to the data, against the number of reduced dimensions $n_c$.
 		For each of the 15 classes (cf.~\cref{fig:VVBs:simVsExp}) in which the experimental dataset was divided, we show in the inset the true-table. 
@@ -443,27 +448,31 @@ The full histogram of fidelities is given in~\cref{fig:VVBs:PCAresults}\textbf{c
 
 
 \tmpHeading{Toy examples of application of PCA to VVBs}
-To illustrate the usefulness of these ideas in understanding the type of states generated by a given apparatus, we consider here two additional examples of \ac{PCA} applied to different types of input states. 
+To illustrate the usefulness of these ideas to gain insight into the type of states generated by a given apparatus, we consider two additional example applications of \ac{PCA} to VVBs.
 % In all of these cases, \ac{PCA} is applied without any previous knowledge of the type of states that underlie the observed experimental images, and is therefore to be considered a type of \emph{unsupervised learning}.
 Consider a set of simulated images corresponding to VVBs of the form
-$c_1\ket{L,m=1}+c_2\ket{R,m=2}$ and
-$c_1\ket{L,m=1}+c_2\ket{R,m=4}$, where the coefficients $c_i$ are sampled uniformly at random from the set of $c_{1},c_2\in\mathbb{C}$  such that $|c_1|^2+|c_2|^2=1$.
-Applying PCA to this dataset, we find six non-vanishing singular values, whose associated principal components are given in~\cref{fig:VVBs:principal_components}\textbf{a}.
+\begin{equation}
+c_1\ket{L,m=1}+c_2\ket{R,m=2}
+\quad\text{ and }\quad
+c_1\ket{L,m=1}+c_2\ket{R,m=4},
+\end{equation}
+where the coefficients $c_i$ are sampled uniformly at random from the set of $c_{1},c_2\in\mathbb{C}$  such that $|c_1|^2+|c_2|^2=1$.
+Applying PCA to this dataset, we find six non-vanishing singular values, whose associated principal components are shown in~\cref{fig:VVBs:principal_components}\textbf{a}.
 This is consistent with the dimension of the subspace  spanned by the states in $\calS_1\equiv\{c_1\ket{L,1}+c_2\ket{R,2}, c_3\ket{L,1}+c_4\ket{R,4}\}$,  as the set of corresponding density matrices is spanned by the six orthogonal matrices
 $X^{(1,2)}, X^{(1,4)}, Y^{(1,2)},Y^{(1,4)},Z^{(1,2)}\pm Z^{(1,4)}$, where $X^{(i,j)}=\ketbra{i}{j}+\ketbra{j}{i}$ is the Pauli $X$ matrix acting on the $(i,j)$ subspace, and $Y^{(i,j)}$ and $Z^{(i,j)}$ are similarly defined.
 On the other hand, if the dataset under consideration consists of states in the space $\mathcal S_2=\{c_1\ket{L,1}+c_2\ket{R,2}, c_3\ket{L,3}+c_4\ket{R,4}\}$, then \ac{PCA} finds \emph{seven} principal components associated with non-vanishing singular values, as again shown in~\cref{fig:VVBs:principal_components}\textbf{a}.
 This is consistent with the underlying state space being spanned by the seven orthogonal Hermitians:
 \begin{equation}
 \begin{gathered}
-    X^{(1,2)}, \,\, X^{(3,4)}, \,\,
-    Y^{(1,2)}, \,\, Y^{(3,4)}, \\
-    Z^{(1,2)},\quad
-    -Z^{(1,2)} + 2 Z^{(1,3)}, \\
+    X^{(1,2)}, X^{(3,4)},
+    Y^{(1,2)}, Y^{(3,4)},
+    Z^{(1,2)},
+    -Z^{(1,2)} + 2 Z^{(1,3)},
     -Z^{(1,2)} - Z^{(1,3)} + 3 Z^{(1,4)}.
 \end{gathered}
 \end{equation}
-These matrices can be derived by direct analysis by finding a set of orthogonal Hermitians generating the set of density matrices in $\calS_2$.
-This method thus provides a quick and easy way to obtain useful information about the dimensionality of generated states, as well as about other properties such as specific symmetries, which, as shown in~\cref{fig:VVBs:principal_components}, are often picked up by the principal components.
+These matrices can be derived via direct analysis by finding a set of orthogonal Hermitians generating $\on{span}(\calS_2)$.
+This method is thus a quick and easy way to obtain useful information about the dimensionality of generated states, as well as other properties such as specific geometric features, like the sphere emerging from the experimental dataset discussed in the previous paragraph.
 
 
 \section{Support vector machines}
@@ -471,63 +480,63 @@ This method thus provides a quick and easy way to obtain useful information abou
 
 
 \tmpHeading{What are SVMs?}
-\acfp{SVM} are a class of \emph{supervised learning} algorithms, whose goal is to classify data into discrete classes. \acp{SVM} work by finding a partition of the feature space such that all the vectors with the same training label lie on the same classification sector.
-In particular, \emph{linear} \acp{SVM} look for an optimal \emph{linear} partition of the data.
-As supervised learning algorithms, SVMs take as input a training set of labelled data of the form $\{(\bs x_1,\ell_1),...,(\bs x_n,\ell_n)\}$, where $\bs x_i\in\RR^N$ and $\ell_i$ is one of two possible labels. If there are only two possible labels, we conventionally assume $\ell_i\in\{-1,1\}$.
-A linear separation is characterised by two parameters $\bs w$ and $b$, which identify an hyperplane as the set of $\bs x\in\RR^N$ such that $\bs w\cdot\bs x=\bs b$. We want this hyperplane to be such that, for all training vectors $\bs x_i$, the constraint
+\acfp{SVM} are a class of \emph{supervised learning} algorithms whose goal is to classify data into discrete classes. \acp{SVM} work by finding a partition of the feature space such that all the vectors in the same class lie on the same classification sector.
+In particular, \emph{linear} \acp{SVM} look for an optimal \emph{linear} separation.
+As other supervised learning algorithms, SVMs take as input a training set of labelled data of the form $\{(\bs x_1,\ell_1),...,(\bs x_n,\ell_n)\}$, where $\bs x_i\in\RR^N$ and $\ell_i\in\{-1,1\}$.
+A linear separation is characterised by two parameters $\bs w$ and $b$, which identify an hyperplane as the set of $\bs x\in\RR^N$ such that $\bs w\cdot\bs x=b$. We want this hyperplane to be such that, for all training vectors $\bs x_i$, the constraint
 \begin{equation}
-	\ell_i(\bs w\cdot\bs x_i-\bs b)\ge1
+	\ell_i(\bs w\cdot\bs x_i-b)\ge1
 	\label{eq:VVBs:SVMs_basic_condition}
 \end{equation}
-is satisfied. This would imply that all (and only the) $\bs x_i$ corresponding to $\ell_i=1$ lie on the same side of the hyperplane.
-New data is then categorised using the \emph{classifier} $g_{\bs w,\bs b}(\bs x)=2\Theta(\bs w\cdot\bs x-\bs b)-1$, which equals $\pm1$ depending on whether the point $\bs x$ is on one side of the separation or the other.
+is satisfied. This would imply that all (and only) the $\bs x_i$ corresponding to $\ell_i=1$ lie on the same side of the hyperplane.
+New data is then categorised using the \emph{classifier} $g_{\bs w,b}(\bs x)=2\Theta(\bs w\cdot\bs x-b)-1$, which equals $\pm1$ depending on whether the point $\bs x$ is on one side of the separation or the other.
 The constraint in~\cref{eq:VVBs:SVMs_basic_condition} identifies the so-called \emph{hard-margin} SVM, because this is only possible if every single training point is strictly on one or the other side of the separating hyperplane.
 An often more practical alternative are the so-called \emph{soft-margin} SVMs, in which this strictness is lifted. Instead, the goal becomes to minimise the average value of
-$\max(0, 1- \ell_i (\bs w\cdot\bs x_i-\bs b))$, trying at the same time to keep $\|\bs w\|$ as low as possible. This variation makes the algorithm more robust and able to classify data even in the presence of some noise.
+$\max(0, 1- \ell_i (\bs w\cdot\bs x_i- b))$, trying at the same time to keep $\|\bs w\|$ as low as possible. This variation makes the algorithm more robust and able to classify data even in the presence of some noise.
 
 \tmpHeading{SVMs after PCA}
-We now show how the reduced representations provided by \ac{PCA} can function as starting point to train a classifier with an accuracy comparable with that of the \acp{CNN} used in~\cref{sec:VVBs:CNNs}, whilst requiring a drastically reduced amount of computational resources.
-More precisely, we use as classifiers linear multiclass \acp{SVM}~\cite{hearst1998support,shawe2000support}.
-Both training and classification are performed \emph{after} the dimensionality reduction has been carried out via \ac{PCA}. This makes for improved computational times as well as making the algorithm more robust to experimental noise and imperfections.
-As done for the \ac{CNN}, we consider the task of classifying experimentally generated VVBs. We train a \ac{SVM} on the reduced space obtained via \ac{PCA}, for the task of categorising images according to their OAM quantum numbers $(m_1,m_2)$.
-What's more, the geometrical picture offered by the reduced representation tells us when we should expect this classification to be accurate: \ac{PCA} effectively retrieves the description of the states in the generalised Bloch representation, therefore the classification will give good results whenever the states are linearly separated in state space.
+The reduced representations provided by \ac{PCA} can function as starting point to train a classifier with an accuracy comparable with that of the \acp{CNN} used in~\cref{sec:VVBs:CNNs}, while requiring a drastically reduced amount of computational resources.
+We use as classifiers linear multiclass \acp{SVM}~\cite{hearst1998support,shawe2000support}, performing training and classification on the reduced representation found via \ac{PCA}. This makes for improved computational times, as well as making the algorithm more robust to experimental noise and imperfections.
+As done for the \ac{CNN}, we consider the task of classifying experimentally generated VVBs, categorising images according to their OAM quantum numbers $(m_1,m_2)$.
+% What's more, the geometrical picture offered by the reduced representation tells us when we should expect this classification to be accurate: \ac{PCA} effectively retrieves the description of the states in the generalised Bloch representation, therefore the classification will give good results whenever the states are linearly separated in state space.
 
 \tmpHeading{Results}
 We use half of the dataset for training, and the other half for testing the resulting accuracy.
-We found a \emph{linear} SVM, instead of a more commonly employed SVM with RBF kernel, to give better accuracies: $\sim98\%$ vs the $\sim94\%$ using the RBF kernel.
+We find a \emph{linear} SVM, instead of a more commonly employed SVM with RBF kernel, to give better accuracies: $\sim98\%$ vs the $\sim94\%$ using the RBF kernel.
 In~\cref{fig:VVBs:PCAresults}\textbf{d}, we highlight how the average overall accuracy depends on the dimension of the reduced representation: $\sim 25$ dimensions are already sufficient for good accuracies.
 A breakdown of the classification performance is reported in~\cref{fig:VVBs:accuracies15classes_SVC}.
 The average classification accuracy is $\sim 98 \%$. This result confirms that the description provided by \ac{PCA} is sufficient to capture the important features of the generated states, thus allowing for significantly more efficient classification schemes.
 
 \begin{figure}[tb]
-  \centering
-  \includegraphics[width=0.7\textwidth]{Figures/VVBs/VVBs-svcAccuracies_15classes_halftrainingdata_40dims_usedInPaper.pdf}
-  % \includegraphics[width=0.9\textwidth]{Figures/VVBs/VVBs-svcAccuracies_15classes_halftrainingdata_40dims_linear.pdf}
-  \caption{
-      Classification accuracies given by the SVM classifier used on the reduced dataset obtained via PCA.
-      \highlight{aggiornare figura, mettere quelle dal paper}
-    }
+	\centering
+	\includegraphics[width=0.7\textwidth]{Figures/VVBs/VVBs-svcAccuracies_15classes_halftrainingdata_40dims_usedInPaper.pdf}
+	% \includegraphics[width=0.9\textwidth]{Figures/VVBs/VVBs-svcAccuracies_15classes_halftrainingdata_40dims_linear.pdf}
+	\caption{
+		Breakdown of the results obtained using the SVM classifier.
+		Each row contains the fraction of states belonging to that class that were classified as belonging to each one of the other classes. The diagonal elements thus give the accuracy of the classifier on each class.
+	}
     \label{fig:VVBs:accuracies15classes_SVC}
 \end{figure}
 
 \begin{figure}[tb]
-  \centering
-  \includegraphics[width=0.7\textwidth]{Figures/VVBs/VVBs-accuracies15classes_CNN2.pdf}
-  % \includegraphics[width=0.9\textwidth]{Figures/VVBs/VVBs-svcAccuracies_15classes_halftrainingdata_40dims_linear.pdf}
-  \caption{
-      Classification accuracies given by the SVM classifier used on the reduced dataset obtained via CNN.
-    }
-    \label{fig:VVBs:accuracies15classes_CNN}
+	\centering
+	\includegraphics[width=0.7\textwidth]{Figures/VVBs/VVBs-accuracies15classes_CNN2.pdf}
+	% \includegraphics[width=0.9\textwidth]{Figures/VVBs/VVBs-svcAccuracies_15classes_halftrainingdata_40dims_linear.pdf}
+	\caption{
+		Breakdown of the results obtained using the CNN classifier.
+		Each row contains the fraction of states belonging to that class that were classified as belonging to each one of the other classes. The diagonal elements thus give the accuracy of the classifier on each class.
+	}
+	\label{fig:VVBs:accuracies15classes_CNN}
 \end{figure}
 
 
 \section{Conclusions}
 \label{sec:VVBs:conclusions}
 
-We presented a novel approach to classify \acp{VVB} leveraging ML techniques. We demonstrated how the use of inference strategies based on CNNs, PCA, and SVMs allows to extract efficiently properties of high-dimensional photonics \ac{VVB} systems.
-In particular, we used DR to probe the underlying geometrical properties of experimentally generated VVBs, without requiring prior knowledge about the physics of the generation apparatus.
+We presented a novel approach to classify \acp{VVB} using a combination of supervised and unsupervised learning algorithms. We demonstrated how the use of inference strategies based on CNNs, PCA, and SVMs allows to extract efficiently properties of high-dimensional photonics \ac{VVB} systems.
+In particular, we used dimensionality reduction to probe the underlying geometrical properties of experimentally generated VVBs, without requiring prior knowledge about the physics of the generation apparatus.
 % By embedding a variety of \ac{ML} algorithms into our experimental pipeline, the task of characterising structured light is made significantly broader in the methods, ranging from supervised to unsupervised learning, and more flexible in the applications, classification and regression tasks.
 %Then, the investigation of different techniques in the ML field has provided a more general framework for the characterization of structured light.  
 % While paving the way for further experimental validations, potentially also in non-photonics settings, we believe that numerous tasks of relevance to modern photonics could benefit from introducing similar {\ac{ML}} ideas into their characterisation protocols.
-The flexibility of the techniques we deployed makes the applicability of this type of  analysis extend to a variety of different experimental scenarios.
+The flexibility of these techniques makes the applicability of our approach extend to a variety of different experimental scenarios.
 % These techniques can prove to be useful add-on to tasks ranging from the design of automatised approaches to the characterisation of experimental platforms and experiments, to the provision of solutions to OAM demultiplexing in the context of classical and quantum communication and, more generally, for the use of structured light in quantum technologies.
