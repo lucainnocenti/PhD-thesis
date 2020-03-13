@@ -837,29 +837,38 @@ The general case of $\ket\Psi$ satisfying
     \text{ for all }s=1,...,\ell-1
     \label{eq:QWs:orthogonality_conditions_vs_inverse_proof_section}
 \end{equation}
-is fully analogous. We start by using $\bs v_1^\dagger \bs v_{n-1}=0$ to find a coin $\calC$ such that $\ket{\Psi'}=\calW_{\calC}^{-1}\ket\Psi$ has vanishing extremal amplitudes. We then observe that the amplitudes of such $\ket{\Psi'}$ must also satisfy~\cref{eq:QWs:orthogonality_conditions_vs_inverse_proof_section} with $m\to m-1$ and $\ell\to\ell-1$, and thus iterate the reasoning.
-We work out explicitly the case of three steps in~\cref{ex:QWs:3steps_example}.
+is fully analogous. We start by using $\bs v_1^\dagger \bs v_{n-1}=0$ to find a coin $\calC$ such that $\ket{\Psi'}=\calW_{\calC}^{-1}\ket\Psi$ has vanishing extremal amplitudes.
+This will be satisfied by any matrix whose columns are $\bs v_1 e^{i\phi_1}/\|\bs v_1\|$ and $\bs v_{n-1} e^{i\phi_2}/\|\bs v_{n-1}\|$ for arbitrary $\phi_1,\phi_2\in\RR$.
+We then observe that, denoting with $\bs u_i'\equiv(u_{i,\uparrow},u_{i,\downarrow})$ the amplitudes of $\ket{\Psi'}$, we have
+\begin{equation}
+    \sum_{i=1}^s \bs v_i^\dagger \bs v_{m-1-s+i}
+    = \sum_{i=1}^s \bs u_i'^\dagger \bs u_{m-1-s+i}'
+    = \sum_{i=1}^{s-1} \bs v_i'^\dagger \bs v_{m-1-s+i}' = 0.
+\end{equation}
+% We then observe that the amplitudes of such $\ket{\Psi'}$ must also satisfy~\cref{eq:QWs:orthogonality_conditions_vs_inverse_proof_section} with $m\to m-1$ and $\ell\to\ell-1$, and thus iterate the reasoning.
+This shows that $\ket{\Psi'}$ also satisfies~\cref{eq:QWs:orthogonality_conditions_vs_inverse_proof_section} with $m\to m-1$ and $\ell\to\ell-1$, which then allows to iterate the same reasoning.
 
-\begin{examplebox}[label={ex:QWs:3steps_example}]{Reconstructing coin operators after \emph{three} steps}
-The next step is to consider what happens when $\ket\Psi$ satisfies, on top of the two conditions used in the previous paragraphs, also
-\begin{equation}
-    \bs v_1^\dagger \bs v_{n-2}+\bs v_2^\dagger \bs v_{n-1}=0.
-    \label{eq:QWs:orthogonality_on_vs_proving_otherdirection}
-\end{equation}
-The argument in the previous paragraphs can be used to prove that $\ket\Psi$ is output of at least two steps, and thus there are $\ket{\Psi'},\ket{\Psi''},\calC,\calC'$ such that
-$\ket\Psi=\calW_\calC\ket{\Psi'}=\calW_\calC\calW_{\calC'}\ket{\Psi''}$.
-We now observe that $\ket{\Psi'}=\calW_{\calC'}\ket{\Psi''}$ implies
-\begin{equation}
-    \bs v_1^\dagger \bs v_{n-2}+\bs v_2^\dagger \bs v_{n-1} =
-    \bar\Psi'_{1,\uparrow}\Psi'_{n-2,\uparrow} +
-    \bar\Psi'_{2,\downarrow}\Psi'_{n-1,\downarrow} =
-    \bs v_1'^\dagger \bs v_{n-2}' = 0.
-\end{equation}
-But this now implies that $\ket{\Psi'}$ satisfies both $\Psi'_{1,\downarrow}=\Psi'_{n-1,\uparrow}=0$ (by choosing $\calC$ according to the previous paragraph) and $\bs v_1'^\dagger \bs v'_{n-2}=0$. Thus, again by the results of the previous paragraphs, it is the output of \emph{two} steps, which means that there are $\calC''$ and $\ket{\Psi'''}$ such that
-$\ket\Psi=\calW_\calC\calW_{\calC'}\calW_{\calC''}\ket{\Psi'''}$.
-The coin operators $\calC,\calC'$ are again determined as those whose columns equal $\bs v_1,\bs v_{n-1}$ and $\bs v_1',\bs v_{n-2}'$, respectively. Arbitrary phase differences $\phi_1,\phi_2$ can be introduced between the columns of $\calC,\calC'$, but it is worth noting that the phase difference introduced in $\calC$ will affect the choice of $\calC'$ in such a way that $\ket{\Psi'''}$ will \emph{not} be dependent on it.
-We refer to~\cref{ex:QWs:conditions_few_steps} for a detailed practical example of deriving such coin operators.
-\end{examplebox}
+% We work out explicitly the case of three steps in~\cref{ex:QWs:3steps_example}.
+% \begin{examplebox}[label={ex:QWs:3steps_example}]{Reconstructing coin operators after \emph{three} steps}
+% The next step is to consider what happens when $\ket\Psi$ satisfies, on top of the two conditions used in the previous paragraphs, also
+% \begin{equation}
+%     \bs v_1^\dagger \bs v_{n-2}+\bs v_2^\dagger \bs v_{n-1}=0.
+%     \label{eq:QWs:orthogonality_on_vs_proving_otherdirection}
+% \end{equation}
+% The argument in the previous paragraphs can be used to prove that $\ket\Psi$ is output of at least two steps, and thus there are $\ket{\Psi'},\ket{\Psi''},\calC,\calC'$ such that
+% $\ket\Psi=\calW_\calC\ket{\Psi'}=\calW_\calC\calW_{\calC'}\ket{\Psi''}$.
+% We now observe that $\ket{\Psi'}=\calW_{\calC'}\ket{\Psi''}$ implies
+% \begin{equation}
+%     \bs v_1^\dagger \bs v_{n-2}+\bs v_2^\dagger \bs v_{n-1} =
+%     \bar\Psi'_{1,\uparrow}\Psi'_{n-2,\uparrow} +
+%     \bar\Psi'_{2,\downarrow}\Psi'_{n-1,\downarrow} =
+%     \bs v_1'^\dagger \bs v_{n-2}' = 0.
+% \end{equation}
+% But this now implies that $\ket{\Psi'}$ satisfies both $\Psi'_{1,\downarrow}=\Psi'_{n-1,\uparrow}=0$ (by choosing $\calC$ according to the previous paragraph) and $\bs v_1'^\dagger \bs v'_{n-2}=0$. Thus, again by the results of the previous paragraphs, it is the output of \emph{two} steps, which means that there are $\calC''$ and $\ket{\Psi'''}$ such that
+% $\ket\Psi=\calW_\calC\calW_{\calC'}\calW_{\calC''}\ket{\Psi'''}$.
+% The coin operators $\calC,\calC'$ are again determined as those whose columns equal $\bs v_1,\bs v_{n-1}$ and $\bs v_1',\bs v_{n-2}'$, respectively. Arbitrary phase differences $\phi_1,\phi_2$ can be introduced between the columns of $\calC,\calC'$, but it is worth noting that the phase difference introduced in $\calC$ will affect the choice of $\calC'$ in such a way that $\ket{\Psi'''}$ will \emph{not} be dependent on it.
+% We refer to~\cref{ex:QWs:conditions_few_steps} for a detailed practical example of deriving such coin operators.
+% \end{examplebox}
 
 
 % We conclude our analysis of the global reachability conditions by remarking that \cref{eq:QWs:general_reachability_conditions} completely characterises the set of quantum states reachable after $n$ steps.
@@ -959,9 +968,10 @@ We refer to~\cref{ex:QWs:conditions_few_steps} for a detailed practical example 
 \section{Focusing on walker states}
 \label{sec:QWs:focusing_walker_states}
 
+\tmpHeading{Goal of the section}
 In~\cref{sec:QWs:reachability_conditions} we characterised the states that can be generated via \acp{QW}.
 Here, we consider the scenario in which one is interested in generating a target \emph{qudit} state over the walker's degree of freedom, as opposed to a target in the full walker and coin space.
-In other words, we fix a number of steps $n$ and a target superposition over the sites $\ket\phi=\sum_{i=1}^{n+1} u_i\ket i$, and ask whether there is a combination of coins $\{\calC_i\}_{i=1}^{n}$, a final coin state $\ket\gamma$, and an initial state $\ket{\Psi_0}=\ket{1, \alpha}$ for some initial coin state $\ket\alpha$, such that, up to a normalisation factor,
+We thus fix a number of steps $n$ and a target superposition over the sites $\ket\phi=\sum_{i=1}^{n+1} u_i\ket i$, and ask whether there is a combination of coins $\{\calC_i\}_{i=1}^{n}$, a final coin state $\ket\gamma$, and an initial state $\ket{\Psi_0}=\ket{1, \alpha}$ for some initial coin state $\ket\alpha$, such that, up to a normalisation factor,
 \begin{equation}
     \mel{\gamma}{\calW_{\calC_{n}} \cdots\calW_{\calC_{1}}}{\Psi_0} = \ket\phi.
 \end{equation}
@@ -972,6 +982,7 @@ We will find the answer to be positive, modulo a few degenerate conditions that 
 For the analytical results, we focus on the case of the coin being projected over $\ket+$,
 and provide numerical results for the more general case.
 
+\tmpHeading{Derive reachability conditions}
 Let $\ket\phi$ be an arbitrary superposition of $n+1$ sites with amplitudes $u_k \equiv \braket{k}{\phi}$.
 We want to find a reachable walker state $\ket\Phi$, in the full walker and coin space, such that
 $\ket{+}_c \!\!\!\!\braket{+}{\Phi} \propto \ket\phi \!\otimes\! \ket+$.
@@ -1055,6 +1066,7 @@ can be solved numerically with ease for small $n$, giving multiple solutions for
 As remarked above for the general case, it is still possible for a solution of~\cref{eq:QWs:conditions_for_ds} to not exist, provided some specific degenerate conditions are met.
 Further analysis of the analytical solution for two steps is provided in~\cref{sec:QWs:analytical_sol_2steps}.
 
+\tmpHeading{Probabilistic nature of the protocol}
 A solution of~\cref{eq:QWs:conditions_for_ds}, once found, can be used to compute the coin parameters producing a target $\ket\Phi$ as shown in~\cref{sec:QWs:coin_operators_generating_state}.
 This effectively allows to generate superpositions of $n+1$ sites using $n$ steps of \ac{QW} evolution, via projection of the coin state over $\ket+$ at the end of walk.
 However, the projection makes this scheme probabilistic, so it is important to ensure that the generation probabilities are not vanishingly small.
@@ -1063,13 +1075,15 @@ The results of these analyses are given in~\cref{sec:QWs:numerical_solution_reac
 where we also consider the approximate (namely, with fidelity smaller than 1) engineering of target states,
 and the robustness of the method with respect to imperfections of the coin parameters.
 We will also find that in the vast majority of instances the numerical maximisation identifies coin parameters able to generate arbitrary target states with both high probabilities and fidelities.
-The code used to produce these results is available on GitHub at \href{https://github.com/lucainnocenti/QSE-with-QW-code}{github.com/lucainnocenti/QSE-with-QW-code}.
+The code used to produce these results is available on \href{https://github.com/lucainnocenti/QSE-with-QW-code}{GitHub}\footnote{\href{https://github.com/lucainnocenti/QSE-with-QW-code}{https://github.com/lucainnocenti/QSE-with-QW-code}}.
 
 \subsection{Analytical solutions for two steps}
 \label{sec:QWs:analytical_sol_2steps}
 
+\tmpHeading{Summary of the section}
 In this section we study the solutions obtained in the case of two steps, asking which states are reachable and with what probabilities, as well as the stability of these solutions with respect to small perturbations of the coin parameters.
 
+\tmpHeading{$n=2$ case}
 In the $n=2$ case~\cref{eq:QWs:conditions_for_ds} reduces to the single condition:
 \begin{equation}
     u_1^* d_2 - u_3 d_2^* = u_1^* u_2.
@@ -1098,6 +1112,7 @@ In matrix notation, this corresponds to the linear system
         u_{1R} u_{2I} - u_{1I} u_{2R}
     \end{pmatrix}.
 \end{equation}
+\tmpHeading{Solutions when $|u_1|\neq |u_3|$}
 The determinant of the matrix on the left hand side is $\abs{u_1}^2-\abs{u_3}^2$, and thus, for $\abs{u_1}\neq\abs{u_3}$, the system is invertible, and the solution can be written again in complex form as
 \begin{equation}
 	d_2 = \frac{
@@ -1151,6 +1166,7 @@ Already in this simple case some interesting features emerge. For example, $p$ v
 On the other hand, for $u_1 = -u_3$, the probability does not vanish, which may appear puzzling because in this case~\cref{eq:QWs:solution_for_d2} itself is singular.
 A more careful analysis of~\cref{eq:QWs:solution_for_d2} shows however that $u_1 = -u_3$ corresponds to a removable singularity, consistently with the corresponding non-vanishing projection probability.
 
+\tmpHeading{Solutions when $|u_1|= |u_3|$}
 When the $\lvert u_1 \rvert \neq \lvert u_3 \rvert$ condition is not met, the solution space changes significantly.
 Consider for example the case $u_1 = u_3 \neq 0$. Substituting this into~\cref{eq:QWs:solution_for_d2} we get the conditions:
 \begin{equation}
@@ -1253,15 +1269,20 @@ To illustrate this, in~\cref{fig:fid_vs_eps_varying_d} shows how the fidelity va
 \subsection{Numerical solution of reachability conditions}
 \label{sec:QWs:numerical_solution_reachability_conditions}
 
+\tmpHeading{Different numbers of solutions for different numbers of steps}
 While, as shown in~\cref{sec:QWs:analytical_sol_2steps}, the $n=2$ case can be fully explored analytically, this is significantly more complicated for larger numbers of steps. Nonetheless,~\cref{eq:QWs:conditions_for_ds} can still be tackled, albeit numerically, for $n=2,3,4,5$.
 In this section, we present the results of doing so for a number of random target states sampled uniformly at random.
 \Cref{eq:QWs:conditions_for_ds} gives different numbers of solutions for different target states and number of steps:
 there is always a single solution for $2$ steps, two or four solutions for $3$ steps, $3, 5, 7$ or $9$ solutions for $4$ steps, and $6, 8, 10, 12, 14$ or $16$ solutions for $5$ steps.
+
+\tmpHeading{Behaviour of projection probabilities}
 Different solutions for the same target state correspond to different dynamics before the projection, and therefore different projection probabilities.
 This can be seen in~\cref{fig:minmax_probabilities}, where we report maximum and minimum projection probabilities for each randomly generated target state.
 These results highlight the advantages of solving~\cref{eq:QWs:conditions_for_ds}: having access to the whole set of solutions, we can choose the more convenient one in terms of projection probability.
 Moreover, having access to the various solutions generating a given target state, we can study their stability properties.
 As shown in~\cref{fig:stabilities_5steps}, a general trend is that sets of coin parameters associated to smaller projection probabilities are also less stable, in the sense that a small perturbation of a coin parameter can lead to a state significantly different than the target one.
+
+\tmpHeading{Solutions for the special case of fully balanced states}
 As an example, we can use this method to generate a balanced superposition over $4$ sites (using therefore $3$ steps): $\ket\phi = (1, 1, 1, 1) / 2$.
 This results in two solutions, $\bs d = (-i, 1+i)/2$ and $\bs d = (i, 1 - i)/2$,
 corresponding to the full states
