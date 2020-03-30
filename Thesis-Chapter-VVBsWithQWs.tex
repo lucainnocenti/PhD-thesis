@@ -128,16 +128,6 @@ These images can also be understood as vectors of length $3\times M$ with $M$ th
 	\label{fig:VVBs:class_techniques}
 \end{figure}
 
-\begin{figure}[tb]
-    \centering
-    \includegraphics[width=0.7\textwidth]{VVBs-classification_with_CNN_schematics.pdf}
-    \caption{
-    	Comparison between simulated and experimental polarisation patterns for a sample of \acp{VVB}. Each image is produced by a VVB with OAM numbers $(m_1, m_2)$ belonging to one of the classes listed in the table.
-    }%
-    \label{fig:VVBs:simVsExp}
-\end{figure}
-
-
 
 \section{Convolutional neural networks}
 \label{sec:VVBs:CNNs}
@@ -305,6 +295,15 @@ To build and train the \acp{CNN} we use the Python library \emph{Keras}~\cite{ch
     	Being the result $1>0$, the ReLU nonlinearity leaves it unchanged.
     }%
     \label{fig:VVBs:convolutions_example}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.7\textwidth]{VVBs-classification_with_CNN_schematics.pdf}
+    \caption{
+    	Comparison between simulated and experimental polarisation patterns for a sample of \acp{VVB}. Each image is produced by a VVB with OAM numbers $(m_1, m_2)$ belonging to one of the classes listed in the table.
+    }%
+    \label{fig:VVBs:simVsExp}
 \end{figure}
 
 \tmpHeading{Categorisation into discrete classes}

@@ -32,7 +32,7 @@ A first step in this direction was presented in~\cite{banchi2016quantum}, which 
 In particular, they focused on generating target three-qubit gates such as Toffoli and Fredkin, using an additional one as ancilla to be traced out at the end of the evolution.
 % This work showed that such nontrivial three-qubit gates can be implemented with simple single-shot, time-independent dynamics, by using a scheme with $3+1$ qubits.
 To find the values of the interaction parameters, they used a numerical optimisation technique called \ac{SGD}. This algorithm is the workhorse of most supervised learning algorithms, and the novel idea to apply it in the context of gate learning is what allowed for much improved results compared to what can be obtained via standard optimisation algorithms.
-% This was achieved by solving numerically for the values of the interaction parameters, in a given Hamiltonian \ansatz, resulting in the target evolution.
+% This was achieved by solving numerically for the values of the interaction parameters, in a given Hamiltonian ansatz, resulting in the target evolution.
 % To work around the complexity of the associated optimisation problem, a technique inspired by the way many \ac{ML} models are trained, namely, \ac{SGD}, was used.
 
 \tmpHeading{Our contributions}
@@ -81,6 +81,7 @@ Once a suitable $\calH$ is found, we can always rescale it so that the target is
 For concreteness, let us analyse what happens when we try to find Hamiltonian generators for a few common two- and three-qubit gates, such as the CNOT and the Toffoli gate.
 
 \begin{examplebox}[label={ex:GL:eigendecomposition_cnot}]{Eigendecomposition of CNOT}
+\fontsize{10pt}{10pt}\selectfont
 Assume that the target operation is the $\CNOT$: the two-qubit unitary gate which flips the second qubit conditionally to the value of the first one.
 In matrix notation, this reads
 \begin{equation}
@@ -111,7 +112,7 @@ A general parametrisation of the possible two-qubit Hamiltonians, written using 
     \calH_\bslambda =
     \sum_{j,k=0}^4 \lambda_{j,k} \sigma^j_1\sigma^k_2.
 \end{equation}
-Given the decomposition in~\cref{eq:GL:cnot_eigdecomp_with_paulis}, it is natural to use as \ansatz for $\calH_\bslambda$ an expression bearing the same eigenstructure as the CNOT. Let us therefore try with
+Given the decomposition in~\cref{eq:GL:cnot_eigdecomp_with_paulis}, it is natural to use as ansatz for $\calH_\bslambda$ an expression bearing the same eigenstructure as the CNOT. Let us therefore try with
 \begin{equation}
     \calH_\bslambda = \lambda_1 Z_1^+ + \lambda_2 Z_1^- X_2^+ + \lambda_3 Z_1^- X_2^-.
 \end{equation}
@@ -122,6 +123,7 @@ Indeed, as will be shown in~\cref{sec:GL:solutions_matrix_equation_f(A)=B}, thes
 \end{examplebox}
 
 \begin{examplebox}[label={ex:GL:eigendecomposition_Toffoli}]{Eigendecomposition of Toffoli}
+\fontsize{10pt}{10pt}\selectfont
 Consider now the \emph{Toffoli gate}~\cite{shi2002both,lanyon2008simplifying,monz2009realization,fedorov2011implementation,shi2018deutsch}. This is a three-qubit gate which flips the third qubit conditionally to the first two being in the $\ket1$ state.
 More explicitly, this means
 \begin{equation}
@@ -227,10 +229,11 @@ Note how this means that $f^{-1}(B)$ can break the degeneracies in $B$, thanks t
 
 We now give a few examples of the freedom allowed by degeneracies in the target gate.
 
-\begin{examplebox}[label={ex:GL:solutions_f(A)=I2}]{Decomposition two-dimensional identity matrix}
-Consider the two-dimensional identity matrix $I_2$, and an arbitrary complex function $f$ defined on the complex unit circle, and suppose we are interested in the set of matrices $A$ such that $f(A)=I_2$.
+\begin{examplebox}[label={ex:GL:solutions_f(A)=I2}]{Decomposition of two-dimensional identity matrix}
+\fontsize{10pt}{10pt}\selectfont
+Consider the two-dimensional identity matrix $I_2$, and an arbitrary complex function $f$ defined on the complex unit circle. Suppose we are interested in the set of matrices $A$ such that $f(A)=I_2$.
 Note that $I_2=P+Q$ for any pair of orthogonal projectors $P,Q$, and $\lambda P + \mu Q\in f^{-1}(I_2)$ for any $\lambda,\mu\in f^{-1}(1)$.
-This can be equivalently stated saying that, for any pair of orthonormal states $\ket u$ and $\ket v$, we have
+This is equivalent to saying that, for any pair of orthonormal states $\ket u$ and $\ket v$, we have
 $\lambda \ketbra u + \mu \ketbra v\in f^{-1}(I_2)$.
 Going further, we parametrise the set of all such vectors writing (we can define the vectors up to an overall phase, as we are only interested in the corresponding projectors):
 \begin{equation}
@@ -283,6 +286,7 @@ An easily solvable class of examples is given by $f(A)=A^n$ for some $n\in\NN$. 
 % \end{example}
 
 \begin{examplebox}[label={ex:GL:solutions_e^A=I2}]{The $f(z)=e^z$ case}
+\fontsize{10pt}{10pt}\selectfont
 Picking up from~\cref{ex:GL:solutions_f(A)=I2}, consider the solutions to $f(A)=I_2$ when $f(z)=e^z$.
 Then $f^{-1}(1)=2\pi i\ZZ$, and the set of solutions becomes
 \begin{equation}
@@ -298,6 +302,7 @@ for all $n,m\in\ZZ$ and $\alpha,\theta\in\RR$.
 \end{examplebox}
 
 \begin{examplebox}[label={ex:GL:cnot_generator_decomposition}]{Hamiltonian generators for the CNOT}
+\fontsize{10pt}{10pt}\selectfont
 We gave in~\cref{ex:GL:eigendecomposition_cnot} a possible Hamiltonian generator for the CNOT gate.
 Here, strong on the general characterisation of matrix inverses given in~\cref{eq:GL:general_form_f-1B}, we work out a more general expression for the set of Hamiltonians $\calH$ such that $e^{i\calH}=\CNOT$.
 Specialising~\cref{eq:GL:general_form_f-1B} to the specific eigenstructure of $\CNOT$ (which we worked out in~\cref{ex:GL:eigendecomposition_cnot}), we see that a generic (normal) generator for $\CNOT$ has the form
@@ -356,6 +361,7 @@ $\calU=\sum_j e^{i\varphi_j}\PP_j$ with $\Tr\PP_j=d_j$ and $\sum_j d_j=2^n$ with
 \end{equation}
 
 \begin{examplebox}[label={ex:GL:cnot_physical_constraints}]{CNOT with physical constraints}
+\fontsize{10pt}{10pt}\selectfont
 Let $\calU=\CNOT$, and consider a set of allowed interactions containing only single-qubit terms: $\calP_1\equiv\{X_i,Y_i,Z_i\}_{i\in\{1,2\}}$.
 Is there an $\calH$ containing only interactions in $\calP_1$ and such that $e^{i\calH}=\CNOT$?
 
@@ -397,6 +403,7 @@ In~\cref{sec:GL:solution_framework} we will provide a way to answer these questi
 \end{examplebox}
 
 \begin{examplebox}[label={ex:GL:toffoli_physical_constraints}]{Toffoli with physical constraints}
+\fontsize{10pt}{10pt}\selectfont
 Let $\UToff$ denote the Toffoli gate, and consider the set of allowed interactions $\calP_{\le2}$ comprised of one- and two-qubit interaction terms (but notably \textit{not} three-qubit terms).
 \emph{\textit{Is there a generator $\HToff\in f^{-1}(\UToff)\cap\calP_{\le2}$?}}
 
@@ -498,6 +505,7 @@ To approach a given problem, we can therefore proceed as follows:
 Note how the first two conditions are easy to impose, while the third one remains difficult. To see this more concretely let us consider a few applications of this framework.
 
 \begin{examplebox}[label={ex:GL:cnot_with_conditions}]{Solution framework applied to CNOT}
+\fontsize{10pt}{10pt}\selectfont
 Taking up where we left off in~\cref{ex:GL:cnot_physical_constraints}, let us see if~\cref{eq:GL:3conditions} can give us a conclusive way to prove the impossibility of generating a CNOT with only one-qubit interactions.
 A canonical generator for the CNOT is obtained by setting $n_i=0$ and $m=1$ in~\cref{eq:GL:cnotex_general_H_expr}, which results in
 $\calH_{\CNOT}=\pi Z_1^- X_2^-$.
@@ -643,7 +651,7 @@ Nevertheless, we can derive solutions by making a few guesses on the values of t
 \label{subsec:GL:lucky_guess}
 
 \tmpHeading{Goal of the section}
-In this section we try to tackle directly the eigenvalue problem~(\ref{eq:GL:3conditions_3rd}) for~\cref{eq:GL:general_toffoli_onetwoqubitints_without_Ys}, using a series of assumptions to reduce the number of free parameters in the \ansatz. The particular choices of coefficients we make here are partly obtained by trial and error, and partly inspired by the numerical results obtained using the methods presented in~\cref{sec:GL:supervised_learning}.
+In this section we try to tackle directly the eigenvalue problem~(\ref{eq:GL:3conditions_3rd}) for~\cref{eq:GL:general_toffoli_onetwoqubitints_without_Ys}, using a series of assumptions to reduce the number of free parameters in the ansatz. The particular choices of coefficients we make here are partly obtained by trial and error, and partly inspired by the numerical results obtained using the methods presented in~\cref{sec:GL:supervised_learning}.
 
 \tmpHeading{Use assumptions to remove free coefficients}
 Consider the following assumptions:
@@ -933,7 +941,7 @@ also give a generator with only 2-qubit interactions for the CCY gate
 (that is, the gate that applies $Y$ to the third qubit conditionally to the first 2 qubits being in the $\ket1$ state).
 
 \begin{tbox}[label=tcolorbox:toffoli]{Explicit expressions of projectors for Toffoli}
-\fontsize{9pt}{9pt}\selectfont
+\fontsize{10pt}{10pt}\selectfont
     Defining $d\equiv 1/(2a)$ and $e\equiv b/(2a)$ we can write the projectors as follows:
     % \begin{equation}
     %     d \equiv \frac{(4\nu_{12} - 1)}{8\nu_{34}},
@@ -1322,6 +1330,8 @@ This gives the following expression for $\HPrimeFred\equiv\HTildeFred-\HFred$:
 \end{aligned}
 \label{eq:GL:HPrimeFred_expression_after_commcond}
 \end{equation}
+
+\tmpHeading{Solve the eigenvalue equations}
 While much simpler, this expression is still too cumbersome to solve the eigenvalue equation directly.
 However, we notice that two eigenvalues of~\cref{eq:GL:HPrimeFred_expression_after_commcond} have an easy expression:
 \begin{equation}
@@ -1389,13 +1399,13 @@ We can then project the matrix onto the space orthogonal to these (nondegenerate
 %    {0, 0, 0, 0, 0, 1/Sqrt@2, -1/Sqrt@2, 0}};
 % basisChangeMatrix.expr.Inverse[basisChangeMatrix] // 
 %   Simplify // MatrixForm
-The eigenvalues of this expression are too convoluted to report here, but they turn out to satisfy the following relations (upon appropriate numbering of the eigenvalues):
+The eigenvalues of this expression are too convoluted to report here, but they can be seen to satisfy the following relations (upon appropriate reordering):
 \begin{equation}
     \lambda_3 + \lambda_4
     = \lambda_5 + \lambda_6
     = \lambda_7 + \lambda_8 = 2(h_0 + J_{23}^{zz}).
 \end{equation}
-Together with~\cref{eq:GL:fredkin_condition_between_h0_and_J23zz}, we then conclude that $h_0$ and $J_{23}^{zz}$ must be of the following form
+Using~\cref{eq:GL:fredkin_condition_between_h0_and_J23zz}, we then conclude that $h_0$ and $J_{23}^{zz}$ must be of the following form
 \begin{equation}
 \begin{cases}
     h_0 &= \frac{\pi}{4}\left[3(\nu_3+\nu_4) + 2\nu_1+\frac{3}{2}\right], \\
@@ -1403,7 +1413,7 @@ Together with~\cref{eq:GL:fredkin_condition_between_h0_and_J23zz}, we then concl
 \end{cases}
 \label{eq:GL:fredkin_sols_h0_and_J23zz_vs_nus}
 \end{equation}
-Note how the solution for $h_0$ in~\cref{eq:GL:fredkin_sols_h0_and_J23zz_vs_nus} is consistent with the general requirement that $h_0$ must be an odd multiple of $\pi/8$, which follows from considering the relation $\det\UFred=-1=e^{i\Tr\HFred}$.
+Note how the solution for $h_0$ in~\cref{eq:GL:fredkin_sols_h0_and_J23zz_vs_nus} is consistent with the general requirement that $h_0$ must be an odd multiple of $\pi/8$, which also follows from $\det\UFred=-1=e^{i\Tr\HFred}$.
 Moreover, we note that $\lambda_4-\lambda_3$, $\lambda_6-\lambda_5$, and $\lambda_8-\lambda_7$ have the form
 \begin{equation}
     (\lambda_{i+1}-\lambda_i)^2 =
@@ -1475,7 +1485,7 @@ which when used back in~\cref{eq:GL:fredkin_J13zz_final_sol} results in the foll
 \end{equation}
 Because we also need $J_{13}^{zz}\in\RR$, the integers must then also satisfy  $n,m\neq0$ and $m^2\neq n^2$.
 
-In conclusion, we obtain the following class of generators for the Fredkin gate that only use diagonal pairwise interactions:
+In conclusion, we obtain the following class of generators using only diagonal pairwise interactions:
 \begin{equation}
 \begin{gathered}
     \frac{8}{\pi}\HTildeFred =
@@ -1497,7 +1507,7 @@ In conclusion, we obtain the following class of generators for the Fredkin gate 
 \end{gathered}
 \end{equation}
 where we defined $\tilde n\equiv 4n$ and $\tilde m\equiv 4m$, and this expression is valid for all $n,m\neq0$ such that $m^2\neq n^2$, with the $\pm$ signs independently choosable.
-Note that this is still clearly \emph{not} an exhaustive list of generators for the Fredkin, and most likely not even an exhaustive list of generators that use the interactions in the \ansatz given in~\cref{eq:GL:fredkin_ansatz_used_for_analytics}, as we used a few simplifying assumptions through the derivation (namely, that $h_0+J_{23}^{zz}=0$ and that $S_i=0$ for one of the $i$).
+Note that this is still clearly \emph{not} an exhaustive list of generators for the Fredkin, and most likely not even an exhaustive list of generators that use the interactions in the ansatz given in~\cref{eq:GL:fredkin_ansatz_used_for_analytics}, as we used a few simplifying assumptions through the derivation (namely, that $h_0+J_{23}^{zz}=0$ and that $S_i=0$ for one of the $i$).
 The eigenvalues of this $\HTildeFred$ are $0$ (with multiplicity two), $\pm 2\pi m$, $\pm2\pi n$, $2\pi(1+\nu)$ and finally $2\pi(\nu+1/2)$.  
 For example, choosing $n=1, m=2$, and $\nu=0$ we get the following expression:
 \begin{align}
@@ -1528,13 +1538,13 @@ This means that, in the case of $\HTildeFred$, the dynamics occurs in an larger 
 Consequently, $\exponential(it\HTildeFred)$ does not have the symmetries as $\UFred$ during the evolution (that is, for $t\in(0,1)$), but all of the symmetries are restored at $t=1$. This  shows that breaking the symmetries of $\calU$ and exploiting its degenerate spaces can help the gate design when the set of viable interactions is restricted.
 %END FREDKIN
 
-The above procedure allows to find a unitary $U$ such that
-$U^\dagger\HFred U$ is diagonal and
-$\HFred + 2\pi U D U^\dagger$ contains only one- and two-qubit interactions, where $D$ is diagonal with entries in $\ZZ$.
-This, on the other hand, means that for all three-qubit interaction terms $\bs\sigma_k$, the following must be satisfied
-\begin{equation}
-    \frac18\Tr(\bs\sigma_k\HFred) = -2\pi \Tr(U^\dagger\bs\sigma_k U D).
-\end{equation}
+% The above procedure allows to find a unitary $U$ such that
+% $U^\dagger\HFred U$ is diagonal and
+% $\HFred + 2\pi U D U^\dagger$ contains only one- and two-qubit interactions, where $D$ is diagonal with entries in $\ZZ$.
+% This, on the other hand, means that for all three-qubit interaction terms $\bs\sigma_k$, the following must be satisfied
+% \begin{equation}
+%     \frac18\Tr(\bs\sigma_k\HFred) = -2\pi \Tr(U^\dagger\bs\sigma_k U D).
+% \end{equation}
 
 % \highlight{Maybe CCZ gate case?}
 
@@ -1543,19 +1553,20 @@ This, on the other hand, means that for all three-qubit interaction terms $\bs\s
 \label{sec:GL:numerical_approach}
 
 \tmpHeading{Why devise yet another method?}
-As discussed in~\cref{sec:GL:toffoli,sec:GL:fredkin}, finding time-independent Hamiltonians with constrained interactions generating target gates is a nontrivial task. 
-The fact that each gate presents a challenge on its own right further hinders the extendibility of the results.
+As discussed in~\cref{sec:GL:toffoli,sec:GL:fredkin}, finding constrained time-independent Hamiltonians generating target gates is a nontrivial task,
+and the fact that each gate presents a challenge on its own right hinders the extendibility of the results.
 It is therefore desirable to have a more flexible approach to solve generic gate learning problems, even if at the cost of forsaking exact results.
 
 \tmpHeading{Converting the problem into a numerical optimisation task}
 A natural way to do this is to transform the problem into a numerical optimisation task. We can do this by defining a suitable cost function whose maximum corresponds to a solution to the original problem.
-Indeed, if $\calU$ is the target gate and $\calH_\bslambda$ a parametrised Hamiltonian containing the allowed interaction terms, then the gate learning problem is equivalent to that of finding parameters $\bslambda_0$ such that $\exponential(i\calH_{\bslambda_0})=\calU$.
-In turn, this can be made into a numerical optimisation problem by introducing some function $f(U, V)$ that quantifies the similarity between $U$ and $V$, and looking for the solution to the problem
+If $\calU$ is the target gate and $\calH_\bslambda$ a parametrised Hamiltonian containing the allowed interaction terms, then the gate learning problem is equivalent to that of finding parameters $\bslambda_0$ such that $\exponential(i\calH_{\bslambda_0})=\calU$.
+In turn, this can be made into a numerical optimisation task by introducing some function $f(U, V)$ that quantifies the similarity between $U$ and $V$. We then looking for the solutions to the problem
 \begin{equation}
     \argmax_\lambda f(\calU, \exponential(i\calH_{\bslambda})).
     \label{eq:GL:gatelearning_as_optimisation}
 \end{equation}
-A natural candidate for such $f$ is $f(A,B)\equiv 1-\barcalF(A,B)$, with $\barcalF(A,B)$ the \textit{average gate fidelity} between $A$ and $B$~\cite{nielsen2002simple,magesan2011gate}. The average gate fidelity can be defined more generally as a way to quantify the distance between a quantum channel $\calE$ and a gate $\calU$, by computing the average overlap between $\PP[\calU\ket\psi]$ and $\calE(\PP[\ket\psi])$, averaging over all pure states $\ket\psi$. Explicitly, this reads
+\tmpHeading{Explicit expressions for the average gate fidelity}
+A natural candidate for the cost function is $f(A,B)\equiv 1-\barcalF(A,B)$, with $\barcalF(A,B)$ the \textit{average gate fidelity}~\cite{nielsen2002simple,magesan2011gate}. The average gate fidelity can be defined more generally as a way to quantify the distance between a quantum channel $\calE$ and a gate $\calU$, by computing the average overlap between $\PP[\calU\ket\psi]$ and $\calE(\PP[\ket\psi])$, averaged over all pure states $\ket\psi$. Explicitly, this reads
 \begin{equation}
     \barcalF(\calE,\calU) = \int d\psi \calF(\calE, \calU, \psi),
 \end{equation}
@@ -1573,21 +1584,65 @@ The integration can be carried out explicitly, getting an expression for $\barca
 \end{equation}
 where $K(\calE)$ denotes the natural representation of $\calE$~\cite{watrous2018theory}, whose matrix elements read
 $K(\calE)_{ij,k\ell}\equiv\langle i|\calE(\ketbra{k}{\ell})|j\rangle$, and
-$D$ is the dimension of the underlying space (thus $D=2^n$ for an $n$-qubit system).
-In the special case of $\calE$ unitary, $\calE(\rho)=\calV\rho \calV^\dagger$ for some unitary $\calV$,~\cref{eq:GL:explicit_fidelity_map_unitary} becomes
+$D$ is the dimension of the underlying space ($D=2^n$ for an $n$-qubit system).
+In the special case of $\calE(\rho)=\calV\rho \calV^\dagger$ for some unitary $\calV$,~\cref{eq:GL:explicit_fidelity_map_unitary} becomes
 \begin{equation}
     (D+1) \barcalF(\calU, \calV) =
     1 + \frac{1}{D} \abs{\Tr(\calU^\dagger \calV)}^2.
     \label{eq:GL:explicit_fidelity_unitary_unitary}
 \end{equation}
 % \highlight{(the formula seems to came from Eq.8, pag.3 of~\mbox{\cite{pedersen2007fidelity}}, as well as from~\mbox{\cite{nielsen2002simple}}, even though here in a different form)}
-\Cref{eq:GL:explicit_fidelity_unitary_unitary} can be used to solve the optimisation problem posed in~\cref{eq:GL:gatelearning_as_optimisation} more efficiently.
-Given a parametrised Hamiltonian $\calH_{\bslambda}$, define the set of unitaries $\calU_{\bslambda}\equiv\exponential(i\calH_{\bslambda})$. Given a target gate $\calU$, the problem is then reduced to solving
+\Cref{eq:GL:explicit_fidelity_unitary_unitary} can be used to solve the optimisation problem posed in~\cref{eq:GL:gatelearning_as_optimisation}.
+Given a parametrised Hamiltonian $\calH_{\bslambda}$ and a target gate $\calU$, we need to solve
 \begin{equation}
-    \argmax_{\bslambda} \abs{\Tr(\calU^\dagger \calU_{\bslambda})}^2.
+    \argmax_{\bslambda} \abs{\Tr(\calU^\dagger \exponential(i\calH_\bslambda))}^2.
 \end{equation}
-\highlight{(maybe show that this works in a few cases, if time allows. Otherwise just say that \emph{it's oh so difficult!})}
 
+\tmpHeading{A working example}
+Using~\cref{eq:GL:general_toffoli_onetwoqubitints_without_Ys} as starting ansatz, we can use a standard maximisation algorithm such as Nelder-Mead to find the maximum $\bslambda$. This gives the solution:
+\begin{equation}
+    \frac{8}{\pi}\HToff = 3 (X_3 + Z_1) - 2 Z_2 + Z_1 Z_2 + (Z_1 + Z_2)X_3
+    +\sqrt{15} X_2 (X_3 - Z_1).
+    \label{eq:GL:naiveOptim_working_example}
+\end{equation}
+While the actual output of the maximisation consists of numerical values for the coefficients, these can be seen by direct analysis to be very close to the above numbers. We can then check that these do indeed produce the desired gate.
+% Of course, the actual output of the algorithm are the corresponding numerical coefficients. However, these can be seen by direct analysis to be close to the above exact values, which can then be verified to produce the correct gate.
+It is worth noting that this solution falls outside of the class of solutions given in~\cref{eq:GL:toff_tilde_general_solution}, although some common features emerge --- for example the $\frac{\pi}{8}\sqrt{15}$ factor is similar to the type of radicals found in the other solutions.
+
+\tmpHeading{Limitations of direct optimisation approach}
+While~\cref{eq:GL:naiveOptim_working_example} shows that the direct optimisation approach \emph{does} work in some cases, this method has severe limitations, so much so that we could not find other useful working examples. In particular, we could not get any generator for the Toffoli gate without using off-diagonal interactions --- nor a generator for the Fredkin gate --- without starting the optimisation with coefficients very close to a known solution.
+This is indicative of the complexity of the underlying parameter landscape, which makes identifying global maxima difficult.
+This complexity is also exemplified in~\cref{fig:GL:2dDensityPlot_Fredkin_Generator,fig:GL:2dDensityPlot_Toffoli_Generator}, which show the behaviour of the average gate fidelity with respect to different pairs of interaction coefficients. These figures show clearly how the global maximum is often well separated from other local maxima, in such a way that optimisers will have a hard time realising whether a given peak is a local rather than global maximum.
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Figures/gate-learning/GL_2dDensityPlot_Fredkin_Generator.png}
+    \caption{
+        Average gate fidelity as a function of two of the coefficients in the Hamiltonian.
+        To generate this figure, we started with an ansatz for a Fredkin gate using the interactions used in~\cref{eq:GL:fredkin_generator}. We then maximised the average gate fidelity over the interaction coefficients, using random starting values. The optimiser fails to find a solution generating the Fredkin gate with good fidelity. We then used the values of the coefficients at which the optimiser stopped, fixed all except two of them --- call them $c_1$ and $c_2$ --- and plotted the average gate fidelity changing these two coefficients.
+        The values of $c_1,c_2$ given by the optimiser correspond to the local maximum around the centre.
+    }
+    \label{fig:GL:2dDensityPlot_Fredkin_Generator}
+\end{figure}
+
+\begin{figure}[tbh]
+    \centering
+    \hspace{-30pt}\begin{minipage}{0.45\linewidth}
+        \centering
+        \includegraphics[height=\textwidth]{Figures/gate-learning/GL_2dDensityPlot_Toffoli_Generator.png}
+    \end{minipage}\hspace{20pt}
+    \begin{minipage}{0.45\linewidth}
+        \centering
+        \includegraphics[height=\textwidth]{Figures/gate-learning/GL_2dDensityPlot_Toffoli_Generator2.png}
+    \end{minipage}
+    \caption{
+        Same as~\cref{fig:GL:2dDensityPlot_Fredkin_Generator}, but using as starting ansatz a generic $\HTildeToff$ that commutes with $\UToff$ and does not use $Y$ interaction terms.
+        This time, the Hamiltonian produced by the optimiser generates a Toffoli with average gate fidelity $>1- 10^{-13}$.
+        We then fix all except a pair of coefficients, and plot the corresponding variations of the average gate fidelity. The two figures are obtained using two different pairs of interaction parameters from the same Hamiltonian.
+        The solution given by the optimiser corresponds to the centre-left peak in the left figure, and the peak around the middle of the figure on the right.
+    }
+    \label{fig:GL:2dDensityPlot_Toffoli_Generator}
+\end{figure}
 
 
 \section{Supervised learning optimisation}
@@ -1762,7 +1817,7 @@ What made finding generators difficult, in~\cref{sec:GL:toffoli,sec:GL:fredkin} 
 What we can do is then to keep the latter condition, and use it as a starting point for the numerical optimisation, thus avoiding having to deal directly with the hard eigenvalue problem.
 
 \tmpHeading{The plan}
-For the purpose, we consider a slight generalisation of the gate learning problems discussed previously in the chapter. Each gate learning problem is defined by a target gate $\calU$, and a set of available interactions $\calP\equiv \{\sigma_i\}_i$, so that the \ansatz generator has the form $\calH_\bslambda=\sum_i \lambda_i \sigma_i$. As in~\cref{sec:GL:solution_framework}, we use the commutativity condition $[\calH_\bslambda,\calU]=0$ to cut down the number of free parameters. However, rather than trying to tackle the eigenvalue condition, we now instead feed the reduced expression for $\calH_\bslambda$ directly into the supervised learning optimisation algorithm. The algorithm will then look for values of $\bslambda$ which maximise the fidelity $\calF_\bslambda(\psi)\equiv\mel{\psi}{\calU^\dagger \exp[i\calH_\bslambda]}{\psi}$ for all input states $\psi\equiv\ket\psi$.
+For the purpose, we consider a slight generalisation of the gate learning problems discussed previously in the chapter. Each gate learning problem is defined by a target gate $\calU$, and a set of available interactions $\calP\equiv \{\sigma_i\}_i$, so that the ansatz generator has the form $\calH_\bslambda=\sum_i \lambda_i \sigma_i$. As in~\cref{sec:GL:solution_framework}, we use the commutativity condition $[\calH_\bslambda,\calU]=0$ to cut down the number of free parameters. However, rather than trying to tackle the eigenvalue condition, we now instead feed the reduced expression for $\calH_\bslambda$ directly into the supervised learning optimisation algorithm. The algorithm will then look for values of $\bslambda$ which maximise the fidelity $\calF_\bslambda(\psi)\equiv\mel{\psi}{\calU^\dagger \exp[i\calH_\bslambda]}{\psi}$ for all input states $\psi\equiv\ket\psi$.
 AD makes this easier by making the evaluation of the derivatives $\partial_{\lambda_i}\calF_\bslambda(\psi)$ efficient.
 
 \tmpHeading{We can add ancillary qubits without changing the algorithm}
@@ -1777,11 +1832,11 @@ where we used the notation $\rho_S\equiv\PP[\ket\psi]$ and $\rho_A\equiv\PP[\ket
     \calF_\bslambda(\psi) = \mel{\psi_{\on{target}}}{\rho^S_{\on{out}}(\bslambda)}{\psi_{\on{target}}}.
     \label{eq:GL:fidelity_map_vs_unitary}
 \end{equation}
-It is worth noting that, in practice, the only thing that needs to be changed in the algorithm to handle this new scenario with ancillae is this fidelity function (and of course the Hamiltonian \ansatz).
-Because the results about commutativity found in~\cref{sec:GL:solution_framework} assume a fully unitary evolution (which is here broken by the partial trace operation), they cannot be used to improve the \ansatz in the case with ancillae.
+It is worth noting that, in practice, the only thing that needs to be changed in the algorithm to handle this new scenario with ancillae is this fidelity function (and of course the Hamiltonian ansatz).
+Because the results about commutativity found in~\cref{sec:GL:solution_framework} assume a fully unitary evolution (which is here broken by the partial trace operation), they cannot be used to improve the ansatz in the case with ancillae.
 
 \tmpHeading{Interaction terms used for the optimisations}
-We focus on the scenario in which only one- and two-qubit interactions are available. The initial Hamiltonian \ansatz (before further commutativity conditions are considered) thus has the form
+We focus on the scenario in which only one- and two-qubit interactions are available. The initial Hamiltonian ansatz (before further commutativity conditions are considered) thus has the form
 \begin{equation}
     \calH_\bslambda = h_0 I + \sum h^\alpha_{i} \sigma_i^\alpha + \sum J_{ij}^{\alpha\beta} \sigma_i^\alpha \sigma_j^\beta.
     \label{eq:GL:hamiltonian_atmostpairwise}
@@ -1803,7 +1858,7 @@ In particular, we used \textsc{Theano}~\cite{team2016theano}, together with the 
 % The code used, together with a number of usage examples, is available on GitHub (\href{https://github.com/lucainnocenti/quantum-gate-learning}{Link}).
 
 \tmpHeading{What is the goal of the algorithm?}
-The goal of the algorithm is, given a target gate $\mathcal G$ and an \ansatz $\bslambda\mapsto\calH_\bslambda$ for the Hamiltonian, to find the $\bslambda_0$ such that $\exp(i\calH(\bslambda_0))=\calG$.
+The goal of the algorithm is, given a target gate $\mathcal G$ and an ansatz $\bslambda\mapsto\calH_\bslambda$ for the Hamiltonian, to find the $\bslambda_0$ such that $\exp(i\calH(\bslambda_0))=\calG$.
 We employ for the purpose \emph{mini-batch momentum \ac{SGD}}.
 The \emph{mini-batch} version of \ac{SGD} involves computing the gradient, at every iteration, averaging over the gradients computed for a number of states.
 In other words, the training dataset is partitioned into a series of \emph{mini-batches}, and to evaluate the size and direction of the step on the parameters, the gradient is computed by averaging over the gradients computed for each element of the mini-batch.
@@ -1862,7 +1917,7 @@ More specifically, the algorithm involves the following steps:
 
 \tmpHeading{Target gates used}
 We test our algorithm to train generators for Toffoli, Fredkin, and \emph{double-Fredkin} gates.
-Toffoli and Fredkin gates were already defined and discussed in~\cref{sec:GL:toffoli,sec:GL:fredkin}.
+Toffoli and Fredkin gates were defined and discussed in~\cref{sec:GL:toffoli,sec:GL:fredkin}.
 The ``double-Fredkin'' gate is a \emph{four}-qubit gate which, conditionally on the state of the first qubit, acts either like a Fredkin, or like a Fredkin with reversed control. More explicitly, this is the gate
 \begin{equation}
     \calU_{\on{FF}} \equiv \PP_0\otimes \UFred + \PP_1\otimes \calU_{\overline{\on{Fred}}},
@@ -1871,8 +1926,8 @@ The ``double-Fredkin'' gate is a \emph{four}-qubit gate which, conditionally on 
 \end{equation}
 
 \tmpHeading{Ansatzes used}
-In all cases, we used an \ansatz containing only one-qubit and \emph{diagonal} two-qubit interactions, that is, two-qubit interactions of the form $\sigma_i^\alpha\sigma_j^\alpha$.
-For the Toffoli gate, imposing the commutativity condition on such an \ansatz gives the following expression:
+In all cases, we used an ansatz containing only one-qubit and \emph{diagonal} two-qubit interactions, that is, two-qubit interactions of the form $\sigma_i^\alpha\sigma_j^\alpha$.
+For the Toffoli gate, imposing the commutativity condition on such an ansatz gives the following expression:
 \begin{equation}
 \begin{aligned}
     \calH_\bslambda^{\on{Toff}} &=
@@ -2044,7 +2099,7 @@ We believe that the proposed methodology will be able to significantly help in t
 %     \includegraphics[width=0.5\textwidth]{fredkin_diagonal_solutions}\\
 %     \includegraphics[width=0.5\textwidth]{doublefredkin_diagonal_initvalues4_8samples}
 %     \caption{
-%         Eight different sets of interaction parameters generating Toffoli [panel {\bf (a)}] and Fredkin [panel {\bf (b)}] gates. For each solution shown here the training was started from the \ansatz provided in~\cref{eq:GL:toffoli_reducd_ansatz_for_ML}, and the analogous equation for the Fredkin, respectively. Panel {\bf (c)}: Eight sets of interaction parameters for the ``double Fredkin" gate.
+%         Eight different sets of interaction parameters generating Toffoli [panel {\bf (a)}] and Fredkin [panel {\bf (b)}] gates. For each solution shown here the training was started from the ansatz provided in~\cref{eq:GL:toffoli_reducd_ansatz_for_ML}, and the analogous equation for the Fredkin, respectively. Panel {\bf (c)}: Eight sets of interaction parameters for the ``double Fredkin" gate.
 %         Each one of the shown solutions corresponds to unit fidelity up to numerical precision (that is, fidelities greater than $1-10^{-16}$).
 %         We refer to the Supplementary Materials for the details of the optimisations.
 %     }
@@ -2072,7 +2127,7 @@ We believe that the proposed methodology will be able to significantly help in t
         \includegraphics[width=0.5\textwidth]{doublefredkin_diagonal_initvalues4_8samples}
     \end{subfigure}
     \caption{
-        Eight different sets of interaction parameters generating Toffoli [panel \textbf{(a)}], Fredkin [panel \textbf{(b)}], and double Fredkin [panel \textbf{(c)}] gates. For each solution shown here the training was started from the \ansatz provided in~\cref{eq:GL:toffoli_reducd_ansatz_for_ML}, and the analogous equations for Fredkin and double Fredkin gates.
+        Eight different sets of interaction parameters generating Toffoli [panel \textbf{(a)}], Fredkin [panel \textbf{(b)}], and double Fredkin [panel \textbf{(c)}] gates. For each solution shown here the training was started from the ansatz provided in~\cref{eq:GL:toffoli_reducd_ansatz_for_ML}, and the analogous equations for Fredkin and double Fredkin gates.
         Each one of the solutions corresponds to unit fidelity, up to numerical precision (that is, fidelities greater than $1-10^{-16}$).
     }
     \label{fig:GL:toffoli_diagonal_solutions}
