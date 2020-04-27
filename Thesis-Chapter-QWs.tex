@@ -27,7 +27,7 @@ In the context of quantum communication, high-dimensional systems guarantee high
 Other applications include spatial imaging~\cite{howland2013efficient}, quantum emulation~\cite{buluta2009quantum,neeley2009emulation}, quantum computation~\cite{bartlett2002quantum, ralph2007efficient,lanyon2008simplifying,campbell2012magicstate,campbell2014enhanced}, quantum error correction~\cite{chuang1997bosonic,duclos-cianci2013kitaev,michael2016class}, and quantum machine learning~\cite{paparo2014quantum}.
 
 \tmpHeading{Engineering high-dimensional qudits}
-Engineering high-dimensional quantum states remains however a nontrivial task.
+Engineering high-dimensional quantum states remains, however, a nontrivial task.
 % The past decades have seen a steady interest in the engineering of high-dimensional quantum states. %, with ongoing investigations spanning various physical platforms. Among the latter, quantum optical systems play a prominent role, where 
 In quantum optics, proposed engineering strategies include encodings exploiting degrees of freedom such as time-energy~\cite{thew2004belltype, bessire2014versatile}, polarisation~\cite{bogdanov2004qutrit}, path~\cite{osullivanhale2005pixel,hu2020experimental}, \ac{OAM}~\cite{mair2001entanglement, mclaren2012entangled, krenn2013entangled, krenn2014generation, zhang2016engineering}, and frequency~\cite{bernhard2013shaping, jin2016simple}. These strategies generally depend on the specific setting under consideration, and a unified framework is lacking. 
 % Here we make a significant step in this direction by proposing a strategy based on the ubiquitous dynamics offered by \acp{QW}.
@@ -294,7 +294,7 @@ We now consider the possible states after \textit{two} \ac{QW} steps.
 Suppose $\ket\Psi$ spans $n+2$ modes and can be written as
 $\ket\Psi=\calW_{\calC_2}\calW_{\calC_1}\ket*{\Psi^{(-2)}}$
 for some unitaries $\calC_1,\calC_2$ and state $\ket*{\Psi^{(-2)}}$.
-We will show in this section that all such states $\ket\Psi$ must satisfy a specific orthogonality condition on their amplitudes, and that, moreover, this condition, paired with the one discussed in~\cref{sec:QWs:1step_reachability}, is sufficient for a state $\ket\Psi$ to be output of two steps of a \ac{QW} dynamics.
+We will show in this section that all such states $\ket\Psi$ must satisfy a specific orthogonality condition on their amplitudes, and that this condition, paired with the one discussed in~\cref{sec:QWs:1step_reachability}, is sufficient to determine that a state $\ket\Psi$ is the output of two steps of some \ac{QW} dynamics.
 
 From~\cref{sec:QWs:1step_reachability} we know that $\ket\Psi$ must be such that
 $\Psi_{1,\downarrow}=\Psi_{n+2,\uparrow}=0$.
@@ -979,7 +979,7 @@ We thus fix a number of steps $n$ and a target superposition over the sites $\ke
 \end{equation}
 Such protocols are clearly probabilistic in general, but this is not a big hurdle provided the projection probabilities are vanishingly small.
 In particular, we are interested in finding whether arbitrary $\ket\phi$ can be generated in this way.
-The main tool that will be used to answer this question are the results of~\cref{sec:QWs:reachability_conditions}.
+The main tools that will be used to answer this question are the results of~\cref{sec:QWs:reachability_conditions}.
 We will find the answer to be positive, modulo a few degenerate conditions that the $\ket\phi$ need to satisfy.
 For the analytical results, we focus on the case of the coin being projected over $\ket+$,
 and provide numerical results for the more general case.
@@ -1069,9 +1069,9 @@ As remarked above for the general case, it is still possible for a solution of~\
 Further analysis of the analytical solution for two steps is provided in~\cref{sec:QWs:analytical_sol_2steps}.
 
 \tmpHeading{Probabilistic nature of the protocol}
-A solution of~\cref{eq:QWs:conditions_for_ds}, once found, can be used to compute the coin parameters producing a target $\ket\Phi$ as shown in~\cref{sec:QWs:coin_operators_generating_state}.
-This effectively allows to generate superpositions of $n+1$ sites using $n$ steps of \ac{QW} evolution, via projection of the coin state over $\ket+$ at the end of walk.
-However, the projection makes this scheme probabilistic, so it is important to ensure that the generation probabilities are not vanishingly small.
+A solution of~\cref{eq:QWs:conditions_for_ds}, once found, can be used to compute the coin parameters producing a target $\ket\Phi$, as shown in~\cref{sec:QWs:coin_operators_generating_state}.
+This effectively allows to generate superpositions of $n+1$ sites using $n$ \ac{QW} steps, via projection of the coin state over $\ket+$ at the end of the walk.
+However, the projection makes the scheme probabilistic, so it is important to ensure that the generation probabilities are not vanishingly small.
 We tested this with up to $5$ steps analysing the solutions of \cref{eq:QWs:conditions_for_ds}, and with up to $20$ steps finding the coin parameters generating target states using a more general numerical maximisation algorithm.
 The results of these analyses are given in~\cref{sec:QWs:numerical_solution_reachability_conditions,sec:QWs:numerical_fid_max},
 where we also consider the approximate (namely, with fidelity smaller than 1) engineering of target states,
@@ -1494,9 +1494,11 @@ by properly fine-tuning the optimisation algorithm.
 
 \section{Conclusions}
 \label{sec:QWs:conclusions}
-We provided a set of equations characterising the states reachable by a coined \ac{QW} evolution, when letting the coin operation change from step to step.
-We then derived a set of conditions characterising the quantum states, spanning only the walker's positions, that are probabilistically reachable after projection of the coin at the end of the walk, discussing both analytical and numerical methods to find the coins generating a target state.
+We derived a set of explicit conditions characterising the states reachable by a coined \ac{QW} evolution, when the coin operation can be chosen freely at each step.
+We then derived the conditions characterising the quantum states, spanning only the walker's positions, that are reachable after projection of the coin at the end of the walk. We discussed both analytical and numerical methods to find the coins generating a target state.
 % Finally, we proposed a protocol to experimentally implement the quantum state engineering scheme with linear optics, using orbital and spin angular momentum of a photon to encode spatial and coin degrees of freedom of the walker.
-Given the ubiquity of \acp{QW}, our approach should facilitate the engineering of high-dimensional quantum states in a wide range of physical systems.
+Given the ubiquity of \acp{QW}, our approach has the potential to facilitate the engineering of high-dimensional quantum states in a wide range of physical systems.
 
+\tmpHeading{Outlook}
+Possible future directions include figuring out whether our results can be generalised to more general quantum walks dynamics, for example to higher-dimensional coins.
 
