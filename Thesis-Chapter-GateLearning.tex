@@ -2086,26 +2086,26 @@ These results provide further evidence in support of the power and flexibility o
 \label{sec:GL:conclusions}
 
 % We have reported on strategies for supervised-learning-assisted synthesis of multi-qubit quantum gates.
-In this chapter, we discussed strategies to synthesise multi-qubit quantum gates with time-independent Hamiltonians and constrained interactions.
-After illustrating the underlying mathematical task, we present a way to approach it, and show that it leads to exact solutions in a few cases of interest, including generators for Toffoli and Fredkin gates using only single- and two-qubit interactions.
+We discussed strategies to synthesise multi-qubit quantum gates with time-independent Hamiltonians and constrained interactions.
+After presenting the underlying mathematical structure, we proposed a way to tackle the problem, and show that it leads to exact solutions in a few cases of interest, including generators for Toffoli and Fredkin gates using only single- and two-qubit interactions.
 We then proceeded to show that our framework is useful not only to reach exact conclusions, but also as a starting point to find numerical solutions.
 % The general scheme of our gate design is based on the use of a limited set of resources (such as two-qubit gates) that, in general, would not be sufficient for arbitrary gate design.
 % However, the catalyst effect brought about by the use of machine learning -- specifically, stochastic gradient descent -- is sufficient to overcome the limitation of our resources and deliver high-quality complex quantum gates.
-Moreover, we find that a specific class of machine-learning techniques, namely the stochastic gradient descent and automatic differentiation algorithms, is well-suited to the associated numerical task. We show that these techniques bring about significant improvements efficiency-wise, thus allowing to explore a wide variety of gate learning scenarios.
+Moreover, we find that a some classes of machine-learning techniques, namely stochastic gradient descent and automatic differentiation algorithms, are well-suited to tackle the associated numerical task. We show that these techniques bring about significant improvements efficiency-wise, thus allowing to explore a wide variety of gate learning scenarios.
 % By importing machine-learning techniques into the discussion, 
-We demonstrated the performance of our scheme by finding novel time-independent generators for nontrivial three-qubit interactions such as Toffoli, Fredkin, and \emph{Toffredkin} gates, as well as four-qubit gates, and half-adder and Quantum Fourier Trasnform.
+We demonstrated the performance of our scheme by finding novel time-independent generators for nontrivial three-qubit interactions such as Toffoli, Fredkin, and \emph{Toffredkin} gates, as well as four-qubit gates, and half-adder and Quantum Fourier Transform.
 % which acts as different three-qubit gates conditionally on a fourth one.
 % To further test the efficiency of our approach we addressed the significant cases of a half-adder and a \ac{QFT} circuit.
 % Moreover, we have shown the flexibility of our approach by addressing a novel type of gate that puts together the paradigmatic quantum Toffoli and Fredkin gates.
 
-We believe that the proposed methodology will be able to significantly help in the task of designing complex evolutions suitable for the simulation of the dynamics of networks of information carriers, lowering the complexity associated with gate decomposition, and simply adopting well-known techniques of classical machine learning.
-
-Many interesting questions are spurred by this work and as-of-yet unanswered. From a mathematical point of view, it is possible that general conditions can be derived to be able to tell when a given gate is achievable with a given set of available interactions.
-Aside from its intrinsic mathematical interest, such a result would help to shed light into the classes of physical interactions can emerge from simpler ones.
-Furthermore, it would be interesting to see how the problem changes when we allow as target more general maps, both from a mathematical and numerical point of view.
-
-Moreover, our use of supervised learning to tackle gate learning problems is fairly problem agnostic, and would thus be interesting to understand what other classes of problems in quantum information would gain from a similar approach.
-\tmpHeading{scritto de merda}
+Our methodology has the potential to improve the design of quantum operations,
+% suitable for example to simulate network dynamics,
+lowering the complexity associated with gate decompositions common in quantum information protocols.
+% , and simply adopting well-known techniques of classical machine learning.
+Several interesting questions are spurred by this work and remain as-of-yet unanswered. From a mathematical standpoint, general conditions to certify the achievability of a gate in a given setting would be highly desirable, and shed further light into the underlying structure of the problem.
+Such a result would also further our understanding of how complex physical interactions emerge from simpler ones.
+Furthermore, it would be interesting to study how the problem changes when we allow as target more general quantum maps.
+Finally, our use of supervised learning to tackle gate learning problems is rather problem agnostic, and thus applicable to a variety of different scenarios. Exploring what classes of problems in quantum information would gain from a similar approach would constitute a fruitful venue for research.
 
 % \begin{figure}[tb]
 % % {\bf (a)}\hskip5cm{\bf (b)}\hskip5cm{\bf (c)}

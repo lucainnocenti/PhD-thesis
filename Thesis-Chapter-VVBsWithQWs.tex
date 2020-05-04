@@ -6,11 +6,12 @@
 \tmpHeading{Summary of the chapter}
 In this chapter we present a method to classify experimental states with nontrivial \ac{OAM} structure using~\acf{ML} techniques.
 % The employed experimental apparatus is similar to the one used in~\cref{chapter:experimental_engineering_qudits}.
-The goal is to classify \ac{VVB} states generated states using the platform presented in~\cref{chapter:experimental_engineering_qudits}, from the sole knowledge of their intensity profile as captured with a CCD camera.
+The goal is to classify \ac{VVB} states generated using the platform presented in~\cref{chapter:experimental_engineering_qudits}, from the sole knowledge of their intensity profile as captured with a CCD camera.
 We will find that a range of supervised and unsupervised learning techniques are suitable to tackle this problem, and provide useful insights on the structure of experimentally produced states.
 We first train \acp{CNN} to classify experimental images.
 We then discuss how the joint application of \ac{DR} and \acp{SVM} can also be used to classify states, and even obtain a full description of a state from its intensity profile.
 These algorithms are fully independent on the specifics of the experimental apparatus, and are thus applicable in a variety of situations.
+The work discussed here can be found in~\cite{giordani2020machine}.
 
 \tmpHeading{Previous applications of ML to structured light}
 As discussed in~\cref{sec:intro:ML}, \ac{ML} provides a versatile toolbox to tackle a variety of tasks arising in experimental platforms. It has, in particular, proven useful to characterise quantum protocols and dynamics~\cite{carrasquilla2019reconstructing,giordani2018experimental, agresti2019pattern,lumino2018experimental,rocchetto2019experimental,butler2018machine,fischer2006predicting,melnikov2018active,wang2017experimental}.
@@ -532,10 +533,11 @@ The average classification accuracy is $\sim 98 \%$. This result confirms that t
 \section{Conclusions}
 \label{sec:VVBs:conclusions}
 
-We presented a novel approach to classify \acp{VVB} using a combination of supervised and unsupervised learning algorithms. We demonstrated how the use of inference strategies based on CNNs, PCA, and SVMs allows to extract efficiently properties of high-dimensional photonics \ac{VVB} systems.
+We presented a novel approach to classify \acp{VVB} using a combination of supervised and unsupervised learning algorithms. We demonstrated how the use of inference strategies based on CNNs, PCA, and SVMs enables probing efficiently high-dimensional photonics \ac{VVB} systems.
 In particular, we used dimensionality reduction to probe the underlying geometrical properties of experimentally generated VVBs, without requiring prior knowledge about the physics of the generation apparatus.
 % By embedding a variety of \ac{ML} algorithms into our experimental pipeline, the task of characterising structured light is made significantly broader in the methods, ranging from supervised to unsupervised learning, and more flexible in the applications, classification and regression tasks.
 %Then, the investigation of different techniques in the ML field has provided a more general framework for the characterization of structured light.  
 % While paving the way for further experimental validations, potentially also in non-photonics settings, we believe that numerous tasks of relevance to modern photonics could benefit from introducing similar {\ac{ML}} ideas into their characterisation protocols.
 The flexibility of these techniques makes the applicability of our approach extend to a variety of different experimental scenarios.
-% These techniques can prove to be useful add-on to tasks ranging from the design of automatised approaches to the characterisation of experimental platforms and experiments, to the provision of solutions to OAM demultiplexing in the context of classical and quantum communication and, more generally, for the use of structured light in quantum technologies.
+Moreover, these techniques present a promising add-on to tasks ranging from the design of automatised pipelines to characterise experimental platforms, to the provision of solutions to OAM demultiplexing in the context of classical and quantum communication and, more generally, for the use of structured light in quantum technologies.
+
