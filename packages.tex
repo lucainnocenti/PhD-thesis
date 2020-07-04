@@ -255,54 +255,6 @@
       {\namepartsuffix}%
   \fi}
 
-% -------------- START AUTHORYEAR FIX
-% \usepackage{twoopt}
-% \usepackage{ifthen}
-
-% \newcommand\black[1]{\textcolor[rgb]{0,0,0}{#1}}
-
-% \newcommandtwoopt{\mycitet}[3][aa][bb]{%
-%     \ifthenelse{\equal{#1}{aa}}                                                                         % if nargin == 1
-%       {\hyperlink{cite.#3}{\citeauthor{#3} \black{(}\citeyear{#3}\black{)}}}                            %     \citet{key}
-%       {\ifthenelse{\equal{#2}{bb}}                                                                      % elseif nargin == 2
-%         {\hyperlink{cite.#3}{\citeauthor{#3} \black{(}\citeyear{#3}\black{,}~#1\black{)}}}              %     \citet[pg]{key}
-%         {\ifthenelse{\equal{#1}{}}                                                                      % elseif #1 = []
-%           {\hyperlink{cite.#3}{\citeauthor{#3} \black{(}\citeyear{#3}\black{,}~#2\black{)}}}            %     \citet[][pg]{key}
-%           {\ifthenelse{\equal{#2}{}}                                                                    % elseif #2 == []
-%             {\hyperlink{cite.#3}{\citeauthor{#3} \black{(#1~}\citeyear{#3}\black{)}}}                   %     \citet[eg][]{key}
-%             %                                                                                           % else
-%             {\hyperlink{cite.#3}{\citeauthor{#3} \black{(#1~}\citeyear{#3}\black{,}~#2\black{)}}}       %     \citet[eg][pg]{key}}
-%           }
-%         }
-%       }
-% }
-
-% \makeatletter 
-% \newcommand{\multicite}[1]{% taken from egreg, see link
-%   \@tempswafalse
-%   \@for\next:=#1\do
-%     {\if@tempswa;~\else\@tempswatrue\fi
-%     \hyperlink{cite.\next}{\citeauthor{\next}\black{,~}\citeyear{\next}}%
-%     }%
-% }
-% \makeatother
-
-% \newcommandtwoopt{\mycitep}[3][aa][bb]{%        
-%     \ifthenelse{\equal{#1}{aa}}                                                                  % if nargin == 1
-%       {(\multicite{#3})}                                                                         %    \citep{key(s)}
-%       {\ifthenelse{\equal{#2}{bb}}                                                               % elseif nargin == 2
-%           {(\hyperlink{cite.#3}{\citeauthor{#3}\black{,~}\citeyear{#3}\black{,~}#1})}            %    \citep[pg]{key}
-%           {\ifthenelse{\equal{#1}{}}                                                             % elseif #1 = []
-%               {(\hyperlink{cite.#3}{\citeauthor{#3}\black{,~}\citeyear{#3}\black{,~}#2})}        %    \citep[][pg]{key}
-%               {\ifthenelse{\equal{#2}{}}                                                         % elseif #2 == []
-%                   {(#1~\multicite{#3})}                                                          %    \citep[eg][]{key(s)}
-%                   %                                                                              % else
-%                   {(#1~\hyperlink{cite.#3}{\citeauthor{#3}\black{,~}\citeyear{#3}\black{,~}#2})} %    \citep[eg][pg]{key}}
-%               }
-%            }
-%       }
-% }
-% ------------------- END AUTHORYEAR FIX
 
 % ---------------- START SECOND FIX
 
@@ -345,6 +297,81 @@
 
 % ---------------- END SECOND FIX
 
+\usepackage{xparse,xcoffins}
+
+\ExplSyntaxOn
+\NewCoffin\imagecoffin
+\NewCoffin\labelcoffin
+
+\keys_define:nn { miguel/label }
+ {
+  label   .tl_set:N = \l_miguel_label_tl,
+  labelbox .bool_set:N = \l_miguel_label_box_bool,
+  labelbox .default:n = true,
+  fontsize .tl_set:N = \l_miguel_label_size_tl,
+  fontsize .initial:n = \footnotesize,
+  pos .choice:,
+  pos/nw .code:n = \tl_set:Nn \l_miguel_label_pos_tl { left,up },
+  pos/ne .code:n = \tl_set:Nn \l_miguel_label_pos_tl { right,up },
+  pos/sw .code:n = \tl_set:Nn \l_miguel_label_pos_tl { left,down },
+  pos/se .code:n = \tl_set:Nn \l_miguel_label_pos_tl { right,down },
+  pos/n .code:n = \tl_set:Nn \l_miguel_label_pos_tl { hc,up },
+  pos/w .code:n = \tl_set:Nn \l_miguel_label_pos_tl { left,vc },
+  pos/s .code:n = \tl_set:Nn \l_miguel_label_pos_tl { hc,down },
+  pos/e .code:n = \tl_set:Nn \l_miguel_label_pos_tl { right,vc },
+  pos .initial:n = nw,
+  unknown .code:n   = \clist_put_right:Nx \l_miguel_label_clist
+                       { \l_keys_key_tl = \exp_not:n { #1 } }
+ }
+\clist_new:N \l_miguel_label_clist
+\box_new:N \l_miguel_label_box
+\box_new:N \l_miguel_label_image_box
+
+\NewDocumentCommand{\xincludegraphics}{O{}m}
+ {
+  \group_begin:
+  \tl_clear:N \l_miguel_label_tl
+  \clist_clear:N \l_miguel_label_clist
+  \keys_set:nn { miguel/label } { #1 }
+  \tl_if_empty:NTF \l_miguel_label_tl
+   {
+    \miguel_includegraphics:Vn \l_miguel_label_clist { #2 }
+   }
+   {
+    \SetHorizontalCoffin\imagecoffin
+     {
+      \miguel_includegraphics:Vn \l_miguel_label_clist { #2 }
+     }
+    \SetHorizontalCoffin\labelcoffin
+     {
+      \raisebox{\depth}
+       {
+        \bool_if:NTF \l_miguel_label_box_bool
+         { \fcolorbox{white}{white}{\l_miguel_label_size_tl\l_miguel_label_tl} }
+         { \l_miguel_label_size_tl\l_miguel_label_tl }
+       }
+     }
+    \SetVerticalPole\imagecoffin{left}{3pt+\CoffinWidth\labelcoffin/2}
+    \SetVerticalPole\imagecoffin{right}{\Width-3pt-\CoffinWidth\labelcoffin/2}
+    \SetHorizontalPole\imagecoffin{up}{\Height-3pt-\CoffinHeight\labelcoffin/2}
+    \SetHorizontalPole\imagecoffin{down}{3pt+\CoffinHeight\labelcoffin/2}
+    \use:x{\JoinCoffins\imagecoffin[\l_miguel_label_pos_tl]\labelcoffin[vc,hc]} 
+    \TypesetCoffin\imagecoffin
+   }
+   \group_end:
+ }
+\NewDocumentCommand{\setlabel}{m}
+ {
+  \keys_set:nn { miguel/label } { #1 }
+ }
+
+\cs_new_protected:Nn \miguel_includegraphics:nn
+ {
+  \includegraphics[#1]{#2}
+ }
+\cs_generate_variant:Nn \miguel_includegraphics:nn { V }
+
+\ExplSyntaxOff
 
 \addbibresource{Thesis.bib}
 

@@ -53,8 +53,10 @@ bookmarksnumbered
 % \fancyfoot[CE,CO]{\leftmark}
 % \fancyfoot[LE,RO]{\thepage}
 
-% \renewcommand{\headrulewidth}{2pt}
-% \renewcommand{\footrulewidth}{1pt}
+% \usepackage{comment}
+% \excludecomment{figure}
+% \let\endfigure\relax
+
 
 \begin{document}
 
@@ -95,11 +97,11 @@ To further organise the content of the thesis, on top of the standard sectioning
 
 \input{Thesis-Chapter-GateLearning.tex}
 
-\input{Thesis-Chapter-QWs.tex}
+% \input{Thesis-Chapter-QWs.tex}
 
-\input{Thesis-Chapter-ExperimentalQSEWithQWs.tex}
+% \input{Thesis-Chapter-ExperimentalQSEWithQWs.tex}
 
-\input{Thesis-Chapter-VVBsWithQWs.tex}
+% \input{Thesis-Chapter-VVBsWithQWs.tex}
 
 \chapter{Conclusions}
 We discussed machine learning techniques to tackle a variety of quantum information tasks.

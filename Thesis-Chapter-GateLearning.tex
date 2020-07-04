@@ -16,14 +16,15 @@ Solving gate compilation problems is especially important in light of the recent
 \tmpHeading{Gate synthesis via continuous parameters in the Hamiltonian}
 A different type of problem is the one faced when, instead of a discrete set of gates, one is able to tune continuous parameters of an underlying dynamics.
 In this scenario, the experimenter has only access to some parameters $\bslambda\equiv(\lambda_1,...,\lambda_k)$ of the system \textit{Hamiltonian} $\calH_{\bslambda}$, and wants to find the values of $\bslambda$ that achieve a target transformation.
-One might for example be interested in driving an input to a target output.
+One might for example be interested in driving an input quantum state to a target output one.
 In this scenario, it is common to allow for \textit{time-dependent} dynamics.
 This simplifies the achievement of different types of evolutions, but at the same times also makes for a significantly harder optimisation problem, as one then has to look for an optimal \textit{function} $t\mapsto\bslambda(t)$, rather than just an optimal value $\bslambda\in\mathbb R^n$.
 This types of problems are usually referred to as \textit{quantum (optimal) control} problems~\cite{dalessandro2007introduction,werschnik2007quantum,dong2010quantum}.
 
 \tmpHeading{What problem do \emph{we} set up to solve?}
 In this chapter, we focus on gate engineering protocols that are both \emph{single-shot} and \emph{time-independent}.
-These are strategies which involve using a fixed set of constant-strength interactions, as opposed to approaches such as gate compilation or quantum control, in which the types and strengths of the interactions are time-dependent.
+\add{By \emph{single-shot} we mean here strategies that aim at achieving a target operation without resorting to a decomposition in terms of a sequence of simpler ones, as is done \emph{e.g.} for gate compilation strategies.}
+The strategies we consider thus involve a fixed set of constant-strength interactions, as opposed to approaches such as gate compilation or quantum control, in which the types and strengths of the interactions are time-dependent.
 % With \emph{single-shot} strategy we refer to strategies which do not involve implementing a target gate using a sequence of other gates. This property is desirable, in that requiring the use of multiple gates to implement a single target one increases the complexity and coherence times of the circuit.
 % A \emph{time-independent} strategy is instead one that that avoids implementing a target operation using a sequence of other gates, but at the same time does \emph{not} require time-dependent dynamics. This would imply simpler dynamics, generally easier to implement experimentally.
 
@@ -70,7 +71,7 @@ Note that, if no restriction is imposed on $\setOfHamiltonians$, then the proble
 % $\calU=\sum_k e^{i\varphi_k}\PP_k$ for some normalised set of orthogonal projectors $\PP_j\equiv\ketbra j$, which thus satisfy $\PP_j\PP_k=\delta_{jk}\PP_j$ and $\sum_k\PP_k=I_N$, and phases $\varphi_k\in\RR$.
 then any $\calH$ of the form $\calH = -\sum_k \varphi_k\mathbb P_k$ satisfies $e^{-i\calH}=\calU$.
 The interesting cases, both from a theoretical and practical perspective, are when $\setOfHamiltonians$ is constrained (for example, we might require a solution that only uses specific types of interactions between the qubits).
-Here, we will consider the case of $\setOfHamiltonians$ being a set of Hamiltonians parametrised by a number of continuous parameters (in other words, it's taken to be a parametrised surface in $\on{Herm}(N)$).
+Here, we will consider the case of $\setOfHamiltonians$ being a set of Hamiltonians parametrised by a number of continuous parameters (in other words, it is taken to be a parametrised surface in $\on{Herm}(N)$).
 We will therefore always assume that there is a continuous mapping $\RR^\ell\ni\bslambda\mapsto\calH_\bslambda\in\on{Herm}$ such that $\setOfHamiltonians=\calH(I)$ for some $I\subseteq\RR^\ell$ (which will be usually taken to equal $\RR^\ell$ for simplicity).
 
 \tmpHeading{A few tricks to simplify the math}
@@ -110,8 +111,10 @@ Consider the question: \emph{can this gate be obtained via a two-qubit time-inde
 A general parametrisation of the possible two-qubit Hamiltonians, written using the set of Pauli matrices on the two qubits as operatorial basis, reads
 \begin{equation}
     \calH_\bslambda =
-    \sum_{j,k=0}^4 \lambda_{j,k} \sigma^j_1\sigma^k_2.
+    \sum_{j,k=0}^4 \lambda_{j,k} \sigma^j_1\sigma^k_2,
 \end{equation}
+where $\sigma_i^j$ is the $j$-th Pauli matrix acting on the $i$-th qubit.
+\add{For ease of notation, where appropriate we will use a different notation for Pauli matrices, writing $\sigma_i^1\equiv X_i, \sigma_i^2\equiv X_j, \sigma_i^3\equiv Z_i$. This will make some of the expressions more explicit.}
 Given the decomposition in~\cref{eq:GL:cnot_eigdecomp_with_paulis}, it is natural to use as ansatz for $\calH_\bslambda$ an expression bearing the same eigenstructure as the CNOT. Let us therefore try with
 \begin{equation}
     \calH_\bslambda = \lambda_1 Z_1^+ + \lambda_2 Z_1^- X_2^+ + \lambda_3 Z_1^- X_2^-.
@@ -159,7 +162,7 @@ Note how expanding this Hamiltonian we get
         - Z_1 Z_2 X_3
     \right],
 \end{equation}
-which contains three-qubit interaction terms (the $Z_1 Z_2 X_3$ factor). While this is to be expected, being the Toffoli is a non-trivial three-qubit gate, these types of terms make practically implementing the Hamiltonian significantly harder.
+which contains three-qubit interaction terms (more specifically, the $Z_1 Z_2 X_3$ term). While this is to be expected, being the Toffoli a non-trivial three-qubit gate, these types of terms make practically implementing the Hamiltonian significantly harder.
 Indeed, natural interactions, and in particular interactions that can be easily implemented in experiments, generally involve only one- and two-qubit interaction terms.
 It is then natural to wonder about whether this is a \emph{necessary} feature of time-independent generators of the Toffoli.
 As will be shown in~\cref{sec:GL:toffoli}, it is indeed possible to find time-independent Hamiltonians that generate the Toffoli gate using only up to two-qubit interactions.
@@ -168,7 +171,7 @@ As will be shown in~\cref{sec:GL:toffoli}, it is indeed possible to find time-in
 \tmpHeading{Why this is not the end of the story}
 \Cref{ex:GL:eigendecomposition_cnot,ex:GL:eigendecomposition_Toffoli} show that looking for Hermitian generators of few-qubit gates appears to be a fairly straightforward task. There are, however, two notable issues with the analysis conducted so far:
 \begin{enumerate}
-    \item It lacks of generality: while finding specific generators essentially amounts to computing the eigendecomposition of the target $\calU$, and then the logarithm of the eigenvalues, this says nothing about whether such procedure provides \emph{the most general} kind of Hamiltonian generator for the target gate: can all generators $\calH$ be obtained this way?
+    \item It lack generality: while finding specific generators essentially amounts to computing the eigendecomposition of the target $\calU$, and then the logarithm of the eigenvalues, this says nothing about whether such procedure provides \emph{the most general} kind of Hamiltonian generator for the target gate: can all generators $\calH$ be obtained this way?
     \item We have no control over the kind of generators that we obtain with this procedure. For example, in~\cref{ex:GL:eigendecomposition_cnot} we obtained generators containing two-qubit interactions of the form $Z_1 X_2$. Does this mean that this type of interaction term is \textit{necessary} to generate a CNOT? Or is there instead some Hamiltonian that can still generate the CNOT without needed such interactions?
     Similar questions arise in~\cref{ex:GL:eigendecomposition_Toffoli}.
 \end{enumerate}
@@ -182,7 +185,7 @@ We divide the analysis in two parts. \Cref{sec:GL:solutions_matrix_equation_f(A)
 
 \tmpHeading{Goal of the section}
 Let $A,B$ be normal matrices such that $f(A)=B$ for some function $f$ (assumed to be regular on the spectrum of $A$), with $f(A)$ defined as usual on the eigenvalues of $A$.
-In this section we will provide a full characterisation of the set of solutions $A\in f^{-1}(B)$ .
+In this section we will provide a full characterisation of the set of solutions $A\in f^{-1}(B)\equiv \{X : f(X)=B\}$.
 
 \tmpHeading{Unravel the matrix equation}
 Explicitly, $f(A)=B$ amounts to
@@ -198,7 +201,9 @@ What is interesting about this is that it means that the relation $f(A)=B$ puts 
 
 \tmpHeading{Simpler case of injective $f$}
 Consider now the problem of finding a matrix $A$ such that $f(A)=B$, for some predetermined mapping $f$.
-If $f$ is injective (at least on $f^{-1}(\sigma(B))$), then, by our above argument, it follows that $A$ is uniquely determined. Indeed, the condition becomes in this case
+If $f$ is injective
+% on $f^{-1}(\on{spectrum}(B))$, that is,
+then, by the above argument, it follows that $A$ is uniquely determined. Indeed, the condition becomes in this case
 \begin{equation}
     \sum_j \lambda_j^B \PP_j = \sum_j f(\lambda_j^A) \PP_j,
 \end{equation}
@@ -217,7 +222,7 @@ We then have
 \end{equation}
 where we defined the ``rotated projectors'' $\tildePP_k\equiv U^\dagger \PP U$.
 While this rewriting is inconsequential in~\cref{eq:GL:rewriting_proj_with_rotated_projs}, such rotations of the degenerate eigenspaces turn out to be important when looking for solutions of $f(A)=B$.
-Indeed, consider again~\cref{eq:GL:f(A)=B_eigendecomp_proof} and focus on a single eigenspace $\PP_j^B$ such that $\Tr\PP_j^B=d_j>1$ (assuming $B$ has one). Write an arbitrary decomposition of $\PP_j^B$ in terms of unit-trace projectors as $\PP_j^B=\sum_{\ell=1}^{d_j}\PP^B_{j,\ell}$.
+Indeed, consider again~\cref{eq:GL:f(A)=B_eigendecomp_proof} and focus on a single eigenspace $\PP_j^B$ such that $\Tr\PP_j^B=d_j>1$ (assuming $B$ has one). Write an arbitrary decomposition of $\PP_j^B$ in terms of unit-trace (and therefore one-dimensional) projectors as $\PP_j^B=\sum_{\ell=1}^{d_j}\PP^B_{j,\ell}$.
 Let $\{\lambda_{j,\ell}\}_{\ell=1}^{d_j}\subseteq f^{-1}(\lambda_j^B)$ be a subset of inverses of $\lambda_j^B$. Then, any $A$ which has $\lambda_{j,\ell}$ as eigenvalues within the eigenspace $\PP_j^B$ is a suitable solution for $f^{-1}(B)$.
 In other words, we have
 \begin{equation}
@@ -239,10 +244,11 @@ Going further, we parametrise the set of all such vectors writing (we can define
 \begin{equation}
     \begin{cases}
     \ket u =\cos\alpha\ket 0+e^{i\theta}\sin\alpha \ket 1, \\
-    \ket v =-e^{-i\theta}\sin\alpha\ket 0 + \cos\alpha\ket 1.
+    \ket v =-e^{-i\theta}\sin\alpha\ket 0 + \cos\alpha\ket 1,
 \end{cases}
 \end{equation}
-This provides us with a parametrisation for the set of solutions $f^{-1}(B)$:
+where $\{\ket0,\ket1\}$ are an arbitrary fixed orthonormal basis.
+This provides a parametrisation for $f^{-1}(B)$:
 % \begin{equation}
 % \begin{aligned}
 %     A = &\lambda\left(\cos^2(\alpha) \PP_0 + \sin^2(\alpha) \PP_1 + \sin(2\alpha)\Re[e^{i\theta}\ketbra{1}{0}]\right) \\
@@ -338,17 +344,17 @@ In the rest of the thesis, we will focus on $f(A)\equiv e^{iA}$, which is the ca
 
 \tmpHeading{Introducing constraints makes everything harder}
 In~\cref{sec:GL:solutions_matrix_equation_f(A)=B} we described how to write the full set of solution of a matrix equation of the form $f(A)=B$.
-In this section show how introducing further constraints on the types of interaction terms allowed in the final generator makes for a particularly daunting task.
+In this section we show how introducing further constraints on the types of interaction terms allowed in the final generator makes for a particularly daunting task.
 
 \tmpHeading{Restricting the allowed interaction terms}
-To restrict the type of interaction terms allowed in the final Hamiltonian, means to fix some set of orthogonal Hermitian operators $\calP\equiv\{\sigma_i\}_i$, and ask for a generator Hamiltonian $\calH\in f^{-1}(\calU)$ such that $\calH$ is in the (real) span of $\calP$:
+To restrict the type of interaction terms allowed in the final Hamiltonian means to fix some set of orthogonal Hermitian operators $\calP\equiv\{\sigma_i\}_i$, and ask for a generator Hamiltonian $\calH\in f^{-1}(\calU)$ such that $\calH$ is in the (real) span of $\calP$:
 \begin{equation}
     \calH \in f^{-1}(\calU) \cap \on{Span}_\RR\calP.
 \end{equation}
 We will focus here on the case  $f(A)\equiv e^{iA}$.
 A typical choice for the $\sigma_i$ is the set of one- and two-qubit interaction terms:
 \begin{equation}
-    \calP_{\le2} \equiv \{ I, X_i,Y_i,Z_i, X_i Y_j, X_i Z_j, Y_i Z_j : \,\,i,j=1,2,3 \}.
+    \calP_{\le2} \equiv \{ I, X_i,Y_i,Z_i, X_i Y_j, X_i Z_j, Y_i Z_j : \,\,i,j=1,...,n \}.
 \end{equation}
 We thus have for example $X_i,Y_j\in\calP_{\le2}$ and $X_i Z_j\in\calP_{\le2}$, but $X_i Y_j Z_k\notin\calP_{\le2}$ for $i\neq j,i\neq k$ and $j\neq k$.
 
@@ -408,7 +414,7 @@ Let $\UToff$ denote the Toffoli gate, and consider the set of allowed interactio
 \emph{\textit{Is there a generator $\HToff\in f^{-1}(\UToff)\cap\calP_{\le2}$?}}
 
 The eigenstructure of the Toffoli gate was given in~\cref{ex:GL:eigendecomposition_Toffoli}. Similarly to the case of the CNOT, we here have a sevenfold degenerate eigenvalue equal to $+1$ and the nondegenerate eigenvalue $-1$.
-The eigenvector of the eigenvalue $-1$ is $\ket{1,1,-}$. We can therefore write a general expression for generators of $\UToff$ in the form
+The eigenvector corresponding to the eigenvalue $-1$ is $\ket{1,1,-}$. We can therefore write a general expression for generators of $\UToff$ in the form
 \begin{equation}
     \calH=2\pi \left[
         \sum_{j=1}^7 n_j \tildePP_j
@@ -450,7 +456,7 @@ As showed in~\cref{sec:GL:constraints_on_interaction_pars}, injecting physical c
 \tmpHeading{Tackling constraints on available interactions}
 Piggybacking on the results of~\cref{sec:GL:solutions_matrix_equation_f(A)=B}, consider the general problem of looking for generators $\calH$ such that $e^{i\calH}=\calU$ for a given unitary $\calU$.
 While, as previously discussed, there are in general many possible such $\calH$, there \textit{is} one ``natural'' choice that can be considered as \emph{canonical} in this context. We will refer to this as the \emph{principal generator}, in analogy with the notion of \emph{principal logarithm} used in complex analysis.
-Indeed, while a generic generator $\calH$ doesn't in general need to have the same degenerate eigenspaces as $\calU$, let us denote with $\calH_{\calU}$ a \textit{principal generator}, which is one that preserves the degeneracies of $\calU$.
+Indeed, while a generic generator $\calH$ does not in general need to have the same degenerate eigenspaces as $\calU$, let us denote with $\calH_{\calU}$ a \textit{principal generator}, which is one that preserves the degeneracies of $\calU$.
 Note that computing such a generator is generally a straightforward task for small numbers of qubits.
 % Indeed, given an eigendecomposition of $\calU$ 
 % As previously discussed, it is easy to find \textit{one} possible $\calH$ satisfying this requirement. Let us denote such a ``canonical'' generator with $\calH_{\calU}$.
@@ -511,7 +517,7 @@ A canonical generator for the CNOT is obtained by setting $n_i=0$ and $m=1$ in~\
 $\calH_{\CNOT}=\pi Z_1^- X_2^-$.
 A general form for an $\calH$ containing one-qubit interactions is
 \begin{equation}
-    \calH = h_0 I +
+    \calH = h_0 I_4 +
     \sum_{\alpha=1}^3 (h_1^\alpha\sigma_1^\alpha + h_2^\alpha\sigma_2^\alpha),
 \end{equation}
 where $\sigma_i^1\equiv X_i, \sigma_i^2\equiv Y_i, \sigma_i^3\equiv Z_i$.
@@ -593,7 +599,7 @@ A principal generator for $\UToff$ is $\HToff=\pi Z_1^- Z_2^- X_3^-$.
 As previously discussed in~\cref{ex:GL:toffoli_physical_constraints}, $\UToff$ has the nondegenerate eigenvector $\ket{1,1,-}$ with eigenvalue $-1$, which implies that any $\calH$ such that $[\calH,\HToff]=0$ must also stabilise $\ket{1,1,-}$.
 
 \tmpHeading{Find generators $\HTildeToff$ commuting with $\HToff$}
-The general parametrisation of an Hamiltonian containing one- and two-qubit interactions reads:
+The general parametrisation of a Hamiltonian containing one- and two-qubit interactions reads:
 \begin{equation}
     \HTildeToff =
     h_0 I + \sum h_{i,\alpha}\sigma_i^\alpha
@@ -891,17 +897,17 @@ This can be readily verified to satisfy $e^{i\HTildeToff}=\UToff$.
 \tmpHeading{Investigating eigenstructure of $\HTildeToff$}
 Let us now try to understand how and why this $\HPrimeToff$ (and thus $\HTildeToff$) works.
 Define $P_i \equiv \ketbra{\lambda_i}$,
-and consider the projector over the last two eigenvectors.
+and consider the projectors onto the last two eigenvectors.
 Focusing on the 3-qubit terms, we find
 \begin{equation}
 \begin{aligned}
-	P_7 \simeq - N_6^2 \frac{Z_1 Z_2}{4} \bigg[
+	P_7 = - N_6^2 \frac{Z_1 Z_2}{4} \bigg[
 		\big((a + b)^2 - 1\big) \frac{Z_3}{2}
-		- (a + b) X_3
+		- (a + b) X_3 + (...)
 	\bigg], \\
-	P_8 \simeq - N_5^2 \frac{Z_1 Z_2}{4} \bigg[
+	P_8 = - N_5^2 \frac{Z_1 Z_2}{4} \bigg[
 		\big((a - b)^2 - 1\big) \frac{Z_3}{2}
-		- (a - b) X_3
+		- (a - b) X_3 + (...)
 	\bigg].
 \end{aligned}
 \end{equation}
@@ -932,8 +938,8 @@ Using the definitions of $a,b,N_5,N_6$, we see that the coefficient of $Z_1 Z_2 
 	P_7 + P_8 = (...) +
 	Z_1 Z_2 X_3 \frac{4\nu_{12}-1}{16\nu_{34}}.
 \end{equation}
-Substitution of the appropriate values of $\nu_i$ shows that the above term can be used to generate the factor $\pi/8 \,\,Z_1 Z_2 X_3$,
-\emph{without introducing additional 3-qubit factors}.
+Substitution of the appropriate values of $\nu_i$ shows that the above term can be used to generate the term $\pi/8 \,\,Z_1 Z_2 X_3$,
+\emph{without introducing additional 3-qubit terms}.
 In Box~\ref{tcolorbox:toffoli} we give the full expressions for the projectors and the solutions found for the Toffoli gate.
 It is also interesting to note that all of the above still holds if the $X_i$ operators are replaced with $Y_i$ operators.
 That is, the expressions found solving for the Toffoli, by simple substitution $X_i \to Y_i$,
@@ -1110,8 +1116,11 @@ We can remove the term in the $\ket{00}$ sector by adding an appropriate $1$-qub
 \end{equation}
 % where we remember that $\exp(i\pi X^-) = X$.
 \Cref{eq:GL:toffoli_analytical_step2} now correctly produces the correct evolution for $\ket{00}$ and $\ket{11}$, but also gives wrong results for $\ket{01}$ and $\ket{10}$.
-To remove these additional terms while at the same time leaving the others unaffected we use the fact that $\exp(i\pi (1 \pm \bs{\sigma})) = I$,for any normalised vector of Pauli matrices: $\bs\sigma \equiv \sum_{i=1}^3 n_i \sigma_i$ with $n_1^2 + n_2^2 + n_3^2 = 1$.
-To convert the central terms in~\cref{eq:GL:toffoli_analytical_step2} into something like this we note that
+To remove these additional terms while at the same time leaving the others unaffected we use the fact that $\exp(i\pi (1 \pm \bs{\sigma})) = I$ for any normalised vector of Pauli matrices
+% $\bs\sigma \equiv \sum_{i=1}^3 n_i \sigma_i$
+$\bs\sigma\equiv n_1 X + n_2 Y + n_3 Z$
+with $n_1^2 + n_2^2 + n_3^2 = 1$.
+To convert the central terms in~\cref{eq:GL:toffoli_analytical_step2} into this form we observe that
 \begin{equation}
 	\pi/2 X^-_3 = \pi/8(2 - 2 X_3) = \pi/8(5 - 3 - 2 X_3).
 \end{equation}
@@ -1186,6 +1195,7 @@ where
 This gate finds widespread use in quantum information~\cite{buhrman2001quantum,patel2016quantum,loft2018quantum}.
 A time-independent two-body Hamiltonian simulating $\UFred$ with four qubits was found in~\cite{banchi2016quantum} using numerical optimization.
 We show here that it is possible to implement $\UFred$ via a time-independent dynamics using only \textit{three} qubits, and without using non-diagonal interaction terms.
+With \emph{diagonal interactions} we mean here interactions of the form $X_i X_j, Y_i Y_j$ or, $Z_i Z_j$, for some $i\neq j$.
 The $\on{SWAP}$ gate has eigenvalues $\pm1$ with $+1$ being three-fold degenerate.
 It follows that $\UFred$ has a seven-fold degenerate eigenvalue $+1$ and a non-degenerate eigenvalue $-1$.
 The eigenstate of $\on{SWAP}$ with eigenvalue $\lambda=-1$ is $\ket{01}-\ket{10}$, and thus the corresponding eigenstate of $\UFred$ is $\ket{-1}\equiv\ket1\otimes(\ket{01}-\ket{10})/\sqrt2$.
@@ -1507,7 +1517,7 @@ In conclusion, we obtain the following class of generators using only diagonal p
 \end{gathered}
 \end{equation}
 where we defined $\tilde n\equiv 4n$ and $\tilde m\equiv 4m$, and this expression is valid for all $n,m\neq0$ such that $m^2\neq n^2$, with the $\pm$ signs independently choosable.
-Note that this is still clearly \emph{not} an exhaustive list of generators for the Fredkin, and most likely not even an exhaustive list of generators that use the interactions in the ansatz given in~\cref{eq:GL:fredkin_ansatz_used_for_analytics}, as we used a few simplifying assumptions through the derivation (namely, that $h_0+J_{23}^{zz}=0$ and that $S_i=0$ for one of the $i$).
+Note that this is still clearly \emph{not} an exhaustive list of generators for the Fredkin gate, and most likely not even an exhaustive list of generators that use the interactions in the ansatz given in~\cref{eq:GL:fredkin_ansatz_used_for_analytics}, as we used a few simplifying assumptions through the derivation (namely, that $h_0+J_{23}^{zz}=0$ and that $S_i=0$ for one of the $i$).
 The eigenvalues of this $\HTildeFred$ are $0$ (with multiplicity two), $\pm 2\pi m$, $\pm2\pi n$, $2\pi(1+\nu)$ and finally $2\pi(\nu+1/2)$.  
 For example, choosing $n=1, m=2$, and $\nu=0$ we get the following expression:
 \begin{align}
@@ -1535,7 +1545,8 @@ with $\lambda_+$ having a sevenfold degeneracy. Such degeneracy makes the propag
 On the other hand, the spectrum of $\HTildeFred-\HFred$ is $\{{-}4\pi,{-}2\pi,0,0,0,2\pi,2\pi,4\pi\}$, showing that the degeneracy in the spectrum of $\HFred$ is partially lifted when considering $\HTildeFred-\HFred$.
 This means that, in the case of $\HTildeFred$, the dynamics occurs in an larger effective Hilbert space.  %Therefore, $\HTildeFred$ breaks some of the symmetries of $\calFred$, it acts on an effectively larger 
 %space where the simulation of  $\calFred$ with a two-body Hamiltonian is possible. 
-Consequently, $\exponential(it\HTildeFred)$ does not have the symmetries as $\UFred$ during the evolution (that is, for $t\in(0,1)$), but all of the symmetries are restored at $t=1$. This  shows that breaking the symmetries of $\calU$ and exploiting its degenerate spaces can help the gate design when the set of viable interactions is restricted.
+Consequently, albeit $\exponential(it\HTildeFred)$ does not have the same symmetries of $\UFred$ during the evolution (that is, for $t\in(0,1)$), all of the symmetries are restored at $t=1$. This shows that breaking the symmetries of $\calU$ and exploiting its degenerate spaces can help the gate design when the set of viable interactions is restricted.
+\add{An example of such symmetries is the exchange symmetry between second and third qubit. More generally, the symmetries of $\HFred$ are described by the unitaries that preserve its sevenfold degenerate eigenspace.}
 %END FREDKIN
 
 % The above procedure allows to find a unitary $U$ such that
@@ -1560,13 +1571,13 @@ It is therefore desirable to have a more flexible approach to solve generic gate
 \tmpHeading{Converting the problem into a numerical optimisation task}
 A natural way to do this is to transform the problem into a numerical optimisation task. We can do this by defining a suitable cost function whose maximum corresponds to a solution to the original problem.
 If $\calU$ is the target gate and $\calH_\bslambda$ a parametrised Hamiltonian containing the allowed interaction terms, then the gate learning problem is equivalent to that of finding parameters $\bslambda_0$ such that $\exponential(i\calH_{\bslambda_0})=\calU$.
-In turn, this can be made into a numerical optimisation task by introducing some function $f(U, V)$ that quantifies the similarity between $U$ and $V$. We then looking for the solutions to the problem
+In turn, this can be made into a numerical optimisation task by introducing some function $f(U, V)$ that quantifies the similarity between $U$ and $V$. We then look for the solutions to the problem
 \begin{equation}
     \argmax_\lambda f(\calU, \exponential(i\calH_{\bslambda})).
     \label{eq:GL:gatelearning_as_optimisation}
 \end{equation}
 \tmpHeading{Explicit expressions for the average gate fidelity}
-A natural candidate for the cost function is $f(A,B)\equiv 1-\barcalF(A,B)$, with $\barcalF(A,B)$ the \textit{average gate fidelity}~\cite{nielsen2002simple,magesan2011gate}. The average gate fidelity can be defined more generally as a way to quantify the distance between a quantum channel $\calE$ and a gate $\calU$, by computing the average overlap between $\PP[\calU\ket\psi]$ and $\calE(\PP[\ket\psi])$, averaged over all pure states $\ket\psi$. Explicitly, this reads
+A natural candidate for the cost function is $f(A,B)\equiv 1-\barcalF(A,B)$, with $\barcalF(A,B)$ the \textit{average gate fidelity}~\cite{nielsen2002simple,magesan2011gate}. The average gate fidelity can be defined more generally as a way to quantify the distance between a quantum channel $\calE$ (that is, a completely positive trace-preserving linear map) and a gate $\calU$, by computing the average overlap between $\PP[\calU\ket\psi]$ and $\calE(\PP[\ket\psi])$, averaged over all pure states $\ket\psi$. Explicitly, this reads
 \begin{equation}
     \barcalF(\calE,\calU) = \int d\psi \calF(\calE, \calU, \psi),
 \end{equation}
@@ -1597,6 +1608,7 @@ Given a parametrised Hamiltonian $\calH_{\bslambda}$ and a target gate $\calU$, 
 \begin{equation}
     \argmax_{\bslambda} \abs{\Tr(\calU^\dagger \exponential(i\calH_\bslambda))}^2.
 \end{equation}
+\add{The more general expression~\cref{eq:GL:explicit_fidelity_map_unitary} will also be useful when dealing with qubit networks that also exploit ancillary qubits that are traced out at the end of the evolution (thus making the resulting evolution on the non-ancillary qubits non-unitary).}
 
 \tmpHeading{A working example}
 Using~\cref{eq:GL:general_toffoli_onetwoqubitints_without_Ys} as starting ansatz, we can use a standard maximisation algorithm such as Nelder-Mead to find the maximum $\bslambda$. This gives the solution:
@@ -1613,13 +1625,26 @@ It is worth noting that this solution falls outside of the class of solutions gi
 While~\cref{eq:GL:naiveOptim_working_example} shows that the direct optimisation approach \emph{does} work in some cases, this method has severe limitations, so much so that we could not find other useful working examples. In particular, we could not get any generator for the Toffoli gate without using off-diagonal interactions --- nor a generator for the Fredkin gate --- without starting the optimisation with coefficients very close to a known solution.
 This is indicative of the complexity of the underlying parameter landscape, which makes identifying global maxima difficult.
 This complexity is also exemplified in~\cref{fig:GL:2dDensityPlot_Fredkin_Generator,fig:GL:2dDensityPlot_Toffoli_Generator}, which show the behaviour of the average gate fidelity with respect to different pairs of interaction coefficients. These figures show clearly how the global maximum is often well separated from other local maxima, in such a way that optimisers will have a hard time realising whether a given peak is a local rather than global maximum.
+\add{More precisely, in these figures we plot the average gate fidelity $\barcalF$ as a function of }
 
 \begin{figure}[tb]
     \centering
-    \includegraphics[width=0.6\textwidth]{Figures/gate-learning/GL_2dDensityPlot_Fredkin_Generator.png}
+    % \includegraphics[width=0.6\textwidth]{Figures/gate-learning/GL_2dDensityPlot_Fredkin_Generator.png}
+    % \begin{tikzpicture}
+    %     \node[anchor=south west] (A) at (0, 0)%
+    %         {\includegraphics[width=0.6\textwidth]{Figures/gate-learning/GL_2dDensityPlot_Fredkin_Generator.png}};
+    %     \node[above] at (4., -.2) {$t_e$};
+    %     \node[above] at (11.5, -.2) {$t_e$};
+    % \end{tikzpicture}
+    \begin{tikzpicture}
+            \node (img) {\includegraphics[width=0.6\textwidth]{Figures/gate-learning/GL_2dDensityPlot_Fredkin_Generator.png}};
+            \node[below=of img, node distance=0cm, yshift=1.1cm,font=\large] {$c_1$};
+            \node[left=of img, node distance=0cm, rotate=90, anchor=center,yshift=-1.2cm,font=\large] {$c_2$};
+            \node at (4.2, 2) {$\calF$};
+        \end{tikzpicture}
     \caption{
-        Average gate fidelity as a function of two of the coefficients in the Hamiltonian.
-        To generate this figure, we started with an ansatz for a Fredkin gate using the interactions used in~\cref{eq:GL:fredkin_generator}. We then maximised the average gate fidelity over the interaction coefficients, using random starting values. The optimiser fails to find a solution generating the Fredkin gate with good fidelity. We then used the values of the coefficients at which the optimiser stopped, fixed all except two of them --- call them $c_1$ and $c_2$ --- and plotted the average gate fidelity changing these two coefficients.
+        Average gate fidelity as a function of the first two coefficients in the Hamiltonian.
+        To generate this figure, we started with an ansatz for a Fredkin gate using the interactions used in~\cref{eq:GL:fredkin_generator}. We then maximised the average gate fidelity over the interaction coefficients, using random starting values. The optimiser fails to find a solution generating the Fredkin gate with good fidelity. We then used the values of the coefficients at which the optimiser stopped, fixed all except the first two of them --- call them $c_1$ and $c_2$ --- and plotted the average gate fidelity changing these two coefficients.
         The values of $c_1,c_2$ given by the optimiser correspond to the local maximum around the centre.
     }
     \label{fig:GL:2dDensityPlot_Fredkin_Generator}

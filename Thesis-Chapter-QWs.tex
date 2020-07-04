@@ -47,36 +47,143 @@ An experimental implementation of this engineering protocol with a photonics app
 \section{The setup}
 \label{sec:QWs:setup}
 
-As described in~\cref{sec:intro:QWs}, a single step of QW evolution consists of a \emph{coin flipping} operation, implemented through a unitary transformation $\calC$ applied to the coin, and a \emph{walking step}, in which the walker's state evolves conditionally to the state of the coin, through a controlled-shift operator $\calS$.
-We will denote with $\calHcoin$ and $\calHwalker$ the Hilbert spaces in which coin and walker states live, respectively.
-A general initial state $\ket\Psi\in\calHwalker\otimes\calHcoin$ can thus be written as
+\tmpHeading{Mathematics of QWs}
+The state of a QW lives in a Hilbert space $\calH\equiv\calH_{\calW}\otimes\calH_{\calC}$, with $\calH_{\calC}$ a two-dimensional \emph{coin space}, and $\calH_{\calW}$ a high-dimensional \emph{walker space}, accommodating the possible states of the walker.
+A generic state is thus written as
 \begin{equation}
-	\ket\Psi \equiv \sum_{k=1}^n \sum_{s\in\{\uparrow,\downarrow\}}
-	u_{k,s} \ket{k} \otimes \ket{s}.
-	\label{eq:initial_state}
+    \ket\Psi = \sum_k \sum_{s\in\{\uparrow,\downarrow\}} u_{k,s} \ket{k, s},
 \end{equation}
-After one step, this state evolves to
+for some coefficients $u_{k,s}\in\CC$, where $\{\ket k\}_k$ spans the possible walker states, and $\{\ket\uparrow, \ket\downarrow\}$ the possible coin states.
+The evolution is a two-step process:
+first, a unitary operation is applied locally to the coin,
+and then a controlled-shift operation is applied to the walker, changing its state conditionally to that of the coin.
+Formally, we write a single \textit{step operator} as $\calW=\calS\calC$, where $\calS,\calC$ are linear operators on $\calH$ and $\calC\equiv I_{\calW}\otimes \calC$ acts locally on the coin. The shift operator has the form
+\begin{equation}
+    \calS = \EE_+\otimes \PP_\uparrow + \EE_-\otimes \PP_\downarrow,
+    \label{eq:qws_shitty_definition_cshift}
+\end{equation}
+where $\PP_k\equiv\ketbra k$, and $\EE_\pm$ are operators moving the walker in one direction or the other:
+\begin{equation}
+    \EE_+\equiv \sum_k \ketbra{k+1}{k},
+    \qquad
+    \EE_-\equiv\sum_k\ketbra{k}{k+1}.
+\end{equation}
+The choice of coin operation $\calC$ is what defines a particular \ac{QW}.
+A standard choice is the \textit{Hadamard coin}: $\calC=H$ with $H$ the Hadamard matrix, defined via its action on the computational basis as
+$H\ket\uparrow=\ket+$ and $H\ket\downarrow=\ket-$, where $\ket\pm\equiv\frac{1}{\sqrt2}(\ket\uparrow\pm\ket\downarrow)$.
+
+\begin{examplebox}[label=ex:hadamard_walk]{Hadamard walk evolution}
+Consider an initial state $\ket{\Psi_0}\equiv\ket{0,\uparrow}$ evolving through a one-dimensional QW with a Hadamard coin.
+The first coin operation sends this to $\ket{0,+}\equiv\frac{1}{\sqrt2}\ket0\otimes(\ket\uparrow+\ket\downarrow)$. The shift $\calS$ then gives
+\begin{equation}
+    \ket{\Psi_1} \equiv 
+    \calS\calC\ket{\Psi_0} =
+    \calS\ket{0,+} =
+    \frac{1}{\sqrt2} \left( \ket{+1,\uparrow} + \ket{-1,\downarrow} \right).
+\end{equation}
+After a second step we have
+\begin{equation}
+    \ket{\Psi_2} \equiv
+    \frac12\left[
+        \ket{+2,\uparrow} +
+        \ket0\otimes(\ket{\downarrow}
+        + \ket{\uparrow})
+        - \ket{-2,\downarrow}
+    \right],
+\end{equation}
+and then at the third step,
+\begin{equation}
+    \ket{\Psi_3} \equiv
+    \frac{1}{2\sqrt2}\left[
+        \ket{+3,\uparrow} +
+        \ket1\otimes (\ket{\downarrow} + 2\ket{\uparrow})
+        - \ket{-1,\uparrow}
+        + \ket{-3,\downarrow}
+    \right].
+\end{equation}
+The calculation proceeds similarly for larger numbers of steps.
+Note how the walker proceeds asymmetrically, even though the direct classical analogue of an Hadamard walk would be a random walk with equal probabilities of going left or right at every step.
+This is due to the interference effects, and the fact that the Hadamard treats $\ket\uparrow$ and $\ket\downarrow$ asymmetrically.
+See~\cref{fig:intro:hadamardwalk_Nsteps2} for a simulation of the Hadamard walk with $20$ and $40$ steps, which shows clearly the asymmetry present in the output states.
+\end{examplebox}
+
+\tmpHeading{A more efficient formalism for QWs}
+One feature emerging from~\cref{ex:hadamard_walk} is how, at each step, a subset of the possible walker's positions always corresponds to vanishing amplitudes. More precisely, if the walker starts in a fixed position, say $\ket0$, then at odd-numbered steps only even-numbered positions are occupied.
+This symmetry can be exploited to make simulations more efficient, and better expose the underlying structure of the dynamics.
+We will thus use a variation of~\cref{eq:qws_shitty_definition_cshift} in which instead of the walker moving left or right, it either stays still or moves in one direction (say, right):
+\begin{equation}
+    \calS = I_{\calW}\otimes \PP_\uparrow + \EE_+\otimes \PP_\downarrow
+    =
+    I_{\calW} \otimes \ketbra\uparrow +
+    \sum_k\ketbra{k+1}{k} \otimes \ketbra\downarrow.
+\end{equation}
+This notation, while somewhat nonstandard, has proven useful before~\cite{hoyer2009faster,montero2013unidirectional,montero2015quantum}, and will be used throughout this thesis, allowing for a tidier presentation of the results, as well as more efficient numerical simulations.
+
+\begin{figure}[tb]
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        % \caption{$20$ steps}
+        % \includegraphics[width=\textwidth]{QW20steps_initstateUp}
+        \begin{tikzpicture}
+            \node (img) {\includegraphics[width=0.9\textwidth]{QW20steps_initstateUp}};
+            \node[below=of img, node distance=0cm, yshift=1cm,font=\small] {step number};
+            \node[left=of img, node distance=0cm, rotate=90, anchor=center,yshift=-0.7cm,font=\small] {amplitude};
+            \node at (0, 2.5) {\small\textbf{(a)} $20$ \emph{steps}};
+        \end{tikzpicture}
+    \end{subfigure}%
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        % \caption{$40$ steps}
+        % \includegraphics[width=\textwidth]{QW40steps_initstateUp}
+        \begin{tikzpicture}
+            \node (img) {\includegraphics[width=0.9\textwidth]{QW40steps_initstateUp}};
+            \node[below=of img, node distance=0cm, yshift=1cm,font=\small] {step number};
+            \node at (0, 2.5) {\small\textbf{(a)} $40$ \emph{steps}};
+        \end{tikzpicture}
+    \end{subfigure}
+    \caption{
+        Output amplitudes after $20$ steps of Hadamard walk, with initial state $\ket{\Psi_0}\equiv\ket{\uparrow,0}$.
+        Blue (circles) and orange (squares) points represent the output amplitudes corresponding to initial coin state $\ket\uparrow$ and $\ket\downarrow$, respectively.
+    }
+    \label{fig:intro:hadamardwalk_Nsteps2}
+\end{figure}
+% reindexForQW[amps_] := Transpose[
+%    {{#[[1]], #[[2, 1]]}, {#[[1]], #[[2, 2]]}} & /@ 
+%       Thread@{Range@Length@# - 1/2 - Length@#/2, #} &@amps
+%    ];
+% outAmps = 
+%   QWEvolve[{1., 0}, ConstantArray[{\[Pi]/4, \[Pi]/2, \[Pi]/2}, 20], 
+%     "SimulationMethod" -> "StepByStep"] // Partition[#, 2] &;
+% fig = ListPlot[reindexForQW@outAmps, Joined -> True, 
+%   PlotMarkers -> Automatic, Frame -> True, 
+%   GridLines -> {Range[-20, 20], Range[-1, 1, 0.1]},
+%   GridLinesStyle -> Directive[Opacity@.4, Gray, Dashed],
+%   FrameStyle -> 
+%    Directive[Black, FontFamily -> "TeX Gyre Pagella Math", 
+%     FontSize -> 16]
+%   ]
+
+\tmpHeading{Single steps}
+% As described in~\cref{sec:intro:QWs}, a single step of QW evolution consists of a \emph{coin flipping} operation, implemented through a unitary transformation $\calC$ applied to the coin, and a \emph{walking step}, in which the walker's state evolves conditionally to the state of the coin, through a controlled-shift operator $\calS$.
+% We will denote with $\calHcoin$ and $\calHwalker$ the Hilbert spaces in which coin and walker states live, respectively.
+% A general initial state $\ket\Psi\in\calHwalker\otimes\calHcoin$ can thus be written as
+% \begin{equation}
+% 	\ket\Psi \equiv \sum_{k=1}^n \sum_{s\in\{\uparrow,\downarrow\}}
+% 	u_{k,s} \ket{k} \otimes \ket{s}.
+% 	\label{eq:initial_state}
+% \end{equation}
+Assuming an initial state $\ket\Psi$ spanning $n$ walker positions, after one step we have
+% After one step, this state evolves to
 \begin{equation}
 	\mathcal W_{\mathcal C} \ket\Psi \equiv
 	\mathcal S \,\mathcal C \ket\Psi
 	= \sum_{k=1}^n \sum_{s\in\{\uparrow,\downarrow\}}
 	u_{k,s}
-	\mathcal S \big( \ket{k} \otimes \mathcal C \ket{s} \big),
+	\mathcal S \big( \ket{k} \otimes \mathcal C \ket{s} \big).
 	\label{eq:QWs:step_operator_definition}
 \end{equation}
-where we defined the \emph{step operator} $\calW_{\calC}$ as the combined action of the coin flip $\calC$ and controlled shift $\calS$, which we can write explicitly as
-\begin{equation}
-	\calS =
-    I\otimes \PP_\uparrow + \EE_+\otimes\PP_\downarrow.
-	% \sum_k \big(
-	% 	\ketbra{k}{k} \otimes \ketbra{\uparrow}{\uparrow}
-	% 	+
-	% 	\ketbra{k + 1}{k} \otimes \ketbra{\downarrow}{\downarrow}
-	% \big).
-	\label{eq:QWs:controlled_shift_operator}
-\end{equation}
-The controlled-shift operation is written here following the notation presented in~\cref{sec:intro:QWs}, and previously employed in~\cite{hoyer2009faster,montero2013unidirectional,montero2015quantum}: at each step, the walker either stands still or moves to the right, conditionally on whether the coin's state is $\ket{\uparrow}$ or $\ket{\downarrow}$ (cf.~\cref{fig:QWs:conceptual_scheme_walker})
-For two-dimensional coin states and initial states spanning a single position, the two formalism are equivalent, but our choice will allow for a tidier exposition and more efficient numerical simulations.
+% The controlled-shift operation is written here following the notation presented in~\cref{sec:intro:QWs}, and previously employed in~\cite{hoyer2009faster,montero2013unidirectional,montero2015quantum}: at each step, the walker either stands still or moves to the right, conditionally on whether the coin's state is $\ket{\uparrow}$ or $\ket{\downarrow}$ (cf.~\cref{fig:QWs:conceptual_scheme_walker})
+% For two-dimensional coin states and initial states spanning a single position, the two formalism are equivalent, but our choice will allow for a tidier exposition and more efficient numerical simulations.
 
 \begin{figure}[tb]
 \center
