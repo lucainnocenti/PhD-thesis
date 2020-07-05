@@ -9,8 +9,7 @@ In this chapter, we provide a complete characterisation of the possible outputs 
 We prove that, by projecting the state of the coin onto a specific final state after the last step, arbitrary qudits can be engineered via a suitable choice of coin operators.
 
 \tmpHeading{Chapter outline}
-% In~\cref{sec:QWs:motivation} we give an overview of the relevant existing literature, contextualising our work and explaining its interest and timeliness.
-In~\cref{sec:QWs:motivation} contextualising our work into the existing literature, and explaining its interest and timeliness.
+We start in~\cref{sec:QWs:motivation} by contextualising our work into the existing literature, explaining its interest and timeliness.
 In~\cref{sec:QWs:setup} we present the notation and mathematics used in the rest of the chapter.
 We then characterise in~\cref{sec:QWs:reachability_conditions} the possible output states of one-dimensional, time-dependent~\acp{QW}, in the form of necessary and sufficient conditions certifying whether a given state can be the output of a \ac{QW} evolution.
 These results are then used in~\cref{sec:QWs:focusing_walker_states}, where we derive conditions to fulfil to generate target qudit states through the projection of the coin at the end of a suitably engineered QW evolution.
@@ -102,13 +101,13 @@ and then at the third step,
     \right].
 \end{equation}
 The calculation proceeds similarly for larger numbers of steps.
-Note how the walker proceeds asymmetrically, even though the direct classical analogue of an Hadamard walk would be a random walk with equal probabilities of going left or right at every step.
+Note how the walker proceeds asymmetrically, even though the direct classical analogue of a Hadamard walk would be a random walk with equal probabilities of going left or right at every step.
 This is due to the interference effects, and the fact that the Hadamard treats $\ket\uparrow$ and $\ket\downarrow$ asymmetrically.
 See~\cref{fig:intro:hadamardwalk_Nsteps2} for a simulation of the Hadamard walk with $20$ and $40$ steps, which shows clearly the asymmetry present in the output states.
 \end{examplebox}
 
 \tmpHeading{A more efficient formalism for QWs}
-One feature emerging from~\cref{ex:hadamard_walk} is how, at each step, a subset of the possible walker's positions always corresponds to vanishing amplitudes. More precisely, if the walker starts in a fixed position, say $\ket0$, then at odd-numbered steps only even-numbered positions are occupied.
+One feature emerging from~\cref{ex:hadamard_walk} is how, at each step, a subset of the possible walker positions always corresponds to vanishing amplitudes. More precisely, if the walker starts in a fixed position, say $\ket0$, then at odd-numbered steps only even-numbered positions are occupied.
 This symmetry can be exploited to make simulations more efficient, and better expose the underlying structure of the dynamics.
 We will thus use a variation of~\cref{eq:qws_shitty_definition_cshift} in which instead of the walker moving left or right, it either stays still or moves in one direction (say, right):
 \begin{equation}
@@ -192,12 +191,17 @@ Assuming an initial state $\ket\Psi$ spanning $n$ walker positions, after one st
     Schematic representation of how the amplitudes are distributed among the sites, at the various steps of the evolution.
     The red (blue) arrows represent the movement of the walker with coin state $\ket\uparrow$ ($\ket\downarrow$) after the coin flip.
     %It is clear from this representation why the ${u_{1,\downarrow} = u_{n+1, \uparrow} = 0}$ must hold.
-    The coin operators $\mathcal C_i$ determine the weights with which the amplitude at every site is distributed between the red and blue arrows, and thus the two sites of the next layer with which it is connected.
+    The coin operators $\mathcal C_i$ determine how the amplitude at each site is distributed between the red and blue arrows, and thus the two sites of the next layer with which it is connected.
+    Here, $u_{i,s}^{(k)}$ denotes the amplitude at the $i$-th site, with coin state $\ket s$, after the $k$-th step.
+    The vectors $\bs v_i$ are defined as
+    $\bs v_1=(u_{1,\uparrow}^{(2)},u_{2,\downarrow}^{(2)})^T$ and
+    $\bs v_2=(u_{2,\uparrow}^{(2)},u_{3,\downarrow}^{(2)})^T$.
+    These vectors of amplitudes will prove useful to derive our results in~\cref{sec:QWs:2step_reachability}.
 }
 \label{fig:QWs:conceptual_scheme_walker}
 \end{figure}
 
-An observation which will prove useful in~\cref{sec:QWs:reachability_conditions} is the way $\calS$ and $\calW_\calC$ act on the basis states $\ket{k,\uparrow},\ket{k,\downarrow}$:
+The explicit way $\calS$ and $\calW_\calC$ act on the basis states will prove useful in~\cref{sec:QWs:reachability_conditions}:
 \begin{equation}
 \begin{cases}
     \calS\ket{k,\uparrow} &= \ket{k,\uparrow}, \\
@@ -209,7 +213,7 @@ An observation which will prove useful in~\cref{sec:QWs:reachability_conditions}
     \calW_\calC\ket{k,\downarrow} &= c_{01}\ket{k, \uparrow} + c_{11} \ket{k+1, \downarrow},
 \end{cases}
 \end{equation}
-where we wrote the matrix elements of the coin operator as $(\calC)_{ij}=c_{ij}$.
+where we denoted the matrix elements of the coin operator as $(\calC)_{ij}=c_{ij}$.
 We can write more concisely the combined action of $\calC$ and $\calS$ by focusing on how $\calW$ acts on the single sites.
 To see this, suppose that $\ket{\Phi}=\calW_\calC\ket{\Phi'}$ for some $\ket{\Phi},\ket{\Phi'}$ and $\calC$.
 Then,
@@ -271,7 +275,7 @@ In this notation, the coin operation only introduces coherence between amplitude
             0 & c^{(3)}_{22} c^{(2)}_{22} c^{(1)}_{21} \\[0.4em]
         \end{pmatrix}.
     \end{equation}
-    While we do not give the explicit expressions for larger number of steps, we note how even from such few expressions a noticeable pattern emerges from the structure of the coefficients. For example, if we focus on the pedices of each element of these matrices, and read them from the right to the left, we get the following expression:
+    While we do not give the explicit expressions for larger number of steps, we note how even from such few expressions a noticeable pattern emerges from the structure of the coefficients. For example, if we focus on the subscripts of each element of these matrices, and read them from the right to the left, we get the following expression:
     \begin{equation}
         \begin{pmatrix}
             (11)(11)(11) & 0 \\
@@ -400,8 +404,8 @@ We conclude that any state $\ket\Phi$ satisfying $\Phi_{1,\downarrow}=\Phi_{n+1,
 We now consider the possible states after \textit{two} \ac{QW} steps.
 Suppose $\ket\Psi$ spans $n+2$ modes and can be written as
 $\ket\Psi=\calW_{\calC_2}\calW_{\calC_1}\ket*{\Psi^{(-2)}}$
-for some unitaries $\calC_1,\calC_2$ and state $\ket*{\Psi^{(-2)}}$.
-We will show in this section that all such states $\ket\Psi$ must satisfy a specific orthogonality condition on their amplitudes, and that this condition, paired with the one discussed in~\cref{sec:QWs:1step_reachability}, is sufficient to determine that a state $\ket\Psi$ is the output of two steps of some \ac{QW} dynamics.
+for some unitaries $\calC_1,\calC_2$, and state $\ket*{\Psi^{(-2)}}$. We use the notation $\ket*{\Psi^{(-2)}}$ to remark this being a state obtained applying two ``inverse QW steps'' to $\ket*\Psi$.
+We will show in this section that all such $\ket\Psi$ must satisfy a specific orthogonality condition on their amplitudes, and that this condition, paired with the one discussed in~\cref{sec:QWs:1step_reachability}, is sufficient to determine that a state $\ket\Psi$ is the output of two steps of some \ac{QW} dynamics.
 
 From~\cref{sec:QWs:1step_reachability} we know that $\ket\Psi$ must be such that
 $\Psi_{1,\downarrow}=\Psi_{n+2,\uparrow}=0$.
@@ -482,8 +486,8 @@ which, together with~\cref{sec:QWs:1step_reachability}, gives the following two 
     \begin{align}
         \Psi_{1,\downarrow} = \Psi_{n+2,\uparrow} = 0,
  		\label{eq:QWs:vanishing_endpoints_after_2steps}\\
-        \bar\Psi_{1,\uparrow} \Psi_{n+1,\uparrow} + 
-        \bar\Psi_{2,\downarrow} \Psi_{n+2,\downarrow} = 0.
+        \Psi_{1,\uparrow}^* \Psi_{n+1,\uparrow} + 
+        \Psi_{2,\downarrow}^* \Psi_{n+2,\downarrow} = 0.
  		\label{eq:QWs:1st_orthogonality_condition}
     \end{align}
 \end{subequations}
@@ -540,13 +544,13 @@ which can be rewritten as
 \begin{equation}
 \begin{gathered}
 	0 = \bs v_1^{\dagger(-1)} \bs v_{n+1}^{(-1)} = 
-	\begin{pmatrix} \bar\Psi^{(-1)}_{1,\uparrow} & \bar\Psi^{(-1)}_{2,\downarrow} \end{pmatrix}
+	\begin{pmatrix} \Psi^{(-1)*}_{1,\uparrow} & \Psi^{(-1)*}_{2,\downarrow} \end{pmatrix}
 	\begin{pmatrix} \Psi^{(-1)}_{n+1,\uparrow} \\ \Psi^{(-1)}_{n+2,\downarrow} \end{pmatrix}
 	\\
 	=
-	\begin{pmatrix} \bar\Psi^{(-1)}_{1,\uparrow} & \bar\Psi^{(-1)}_{1,\downarrow} \end{pmatrix}
+	\begin{pmatrix} \Psi^{(-1)*}_{1,\uparrow} & \Psi^{(-1)*}_{1,\downarrow} \end{pmatrix}
 	\begin{pmatrix} \Psi^{(-1)}_{n+1,\uparrow} \\ \Psi^{(-1)}_{n+1,\downarrow} \end{pmatrix} +
-	\begin{pmatrix} \bar\Psi^{(-1)}_{2,\uparrow} & \bar\Psi^{(-1)}_{2,\downarrow} \end{pmatrix}
+	\begin{pmatrix} \Psi^{(-1)*}_{2,\uparrow} & \Psi^{(-1)*}_{2,\downarrow} \end{pmatrix}
 	\begin{pmatrix} \Psi^{(-1)}_{n+2,\uparrow} \\ \Psi^{(-1)}_{n+2,\downarrow} \end{pmatrix},
 \end{gathered}
 \end{equation}
@@ -574,11 +578,11 @@ Let $\ket\Psi$ be a state spanning $n+m$ sites, which is the output of at least 
 \begin{equation}
 	\ket\Psi =
 	\calW_{\calC_{m}} \calW_{\calC_{m-1}} ... \calW_{\calC_{1}}
-    \ket{\Psi^{(0)}},
+    \ket{\Psi^{(-m)}},
 	\label{eq:QWs:starting_point}
 \end{equation}
-for some set of coin operators $\{\calC_i \}$ and initial state $\ket{\Psi^{(0)}}$.
-Here, $\ket{\Psi^{(0)}}$ is an arbitrary state spanning $n$ positions (and which in particular is not required to satisfy any reachability condition of its own).
+for some set of coin operators $\{\calC_i \}$ and initial state $\ket{\Psi^{(-m)}}$.
+Here, $\ket{\Psi^{(-m)}}$ is an arbitrary state spanning $n$ positions (and which in particular is not required to satisfy any reachability condition of its own).
 We want to show that, for any set of coin operators $\{\calC_i \}$, \cref{eq:QWs:starting_point} implies that $\ket\Psi$ satisfies the following conditions:
 % \begin{equation}
 \begin{gather}
@@ -619,7 +623,7 @@ In~\cref{fig:QWs:visualisation_PsiVsPsip} we show schematically how the amplitud
 This directly implies, for all $i, j$,
 \begin{equation}
 	\begin{pmatrix}
-		\bar\Psi_{i, \uparrow} & \bar\Psi_{i, \downarrow}
+		\Psi^*_{i, \uparrow} & \Psi^*_{i, \downarrow}
 	\end{pmatrix}
 	\begin{pmatrix}
 		\Psi_{j, \uparrow} \\ \Psi_{j, \downarrow}
@@ -640,32 +644,32 @@ Rewriting the LHS in terms of the amplitudes, rearranging the terms, and remembe
 \begin{equation}
 \begin{aligned}
 	\begin{pmatrix}
-		\Psi_{1, \uparrow}^* & \Psi_{1, \downarrow}^*
+		\Psi^*_{1, \uparrow} & \Psi^*_{1, \downarrow}
 	\end{pmatrix}
 	\begin{pmatrix}
 		\Psi_{m+n-s, \uparrow} \\ \Psi_{m+n-s, \downarrow}
 	\end{pmatrix}
 	+
 	\begin{pmatrix}
-		\Psi_{2, \uparrow}^* & \Psi_{2, \downarrow}^*
+		\Psi^*_{2, \uparrow} & \Psi^*_{2, \downarrow}
 	\end{pmatrix}
 	\begin{pmatrix}
 		\Psi_{m+n-s+1, \uparrow} \\ \Psi_{m+n-s+1, \downarrow}
 	\end{pmatrix} + \dots\\
 	+ 
 	\begin{pmatrix}
-		\Psi_{s, \uparrow}^* & \Psi_{s, \downarrow}^*
+		\Psi^*_{s, \uparrow} & \Psi^*_{s, \downarrow}
 	\end{pmatrix}
 	\begin{pmatrix}
 		\Psi_{m+n-1, \uparrow} \\ \Psi_{m+n-1, \downarrow}
 	\end{pmatrix}
 	+
 	\begin{pmatrix}
-		\Psi_{s+1, \uparrow}^* & \Psi_{s+1, \downarrow}^*
+		\Psi^*_{s+1, \uparrow} & \Psi^*_{s+1, \downarrow}
 	\end{pmatrix}
 	\begin{pmatrix}
 		\Psi_{m+n, \uparrow} \\ \Psi_{m+n, \downarrow}
-	\end{pmatrix}.
+	\end{pmatrix} = 0.
 \end{aligned}
 \end{equation}
 Using \cref{eq:QWs:transition_us_to_vprimes} we then get
@@ -725,7 +729,7 @@ This proves that, given $\ket\Psi$ satisfying~\cref{eq:QWs:orthogonality_conditi
 which we can recognise as equivalent to~\cref{eq:QWs:orthogonality_conditions_for_vs} with $m\to m+1$, except for the $s=1$ condition, which amounts to $\bs v_1^{\prime\dagger}\bs v'_{(m+1)+n-1}=0$.
 This last condition follows from $\Psi_{1,\downarrow}=\Psi_{n+m,\uparrow}=0$, as shown in~\cref{sec:QWs:2step_reachability}, and thus the induction step is completed.
 
-In the special case of the initial state spanning a single position,~\cref{eq:QWs:orthogonality_conditions_for_vs} tells us that a state $\ket{\Psi}$ is a possible output of $n$ steps with initial state $\ket{1,\alpha}$ \textit{if and only} $\Psi_{1,\downarrow}=\Psi_{n+1,\uparrow}=0$, and the following $n-1$ conditions are met:
+In the special case of the initial state spanning a single position,~\cref{eq:QWs:orthogonality_conditions_for_vs} tells us that if a state $\ket{\Psi}$ is the output of $n$ steps with some initial state $\ket{1,\alpha}$, then $\Psi_{1,\downarrow}=\Psi_{n+1,\uparrow}=0$, and the following $n-1$ conditions are met:
 \begin{equation}
     \sum_{i=1}^s \bs v_i^{\dagger} \bs v_{n-s+i} = 0,
     \text{ for every } s=1,..,n-1.
@@ -756,7 +760,7 @@ In the special case of the initial state spanning a single position,~\cref{eq:QW
         \bs v_1^{\dagger} \bs v_3 = 0 \\
         \bs v_1^{\dagger} \bs v_2 + \bs v_2^{\dagger} \bs v_3 = 0
     \end{dcases}$ \\\addlinespace[4pt]
-    \vdots & \vdots & \qquad\quad\vdots \\
+    $\vdots$ & $\vdots$ & \qquad\quad$\vdots$ \\
     $\ket*{\Psi^{(n)}}$ & $n$+1 &
     $\begin{dcases}
         u_{1,\downarrow} = u_{n + 1,\uparrow} = 0 \\
@@ -789,7 +793,7 @@ The amplitudes in each row refer to the corresponding state at that step.
     \end{equation}
     Following the matrix notation introduced in~\cref{eq:QWs:matrix_notation}, we have
     \begin{equation}
-        \ket{\Psi} \simeq
+        \ket{\Psi} =
         \frac{1}{\sqrt4}
         \begin{pmatrix}
             1 & 0 \\
@@ -799,9 +803,9 @@ The amplitudes in each row refer to the corresponding state at that step.
         \end{pmatrix}.
     \end{equation}
     As this state satisfies the conditions given in~\cref{sec:QWs:1step_reachability} about the vanishing endpoints, $\Psi_{1,\downarrow}=\Psi_{4,\uparrow}=0$, we know that this is a possible output of a single step. On the other hand, it does not satisfy the conditions in~\cref{sec:QWs:2step_reachability} to be the output of \textit{two} steps.
-    Consider now the evolved state $\ket{\Psi'}\equiv\calW_{\calC_1}\ket\Psi$ with $\calC_1\equiv H\equiv\frac{1}{\sqrt2}(I+Z)$ the Hadamard matrix. In matrix notation, this will be
+    Consider now the evolved state $\ket*{\Psi^{(1)}}\equiv\calW_{\calC_1}\ket\Psi$ with $\calC_1\equiv H\equiv\frac{1}{\sqrt2}(I+Z)$ the Hadamard matrix. In matrix notation, this will be
     \begin{equation}
-        \ket{\Psi'} =
+        \ket*{\Psi^{(1)}} =
         \frac{1}{\sqrt4}
         \begin{pmatrix}
             1/\sqrt2 & 0 \\
@@ -812,13 +816,13 @@ The amplitudes in each row refer to the corresponding state at that step.
         \end{pmatrix}.
         \label{eq:QWs:example_psi'}
     \end{equation}
-    The vectors $\bs v'$ then equal $\bs v'_1=(1/\sqrt2, 1/\sqrt2)$ and
-    $\bs v'_4=(1/\sqrt2, -1/\sqrt2)$,
-    which are orthogonal, consistently with $\ket{\Psi'}$ being output of two steps.
+    The vectors $\bs v^{(1)}$ then equal $\bs v^{(1)}_1=(1/\sqrt2, 1/\sqrt2)$ and
+    $\bs v^{(1)}_4=(1/\sqrt2, -1/\sqrt2)$,
+    which are orthogonal, consistently with $\ket*{\Psi^{(1)}}$ being output of two steps.
     Let us consider an additional step with coin $\calC_2=\frac{1}{\sqrt2}(I + iX)$.
-    Writing the output with $\ket{\Psi''}=\calW_{\calC_2}\ket{\Psi'}$, we have
+    Writing the output with $\ket*{\Psi^{(2)}}=\calW_{\calC_2}\ket*{\Psi^{(1)}}$, we have
     \begin{equation}
-        \ket{\Psi''} = \frac{1}{4}
+        \ket*{\Psi^{(2)}} = \frac{1}{4}
         \begin{pmatrix}
             1 & 0 \\
             i + \sqrt2 & i \\
@@ -828,41 +832,30 @@ The amplitudes in each row refer to the corresponding state at that step.
             0 & -1
         \end{pmatrix}.
     \end{equation}
-    The relevant $\bs v''$ vectors are
-    % \begin{equation}
-    % \begin{aligned}
-    %     &\bs v''_1 = \frac{1}{4}\begin{pmatrix} 1 \\ i \end{pmatrix},
-    %     &&\bs v''_2 = \frac{1}{4}\begin{pmatrix} \sqrt2 + i \\ 1 + i\sqrt2 \end{pmatrix}, \\
-    %     &\bs v''_4 = \frac{1}{4}\begin{pmatrix} 1 + i\sqrt2\\ \sqrt2 + i \end{pmatrix},
-    %     &&\bs v''_5 = \frac{1}{4}\begin{pmatrix} -i \\ -1 \end{pmatrix},
-    % \end{aligned}
-    % \end{equation}
+    The relevant $\bs v^{(2)}$ vectors are
     \begin{equation}
     \begin{aligned}
-        \bs v''_1 = \frac{1}{4}\begin{pmatrix} 1 \\ i \end{pmatrix},
+        \bs v^{(2)}_1 = \frac{1}{4}\begin{pmatrix} 1 \\ i \end{pmatrix},
         \,\,
-        \bs v''_2 = \frac{1}{4}\begin{pmatrix} \sqrt2 + i \\ 1 + i\sqrt2 \end{pmatrix},
+        \bs v^{(2)}_2 = \frac{1}{4}\begin{pmatrix} \sqrt2 + i \\ 1 + i\sqrt2 \end{pmatrix},
         \,\,
-        \bs v''_4 = \frac{1}{4}\begin{pmatrix} 1 + i\sqrt2\\ \sqrt2 + i \end{pmatrix},
+        \bs v^{(2)}_4 = \frac{1}{4}\begin{pmatrix} 1 + i\sqrt2\\ \sqrt2 + i \end{pmatrix},
         \,\,
-        \bs v''_5 = \frac{1}{4}\begin{pmatrix} -i \\ -1 \end{pmatrix},
+        \bs v^{(2)}_5 = \frac{1}{4}\begin{pmatrix} -i \\ -1 \end{pmatrix},
     \end{aligned}
     \end{equation}
     It is then straightforward to verify that
-    $\bs v_1^{\dprime\dagger}\bs v_5'' = 0$.
+    $\bs v_1^{(2)\dagger}\bs v_5^{(2)} = 0$.
     Furthermore,
-    $\bs v_1^{\dprime\dagger}\bs v_4'' = 1/8$
-    and $\bs v_2^{\prime\prime\dagger}\bs v_5'' = -1/8$,
+    $\bs v_1^{(2)\dagger}\bs v_4^{(2)} = 1/8$
+    and $\bs v_2^{(2)\dagger}\bs v_5^{(2)} = -1/8$,
     thus 
-    $\bs v_1^{\dprime\dagger}\bs v_4'' + \bs v_2^{\dprime\dagger}\bs v_5'' = 0$,
+    $\bs v_1^{(2)\dagger}\bs v_4^{(2)} + \bs v_2^{(2)\dagger}\bs v_5^{(2)} = 0$,
     again consistently with the results of~\cref{sec:QWs:3step_reachability}.
-    As a last remark, let us show how we would go in recovering the coin operators generating $\ket{\Psi''}$, assuming we are only given this state without further knowledge.
-    The idea behind such reconstruction is to observe that if $\tilde\calC_1$ is such that $\calW_{\tilde\calC_1}\ket{\Phi'}=\ket{\Psi''}$ for some $\ket{\Phi'}$, then, from~\cref{eq:QWs:dynamics_on_single_positions}, we know that $\tilde\calC_1^\dagger \bs v_1''\simeq(1,0)^T$ and $\tilde\calC_1^\dagger \bs v_5''\simeq(0,e^{i\phi})^T$ for some $\phi_1\in\RR$. It follows that
+    As a last remark, let us show how we would go in recovering the coin operators generating $\ket*{\Psi^{(2)}}$, assuming we are only given this state without further knowledge.
+    The idea behind such reconstruction is to observe that if $\tilde\calC_1$ is such that $\calW_{\tilde\calC_1}\ket{\Phi'}=\ket*{\Psi^{(2)}}$ for some $\ket{\Phi'}$, then, from~\cref{eq:QWs:dynamics_on_single_positions}, we know that $\tilde\calC_1^\dagger \bs v_1^{(2)}\simeq(1,0)^T$ and $\tilde\calC_1^\dagger \bs v_5^{(2)}\simeq(0,e^{i\phi})^T$ for some $\phi_1\in\RR$. It follows that
     \begin{equation}
         \tilde\calC_1 =
-        % \begin{pmatrix}
-        %     N_1 \bs v_1'' & N_2 e^{i\phi} \bs v_5''
-        % \end{pmatrix} = \frac{1}{\sqrt2}
         \frac{1}{\sqrt2} \begin{pmatrix}
             1 & e^{i\phi_1}i \\
             i & e^{i\phi_1}\phantom{1}
@@ -880,7 +873,7 @@ The amplitudes in each row refer to the corresponding state at that step.
         \end{pmatrix},
     \end{equation}
     consistently with~\cref{eq:QWs:example_psi'}.
-    Going further back, we use $\bs v_1'\simeq(1,e^{-i\phi_1})^T$ and $\bs v_4'\simeq(1,-e^{-i\phi_1})^T$ to find the previous possible coins $\tilde\calC_2$ to be of the form
+    Going further back, we use $\sqrt2\bs v_1^{(1)}=(1,e^{-i\phi_1})^T$ and $\sqrt2\bs v_4^{(1)}=(1,-e^{-i\phi_1})^T$ to find the previous possible coins $\tilde\calC_2$ to be of the form
     \begin{equation}
         \tilde\calC_2 = \frac{1}{\sqrt2} \begin{pmatrix}
             1 & e^{i\phi_2} \\
@@ -908,36 +901,36 @@ In~\cref{sec:QWs:reachability_conditions} we showed that, if $\ket\Psi=\calW_{\c
 Here we show that also the opposite holds: given a state $\ket\Psi$ satisfying~\cref{eq:QWs:general_reachability_conditions}, there is always a choice of coin operations $\calC_i$ and initial state $\ket{\Psi_{\on{in}}}$ that produce $\ket\Psi$.
 
 \tmpHeading{Vanishing amplitudes imply state is output of one step}
-Suppose that a state $\ket\Psi$ over $n$ sites satisfies $\Psi_{1,\downarrow}=\Psi_{n,\uparrow}=0$. Then, for any choice of unitary coin operator $\calC$, there is some $\ket{\Psi'}$ such that $\ket\Psi=\calW_\calC\ket{\Psi'}$.
-This is straightforward, as $\calW_\calC\ket{\Psi'}$ will always have vanishing extremal amplitudes, regardless of $\calC$. For a given choice of $\calC$, the initial state $\ket{\Psi'}$ is uniquely determined by $\ket{\Psi'}=\calW_\calC^{-1}\ket\Psi$.
+Suppose that a state $\ket\Psi$ over $n$ sites satisfies $\Psi_{1,\downarrow}=\Psi_{n,\uparrow}=0$. Then, for any choice of unitary coin operator $\calC$, there is some $\ket*{\Psi^{(-1)}}$ such that $\ket\Psi=\calW_\calC\ket*{\Psi^{(-1)}}$.
+This is straightforward, as $\calW_\calC\ket*{\Psi^{(-1)}}$ will always have vanishing extremal amplitudes, regardless of $\calC$. For a given choice of $\calC$, the initial state $\ket*{\Psi^{(-1)}}$ is uniquely determined by $\ket*{\Psi^{(-1)}}=\calW_\calC^{-1}\ket\Psi$.
 
 \tmpHeading{Reconstructing coin operators after \emph{two} steps}
 Suppose now that $\ket\Psi$, on top of $\Psi_{1,\downarrow}=\Psi_{n,\uparrow}=0$, also satisfies $\bs v_1^\dagger \bs v_{n-1}=0$.
-By the previous paragraph, we know that there must then be $\ket{\Psi'},\calC$ such that $\ket\Psi=\calW_\calC\ket{\Psi'}$. Then,
+By the previous paragraph, we know that there is $\ket*{\Psi^{(-1)}},\calC$ such that $\ket\Psi=\calW_\calC\ket*{\Psi^{(-1)}}$. Then,
 % $\bs v_1=\calC(\Psi'_{1,\uparrow},\Psi'_{1,\downarrow})^T$ and
 % $\bs v_{n-1}=\calC(\Psi'_{n-1,\uparrow},\Psi'_{n-1,\downarrow})^T$,
 \begin{equation}
-    \bs v_1=\calC(\Psi'_{1,\uparrow},\Psi'_{1,\downarrow})^T
+    \bs v_1=\calC(\Psi^{(-1)}_{1,\uparrow},\Psi^{(-1)}_{1,\downarrow})^T
     \,\text{ and }\,
-    \bs v_{n-1}=\calC(\Psi'_{n-1,\uparrow},\Psi'_{n-1,\downarrow})^T,
+    \bs v_{n-1}=\calC(\Psi^{(-1)}_{n-1,\uparrow},\Psi^{(-1)}_{n-1,\downarrow})^T,
 \end{equation}
-with $(\Psi'_{1,\uparrow},\Psi'_{1,\downarrow})$ orthogonal to
-$(\Psi'_{n-1,\uparrow},\Psi'_{n-1,\downarrow})$.
-We already proved that $\ket{\Psi'}=\calW_{\calC'}\ket{\Psi''}$ for some $\calC',\ket{\Psi''}$ if and only if the extremal amplitudes vanish, thus, for $\ket\Psi$ to be output of \emph{two} steps of QW, its amplitudes must be such that
-$\Psi'_{1,\downarrow}=\Psi'_{n-1,\uparrow}=0$.
+and $(\Psi^{(-1)}_{1,\uparrow},\Psi^{(-1)}_{2,\downarrow})$ orthogonal to
+$(\Psi^{(-1)}_{n-1,\uparrow},\Psi^{(-1)}_{n,\downarrow})$.
+We already proved that $\ket*{\Psi^{(-1)}}=\calW_{\calC'}\ket*{\Psi^{(-2)}}$ for some $\calC',\ket*{\Psi^{(-2)}}$ if and only if the extremal amplitudes vanish, thus, for $\ket\Psi$ to be output of \emph{two} steps of QW, we must have
+$\Psi^{(-1)}_{1,\downarrow}=\Psi^{(-1)}_{n-1,\uparrow}=0$.
 This, in turn, imposes a constraint on $\calC$, which must be a unitary such that
 \begin{equation}
     \bs v_1 = \calC \begin{pmatrix}
-        \Psi'_{1,\uparrow} \\ 0
+        \Psi^{(-1)}_{1,\uparrow} \\ 0
     \end{pmatrix}, \qquad
     \bs v_{n-1} = \calC \begin{pmatrix}
-        0 \\ \Psi'_{n-1,\downarrow}
+        0 \\ \Psi^{(-1)}_{n-1,\downarrow}
     \end{pmatrix}.
 \end{equation}
 This implies that $\calC'$ must be a unitary whose columns equal, up to normalisation, $\bs v_1$ and $\bs v_{n-1}$. Note that a phase can also be added to each column independently without affecting these relations. Remembering that unitaries differing only by a global phase are effectively equivalent, we can write the set of viable coin operators as
-$\calC = (\bs v_1^T/\|\bs v_1\|, e^{i\phi}\bs v_{n-1}^T/\|\bs v_{n-1}\|)$,
+$\calC = (\bs v_1/\|\bs v_1\|, e^{i\phi}\bs v_{n-1}/\|\bs v_{n-1}\|)$,
 for some $\phi\in\RR$.
-We thus conclude that, for any such $\calC$, we have $\ket{\Psi'}\equiv\calW_{\calC}^{-1}\ket\Psi$ such that $\Psi'_{1,\downarrow}=\Psi'_{n-1,\uparrow}=0$, and thus for any choice of $\calC'$ there is also some $\ket{\Psi''}$ such that $\ket\Psi=\calW_\calC\calW_{\calC'}\ket{\Psi''}$.
+We thus conclude that, for any such $\calC$, we have $\ket*{\Psi^{(-1)}}\equiv\calW_{\calC}^{-1}\ket\Psi$ such that $\Psi'_{1,\downarrow}=\Psi'_{n-1,\uparrow}=0$, and thus for any choice of $\calC'$ there is also some $\ket*{\Psi^{(-2)}}$ such that $\ket\Psi=\calW_\calC\calW_{\calC'}\ket*{\Psi^{(-2)}}$.
 
 \tmpHeading{General case}
 The general case of $\ket\Psi$ satisfying
@@ -946,133 +939,16 @@ The general case of $\ket\Psi$ satisfying
     \text{ for all }s=1,...,\ell-1
     \label{eq:QWs:orthogonality_conditions_vs_inverse_proof_section}
 \end{equation}
-is fully analogous. We start by using $\bs v_1^\dagger \bs v_{n-1}=0$ to find a coin $\calC$ such that $\ket{\Psi'}=\calW_{\calC}^{-1}\ket\Psi$ has vanishing extremal amplitudes.
+is fully analogous. We start by using $\bs v_1^\dagger \bs v_{n-1}=0$ to find a coin $\calC$ such that $\ket*{\Psi^{(-1)}}=\calW_{\calC}^{-1}\ket\Psi$ has vanishing extremal amplitudes.
 This will be satisfied by any matrix whose columns are $\bs v_1 e^{i\phi_1}/\|\bs v_1\|$ and $\bs v_{n-1} e^{i\phi_2}/\|\bs v_{n-1}\|$ for arbitrary $\phi_1,\phi_2\in\RR$.
-We then observe that, denoting with $\bs u_i'\equiv(u_{i,\uparrow},u_{i,\downarrow})$ the amplitudes of $\ket{\Psi'}$, we have
+We then observe that, denoting with $\bs u_i'\equiv(u_{i,\uparrow},u_{i,\downarrow})$ the amplitudes of $\ket*{\Psi^{(-1)}}$, we have
 \begin{equation}
     \sum_{i=1}^s \bs v_i^\dagger \bs v_{m-1-s+i}
     = \sum_{i=1}^s \bs u_i'^\dagger \bs u_{m-1-s+i}'
     = \sum_{i=1}^{s-1} \bs v_i'^\dagger \bs v_{m-1-s+i}' = 0.
 \end{equation}
-% We then observe that the amplitudes of such $\ket{\Psi'}$ must also satisfy~\cref{eq:QWs:orthogonality_conditions_vs_inverse_proof_section} with $m\to m-1$ and $\ell\to\ell-1$, and thus iterate the reasoning.
+% We then observe that the amplitudes of such $\ket*{\Psi^{(-1)}}$ must also satisfy~\cref{eq:QWs:orthogonality_conditions_vs_inverse_proof_section} with $m\to m-1$ and $\ell\to\ell-1$, and thus iterate the reasoning.
 This shows that $\ket{\Psi'}$ also satisfies~\cref{eq:QWs:orthogonality_conditions_vs_inverse_proof_section} with $m\to m-1$ and $\ell\to\ell-1$, which then allows to iterate the same reasoning.
-
-% We work out explicitly the case of three steps in~\cref{ex:QWs:3steps_example}.
-% \begin{examplebox}[label={ex:QWs:3steps_example}]{Reconstructing coin operators after \emph{three} steps}
-% The next step is to consider what happens when $\ket\Psi$ satisfies, on top of the two conditions used in the previous paragraphs, also
-% \begin{equation}
-%     \bs v_1^\dagger \bs v_{n-2}+\bs v_2^\dagger \bs v_{n-1}=0.
-%     \label{eq:QWs:orthogonality_on_vs_proving_otherdirection}
-% \end{equation}
-% The argument in the previous paragraphs can be used to prove that $\ket\Psi$ is output of at least two steps, and thus there are $\ket{\Psi'},\ket{\Psi''},\calC,\calC'$ such that
-% $\ket\Psi=\calW_\calC\ket{\Psi'}=\calW_\calC\calW_{\calC'}\ket{\Psi''}$.
-% We now observe that $\ket{\Psi'}=\calW_{\calC'}\ket{\Psi''}$ implies
-% \begin{equation}
-%     \bs v_1^\dagger \bs v_{n-2}+\bs v_2^\dagger \bs v_{n-1} =
-%     \bar\Psi'_{1,\uparrow}\Psi'_{n-2,\uparrow} +
-%     \bar\Psi'_{2,\downarrow}\Psi'_{n-1,\downarrow} =
-%     \bs v_1'^\dagger \bs v_{n-2}' = 0.
-% \end{equation}
-% But this now implies that $\ket{\Psi'}$ satisfies both $\Psi'_{1,\downarrow}=\Psi'_{n-1,\uparrow}=0$ (by choosing $\calC$ according to the previous paragraph) and $\bs v_1'^\dagger \bs v'_{n-2}=0$. Thus, again by the results of the previous paragraphs, it is the output of \emph{two} steps, which means that there are $\calC''$ and $\ket{\Psi'''}$ such that
-% $\ket\Psi=\calW_\calC\calW_{\calC'}\calW_{\calC''}\ket{\Psi'''}$.
-% The coin operators $\calC,\calC'$ are again determined as those whose columns equal $\bs v_1,\bs v_{n-1}$ and $\bs v_1',\bs v_{n-2}'$, respectively. Arbitrary phase differences $\phi_1,\phi_2$ can be introduced between the columns of $\calC,\calC'$, but it is worth noting that the phase difference introduced in $\calC$ will affect the choice of $\calC'$ in such a way that $\ket{\Psi'''}$ will \emph{not} be dependent on it.
-% We refer to~\cref{ex:QWs:conditions_few_steps} for a detailed practical example of deriving such coin operators.
-% \end{examplebox}
-
-
-% We conclude our analysis of the global reachability conditions by remarking that \cref{eq:QWs:general_reachability_conditions} completely characterises the set of quantum states reachable after $n$ steps.
-% In other words, not only every state that is the result of a \ac{QW} evolution satisfies it, but also for every state $\ket*{\Phi}$ that satisfies \cref{eq:QWs:general_reachability_conditions}, there is a set of coin operators $\{ \mathcal C_i \}_{i=1}^n$ and an initial state $\ket{\Phi_{in}}$ such that
-% $\ket\Phi = 
-%     \mathcal W_{\mathcal C_n} \cdots \mathcal W_{\mathcal C_1}
-%     \ket{\Phi_{in}}$.
-% In fact, given the state $\ket\Phi$, this set of coin operators is efficiently computable.
-% This was already sketched in a previous section, but we will here give a more detailed and general description of the computation.
-
-% We start by noting that,
-% denoting with $\bs v_i$ the $\bs v$-vectors built from the amplitudes of a generic $\ket{\Phi}$ satisfying~\cref{eq:QWs:general_reachability_conditions}, we have $\bs v_1^\dagger \bs v_n = 0$.
-% This immediately implies the existence of a $2\times2$ unitary matrix $\calC_n$, and complex numbers $a$ and $b$, such that
-% \begin{equation}
-%     \bs v_1 = \mathcal C_n
-%     \begin{pmatrix} a \\ 0 \end{pmatrix},
-%     \qquad
-%     \bs v_n = \mathcal C_n
-%     \begin{pmatrix} 0 \\ b \end{pmatrix}.
-%     \label{eq:equations_giving_C}
-% \end{equation}
-% The first of the above equations implies that the second row of $\mathcal C_n^{-1}$ is orthogonal to $\bs v_1$, that is,
-% % \begin{equation}
-% $
-%     - c_{21} u_{1, \uparrow} + c_{11} u_{2, \downarrow} = 0.
-% $
-% This condition is enough, together with the constraint of the columns of a unitary matrix being normalised, to determine the first column of $\mathcal C_n$ up to a phase.
-% The orthonormality constraint that $\mathcal C_n$ must satisfy then determines the elements of the second column, again up to a phase.
-% This leaves the freedom to choose two different phases for the two columns.
-% Finally, remembering that the global phase of $\mathcal C_n$ does not have physical consequences, we conclude that $\mathcal C_n$ is determined up to a phase difference between the two columns.
-% More explicitly, the above argument tells us that the coin operators generating a walker state spanning $n+1$ sites are all and only the unitaries of the form
-% \begin{equation*}
-% \begin{aligned}
-%     \mathcal C_n
-%     &= N \begin{pmatrix}
-%         u_{1,\uparrow} & e^{i\alpha} u_{\makebox[0pt][l]{$\scriptstyle n$}\phantom{n+1},\uparrow} \\
-%         u_{2,\downarrow} & e^{i\alpha} u_{n+1,\downarrow}
-%     \end{pmatrix} = N \begin{pmatrix}
-%         u_{1,\uparrow} & -e^{i\alpha} u_{2,\downarrow}^* \\
-%         u_{2,\downarrow} & \phantom{-}e^{i\alpha} u_{1,\uparrow}^*
-%     \end{pmatrix},
-% \end{aligned}
-% \end{equation*}
-% with $\alpha$ arbitrary and $N$ normalisation constant.
-% This coin operator can then be written, using for example the parametrization of~\cite{chandrashekar2008optimizing}, as
-% \begin{equation}
-%     \mathcal C_n = 
-%     \begin{pmatrix}
-%         e^{i\xi} \cos\theta &
-%         e^{i\zeta} \sin\theta \\
-%         -e^{-i\zeta}\sin\theta & e^{-i\xi}\cos\theta
-%     \end{pmatrix},
-%     \label{eq:su2_coin_matrix}
-% \end{equation}
-% with $\theta\in [0, \pi/2]$, $\xi$ and $\zeta$ satisfying
-% $\tan\theta = \lvert u_{2,\downarrow} \rvert/\lvert u_{1,\uparrow} \rvert$
-% and
-% $\xi + \zeta \pm \pi = \arg\left(u_{1, \uparrow}/u_{2, \downarrow}\right)$.
-% The freedom in $\alpha$ is here translated into the phase difference $\zeta - \xi$ not being uniquely determined.
-% More explicitly, when tracing back the evolution of the walker one can at every step write the coin operator as in \cref{eq:su2_coin_matrix} with $\xi \to \xi + \varphi$ and $\zeta \to \zeta - \varphi$ for an arbitrary $\varphi\in \mathbb R$.
-% Trivial modifications must be applied to the above formulae when $u_{2,\downarrow} = 0$.
-
-% To obtain the coin operators at the previous steps, we use the $\mathcal C_n$ computed above to get the amplitudes of $\mathcal W_{\mathcal C_n}^{-1} \ket\Phi$.
-% These amplitudes will again satisfy the orthogonality condition between the $\bs v$-vectors at the first and last sites:
-% ${\bs v_1^\dagger \bs v_{n-1} = 0}$
-% (where now $\bs v_i$ refers to the amplitudes after the $(n-1)$-th step).
-% The same argument used above can now be repeated, to compute the coin operator at this step.
-% Iterating this procedure we can compute all of the coin operators, with the exception of the first one.
-% In fact, the amplitudes after the first step do not satisfy the orthogonality condition like \cref{eq:equations_giving_C} anymore (the only condition on them is the vanishing of the extremal amplitudes), so that the above argument breaks.
-% This last (first) coin operator is nevertheless easily solved for by remembering that the only non vanishing amplitudes at this stage of the evolution are $u_{1,\uparrow}$ and $u_{2, \downarrow}$, so that if the initial state is
-% ${\ket{\Phi_{in}} = u^{(0)}_{1,\uparrow} \ket{1, \uparrow} + u^{(0)}_{1, \downarrow} \ket{1, \downarrow}}$, then the first coin operator must satisfy
-% \begin{equation}
-%     \begin{pmatrix}
-%         u_{1, \uparrow} \\ u_{2,\downarrow}
-%     \end{pmatrix}
-%     = \mathcal C_1
-%     \begin{pmatrix}
-%         u^{(0)}_{1, \uparrow} \\ u^{(0)}_{1, \downarrow}
-%     \end{pmatrix}.
-% \end{equation}
-% The values of $u_{1, \uparrow}, u_{2,\downarrow}, u^{(0)}_{1, \uparrow}$ and $u^{(0)}_{1, \downarrow}$ are known, so that this equation is readily solved for the elements of $\mathcal C_1$, for any initial state $\ket{\Phi_{in}}$.
-
-
-% \subsection{Dimension of space of reachable states}
-% \label{sec:QWs:reachable_space}
-
-% Given the full characterisation of outputs of~\acp{QW}, a natural next question is: \textit{fixing a number of steps $n$, what portion of the space of $n\times 2$-dimensional states can be obtained with this kind of dynamic?}
-% The set of all (pure) states over $n+1$ sites and with a two-dimensional coin is a $[2\times2(n+1)-2]=(4n+2)$-dimensional real manifold (more precisely, this is the complex projective space $\mathbb{CP}^{2n+1}$).
-
-% The total number of (real) degrees of freedom of a walker state after $n$ steps, considering the two vanishing extremal amplitudes, is $4n - 2$.
-% Additionally, the set of constraints in \cref{eq:QWs:general_reachability_conditions} amounts to $2(n-1)$ real conditions.
-% It follows that the space of reachable states $\ket*{\Psi^{(n)}}$ has dimension $2n$, to compare with the number of degrees of freedom of a general state living in the same Hilbert space, that is, $4n + 2$.
-% This is consistent with the fact that 
-%Note how this is consistent with our finding that when computing the coin operator generating a state, the phase difference between its columns can be freely chosen. Therefore, the number of parameters characterising all the possible SU(2) coin operators for $n$ steps is $2n$, being each coin operator characterised by only two parameters.
-
 
 \section{Focusing on walker states}
 \label{sec:QWs:focusing_walker_states}
@@ -1084,17 +960,17 @@ We thus fix a number of steps $n$ and a target superposition over the sites $\ke
 \begin{equation}
     \mel{\gamma}{\calW_{\calC_{n}} \cdots\calW_{\calC_{1}}}{\Psi_0} = \ket\phi.
 \end{equation}
-Such protocols are clearly probabilistic in general, but this is not a big hurdle provided the projection probabilities are vanishingly small.
+Such protocols are clearly probabilistic in general, but this is not a big hurdle provided the projection probabilities are not vanishingly small.
 In particular, we are interested in finding whether arbitrary $\ket\phi$ can be generated in this way.
 The main tools that will be used to answer this question are the results of~\cref{sec:QWs:reachability_conditions}.
-We will find the answer to be positive, modulo a few degenerate conditions that the $\ket\phi$ need to satisfy.
+We will find the answer to be positive, albeit with a few degenerate conditions that the $\ket\phi$ need to satisfy.
 For the analytical results, we focus on the case of the coin being projected over $\ket+$,
 and provide numerical results for the more general case.
 
 \tmpHeading{Derive reachability conditions}
 Let $\ket\phi$ be an arbitrary superposition of $n+1$ sites with amplitudes $u_k \equiv \braket{k}{\phi}$.
-We want to find a reachable walker state $\ket\Phi$, in the full walker and coin space, such that
-$\ket{+}_c \!\!\!\!\braket{+}{\Phi} \propto \ket\phi \!\otimes\! \ket+$.
+We want to find a reachable state $\ket\Phi$, in the full walker and coin space, such that
+$\ket{+}\braket{+}{\Phi} \propto \ket\phi \!\otimes\! \ket+$.
 Denoting with $\Phi_{i,s}$ the amplitudes of $\ket\Phi$, this amounts to finding a $\ket\Phi$ whose amplitudes simultaneously satisfy, on top of the reachability conditions of~\cref{eq:QWs:general_reachability_conditions}, the relations
 ${N(\Phi_{i,\uparrow}+\Phi_{i,\downarrow})= u_i}$ for all $i$.
 In order to do this, we parametrize the set of all walker states $\ket\Phi$ whose amplitudes give the target after projection as
@@ -1112,7 +988,7 @@ where $(d_i)_{i=2}^n$ are complex parameters to be determined, and $N\in\RR$ ens
 Projecting \cref{eq:QWs:parametrized_state_with_ds} over the coin state $\ket+$ gives the correct result for any choice of $d_i$.
 The problem is thus reduced to finding $(d_i)_{i=2}^n$ corresponding to a reachable state.
 If a set of coefficients is then found to generate the target state, the associated projection probability is computed as
-$\|\braket{+_c}{\Phi}\|^2=1/2N$.
+$\|\braket{+}{\Phi}\|^2=1/2N$.
 From~\cref{sec:QWs:reachability_conditions}, we know that $\ket\Phi$ is reachable \textit{if and only if}~\cref{eq:QWs:general_reachability_conditions} is satisfied. Together with~\cref{eq:QWs:parametrized_state_with_ds} these conditions translate into $\sum_{i=1}^{s} \bs v_i^\dagger \bs v_{n-s+i}=0$ for all $s=1,\dots,n-1$, where
 \begin{equation}
     \bs v_i \equiv \begin{pmatrix}
@@ -1387,7 +1263,7 @@ there is always a single solution for $2$ steps, two or four solutions for $3$ s
 \tmpHeading{Behaviour of projection probabilities}
 Different solutions for the same target state correspond to different dynamics before the projection, and therefore different projection probabilities.
 This can be seen in~\cref{fig:minmax_probabilities}, where we report maximum and minimum projection probabilities for each randomly generated target state.
-These results highlight the advantages of solving~\cref{eq:QWs:conditions_for_ds}: having access to the whole set of solutions, we can choose the more convenient one in terms of projection probability.
+These results highlight the advantages of solving~\cref{eq:QWs:conditions_for_ds}: having access to the whole set of solutions, we can choose the most convenient one in terms of projection probability.
 Moreover, having access to the various solutions generating a given target state, we can study their stability properties.
 As shown in~\cref{fig:stabilities_5steps}, a general trend is that sets of coin parameters associated to smaller projection probabilities are also less stable, in the sense that a small perturbation of a coin parameter can lead to a state significantly different than the target one.
 
@@ -1408,7 +1284,7 @@ corresponding to the full states
 which both result in a projection probability over $\ket+$ of 1/4.
 The same procedure applied to a balanced superposition over 6 sites (5 steps) results in 6 solutions, 2 of which with real $\bs d$ and projection probability $\simeq 0.145$, and the other 4 with complex $\bs d$ and projections probabilities of 1/6.
 It is worth noting that while the projection probabilities over balanced superpositions over $n$ sites seem to vanish with $1/2n$, a simple phase change of an element can radically change this probability.
-As an example, again the case of 6 sites, if the target state is instead $\ket\phi \simeq (1,1,1,1,1,-1)$ the maximum projection probability becomes $\simeq 0.35$.
+As an example, again the case of 6 sites, if the target state is instead $\ket\phi \propto (1,1,1,1,1,-1)$ the maximum projection probability becomes $\simeq 0.35$.
 The stability of the above solutions for balanced states when a small perturbation is applied to the coin parameters is shown in \cref{fig:stabilities_3and5steps_balanced_target}.
 
 
@@ -1453,11 +1329,11 @@ The stability of the above solutions for balanced states when a small perturbati
     \caption{
         Distribution of projection probabilities computed 1) solving~\cref{eq:QWs:conditions_for_ds} for the parameters $d_i$,
         2) computing the projection probabilities associated to each full state given by one such solution set, and
-        3) picking the solution set for the $\{d_i\}$ associated to lowest and highest projection probabilities.
+        3) picking the solution set for the $\{d_i\}$ associated to lowest (orange) and highest (blue) projection probabilities.
         The shown data is for the cases of 2, 3, 4 and 5 steps.
         For 2, 3 and 4 steps the data shows the distribution of probabilities from a sample set of 20000 target states, drawn according to the uniform Haar measure over the set of target states.
         For 5 steps only 6000 states were used (being this case much more computationally expensive).
-        On the $y$-axis is shown the fraction of target states in a given bin.
+        On the $y$-axis we give the fraction of target states in a given bin.
     }
     \label{fig:minmax_probabilities}
 \end{figure}
@@ -1496,23 +1372,20 @@ by properly fine-tuning the optimisation algorithm.
 \section{Conclusions}
 \label{sec:QWs:conclusions}
 
-% \tmpHeading{Summary}
 We derived explicit conditions characterising states reachable via time-dependent coined \acp{QW}.
 Leveraging this result, we proved that almost all walker states can be probabilistically generated by projecting the coin at the end of the walk.
-% is desired derived the conditions characterising the quantum states, spanning only the walker's positions, that are reachable after projection of the coin at the end of the walk.
 We found explicit conditions to determine when this is viable, and discussed both analytical and numerical methods to compute the coins generating a target state.
-% Finally, we proposed a protocol to experimentally implement the quantum state engineering scheme with linear optics, using orbital and spin angular momentum of a photon to encode spatial and coin degrees of freedom of the walker.
+\add{We also analysed the resulting projection probabilities, providing numerical evidence that, at least up to $20$ steps, they are not vanishingly small, and the protocol thus practically feasible.}
 Given the ubiquity of \acp{QW}, our approach has the potential to facilitate the engineering of high-dimensional quantum states in a wide range of physical systems.
 A possible interesting physical implementation of our protocol uses polarisation and orbital angular momentum of light as physical embodiments of coin and walker states, leveraging the nonlinear optical device known as \emph{q-plate} to implement the controlled-shift operation.
 One such implementation will be discussed in~\cref{chapter:experimental_engineering_qudits}.
 % Possible future outlooks of our work include exploring the possibility of using two separate quantum walks and leverage 
 
-% \tmpHeading{Outlook}
-% % On top of furthering our understanding of the fundamental structure of quantum walk dynamics, our results suggest a few interesting research directions.
-% Possible future research directions inspired by these results include bettering our understanding of different classes of QW dynamics, as well as exploiting our proposed characterisation of the states producible via QWs to generate states of interest in different applications.
-% One possible such venue of research would be to understand 
-% Possible future directions include figuring out whether our results can be generalised to more general quantum walks dynamics, for example to higher-dimensional coins.
-
+\add{On top of furthering our understanding of the fundamental structure of QWs, our results suggest a few interesting research directions.
+These include exploiting our proposed characterisation of the states producible via QWs to generate states of interest in different applications,
+figuring out whether our results can be generalised to more general QW dynamics, \emph{e.g.} ones involving higher-dimensional coins.
+Moreover, an interesting venue of future research is figuring out exactly which properties of the QW dynamics make our characterisation possible --- given a dynamics characterised by repeated application of some ``elementary'' operation $\calU_{\bs c}$ parametrised by parameters $\bs c$, when can the full set of output states be characterised as we did for one-dimensional QWs?
+An alternative direction of research is exploring what kinds of entangled states can be generated using \emph{pairs} of QWs --- can the single QWs be controlled enough to generate interesting entangled states, or transfer entanglement between coin and walker degrees of freedom?}
 
 \begin{figure}[tbp]
     \centering
@@ -1540,14 +1413,26 @@ One such implementation will be discussed in~\cref{chapter:experimental_engineer
         \includegraphics[width=\columnwidth]
             {{fidVsParameters_5stepsAnalytical_100thState_prob0.398078}.pdf}
     \end{minipage}
+    \begin{tikzpicture}
+        \node [overlay] at (-4.65, 0.2) {\scalebox{1}{$\epsilon$}};
+        \node [overlay] at (3.77, 0.2) {\scalebox{1}{$\epsilon$}};
+    \end{tikzpicture}
+    \vspace{0.1cm}
     \caption{
-        Behaviour of projection probability of the solutions found solving~\cref{eq:QWs:conditions_for_ds} for the target state $\ket\phi \simeq (0.053, -0.078 + 0.603i, -0.524 + 0.189i, -0.302 + 0.363i, 0.182 + 0.099i, 0.042 - 0.224i)$.
+        Behaviour of projection probability of the solutions found solving~\cref{eq:QWs:conditions_for_ds} for the target state $\ket\phi \propto (0.053, -0.078 + 0.603i, -0.524 + 0.189i, -0.302 + 0.363i, 0.182 + 0.099i, 0.042 - 0.224i)$.
         In each of the plots, the final fidelity is plotted against many coin parameters, each time fixing the value of all of them except for one, whose value is changed by an absolute value $\epsilon$ (x-axis).
         The 6 figures correspond to the 6 solutions for this target state, having respectively the projection probabilities:
         $0.0014$ (top left), $0.0020$ (top right),
         $0.0036$ (middle left), $0.0038$ (middle right),
         $0.14$ (bottom left) and $0.398$ (bottom right).
-        As clearly illustrated in this case, solutions with low projection probabilities tend to present an higher degree of instability with respect to small changes of the coin parameters.
+        As clearly illustrated in this case, solutions with low projection probabilities tend to present a higher degree of instability with respect to small changes of the coin parameters.
+        A standard parametrisation of $SU(2)$ unitaries is used for the coin operations. The $\theta,\zeta$ notation is in particular the same used in~\cite{chandrashekar2008optimizing}:
+        % $U_{\theta,\zeta}=\protect\begin{pmatrix}
+        %     \cos\theta & e^{i\zeta}\sin\theta \\
+        %     e^{-i\zeta}\sin\theta & -\cos\theta
+        % \protect\end{pmatrix}$.
+        $\calC_{\theta,\zeta} = \cos(\theta) Z + \sin(\theta)(\cos(\zeta) X - \sin(\zeta) Y)$, with $X,Y,Z$ the Pauli matrices.
+        The parameters $\theta_i,\zeta_i$ thus characterise the coin operation at the $i$-th step.
     }
     \label{fig:stabilities_5steps}
 \end{figure}
@@ -1574,6 +1459,10 @@ One such implementation will be discussed in~\cref{chapter:experimental_engineer
             \node [overlay] (F) at (-3.8, 2.8) {\scalebox{1.2}{$\mathcal F$}};
         \end{tikzpicture}
     \end{minipage}
+    \begin{tikzpicture}
+        \node [overlay] at (-4.3, 0.2) {$\epsilon$};
+        \node [overlay] at (4.1, 0.2) {$\epsilon$};
+    \end{tikzpicture}
     % \begin{minipage}[b]{\columnwidth}
     %   \includegraphics[width=\columnwidth]
     %       {{fidVsParameters_5stepsBalanced_prob0.667}.pdf}
@@ -1581,6 +1470,9 @@ One such implementation will be discussed in~\cref{chapter:experimental_engineer
     \caption{
         Fidelity varying the various coin parameters for 3 (left) and 5 (right) steps, when the target is the completely balanced superposition over 4 and 6 modes, respectively.
         The variation of the coin parameters is here shown as a percentage: the edges of the plots correspond to a variation of 10\% of a single parameter with the others kept fixed at their optimal value.
+        The parameters $\theta_i,\xi_i,\zeta_i$ parametrise the coin operations according to
+        $\calC_{\theta,\zeta} = \cos(\theta) Z + \sin(\theta)(\cos(\zeta) X - \sin(\zeta) Y)$, with $X,Y,Z$ the Pauli matrices.
+        The parameters $\theta_i,\xi_i, \zeta_i$ thus characterise the coin operation at the $i$-th step.
     }
     \label{fig:stabilities_3and5steps_balanced_target}
 \end{figure}

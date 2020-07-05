@@ -8,14 +8,6 @@ We use for the purpose an experimental apparatus implementing time-dependent \ac
 To benchmark and showcase the potential of the apparatus, we demonstrate the engineering of several classes of states.
 The work described in this chapter can be found in~\cite{giordani2019experimental}.
 
-% \tmpHeading{Why \ac{OAM}?} \acf{OAM} allows to encode high-dimensional quantum states in spatially localised photons. Moreover, \acp{QP} intertwine the polarisation and \ac{OAM} degrees of freedom of light, thus allowing more complex dynamics exploiting both types of degrees of freedom.
-% With this apparatus, $n$ \ac{QW} steps require $\mathcal O(n)$ optical components -- one \ac{QP} and a few waveplates for each step -- thus making the scheme efficient. Moreover, by having access to fast-enough optical switches and fastly tunable \acp{QP} and waveplates, it is in principle possible to use a single \ac{QP} and waveplate for arbitrary many steps, by having the light pass through the same optical elements multiple times \highlight{(mmmh)}.
-% in \emph{light} of the favourable scaling of the number of optical elements with the size of the walk~\cite{reck1994experimental,clements2016optimal}. Moreover, the scheme allows for the full control of the coin operation that is key to the walk implementation of the walk.
-
-
-% \tmpHeading{What will we conclude from the chapter?}
-% The quality of the generated states and the feasibility of the experimental protocol that we have put in place, demonstrate the effectiveness of a hybrid platform for quantum state engineering. Such platform holds together a programmable quantum system, the photonic \ac{QW} in the angular momentum, and classical optimisation algorithms to effectively generate a given target \highlight{???}.
-
 \tmpHeading{Chapter outline}
 \Cref{sec:expQWs:OAMintro} gives a brief overview of \ac{OAM} and \acp{VVB}.
 In~\cref{sec:expQWs:experimental_apparatus} we describe how the protocol put forward in~\cref{chapter:quantum_walks} is used to experimentally engineer six-dimensional qudits.
@@ -28,14 +20,23 @@ We then present and discuss the experimental results in~\cref{sec:expQWs:results
 \tmpHeading{Orbital angular momentum of light}
 Electromagnetic fields carry angular momentum \cite{jackson1999classical}.
 Classically, the angular momentum density of an electromagnetic field is given, up to constants, by
-$\bs M =\bs r\times(\bs E\times \bs B)$. This can be decomposed in an \emph{intrinsic} component, the so-called \emph{spin angular momentum}, and an \emph{extrinsic} one, its \ac{OAM}: $\bs M=\bs S+\bs L$, albeit this decomposition is not gauge invariant, and thus not always sensible~\cite{ohanian1986what,cameron2015azimuthal}.
+$\bs M =\bs r\times(\bs E\times \bs B)$, with $\bs r$, $\bs E, \bs B$ the position vector, electric field, and magnetic field, respectively.
+The vector field $\bs M$ can be decomposed in an \emph{intrinsic} component, the so-called \emph{spin angular momentum}, and an \emph{extrinsic} one, its \ac{OAM}: $\bs M=\bs S+\bs L$ with $\bs S,\bs L$ spin and orbital angular momentum vectors, albeit this decomposition is not gauge invariant, and thus not always sensible~\cite{ohanian1986what,cameron2015azimuthal}.
 The spin angular momentum is often understood to be due to an internal degree of freedom of the fields, and is what we usually refer to as the \emph{polarisation} of the field. The OAM is instead a property of the spatial structure of the field.
-A first experimental demonstration of transfer of \emph{spin} angular momentum of light to matter was given in~\cite{beth1936mechanical}. A few decades later, Allen and collaborators showed that specific types of laser modes also carry an amount of \emph{orbital} angular momentum, due to the nontrivial phase structure of their transverse beam profile~\cite{allen1992orbital}.
-Despite the Poynting vector $\bs E\times \bs B$ always pointing in the propagation direction for transverse beams, and thus $\bs r\times(\bs E\times\bs B)$ being vanishing in such direction, Allen et al. realised that the TEM$_{p\ell q}$ laser modes are in general \emph{not} transverse, but rather have a component in the propagation direction. Because of this, they could show that, for this fields, $\bs M$ has a component in the propagation direction, and thus the beams carry OAM.
+A first experimental demonstration of transfer of spin angular momentum of light to matter was given in~\cite{beth1936mechanical}. A few decades later, Allen and collaborators showed that specific types of laser modes also carry an amount of \emph{orbital} angular momentum, owing to the nontrivial phase structure of their transverse beam profile~\cite{allen1992orbital}.
+Despite the Poynting vector $\bs E\times \bs B$ always pointing in the propagation direction for transverse beams, and thus $\bs r\times(\bs E\times\bs B)$ being vanishing in such direction, Allen et al. realised that TEM$_{p\ell q}$ laser modes are in general \emph{not} transverse, having a component in the propagation direction. Because of this, they could show that, for this fields, $\bs M$ has a component in the propagation direction, and thus the beams carry OAM.
 Since Allen's groundbreaking work, the OAM of light found several applications in quantum information theory~\cite{allen1999orbital,padgett2004lights,barnett2007orbital,molina-terriza2007twisted,franke-arnold2008advances,yao2011orbital,padgett2017orbital,erhard2017twisted,cozzolino2019highdimensional}.
 In particular, OAM of photons has been used for communication protocols~\cite{langford2004measuring}, quantum metrology~\cite{dambrosio2013photonic}, as well as to study quantum correlations~\cite{leach2010quantum,mair2001entanglement,vaziri2002experimental,dada2011experimental,pors2011highdimensional,fickler2012quantum,malik2016multiphoton}.
 % that is proportional to $\ell$, which is the quantum number that determines the azimuthal phase profile of the field.
-The most common types of helical laser beams carrying OAM are \ac{LG} modes, here denoted with $LG_p^\ell$. These are solutions of the Helmholtz equation in cylindrical coordinates in the paraxial approximation. LG modes are defined by the two quantum numbers $p$ and $\ell$, respectively characterising the radial and azimuthal structure of the mode. A characteristic feature of these beams is their azimuthal phase dependence: $LG_p^\ell\sim e^{i\ell\phi}$ with $\phi$ the azimuthal coordinate in the plane transverse to the propagation direction. LG modes carry an integer amount of OAM.
+The most common types of helical laser beams carrying OAM are \ac{LG} modes, here denoted with $LG_p^\ell$. These are solutions of the Helmholtz equation in cylindrical coordinates in the paraxial approximation. LG modes are defined by two quantum numbers, $p$ and $\ell$, respectively characterising the radial and azimuthal structure of the mode. A characteristic feature of these beams is their azimuthal phase dependence --- $LG_p^\ell\sim e^{i\ell\phi}$ with $\phi$ the azimuthal coordinate in the plane transverse to the propagation direction --- as well as their carrying an integer amount of OAM.
+\add{More explicitly, LG modes are characterised, in cylindrical coordinates in the plane transverse to the propagation direction, by the amplitude profile $u_{p,\ell}(r,\theta)$ given by~\cite{doster2016laguerre–gauss}:
+\begin{equation}
+    u_{p,\ell}(r,\theta) = 
+    % C_{p,\ell}
+    \sqrt{\frac{2p!}{\pi (p+m)!}}
+    \left(\frac{r\sqrt2}{w_0}\right)^{\lvert \ell\rvert} L_p^{\lvert \ell\rvert}(2r^2) e^{i\ell\theta},
+\end{equation}
+where $L_p^\ell$ are the generalised Laguerre-Gauss polynomials of $p$ and $\ell$, and $w_0$ is the beam waist.}
 In~\cref{fig:expQWs:LG_profile_L0P2Z03,fig:expQWs:LG_profile_L1P2Z03} we give two examples of the transverse intensity profile of LG modes with different azimuthal quantum numbers $\ell$.
 % ~\cite{mair2001entanglement,kwiat1993highvisibility,howell2004realization,}
 
@@ -53,40 +54,23 @@ More generally, the state tomography of such high-dimensional states is always c
 The design and demonstration of reliable techniques to generate and classify \acp{VVB} is thus highly desirable. Previous efforts to find novel platforms to manipulate VVBs~\cite{liu2016generation,ndagano2017creation,cardano2015spin–orbit,rubinsztein-dunlop2016roadmap},
 include integrated photonics~\cite{chen2018mapping,cai2012integrated,liu2017direct} and plasmonic metasurfaces~\cite{karimi2014generating,yue2016vector}.
 
-
-% \begin{figure}[tb]
-% 	\centering
-% 	\includegraphics[width=.7\linewidth]{Figures/OAM/GaussianBeam2.png}
-% 	\caption{%
-% 		Gaussian beam
-% 	}
-% 	\label{fig:expQWs:gaussian_beam}
-% \end{figure}
-
-% \begin{figure}[tb]
-% 	\centering
-% 	\includegraphics[width=.7\linewidth]{Figures/OAM/GaussianBeamDispersion.png}
-% 	\caption{%
-% 		Gaussian beam
-% 	}
-% 	\label{fig:expQWs:gaussian_beam}
-% \end{figure}
-
 \begin{figure}
     \centering
-    \begin{minipage}{0.45\textwidth}
+    \begin{minipage}{0.49\textwidth}
         \centering
-        \includegraphics[width=1\textwidth]{Figures/OAM/LGBeamProfile_L0P2Z03.png} % first figure itself
+        % \includegraphics[width=1\textwidth]{Figures/OAM/LGBeamProfile_L0P2Z03.png} % first figure itself
+        \includegraphics[width=1\textwidth]{Figures/OAM/OAM_fig_1.pdf}
         \caption{
         	Transverse profile of an OAM state with $\ell=0, p=2$.
         	% Transverse profile of an OAM state with $\ell=0, p=2, z=3$.
         }
         \label{fig:expQWs:LG_profile_L0P2Z03}
     \end{minipage}\hfill
-    \begin{minipage}{0.45\textwidth}
+    \begin{minipage}{0.49\textwidth}
         \centering
-        \vspace{-30pt}%
-        \includegraphics[width=1\textwidth]{Figures/OAM/LGBeamProfile_L1P2Z03.png} % second figure itself
+        % \vspace{10pt}%
+        \includegraphics[width=1\textwidth]{Figures/OAM/OAM_fig_2.pdf}
+        % \includegraphics[width=1\textwidth]{Figures/OAM/LGBeamProfile_L1P2Z03.png} % second figure itself
         \caption{
         	Transverse profile of an OAM state with $\ell=1, p=2$.
         	% Transverse profile of an OAM state with $\ell=1, p=2, z=3$.
@@ -123,7 +107,7 @@ The coin operations are implemented by suitably arranging polarisation-rotating 
 \end{aligned}
 \end{equation}
 The parameter $q$ is referred to as the \emph{topological charge} of the device.
-The phases $\alpha_0$ and $\delta$ are tunable by changing the orientation of the waveplates, and can be chosen so that the QP acts as
+The parameters $\alpha_0$ and $\delta$ are tunable by changing the orientation of the waveplates. For $\delta=\pi$ and $\alpha=\pi/2$ the QP acts as
 \begin{equation}
 	\ket{R,m}\xrightarrow{\text{QP}} \ket{L,m-2q}
 	\qquad\text{ and }\qquad
@@ -174,31 +158,18 @@ In this combined \ac{OAM}-loop scheme, experimental challenges arise at the meas
 \label{sec:expQWs:results}
 
 \tmpHeading{Types of generated states}
-To demonstrate the flexibility of the protocol, we showcase the generation of a variety of states, including
-% \begin{enumerate}
-% 	\item Computational basis states;
-% 	\item Cat-like states (see~\cref{subsec:expQWs:catstates});
-% 	\item \acp{SCS} (see~\cref{subsec:expQWs:SCSs});
-% 	\item Completely balanced and randomly sampled states;
-% 	\item Fourier basis states.
-% \end{enumerate}
-computational basis states, completely balanced states, random states, Fourier basis states, cat-like states and \acp{SCS} (see~\cref{subsec:expQWs:catstates}).
-% We start by generating the elements of the computational basis corresponding to the eigenstates of the \ac{OAM}: $\{\ket{m} \}=\{\ket{\pm5}, \ket{\pm3},\ket{\pm1} \}$. We then generate superpositions of two computational basis states, and then proceed with more complex states such as spin-coherent states, the elements of the Fourier basis, and lastly random states.
-% The quantum state fidelities are calculated projecting onto the elements of an orthonormal basis containing the target state.
+To demonstrate the flexibility of the protocol, we showcase the generation of a variety of states, including computational basis states, completely balanced states, random states, Fourier basis states, cat-like states and \acp{SCS} (see~\cref{subsec:expQWs:catstates}).
 \Cref{table:expQWs:summary} contains a summary of the states engineered with the corresponding fidelities and generation probabilities,
 while~\cref{table:expQWs:random_states_amps} gives the explicit form of the used random target states.
 In~\cref{fig:expQWs:results_cat_states,fig:VVBs:results_SCS_states} we give the experimental results for the generation of cat-like states and \acp{SCS}, respectively.
 The fidelity between experimentally synthesised and target states is computed by projecting each state onto an orthonormal basis containing the target one.
-% In~\cref{fig:VVBs:results_SCS_states}\textbf{f}, we report the fidelities for all the experimentally engineered states.
-% The red area shows the average fidelity and its uncertainty ($\mathcal{F}{=}0.954 \pm 0.001$). Such test provides further evidence of the effectiveness of our engineering strategy.
 
 \tmpHeading{Scaling of projection probabilities}
-% As mentioned in~\cref{sec:QWs:focusing_walker_states}, multiple \ac{QW} dynamics can, after projection of the coin, lead to the same target state.
-% These different solutions will in general correspond to different projection probabilities.
-% To find the coin operators leading to each target state we used the numerical optimisation method presented in~\cref{sec:QWs:numerical_fid_max}.
-% To assess the average scaling on the projection probability, we simulated QWs of up to $20$ steps using the algorithm of~\cref{sec:QWs:numerical_fid_max} to find coin operations generating different target states. We found the projection probabilities to have a roughly linear scaling, and remain $\ge 15\%$ for up to $20$ steps of our protocol, as shown in~\cref{fig:expQWs:avgProbabilitiesVsStepNumber}.
-In~\cref{fig:expQWs:avgProbabilitiesVsStepNumber} we give the \textit{average} projection probability as a function of the number of steps. These are calculated by averaging the projection probabilities obtained by running the optimisation algorithm given in~\cref{sec:QWs:numerical_fid_max} over many uniformly sampled random states, for various numbers of steps. We find the average projection probability to decrease roughly linearly with the number of steps. Assuming such linear behaviour to hold for more steps, the average projection probability would drop to $\sim 0.1$ at around $25$ steps, remaining $\ge 0.15$ for up to $20$ steps.
-We note that this likely underestimates the actual probabilities. Indeed, as already mentioned, this optimisation method finds only one among many solutions for a given target, and thus generally not the optimal one in terms of projection probability. Moreover, increasing the number of steps also increases the number of ways in which a state can be generated, meaning that we can expect the underestimation to be more significant for larger numbers of step.
+In~\cref{fig:expQWs:avgProbabilitiesVsStepNumber} we give the \textit{average} projection probability as a function of the number of steps. These are calculated by averaging the projection probabilities obtained by running the optimisation algorithm given in~\cref{sec:QWs:numerical_fid_max} over many uniformly sampled random states, for different numbers of steps.
+% We find the average projection probability to decrease roughly linearly with the number of steps.
+\add{We find numerically that the projection probability does not decrease quickly with the number of steps, remaining above $10\%$ up to $20$ steps (which corresponds to target walker states of size $21$)}
+% Assuming such linear behaviour to hold for more steps, the average projection probability would drop to $\sim 0.1$ at around $25$ steps, remaining $\ge 0.15$ for up to $20$ steps.
+Note that this likely underestimates the actual probabilities. Indeed, as already mentioned, this optimisation method finds only one among many solutions for a given target, and thus generally not the optimal one in terms of projection probability. Moreover, increasing the number of steps also increases the number of ways in which a state can be generated, meaning that we can expect the underestimation to be more significant for larger numbers of step.
 Further evidence suggesting that this method underestimates the real average probabilities is obtained by computing the full set of solutions and taking the optimal one, which can be done for up to five steps. Indeed, as shown in~\cref{sec:QWs:numerical_fid_max}, with this method we find the real optimal average probabilities for three, four, and five steps to be consistently $\sim 0.33$, with no detectable decreasing behaviour.
 
 \begin{table}[tbh]

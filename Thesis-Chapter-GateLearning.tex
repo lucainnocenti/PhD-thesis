@@ -79,7 +79,7 @@ We can consider the time $t$ as part of the definition of $\calH$, which only am
 Once a suitable $\calH$ is found, we can always rescale it so that the target is implemented after a desired time $t^*$ by writing $\calH=t^*(\calH/t^*)$. Finally, to ease the calculations, we will consider the equivalent problem of finding $\calH$ such that $\calU=e^{i\calH}$ (rather than $\calU=e^{-i\calH}$), as the solution to one problem is seamlessly translated to a solution to the other.
 
 \tmpHeading{A few examples}
-For concreteness, let us analyse what happens when we try to find Hamiltonian generators for a few common two- and three-qubit gates, such as the CNOT and the Toffoli gate.
+For concreteness, we will analyse what happens when we try to find Hamiltonian generators for a few common two- and three-qubit gates, such as the CNOT and the Toffoli gate. \add{The CNOT gate case will be used to showcase our framework and provide examples in an easily computable case, even though this case is not of practical usefulness.}
 
 \begin{examplebox}[label={ex:GL:eigendecomposition_cnot}]{Eigendecomposition of CNOT}
 \fontsize{10pt}{10pt}\selectfont
@@ -603,9 +603,10 @@ The general parametrisation of a Hamiltonian containing one- and two-qubit inter
 \begin{equation}
     \HTildeToff =
     h_0 I + \sum h_{i,\alpha}\sigma_i^\alpha
-    + J_{ij}^{\alpha\beta}\sigma_i^\alpha\sigma_j^\beta.
+    + J_{ij}^{\alpha\beta}\sigma_i^\alpha\sigma_j^\beta,
     \label{eq:GL:general_toffoli_onetwoqubitints}
 \end{equation}
+where $\sigma_i^1\equiv X_i, \sigma_i^2\equiv Y_i, \sigma_i^3\equiv Z_i$.
 \Cref{eq:GL:general_toffoli_onetwoqubitints} contains $37$ free parameters: $9$ for the one-qubit interactions, $\binom{3}{2}\times 3^2=27$ for the two-qubit interactions, plus one for the identity.
 Imposing $[\HTildeToff,\HToff]=0$ then translates into a series of conditions over these parameters which allows to remove $13$ of them, leaving us with only $24$.
 If we furthermore remove all terms containing $Y_k$ matrices, we are left with the following simplified expression with $13$ free parameters:
@@ -1624,8 +1625,8 @@ It is worth noting that this solution falls outside of the class of solutions gi
 \tmpHeading{Limitations of direct optimisation approach}
 While~\cref{eq:GL:naiveOptim_working_example} shows that the direct optimisation approach \emph{does} work in some cases, this method has severe limitations, so much so that we could not find other useful working examples. In particular, we could not get any generator for the Toffoli gate without using off-diagonal interactions --- nor a generator for the Fredkin gate --- without starting the optimisation with coefficients very close to a known solution.
 This is indicative of the complexity of the underlying parameter landscape, which makes identifying global maxima difficult.
-This complexity is also exemplified in~\cref{fig:GL:2dDensityPlot_Fredkin_Generator,fig:GL:2dDensityPlot_Toffoli_Generator}, which show the behaviour of the average gate fidelity with respect to different pairs of interaction coefficients. These figures show clearly how the global maximum is often well separated from other local maxima, in such a way that optimisers will have a hard time realising whether a given peak is a local rather than global maximum.
-\add{More precisely, in these figures we plot the average gate fidelity $\barcalF$ as a function of }
+This complexity is also exemplified in~\cref{fig:GL:2dDensityPlot_Fredkin_Generator,fig:GL:2dDensityPlot_Toffoli_Generator}, which show the behaviour of the average gate fidelity with respect to different pairs of interaction coefficients, for Toffoli and Fredkin gates. These figures showcase how the global maximum is often well separated from other local maxima, so that optimisers will have a hard time realising whether a given peak is a local rather than global maximum.
+\add{More precisely, in these figures we show how the average gate fidelity $\barcalF$ changes with the coefficients of the Hamiltonian generator. This sheds light into the relation between coefficients $\bs\lambda$ and corresponding gate fidelity $\barcalF(\calU, \exp(i\calH_\bslambda))$.}
 
 \begin{figure}[tb]
     \centering
@@ -1637,14 +1638,14 @@ This complexity is also exemplified in~\cref{fig:GL:2dDensityPlot_Fredkin_Genera
     %     \node[above] at (11.5, -.2) {$t_e$};
     % \end{tikzpicture}
     \begin{tikzpicture}
-            \node (img) {\includegraphics[width=0.6\textwidth]{Figures/gate-learning/GL_2dDensityPlot_Fredkin_Generator.png}};
-            \node[below=of img, node distance=0cm, yshift=1.1cm,font=\large] {$c_1$};
-            \node[left=of img, node distance=0cm, rotate=90, anchor=center,yshift=-1.2cm,font=\large] {$c_2$};
-            \node at (4.2, 2) {$\calF$};
-        \end{tikzpicture}
+        \node (img) {\includegraphics[width=0.6\textwidth]{Figures/gate-learning/GL_2dDensityPlot_Fredkin_Generator.png}};
+        \node[below=of img, node distance=0cm, yshift=1.1cm,font=\large] {$c_1$};
+        \node[left=of img, node distance=0cm, rotate=90, anchor=center,yshift=-1.2cm,font=\large] {$c_2$};
+        \node at (4.2, 2) {$\calF$};
+    \end{tikzpicture}
     \caption{
-        Average gate fidelity as a function of the first two coefficients in the Hamiltonian.
-        To generate this figure, we started with an ansatz for a Fredkin gate using the interactions used in~\cref{eq:GL:fredkin_generator}. We then maximised the average gate fidelity over the interaction coefficients, using random starting values. The optimiser fails to find a solution generating the Fredkin gate with good fidelity. We then used the values of the coefficients at which the optimiser stopped, fixed all except the first two of them --- call them $c_1$ and $c_2$ --- and plotted the average gate fidelity changing these two coefficients.
+        Average gate fidelity as a function of the first two coefficients in $\HTildeFred$.
+        To generate this figure, we started with an ansatz for a Fredkin gate containing the interactions used in~\cref{eq:GL:fredkin_generator}. We then maximised the average gate fidelity over the interaction coefficients, using random starting values. The optimiser fails to find a solution generating the Fredkin gate with good fidelity. We then used the values of the coefficients at which the optimiser stopped, fixed all except the first two of them --- call them $c_1$ and $c_2$ --- and plotted the average gate fidelity changing these two coefficients.
         The values of $c_1,c_2$ given by the optimiser correspond to the local maximum around the centre.
     }
     \label{fig:GL:2dDensityPlot_Fredkin_Generator}
@@ -1654,11 +1655,22 @@ This complexity is also exemplified in~\cref{fig:GL:2dDensityPlot_Fredkin_Genera
     \centering
     \hspace{-30pt}\begin{minipage}{0.45\linewidth}
         \centering
-        \includegraphics[height=\textwidth]{Figures/gate-learning/GL_2dDensityPlot_Toffoli_Generator.png}
+        \begin{tikzpicture}
+            \node (img) {\includegraphics[height=\textwidth]{Figures/gate-learning/GL_2dDensityPlot_Toffoli_Generator.png}};
+            \node[below=of img, node distance=0cm, xshift=0.34cm, yshift=1.1cm,font=\large] {$c_1$};
+            \node[left=of img, node distance=0cm, rotate=90, anchor=center,yshift=-0.8cm, xshift=0.3cm, font=\large] {$c_2$};
+        \end{tikzpicture}
+        % \includegraphics[height=\textwidth]{Figures/gate-learning/GL_2dDensityPlot_Toffoli_Generator.png}
     \end{minipage}\hspace{20pt}
     \begin{minipage}{0.45\linewidth}
         \centering
-        \includegraphics[height=\textwidth]{Figures/gate-learning/GL_2dDensityPlot_Toffoli_Generator2.png}
+        \begin{tikzpicture}
+            \node (img) {\includegraphics[height=\textwidth]{Figures/gate-learning/GL_2dDensityPlot_Toffoli_Generator2.png}};
+            \node[below=of img, node distance=0cm, xshift=-0.35cm, yshift=1.1cm,font=\large] {$c_3$};
+            \node[left=of img, node distance=0cm, rotate=90, anchor=center,yshift=-1.2cm, xshift=10,font=\large] {$c_4$};
+            \node at (3.6, 2.65) {$\calF$};
+        \end{tikzpicture}
+        % \includegraphics[height=\textwidth]{Figures/gate-learning/GL_2dDensityPlot_Toffoli_Generator2.png}
     \end{minipage}
     \caption{
         Same as~\cref{fig:GL:2dDensityPlot_Fredkin_Generator}, but using as starting ansatz a generic $\HTildeToff$ that commutes with $\UToff$ and does not use $Y$ interaction terms.
@@ -1716,7 +1728,7 @@ This corresponds to an updating rule of the form
 While standard gradient descent, being a local optimisation algorithm, is liable to getting stuck into local minima, \ac{SGD} is generally more robust.
 A core observation is that, for every input $\bsx$, one has a different parameter landscape $\bsw\mapsto f_\bsw(\bsx)$ over which the gradient descent is performed.
 This new parameter landscape does \emph{not in general have the same local minima as the previous ones, whereas the global minimum is bound to be a minimum for all $\bsx$}.
-In the qubit network scenario that we are tackling, this translates into the fidelity being unital for all $\ket\psi$ only for $\bslambda$ such that $\exp(i\calH_\bslambda)=\calU$.
+In the qubit network scenario that we are tackling, this translates into the fidelity being $1$ for all $\ket\psi$ only for $\bslambda$ such that $\exp(i\calH_\bslambda)=\calU$.
 Many variations of \ac{SGD} are used in different circumstances.
 For example, in the so-called \emph{mini-batch} \ac{SGD}, instead of updating with a single input $\bs x$, one uses a \emph{batch} of inputs $\{\bs x_1,...,\bs x_M\}$, and updates the parameters using the averaged gradient:
 $\bs w\to\bs w-\eta\sum_{k=1}^M\grad_{\bs w}f(\bs x_k; \bs w)/M$.
@@ -1736,7 +1748,9 @@ This however, as discussed in~\cref{sec:GL:numerical_approach}, reveals to be of
 On the other hand, \ac{SGD} allows to apply a simple and efficient local maximisation method, being at the same time less prone to getting stuck into local maxima.
 This works particularly well for our problem, because we know that the $\bslambda$ corresponding to the target gate are \emph{all and only} those such that \emph{for all inputs $\psi$} the fidelity equals $1$.
 Indeed, one of the main advantages of this method is its focusing on optimising $\bslambda$ for many fixed states $\psi$, rather than attempting to optimise directly the operator like we did in~\cref{sec:GL:numerical_approach}.
-This is because we know that \emph{for every $\psi$}, the function $\bslambda\mapsto \calF_\bslambda(\psi)$ has a maximum some value of the parameters $\bslambda=\bslambda_0$ (at least when the gate can be implemented with the given restrictions). However, for any other $\bslambda$, changing $\psi$ changes the value of the fidelity. The consequence is that local maxima, which are problematic for optimisation algorithms, will in general disappear when the state $\psi$ is changed during the optimisation, thus making it harder for the optimiser to get stuck into local maxima.
+Indeed, we know that \emph{for every $\psi$}, the function $\bslambda\mapsto \calF_\bslambda(\psi)$ has a maximum for some $\bslambda=\bslambda_0$.
+ % (at least when the gate can be implemented with the given restrictions).
+ However, for any other $\bslambda$, changing $\psi$ changes the value of the fidelity. The consequence is that local maxima, which are problematic for optimisation algorithms, will be less of an issue when the state $\psi$ is changed during the optimisation, making it harder for the optimiser to get stuck into local maxima.
 
 \tmpHeading{Computing the gradients efficiently}
 A critical step in gradient descent algorithms, efficiency-wise, is the evaluation of the gradient.
@@ -1791,14 +1805,15 @@ Using the chain rule, the gradient of $F$ then reads
         (\partial_i h_k)(\bs x),
 \end{equation}
 where $\bs y^{(1)}\equiv\bs h(\bs x)$ and $\bs y^{(2)}\equiv \bs g(\bs h(\bs x))$.
-Remember that, in this expression, the expressions for the partial derivatives, $\partial_j f,\partial_k g_j, \partial_i h_k$, are assumed to be known beforehand.
+Remember that in this expression the partial derivatives, $\partial_j f,\partial_k g_j, \partial_i h_k$, are assumed to be known beforehand.
 During the \emph{feed-forward phase} the values of $\bs y^{(1)}$ and then $\bs y^{(2)}$ are progressively computed and cached from the value of $\bs x$.
 The values of $\partial_i F$ can then be computed.
 This method allows to efficiently evaluate numerically the gradient of arbitrary functions, without resorting to numerical approximations.
 
 \tmpHeading{Differentiating algorithms?}
-Note how arbitrary functions can be written iteratively, like $F$ here, being every computation eventually reduced to a series of elementary operations applied sequentially.
-Overall, this procedure can thus be used to ``\emph{compute the derivative of an algorithm}''. By this, we mean that this procedure can be automatised into an algorithm which, given another algorithm which takes real numbers as inputs and outputs, produces an algorithm which computes the partial derivatives for each numeric input.
+\add{More generally, arbitrary mappings can be expressed as sequences of elementary functions applied to the inputs.}
+% Note how arbitrary functions can be written iteratively, like $F$ here, being every computation eventually reduced to a series of elementary operations applied sequentially.
+This procedure can thus be used to ``\emph{compute the derivative of an algorithm}''. By this, we mean that this procedure can be automatised into an algorithm which, given another algorithm which takes real numbers as inputs and outputs, produces an algorithm which computes the partial derivatives for each numeric input.
 This is what is often used in practice to compute the gradients when SGD is used, for example in the context of NNs. Open source frameworks of widespread use that implement this functionality include Theano~\cite{team2016theano}, PyTorch~\cite{paszke2017automatic}, TensorFlow~\cite{tensorflow2015-whitepaper}.
 
 \tmpHeading{How is this used in the context of NNs?}
@@ -1810,24 +1825,38 @@ For quantum states, the fidelity between these turns out to work well.
 	\centering
 	\begin{minipage}{0.3\linewidth}
 		\centering
-		\includegraphics[height=1.3\textwidth]{automatic-differentiation}
+        \begin{tikzpicture}
+            \node (img) {\includegraphics[height=1.3\textwidth]{automatic-differentiation}};
+            \node at (0, 3.8) {\textbf{(a)}};
+        \end{tikzpicture}
+		% \includegraphics[height=1.3\textwidth]{automatic-differentiation}
 	\end{minipage}\hfill
 	\begin{minipage}{0.3\linewidth}
 		\centering
-		\includegraphics[height=1.3\textwidth]{automatic-differentiation2}
+        \begin{tikzpicture}
+            \node (img) {\includegraphics[height=1.3\textwidth]{automatic-differentiation2}};
+            \node at (0, 3.8) {\textbf{(b)}};
+        \end{tikzpicture}
+		% \includegraphics[height=1.3\textwidth]{automatic-differentiation2}
 	\end{minipage}\hfill
 	\begin{minipage}{0.3\linewidth}
 		\centering
-		\includegraphics[height=1.3\textwidth]{automatic-differentiation3}
+        \begin{tikzpicture}
+            \node (img) {\includegraphics[height=1.3\textwidth]{automatic-differentiation3}};
+            \node at (-0.2, 3.8) {\textbf{(c)}};
+        \end{tikzpicture}
+		% \includegraphics[height=1.3\textwidth]{automatic-differentiation3}
 	\end{minipage}
 	\caption{
-		Examples of \ac{AD} in backpropagation mode.
+		Schematic representation of \ac{AD} in backpropagation mode.
+        The blue forward arrows represent the flow of information from the inputs to the outputs.
+        The orange backward arrows represent the flow of information from the outputs to the inputs, which is needed to evaluate the gradient.
 		\textbf{(a)}
 		Schematic representation of \ac{AD} of a function with one output and two inputs.
 		Starting from numerical values for $x_1$ and $x_2$, one computes $g(x_1, x_2)$ and then $f(g(x_1, x_2))$.
-		To get $\grad f(g(x_1, x_2))$, one then computes $f'(g(x_1, x_2))\partial_i g(x_1, x_2)$.
-		Note that all components of this expression are known: $f'$ and $\partial_i g$ are known by assumption, and the value of $g(x_1, x_2)$ has been computed and cached in the forward propagation phase.
-		\textbf{(b)} Example of application of \ac{AD} to compute the gradient of $\cos(x_1 x_2)$.
+		Finding $\partial_i f(g(x_1, x_2))$ then requires to compute $f'(g(x_1, x_2))\partial_i g(x_1, x_2)$.
+		Note that all the components in this expression are known: $f'$ and $\partial_i g$ are known by assumption, and the value of $g(x_1, x_2)$ was computed and cached in the forward propagation phase.
+		\textbf{(b)} Example of application of \ac{AD} to compute the gradient of $\sin(x_1 x_2)$.
 		\textbf{(c)} Using the same example function as (b), we give an example of the actual number computed at all stages when the inputs are $(x_1, x_2) = (\pi / 2, 2)$.
 	}
 	\label{fig:automatic-differentiation}
@@ -1866,11 +1895,15 @@ We focus on the scenario in which only one- and two-qubit interactions are avail
     \calH_\bslambda = h_0 I + \sum h^\alpha_{i} \sigma_i^\alpha + \sum J_{ij}^{\alpha\beta} \sigma_i^\alpha \sigma_j^\beta.
     \label{eq:GL:hamiltonian_atmostpairwise}
 \end{equation}
-Here, $i, j=1,...,N$ index the qubits comprising the system, $\alpha, \beta\in\{1,2,3\}$ identify the considered Pauli matrices (we use the correspondence $\sigma^1\rightarrow\sigma^x, \sigma^2\rightarrow\sigma^y, \sigma^3\rightarrow\sigma^z$), $J_{ij}^{\alpha\beta}$ are the coupling strengths, and $\bslambda\equiv \{h_0, h^\alpha_{i}, J_{ij}^{\alpha\beta}\}$.
+Here, $i, j=1,...,N$ index the qubits comprising the system, $\alpha, \beta\in\{1,2,3\}$ identify the considered Pauli matrices,
+% (we use the correspondence $\sigma^1\rightarrow\sigma^x, \sigma^2\rightarrow\sigma^y, \sigma^3\rightarrow\sigma^z$)
+$J_{ij}^{\alpha\beta}$ are the coupling strengths, and $\bslambda\equiv \{h_0, h^\alpha_{i}, J_{ij}^{\alpha\beta}\}$.
 Note that, for a given choice of $\calU$ and $\calH_\bslambda$, it is not known a priori whether a solution to the gate learning problem exists, although it is easy to check whether a proposed solution satisfies the criterion.
 % For example, it was until recently assumed that nontrivial three-qubit gates such as Toffoli and Fredkin could not be implemented with a time-independent dynamics without making use of ancillary qubits or higher-dimensional spaces~\cite{banchi2016quantum,zahedinejad2015highfidelity,zahedinejad2015highfidelity} (check).
 Indeed, a simple parameter-counting argument shows it does not in general: not all possible evolutions produced using higher-order interactions can be generated when only one- and two-qubit couplings are available.
 % A concrete example of the gate-synthesis problem discussed here is given by the implementation of a Toffoli gate~\cite{shi2002both} over a three-qubit network with a restricted set of interactions. Yet,~\cite{banchi2016quantum} showed that the use of a single ancillary qubit catalyses the synthesis of three-qubit gates with the restricted resources mentioned above. We found, however, that the same task can be achieved \emph{without} ancillary qubits and under the stronger restriction of having available only \emph{diagonal} pairwise interactions. Whether a given gate can be realised with a specific time-independent set of interactions remains an open question.
+A necessary condition for a set of interactions to achieve a target gate is that the corresponding Lie algebra (that is, the vector space spanned by the the repeated commutators between the interaction terms) contains the matrix logarithm of the target unitary.
+This condition is however not sufficient, and thus different techniques are required to tackle the problem.
 
 
 \subsection{Implementation details}
@@ -1941,9 +1974,9 @@ More specifically, the algorithm involves the following steps:
 \label{subsec:GL:supervised_learning_results_noancillae}
 
 \tmpHeading{Target gates used}
-We test our algorithm to train generators for Toffoli, Fredkin, and \emph{double-Fredkin} gates.
-Toffoli and Fredkin gates were defined and discussed in~\cref{sec:GL:toffoli,sec:GL:fredkin}.
-The ``double-Fredkin'' gate is a \emph{four}-qubit gate which, conditionally on the state of the first qubit, acts either like a Fredkin, or like a Fredkin with reversed control. More explicitly, this is the gate
+We test our algorithm to train generators for Toffoli and Fredkin gates. Moreover, to probe the performance of our framework for qubit networks with more than three qubits, we also use as target a \emph{double-Fredkin} gate.
+% Toffoli and Fredkin gates were defined and discussed in~\cref{sec:GL:toffoli,sec:GL:fredkin}.
+This is a \emph{four}-qubit gate which, conditionally on the state of the first qubit, acts either like a Fredkin, or like a Fredkin with reversed control. Explicitly, this is the gate
 \begin{equation}
     \calU_{\on{FF}} \equiv \PP_0\otimes \UFred + \PP_1\otimes \calU_{\overline{\on{Fred}}},
     \quad\text{ where }\quad
@@ -1951,7 +1984,8 @@ The ``double-Fredkin'' gate is a \emph{four}-qubit gate which, conditionally on 
 \end{equation}
 
 \tmpHeading{Ansatzes used}
-In all cases, we used an ansatz containing only one-qubit and \emph{diagonal} two-qubit interactions, that is, two-qubit interactions of the form $\sigma_i^\alpha\sigma_j^\alpha$.
+In all cases, we used an ansatz containing only one-qubit and \emph{diagonal} two-qubit interactions.
+% , that is, two-qubit interactions of the form $\sigma_i^\alpha\sigma_j^\alpha$.
 For the Toffoli gate, imposing the commutativity condition on such an ansatz gives the following expression:
 \begin{equation}
 \begin{aligned}
@@ -2028,7 +2062,7 @@ In~\cref{fig:GL:toffoli_diagonal_parhistories} we provide the training histories
 These illustrate how quickly the networks converge for different initial values of the parameters.
 In all of these cases, the target gate is obtained with unit fidelity up to numerical precision (that is, all fidelities are between $1-10^{-16}$ and $1$).
 Different sets of optimisation hyperparameters are found to give acceptable solutions.
-For the trainings shown in this paper we used a dynamically updated learning rate given, for the $k^{\text{th}}$ epoch, by $\eta=1/(1 + k \alpha)$ with a \emph{decay rate} of $\alpha=0.005$.
+For the trainings shown in this thesis we used a dynamically updated learning rate given, for the $k^{\text{th}}$ epoch, by $\eta=1/(1 + k \alpha)$ with a \emph{decay rate} of $\alpha=0.005$.
 The other hyperparameters were chosen as
 $\gamma=0.5$, 
 $N_b = 2$, $N_{tr} = 200$.
@@ -2055,7 +2089,7 @@ Furthermore, the values of the interaction strengths for many of the presented s
 
 \tmpHeading{Code availability}
 Additional solutions and data, as well as the code used to produce them, is available on \href{https://github.com/lucainnocenti/quantum-gate-learning-1803.07119}{GitHub}\footnote{https://github.com/lucainnocenti/quantum-gate-learning-1803.07119}.
-This repository contains all the code used to reproduce the solutions presented in this paper, as well as to train arbitrary gates on arbitrary numbers of qubits.
+This repository contains all the code used to reproduce the solutions presented in this thesis, as well as to train arbitrary gates on arbitrary numbers of qubits.
 Even more generally, arbitrary (linearly) parametrised matrices can be used as training model, allowing a high degree of flexibility.
 
 \subsection{Results for networks with ancillae}
@@ -2084,7 +2118,7 @@ The map $\calE$ is, in our case, the operation corresponding to the action of a 
 Explicitly, if $\calU_\bslambda\equiv\exp(i\calH_\bslambda)$ is a unitary acting on the full system plus ancillae space, obtained from the learning procedure, then the corresponding map is
 $\calE_\bslambda(\rho) = \Tr_A[\calU_\bslambda(\rho\otimes\rho_A) \calU_\bslambda^\dagger]$,
 where $\rho_A$ is the initial state of the ancillae (here always fixed to be $\ket0^{\otimes n_A}$).
-This average fidelity can be written explicitly in terms of the components of the map and target unitary, as given in~\cref{eq:GL:explicit_fidelity_map_unitary}. This is the expression that will be used in the following to estimate the quality of the results.
+This average fidelity can be written explicitly in terms of the components of (the natural representation of) the map $\calE_\bslambda$, and the target unitary $\calU$, as given in~\cref{eq:GL:explicit_fidelity_map_unitary}. This is the expression that will be used in the following to estimate the quality of the results.
 
 \tmpHeading{Results for QFT, half-adder, Toffredkin}
 \Cref{fig:GL:parameters_QFT_Toffredkin_halfadder} shows the sets of Hamiltonian parameters that were obtained through the training procedure, for each target gate.
@@ -2103,7 +2137,8 @@ This average fidelity can be written explicitly in terms of the components of th
 \Cref{fig:GL:toffredkin_fidVSpars,fig:GL:halfadder_fidVSpars,fig:GL:qft3q+5a_fidVSpars} show the relative stability of the gates with respect to changes of the Hamiltonian parameters.
 In particular, for Toffredkin and \ac{QFT}, the fidelity remains above $95\%$ upon a $25\%$ variation of the evolution time.
 The half-adder appears to be less stable, but this is only consequence of the larger values of its interactions, as shown in~\cref{fig:GL:parameters_QFT_Toffredkin_halfadder}(c).
-Indeed, the hardness of tuning the Hamiltonian parameters with sufficient precision will vary strongly between different gates, as well as between different implementation of the same gate, and between different parameters in any given implementation.
+More generally, the effort required to tune the Hamiltonian parameters with sufficient precision will vary strongly between different gates, as well as between different implementation of the same gate, and between different parameters in any given implementation.
+\add{Similarly, general statements about the robustness of implementing target gates are hard to make, owing to the variety of possible target gates, and to different implementations of the same gate having different robustness to different types of noise and imperfections.}
 These results provide further evidence in support of the power and flexibility of the supervised learning approach presented in~\cite{innocenti2018supervised,banchi2016quantum}, which clearly applies to the cases where ancillary degrees of freedom are exploited during the evolution.
 
 
@@ -2131,6 +2166,7 @@ Several interesting questions are spurred by this work and remain as-of-yet unan
 Such a result would also further our understanding of how complex physical interactions emerge from simpler ones.
 Furthermore, it would be interesting to study how the problem changes when we allow as target more general quantum maps.
 Finally, our use of supervised learning to tackle gate learning problems is rather problem agnostic, and thus applicable to a variety of different scenarios. Exploring what classes of problems in quantum information would gain from a similar approach would constitute a fruitful venue for research.
+\add{In general, this potentially includes any problem which can be reduced to tuning continuous parameters in order to optimise over some type of map. Possibilities include finding convex decompositions of target density matrices, or convex decompositions of a given separable state in terms of product pure states.}
 
 % \begin{figure}[tb]
 % % {\bf (a)}\hskip5cm{\bf (b)}\hskip5cm{\bf (c)}
@@ -2178,15 +2214,20 @@ Finally, our use of supervised learning to tackle gate learning problems is rath
 	\begin{tikzpicture}
 		\node[anchor=south west] (A) at (0, 0)%
 			{\includegraphics[width=.8\linewidth]{toffoli_diagonal_parhistories}};
-		\node[above] at (4., -.2) {$t_e$};
-		\node[above] at (11.5, -.2) {$t_e$};
+		\node[above] at (3.7, -.5) {\small$t_e$};
+		\node[above] at (10.5, -.5) {\small$t_e$};
+        \node at (0.1, 1.9) {\small$\lambda$};
+        \node at (0.1, 5.2) {\small$\lambda$};
+        \node at (0.1, 8.55) {\small$\lambda$};
+        \node at (0.1, 11.7) {\small$\lambda$};
 	\end{tikzpicture}%
 	% \includegraphics[width=.8\linewidth]{toffoli_diagonal_parhistories}
 	\caption{
-		Training histories for the \emph{Toffoli} gate with only diagonal interactions.
+		Training histories for the Toffoli gate with only diagonal interactions.
 		In each plot are reported the values of the $9$ network parameters during the training process, for each training epoch $t_e$.
 		Each training process was left running until convergence to unit fidelity, therefore, the number of epochs in the horizontal axes differs for different trainings instances.
 		The histories shown here correspond to training instances in which the parameters were initialised at various values, as seen from the leftmost values in each plot.
+        \add{The path followed by the parameters will change for different training runs, which is why we do not add a legend to identify each parameter in each training process. Nonetheless, the sample of training histories shown here is indicative of the general trend, and shows how the training tends to converge quickly in most cases.}
 	}
 	\label{fig:GL:toffoli_diagonal_parhistories}
 \end{figure}

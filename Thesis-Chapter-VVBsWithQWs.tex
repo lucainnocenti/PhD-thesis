@@ -483,7 +483,7 @@ This method is thus a quick and easy way to obtain useful information about the 
 \acfp{SVM} are a class of \emph{supervised learning} algorithms whose goal is to classify data into discrete classes. \acp{SVM} work by finding a partition of the feature space such that all the vectors in the same class lie on the same classification sector.
 In particular, \emph{linear} \acp{SVM} look for an optimal \emph{linear} separation.
 As other supervised learning algorithms, SVMs take as input a training set of labelled data of the form $\{(\bs x_1,\ell_1),...,(\bs x_n,\ell_n)\}$, where $\bs x_i\in\RR^N$ and $\ell_i\in\{-1,1\}$.
-A linear separation is characterised by two parameters $\bs w$ and $b$, which identify an hyperplane as the set of $\bs x\in\RR^N$ such that $\bs w\cdot\bs x=b$. We want this hyperplane to be such that, for all training vectors $\bs x_i$, the constraint
+A linear separation is characterised by two parameters $\bs w$ and $b$, which identify a hyperplane as the set of $\bs x\in\RR^N$ such that $\bs w\cdot\bs x=b$. We want this hyperplane to be such that, for all training vectors $\bs x_i$, the constraint
 \begin{equation}
 	\ell_i(\bs w\cdot\bs x_i-b)\ge1
 	\label{eq:VVBs:SVMs_basic_condition}
