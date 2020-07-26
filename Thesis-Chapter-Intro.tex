@@ -6,12 +6,9 @@
 \section{Quantum information science}
 
 \tmpHeading{What is quantum information?}
-% Quantum information science studies how information behaves, and can be manipulated, at the quantum level~\cite{nielsen2006quantum,watrous2018theory} \highlight{(rifare}).
 Quantum mechanics has profound implications for our understanding of how information can be manipulated.
 This has clear and far-reaching consequences both from a fundamental perspective, and for its potential to improve existing information technologies.
 \emph{Quantum information science} studies this merger of the fields of quantum mechanics and information and computational theory~\cite{nielsen2006quantum,watrous2018theory}.
-% \emph{Quantum information science} studies the ways quantum mechanics can improve information processing tasks.
-% Quantum information science studies the implications of quantum mechanics to our understanding of how information can be manipulated.
 The subject focuses not only on devising protocols to achieve faster information processing, but also promises faster and more secure communication protocols~\cite{gisin2002quantum,krenn2016quantum,pirandola2019advances}.
 Among the many approaches explored in the course of the last fifty years, arguably the most notable areas of research fall under the names of quantum computation~\cite{shor1997polynomial,steane1998quantum,ladd2010quantum,wolf2019quantum}, quantum simulation~\cite{lloyd1996universal,georgescu2014quantum,koch2019quantum}, quantum communication~\cite{bennett1993teleporting,gisin2007quantum,krenn2016quantum}, and quantum cryptography~\cite{gisin2002quantum,bennett2014quantum}.
 
@@ -19,7 +16,6 @@ Among the many approaches explored in the course of the last fifty years, arguab
 \tmpHeading{Quantum computing}
 Quantum computation, in particular, holds the promise of solving efficiently classically hard computational problems.
 Ever since Feynman first proposed to use quantum mechanics to simulate efficiently quantum systems~\cite{feynman1982simulating}, more and more research has been devoted to understanding why and how quantum mechanics provides computational advantages.
-% The realisation that this was possible at all prompted a shift of interest into a broad variety of research directions, focused on applying quantum mechanics to improve various technologies. This is sometimes referred to as a \textit{second quantum revolution}~\cite{dowling2003quantum}.
 Still, the dream of practical and useful quantum computation remains far on the horizon, and arguably still requires a number of theoretical and technological advances~\cite{dowling2003quantum,preskill2018quantum},
 despite recent years having seen an substantial number of breakthroughs~\cite{fowler2012surface,barends2014superconducting,córcoles2015demonstration,ofek2016extending,arute2019quantum}.
 Even though scalable and fault-tolerant quantum computation remains a titanic challenge with present-day technology, there are ways to at least settle the overarching question of whether it is possible \textit{even in principle} to solve problems faster than what classical physics allows~\cite{aaronson2011computational,bremner2016average,boixo2018characterizing,aaronson2017complexity,neill2018blueprint}. This spurred the race to reach the so-called \textit{quantum computational supremacy} regime, that is, to demonstrate experimentally the solution to a problem that is computationally hard for classical computers, regardless of its practical usefulness~\cite{broome2012photonic,spring2012boson,crespi2013integrated,tillmann2013experimental,bentivegna2015experimental,zhong201812photon,zhong2019experimental,wang2019boson,bouland2018complexity,arute2019quantum}.
@@ -41,13 +37,6 @@ Parallel to the surge of interest in quantum technologies, another field of stud
 \ac{ML} refers to a class of algorithms whose goal is to learn from, and make predictions about, data.
 The underlying mathematical problem most of these algorithms tackle is to find a set of parameters $\bstheta$ such that the corresponding map $f_\bstheta:\bs x\mapsto f_\bstheta(\bs x)$ fits a given dataset, for some choice of \emph{model} $\bstheta\mapsto f_\bstheta$.
 For example, in a \emph{classification problem}, $\bs x$ is a set of real numbers, and $f_\bstheta(\bs x)$ is chosen from a finite set of possible values.
-% (for example, if we want to classify a set of images as representing ``cats'' or ``dogs'', $f_\bstheta(\bs x)\in\{\text{cat},\text{dog}\}$).
-
-% \tmpHeading{ML and numerical optimisation}
-% From this point of view, \ac{ML} algorithms might appear to be no different than simple fitting algorithms.
-% % , and it is indeed not rare to hear people say that ``\emph{machine learning is just glorified curve-fitting}''.
-% While this is somewhat true, in that both ``curve fitting'' and ``machine learning tasks'' can be unified under a single conceptual framework, such statements are off the mark when their implied meaning is to undersell the field of \ac{ML}.
-% Indeed, the ``simple'' problem of ``fitting a model'' to a given dataset, when no further assumptions are made over the type of data and model, is such a generic and hard problem that vastly different techniques and ideas are required to handle it in different circumstances.
 
 \tmpHeading{``Quantum machine learning''?}
 The intersection of \ac{ML} and quantum information falls under the name of \ac{QML}~\cite{wittek2014quantum,schuld2014introduction,adcock2015advances,biamonte2017quantum}.
@@ -59,9 +48,6 @@ Another direction of study, more focused on the theoretical foundations of \emph
 % \cite{giovannetti2008quantum,harrow2009quantum,sentís2012quantum,lloyd2013quantum,lloyd2014quantum,rebentrost2014quantum,wiebe2014quantum,aaronson2015read,sentís2015quantum,lloyd2016quantum,rebentrost2018quantum,schuld2016prediction,rebentrost2016quantum,childs2017quantum}.
 Classical ML algorithms have also been used extensively to find solutions to problems arising in the context of quantum information science~\cite{zdeborov2017machine,spears2018deep,carleo2019machine}.
 This latter topic is what a large part of this thesis will be devoted to.
-% ############################# TO ADD BACK IF TIME ALLOWS
-% \tmpHeading{Hybrid approaches}
-% Hybrid classical-quantum approaches are also worth noting. Here we should cite works on VQA algorithms etc.
 
 \tmpHeading{Machine learning for quantum information science}
 Applications of classical ML to quantum information science include generating target quantum gates via supervised learning~\cite{banchi2016quantum}, finding physical models describing (simulated) experimental outcomes \cite{iten2020discovering,nautrup2020operationally}, probing characteristics of experimentally generated states~\cite{fujita2018construction,gray2018machinelearningassisted,havlíček2019supervised,canabarro2019machine,agresti2019pattern}, devising fault-tolerant and quantum error-correction schemes~\cite{liu2019neural},
@@ -84,11 +70,6 @@ In~\cref{chapter:ML_VVBs}, we use different ML algorithms to reconstruct the sta
 
 \section{Quantum walks}
 \label{sec:intro:QWs}
-
-
-% \tmpHeading{Classical RWs as stochastic processes}
-% \acp{QW} have been introduced in 1993 by Aharonov et al.~\cite{aharonov1993quantum}.
-% Konno proposed a solid mathematical connection between correlated \acp{QW} and another QW model~\cite{konno2003limit}.
 
 \tmpHeading{Random walks}
 Classical random walks are a class of stochastic processes used to develop stochastic algorithms, as well as in multiple other contexts~\cite{berg1993random,fama1995random,motwani1995randomized,hughes1996random,schoning1999probabilistic,codling2008random}.
@@ -138,20 +119,6 @@ One can define random walks more generally on undirected \textit{graphs}
 %  PlotRange -> All, Boxed -> False
 %  ]
 
-
-% \tmpHeading{They are time-homogeneous MCs}
-% The fact that the transition probability does not depend neither on the time $t$ nor on the previous history of the walker, but rather it depends exclusively on the current position, is a crucial properties of random walks, that characterises them as \textit{time-homogeneous Markov chains},
-% \footnote{A \textit{Markov chain}, or \textit{Markov process}, is a generic type of stochastic process in which the probability of each event only depends on the state of the system at the previous time, rather than on the entire history of the system. Random walks are a notable example of Markov process.}
-% which is a more general class of memoryless stochastic processes.
-
-% \tmpHeading{Transition matrix}
-% We can collect the set transition probabilities into a matrix $M$. This matrix will then be a \textit{bistochastic matrix}, that is a matrix satisfying $\sum_i M_{ij}=\sum_j M_{ij}=1$. If we collect the set of transition probabilities of going from $i$ to $j$ in the $i$-th column of $M$, we can then write compactly the evolution of a walk in linear algebraic notation as
-% \begin{equation}
-%     P_{k+1} = M P_k = M^k P_0,
-% \end{equation}
-% where $P_k$ is the vector of probabilities at the set $k$ ($(P_k)_i$ is the probability of finding the walker at the position $i$ at the $k$-th step).
-
-
 \tmpHeading{Quantum walks}
 \acp{QW} are models of quantum dynamics which share many similarities with classical random walks, and are often understood as their quantum counterparts~\cite{aharonov2000quantum,kempe2003quantum,venegasandraca2012quantum,portugal2013quantum}.
 We here discuss exclusively \emph{discrete-time} \acp{QW}~\cite{chandrashekar2008optimizing}, which bear the most direct analogy with classical random walks, and will always refer to these when mentioning ``QWs''.
@@ -159,19 +126,11 @@ In its simplest form, a \ac{QW} involves a high-dimensional system, usually refe
 Like classical random walks, QWs are defined on graphs in the general case~\cite{aharonov2000quantum}, but here we only discuss QWs \emph{on a line}. These are QWs in which the walker can only move in one of two directions, say ``left'' and ``right''~\cite{ambainis2001onedimensional}.
 A single \textit{step} of such a discrete-time \ac{QW} consists of a unitary evolution applied to the current state of the \ac{QW}. The time is therefore \emph{discrete} in the sense that there is no notion of ``time'' as a continuous parameter. Rather, the state changes by discrete amounts at each step, just as its classical counterpart.
 
-% \tmpHeading{Discrete and continuous QWs}
-% A first important distinction is between \textit{discrete} and \textit{continuous} \acp{QW}.
-% Discrete-time QWs are systems comprised of a low-dimensional degree of freedom, usually referred to as the \textit{coin}, coupled with a high-dimensional one named the \textit{walker}.
-% In this model, the time is discrete in the sense that the state evolves in discrete \textit{jumps}, rather than evolving continuously in time.
-% A different model is the so-called \ac{CTQW}. Here, the dynamics is instead governed by a standard Schr\"odinger equation, and the process is therefore defined via some Hamiltonian. In a \ac{CTQW} there is no place for the notion of a \textit{coin} degree of freedom, which makes the structure of these kinds of model rather different, at least on the surface, from their discrete counterparts\highlight{(maybe mention equivalence between discrete and continuous models)}.
-
 \tmpHeading{QWs for quantum algorithms?}
 In contrast with the classical case, QWs evolve \textit{coherently}, bringing interference effects into the picture.
-% \acp{QW} have proven useful for quantum algorithm developments, and find multiple uses to develop quantum search algorithms~\cite{ambainis2011search,ambainis2008quantum,ambainis2010developments,kempe2003quantum,kendon2006random,santha2008quantum,venegasandraca2012quantum,venegasandraca2008quantum}.
 Both discrete- and continuous-time \acp{QW}  have been shown to be universal for quantum computation~\cite{childs2009universal,childs2013universal},
 and allow for efficient implementations of quantum search algorithms~\cite{shenvi2003quantum,ambainis2005coins,tulsi2008faster}.
 This led to several experimental implementations~\cite{manouchehri2014physical}, including with atomic systems~\cite{cote2006quantum,schwartz2007transport,chandrashekar2008quantum,perets2008realization,weitenberg2011singlespin,giuseppe2013einsteinpodolskyrosen,fukuhara2013microscopic,meinert2014observation,preiss2015strongly}, trapped ions~\cite{karski2009quantum,schmitz2009quantum,zhringer2010realization}, and photonics systems~\cite{peruzzo2010quantum,rohde2011multi,owens2011twophoton,poulios2014quantum,chapman2016experimental,caruso2016fast}.
-% \acp{QW} have been successfully implemented~\cite{manouchehri2014physical} in systems as diverse as trapped atoms~\cite{cote2006quantum}, trapped ions~\cite{schmitz2009quantum,zhringer2010realization}, photonics circuits~\cite{perets2008realization,peruzzo2010quantum,broome2010discrete,schreiber2010photons,rohde2011multi,sansoni2012twoparticle,boutari2016large,cardano2015quantum,cardano2016statistical,caruso2016fast}, and optical lattices~\cite{meinert2014observation}.
 In particular, photonics platforms include linear optical interferometers~\cite{sansoni2012twoparticle,crespi2013anderson,harris2015bosonic,pitsios2016photonic}, intrinsically stable multi-mode interferometers with polarization optics~\cite{broome2010discrete,kitagawa2012observation,vitelli2013joining}, fibre-loop systems for time-bin encoding~\cite{schreiber2010photons,schreiber2012a,boutari2016large}, and \acp{QW} in the \ac{OAM} space~\cite{cardano2015quantum,cardano2016statistical}.
 
 \tmpHeading{How we use QWs}
@@ -179,5 +138,4 @@ In particular, photonics platforms include linear optical interferometers~\cite{
 It is, however, still subject of active research the full extent to which QWs can be leveraged to control the evolution of a quantum state. In particular, in the context of state engineering, it is not known what kind of quantum states can result from a QW. Owing to the relative easiness of realising QW dynamics, such a result would significantly enlarge the class of realisable states across different experimental platforms.
 We will address this issue in~\cref{chapter:quantum_walks}, presenting a complete characterisation of the possible outputs of one-dimensional QWs with time-dependent coin operations.
 We then proceed to use this result to experimentally engineer target qudits in the orbital angular momentum of single photons~\cref{chapter:experimental_engineering_qudits}, and showcase ML algorithms to analyse them in~\cref{chapter:ML_VVBs}.}
-% QWs will be used in~\cref{chapter:quantum_walks,chapter:experimental_engineering_qudits,chapter:ML_VVBs}. We characterise the possible outputs of time-dependent QWs in~\cref{chapter:quantum_walks}, use this result to engineer target qudits in~\cref{chapter:experimental_engineering_qudits}, and showcase ML algorithms to analyse them in~\cref{chapter:ML_VVBs}.
 

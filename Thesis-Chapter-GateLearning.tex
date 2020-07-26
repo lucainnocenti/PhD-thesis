@@ -23,7 +23,7 @@ This types of problems are usually referred to as \textit{quantum (optimal) cont
 
 \tmpHeading{What problem do \emph{we} set up to solve?}
 In this chapter, we focus on gate engineering protocols that are both \emph{single-shot} and \emph{time-independent}.
-\add{By \emph{single-shot} we mean here strategies that aim at achieving a target operation without resorting to a decomposition in terms of a sequence of simpler ones, as is done \emph{e.g.} for gate compilation strategies.}
+\emph{Single-shot} refers here to strategies aiming at achieving a target operation without resorting to a decomposition in terms of a sequence of simpler gates, as done \emph{e.g.} in the context of gate compilation.
 The strategies we consider thus involve a fixed set of constant-strength interactions, as opposed to approaches such as gate compilation or quantum control, in which the types and strengths of the interactions are time-dependent.
 % With \emph{single-shot} strategy we refer to strategies which do not involve implementing a target gate using a sequence of other gates. This property is desirable, in that requiring the use of multiple gates to implement a single target one increases the complexity and coherence times of the circuit.
 % A \emph{time-independent} strategy is instead one that that avoids implementing a target operation using a sequence of other gates, but at the same time does \emph{not} require time-dependent dynamics. This would imply simpler dynamics, generally easier to implement experimentally.
@@ -79,7 +79,7 @@ We can consider the time $t$ as part of the definition of $\calH$, which only am
 Once a suitable $\calH$ is found, we can always rescale it so that the target is implemented after a desired time $t^*$ by writing $\calH=t^*(\calH/t^*)$. Finally, to ease the calculations, we will consider the equivalent problem of finding $\calH$ such that $\calU=e^{i\calH}$ (rather than $\calU=e^{-i\calH}$), as the solution to one problem is seamlessly translated to a solution to the other.
 
 \tmpHeading{A few examples}
-For concreteness, we will analyse what happens when we try to find Hamiltonian generators for a few common two- and three-qubit gates, such as the CNOT and the Toffoli gate. \add{The CNOT gate case will be used to showcase our framework and provide examples in an easily computable case, even though this case is not of practical usefulness.}
+For concreteness, we will analyse what happens when we try to find Hamiltonian generators for a few common two- and three-qubit gates, such as the CNOT and the Toffoli gate. The CNOT gate case will be used to showcase our framework and provide examples in an easily computable case, even though it is not of practical usefulness.
 
 \begin{examplebox}[label={ex:GL:eigendecomposition_cnot}]{Eigendecomposition of CNOT}
 \fontsize{10pt}{10pt}\selectfont
@@ -114,7 +114,7 @@ A general parametrisation of the possible two-qubit Hamiltonians, written using 
     \sum_{j,k=0}^4 \lambda_{j,k} \sigma^j_1\sigma^k_2,
 \end{equation}
 where $\sigma_i^j$ is the $j$-th Pauli matrix acting on the $i$-th qubit.
-\add{For ease of notation, where appropriate we will use a different notation for Pauli matrices, writing $\sigma_i^1\equiv X_i, \sigma_i^2\equiv X_j, \sigma_i^3\equiv Z_i$. This will make some of the expressions more explicit.}
+For ease of notation, where appropriate we will use a different notation for Pauli matrices, writing $\sigma_i^1\equiv X_i, \sigma_i^2\equiv X_j, \sigma_i^3\equiv Z_i$. This will make some of the expressions more explicit.
 Given the decomposition in~\cref{eq:GL:cnot_eigdecomp_with_paulis}, it is natural to use as ansatz for $\calH_\bslambda$ an expression bearing the same eigenstructure as the CNOT. Let us therefore try with
 \begin{equation}
     \calH_\bslambda = \lambda_1 Z_1^+ + \lambda_2 Z_1^- X_2^+ + \lambda_3 Z_1^- X_2^-.
@@ -249,15 +249,6 @@ Going further, we parametrise the set of all such vectors writing (we can define
 \end{equation}
 where $\{\ket0,\ket1\}$ are an arbitrary fixed orthonormal basis.
 This provides a parametrisation for $f^{-1}(B)$:
-% \begin{equation}
-% \begin{aligned}
-%     A = &\lambda\left(\cos^2(\alpha) \PP_0 + \sin^2(\alpha) \PP_1 + \sin(2\alpha)\Re[e^{i\theta}\ketbra{1}{0}]\right) \\
-%     +&\mu\left(
-%         \sin^2(\alpha) \PP_0 + \cos^2(\alpha) \PP_1 - \sin(2\alpha)\Re[e^{i\theta}\ketbra{1}{0}]
-%     \right),
-% \end{aligned}
-% \end{equation}
-% or in matrix form,
 \begin{equation}
     A = \begin{pmatrix}
         \lambda \cos^2(\alpha)+\mu\sin^2(\alpha) &
@@ -269,27 +260,8 @@ This provides a parametrisation for $f^{-1}(B)$:
 \end{equation}
 We conclude that any such $A$ is such that $f(A)=I_2$, as long as $f(\lambda)=f(\mu)=1$, and that this form covers the set of all possible normal matrices satisfying this equation.
 Whenever $\lambda=\mu$,~\cref{eq:GL:explicit_inverse_f(A)_matrix_form} reduces to $A=\lambda I_2$, which is the trivial solution. When $\lambda\neq\mu$, however, it is less obvious that the corresponding matrix in~\cref{eq:GL:explicit_inverse_f(A)_matrix_form} satisfies $f(A)=I_2$.
-% It is also worth noting that this analysis only gives the \emph{normal} solutions for $A$, but this does not mean that there other solutions are not possible. For example, if $f(A)=A^2$, $A^2=I$ can also have non-normal solutions,
 An easily solvable class of examples is given by $f(A)=A^n$ for some $n\in\NN$. Then, $f(A)=I$ amounts to the minimal polynomial of $A$ splitting into linear factors, and thus $A$ being characterised as any diagonal matrix with eigenvalues the $n$-th roots of $1$.
 \end{examplebox}
-
-% \begin{example}[label={ex:GL:solutions_f(A)=I_3}]
-% \highlight{To decide where to put this crap.}
-
-% Consider how to split the eigenspace of the three-dimensional identity $I_3$.
-% This essentially amounts to the problem of parametrising a set of three orthonormal complex vectors. For the purpose, let us write them as
-% \begin{equation}
-% \begin{cases}
-%     \ket{u_1} = \cos(\alpha)\ket0
-%     + e^{i\theta}\sin(\alpha)\cos(\beta)\ket1
-%     + e^{i\varphi}\sin(\alpha)\sin(\beta)\ket2, \\
-%     \ket{u_2} = \cos(\alpha)\ket0
-%     + e^{i\theta}\sin(\alpha)\cos(\beta)\ket1
-%     + e^{i\varphi}\sin(\alpha)\sin(\beta)\ket2, \\
-% \end{cases}
-% \end{equation}
-% \highlight{Actually, there might not be a general nice way to parametrise such sets of vectors!}
-% \end{example}
 
 \begin{examplebox}[label={ex:GL:solutions_e^A=I2}]{The $f(z)=e^z$ case}
 \fontsize{10pt}{10pt}\selectfont
@@ -404,7 +376,6 @@ Indeed, expanding~\cref{eq:GL:cnotex_general_H_expr} and focusing on the two-qub
 \end{equation}
 Remarkably, this shows how the $Z_1 X_2$ seems to be a necessary part of a generator, as there is no choice of $n_3,n_4\in\ZZ$ such that $n_4-2 n_3=0$.
 Still, in principle, this does not rule out the possibility that for some other choice of $\tildePP_j$ this is possible (although in this case we obviously already know that this is not the case).
-% The difficulty in showing this in full generality arises from the lack of a nice general expression for a arbitrary unitary rotations in more than two dimensions \highlight{maybe make sure this is actually true. What about Jarlskogwhateverthefuckitscalled decomposition?}.
 In~\cref{sec:GL:solution_framework} we will provide a way to answer these questions more easily.
 \end{examplebox}
 
@@ -1547,18 +1518,7 @@ On the other hand, the spectrum of $\HTildeFred-\HFred$ is $\{{-}4\pi,{-}2\pi,0,
 This means that, in the case of $\HTildeFred$, the dynamics occurs in an larger effective Hilbert space.  %Therefore, $\HTildeFred$ breaks some of the symmetries of $\calFred$, it acts on an effectively larger 
 %space where the simulation of  $\calFred$ with a two-body Hamiltonian is possible. 
 Consequently, albeit $\exponential(it\HTildeFred)$ does not have the same symmetries of $\UFred$ during the evolution (that is, for $t\in(0,1)$), all of the symmetries are restored at $t=1$. This shows that breaking the symmetries of $\calU$ and exploiting its degenerate spaces can help the gate design when the set of viable interactions is restricted.
-\add{An example of such symmetries is the exchange symmetry between second and third qubit. More generally, the symmetries of $\HFred$ are described by the unitaries that preserve its sevenfold degenerate eigenspace.}
-%END FREDKIN
-
-% The above procedure allows to find a unitary $U$ such that
-% $U^\dagger\HFred U$ is diagonal and
-% $\HFred + 2\pi U D U^\dagger$ contains only one- and two-qubit interactions, where $D$ is diagonal with entries in $\ZZ$.
-% This, on the other hand, means that for all three-qubit interaction terms $\bs\sigma_k$, the following must be satisfied
-% \begin{equation}
-%     \frac18\Tr(\bs\sigma_k\HFred) = -2\pi \Tr(U^\dagger\bs\sigma_k U D).
-% \end{equation}
-
-% \highlight{Maybe CCZ gate case?}
+An example of such symmetries is the exchange symmetry between second and third qubit. More generally, the symmetries of $\HFred$ are described by the unitaries that preserve its sevenfold degenerate eigenspace.
 
 
 \section{A straightforward numerical approach}
@@ -1603,13 +1563,12 @@ In the special case of $\calE(\rho)=\calV\rho \calV^\dagger$ for some unitary $\
     1 + \frac{1}{D} \abs{\Tr(\calU^\dagger \calV)}^2.
     \label{eq:GL:explicit_fidelity_unitary_unitary}
 \end{equation}
-% \highlight{(the formula seems to came from Eq.8, pag.3 of~\mbox{\cite{pedersen2007fidelity}}, as well as from~\mbox{\cite{nielsen2002simple}}, even though here in a different form)}
 \Cref{eq:GL:explicit_fidelity_unitary_unitary} can be used to solve the optimisation problem posed in~\cref{eq:GL:gatelearning_as_optimisation}.
 Given a parametrised Hamiltonian $\calH_{\bslambda}$ and a target gate $\calU$, we need to solve
 \begin{equation}
     \argmax_{\bslambda} \abs{\Tr(\calU^\dagger \exponential(i\calH_\bslambda))}^2.
 \end{equation}
-\add{The more general expression~\cref{eq:GL:explicit_fidelity_map_unitary} will also be useful when dealing with qubit networks that also exploit ancillary qubits that are traced out at the end of the evolution (thus making the resulting evolution on the non-ancillary qubits non-unitary).}
+The more general expression~\cref{eq:GL:explicit_fidelity_map_unitary} will be useful when dealing with qubit networks with ancillary qubits, which makes the overall evolution non-unitary.
 
 \tmpHeading{A working example}
 Using~\cref{eq:GL:general_toffoli_onetwoqubitints_without_Ys} as starting ansatz, we can use a standard maximisation algorithm such as Nelder-Mead to find the maximum $\bslambda$. This gives the solution:
@@ -1625,8 +1584,8 @@ It is worth noting that this solution falls outside of the class of solutions gi
 \tmpHeading{Limitations of direct optimisation approach}
 While~\cref{eq:GL:naiveOptim_working_example} shows that the direct optimisation approach \emph{does} work in some cases, this method has severe limitations, so much so that we could not find other useful working examples. In particular, we could not get any generator for the Toffoli gate without using off-diagonal interactions --- nor a generator for the Fredkin gate --- without starting the optimisation with coefficients very close to a known solution.
 This is indicative of the complexity of the underlying parameter landscape, which makes identifying global maxima difficult.
-This complexity is also exemplified in~\cref{fig:GL:2dDensityPlot_Fredkin_Generator,fig:GL:2dDensityPlot_Toffoli_Generator}, which show the behaviour of the average gate fidelity with respect to different pairs of interaction coefficients, for Toffoli and Fredkin gates. These figures showcase how the global maximum is often well separated from other local maxima, so that optimisers will have a hard time realising whether a given peak is a local rather than global maximum.
-\add{More precisely, in these figures we show how the average gate fidelity $\barcalF$ changes with the coefficients of the Hamiltonian generator. This sheds light into the relation between coefficients $\bs\lambda$ and corresponding gate fidelity $\barcalF(\calU, \exp(i\calH_\bslambda))$.}
+This complexity is also exemplified in~\cref{fig:GL:2dDensityPlot_Fredkin_Generator,fig:GL:2dDensityPlot_Toffoli_Generator}, which show the behaviour of the average gate fidelity with respect to different pairs of interaction coefficients, for Toffoli and Fredkin gates. These figures showcase how the global maximum is often well separated from other local maxima, so that optimisers have a hard time realising whether a given peak is a local rather than global maximum.
+More specifically, in these figures we show how the average gate fidelity $\barcalF$ changes with the coefficients of the Hamiltonian generator. This sheds light into the relation between coefficients $\bs\lambda$ and corresponding gate fidelity $\barcalF(\calU, \exp(i\calH_\bslambda))$.
 
 \begin{figure}[tb]
     \centering
@@ -1811,7 +1770,7 @@ The values of $\partial_i F$ can then be computed.
 This method allows to efficiently evaluate numerically the gradient of arbitrary functions, without resorting to numerical approximations.
 
 \tmpHeading{Differentiating algorithms?}
-\add{More generally, arbitrary mappings can be expressed as sequences of elementary functions applied to the inputs.}
+More generally, arbitrary mappings can be expressed as sequences of elementary functions (such as addition, multiplication, etc) applied to the inputs.
 % Note how arbitrary functions can be written iteratively, like $F$ here, being every computation eventually reduced to a series of elementary operations applied sequentially.
 This procedure can thus be used to ``\emph{compute the derivative of an algorithm}''. By this, we mean that this procedure can be automatised into an algorithm which, given another algorithm which takes real numbers as inputs and outputs, produces an algorithm which computes the partial derivatives for each numeric input.
 This is what is often used in practice to compute the gradients when SGD is used, for example in the context of NNs. Open source frameworks of widespread use that implement this functionality include Theano~\cite{team2016theano}, PyTorch~\cite{paszke2017automatic}, TensorFlow~\cite{tensorflow2015-whitepaper}.
@@ -2138,7 +2097,7 @@ This average fidelity can be written explicitly in terms of the components of (t
 In particular, for Toffredkin and \ac{QFT}, the fidelity remains above $95\%$ upon a $25\%$ variation of the evolution time.
 The half-adder appears to be less stable, but this is only consequence of the larger values of its interactions, as shown in~\cref{fig:GL:parameters_QFT_Toffredkin_halfadder}(c).
 More generally, the effort required to tune the Hamiltonian parameters with sufficient precision will vary strongly between different gates, as well as between different implementation of the same gate, and between different parameters in any given implementation.
-\add{Similarly, general statements about the robustness of implementing target gates are hard to make, owing to the variety of possible target gates, and to different implementations of the same gate having different robustness to different types of noise and imperfections.}
+Similarly, general statements about the robustness of implementing target gates are challenging, owing to the variety of possible target gates, and to different implementations of the same gate corresponding to different robustnesses to different types of noise and imperfections.
 These results provide further evidence in support of the power and flexibility of the supervised learning approach presented in~\cite{innocenti2018supervised,banchi2016quantum}, which clearly applies to the cases where ancillary degrees of freedom are exploited during the evolution.
 
 
@@ -2166,7 +2125,7 @@ Several interesting questions are spurred by this work and remain as-of-yet unan
 Such a result would also further our understanding of how complex physical interactions emerge from simpler ones.
 Furthermore, it would be interesting to study how the problem changes when we allow as target more general quantum maps.
 Finally, our use of supervised learning to tackle gate learning problems is rather problem agnostic, and thus applicable to a variety of different scenarios. Exploring what classes of problems in quantum information would gain from a similar approach would constitute a fruitful venue for research.
-\add{In general, this potentially includes any problem which can be reduced to tuning continuous parameters in order to optimise over some type of map. Possibilities include finding convex decompositions of target density matrices, or convex decompositions of a given separable state in terms of product pure states.}
+In general, this potentially includes any problem which can be reduced to tuning continuous parameters in order to optimise over some type of map. Possibilities include finding convex decompositions of target density matrices, or convex decompositions of a given separable state in terms of product pure states.
 
 % \begin{figure}[tb]
 % % {\bf (a)}\hskip5cm{\bf (b)}\hskip5cm{\bf (c)}
@@ -2227,7 +2186,7 @@ Finally, our use of supervised learning to tackle gate learning problems is rath
 		In each plot are reported the values of the $9$ network parameters during the training process, for each training epoch $t_e$.
 		Each training process was left running until convergence to unit fidelity, therefore, the number of epochs in the horizontal axes differs for different trainings instances.
 		The histories shown here correspond to training instances in which the parameters were initialised at various values, as seen from the leftmost values in each plot.
-        \add{The path followed by the parameters will change for different training runs, which is why we do not add a legend to identify each parameter in each training process. Nonetheless, the sample of training histories shown here is indicative of the general trend, and shows how the training tends to converge quickly in most cases.}
+        The path followed by the parameters change for different training runs, making a legend identifying the single parameters of limited use here. Nonetheless, the sample of training histories shown here is indicative of the general trend, and shows how the training tends to converge quickly in most cases.
 	}
 	\label{fig:GL:toffoli_diagonal_parhistories}
 \end{figure}

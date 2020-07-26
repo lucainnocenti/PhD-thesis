@@ -314,10 +314,15 @@ We tested different CNN architectures, the details of which can be found in the 
 % The size of the training set is $400$ images per class.
 \begin{itemize}
 	\item Training and testing CNNs with simulated images leads to $100\%$ accuracy. This remains true when training and testing datasets comprise simulated images with added white noise.
-	We could achieve this already with a CNN using two convolutional layers, each using $16$ activation maps (that is, there are $16$ different filters used per convolutional layer), each followed by a max-pooling layer, and a final hidden fully connected layer with $32$ neurons, amounting to a total number of $\sim5$k trainable parameters.
-	\item On the other hand, training on simulated images is not enough to teach the network to categorise experimental ones. A possible reason for this is that experimental images can be quite different from simulated ones. Indeed, simulated images assume a perfect superposition of states with two different OAM numbers, whereas the states produced by \acp{QP} are closer to \emph{Hypergeometric-Gaussian modes}~\cite{karimi2007hypergeometricgaussian}. These are a different family of solutions of the Helmoltz equation in cylindrical coordinates.
+	We achieved this already with a CNN using two convolutional layers, each using $16$ activation maps (that is, there are $16$ different filters used per convolutional layer), each followed by a max-pooling layer, and a final hidden fully connected layer with $32$ neurons, amounting to a total number of $\sim5$k trainable parameters.
+	\item On the other hand, training on simulated images is not enough to teach the network to categorise experimental ones.
+	We can improve the accuracy by applying \emph{pre-processing} to the training images. This consists of applying random transformation to artificially inflate the number of images available for training. Such transformations include random translation, rescalings, shearings and changes in overall brightness. A heavy use of pre-processing significantly improves performances, by tailoring the network to only pick up the features of the images which are relevant for the classification.
+	A sample of the pre-processed images actually used in training is given in~\cref{fig:VVBs:pre-processed_images}.
+	However, pre-processing does not push accuracies above $\sim60\%$.
+	% We found that applying heavy pre-processing to the training images, that is, artificially inflating the images used for training by applying random transformation 
+	A possible reason for this is that experimental images can be quite different from simulated ones. Indeed, simulated images assume a perfect superposition of two different OAM numbers, whereas the states produced by \acp{QP} are closer to \emph{Hypergeometric-Gaussian modes}~\cite{karimi2007hypergeometricgaussian}. These are an alternative family of solutions of the Helmoltz equation in cylindrical coordinates, which also display the $e^{im\phi}$ phase term, but model more closely the states produced by \acp{QP}.
 	% We show examples of such beams in~\cref{fig:VVBs:hyGG}.
-	In this work we stick with the simpler OAM beams for simplicity, but it is likely that using a better model for the simulation would allow to classify experimental images training solely on simulated ones.
+	In this work we stick with the simpler OAM beams for simplicity, but it is possible that using a better model for the simulation would allow to classify experimental images training solely on simulated ones.
 	\item Finally, we find that a small number of experimental images are enough to allow the network to generalise and be able to categorise the rest of them.
 	We train a CNN using $20$ experimental images per class, and test it on the remaining $\sim1700$ ones, and achieve a $\sim 99\%$ accuracy on the test set.
 	We achieve this using a CNN using three convolutional layers followed by a max-pooling layer each, and a hidden fully connected layer with $64$ neurons, amounting to a total of $\sim38$k parameters.
@@ -331,6 +336,15 @@ We tested different CNN architectures, the details of which can be found in the 
 %     }%
 %     \label{fig:VVBs:hyGG}
 % \end{figure}
+
+\highlight{Add figures for training history}
+
+\begin{figure}[tb]
+	\centering
+	\includegraphics[width=\linewidth]{VVBs-training_examples.png}
+	\caption{Caption here}
+	\label{fig:VVBs:pre-processed_images}
+\end{figure}
 
 \tmpHeading{Retrieving the position in the Poincaré sphere}
 We also test the network on a different problem: assuming $(m_1,m_2)$ is fixed, retrieve the parameters $(\theta,\phi)$ characterising the VVB (remembering the definition of VVBs as given in~\cref{eq:VVBs:definition_VVBs_field}).
@@ -389,7 +403,7 @@ The output probabilities in the computational basis following evolution through 
 % Note that this situation models what happens when we measure VVBs with a CCD camera: VVBs are sparse in the OAM-polarisation basis (they are effectively two-dimensional), and measurement in the position basis can be described as a projective measurement following a unitary $\calU$ describing the change of basis.
 This means that the mapping between density matrices and detected probabilities is linear: $\bs p=\Psi(\rho)$ for some linear map $\Psi$.
 We can represent $\Psi$ as a (generally non-square) matrix, for example via its action on the coefficients of $\rho$ in some operatorial basis.
-Given $\rho=\sum_k c_k \sigma_k$ for some basis $\{\sigma_k\}_k$ of traceless Hermitians, we have the induced linear mapping $p_j = \sum_k \Psi_{jk}c_k$, with $\Psi_{jk}\equiv\Psi(\sigma_k)_j$ the matrix elements of $\Psi$.
+Any state can be decomposed as $\rho=\sum_k c_k \sigma_k$ for some operatorial basis $\{I\}\cup \{\sigma_k\}_k$ for the space of hermitian operators, with $I$ the identity matrix and $\sigma_k$ orthogonal traceless hermitians. We then have the induced linear mapping $p_j = \sum_k \Psi_{jk}c_k$, with $\Psi_{jk}\equiv\Psi(\sigma_k)_j$ the matrix elements of $\Psi$.
 This linearity implies that many geometrical features of the space of states are preserved in the space of probabilities. Moreover, a suitable choice of $\Psi$ will allow to retrieve $\rho$ from the knowledge of $\bs p$.
 For this to be possible, $\Psi$ needs to have a number of rows greater than or equal to the number of columns. Physically, this amounts to the measurement basis containing a sufficient number of elements. More specifically, $\Psi$ needs to be \emph{left-invertible}, which is the case when its columns are linearly independent.
 
@@ -428,7 +442,7 @@ As a notable example, we apply these observations to VVBs with $m_2=-m_1=1$.
 These are the states of the form $c_0 \ket{L,m=1} + c_1 \ket{R, m=-1}$ with $\abs{c_0}^2+|c_1|^2=1$.
 We find that applying PCA to a dataset of images corresponding to these VVBs naturally produces the underlying Bloch sphere representation:
 the first three singular values are sufficient to capture most of the information, and projecting the images along the corresponding axes, the dataset is in good approximation arranged on a three-dimensional sphere.
-Note that is not a straightforwardly deduced from the experimental images alone, but is easily found via \ac{DR}.
+Note that this is not straightforwardly deduced from the experimental images alone, but is easily found via \ac{DR}.
 This result highlights the potential of \ac{DR} to reveal features of the states generating a given experimental dataset, also in the presence of experimental noisy conditions.
 To assess the accuracy of such reconstruction, we compute the average fidelity $\calF_{\on{avg}}$ between the expected state and the one found by our analysis with PCA.
 This is found to be $\calF_{\on{avg}}\sim0.96$, with standard deviation $\sim0.01$, thus certifying the quality of the reconstruction.
@@ -438,12 +452,54 @@ The full histogram of fidelities is given in~\cref{fig:VVBs:PCAresults}\textbf{c
   \centering
   \includegraphics[width=0.98\textwidth]{S1_fig.png}
   \caption{
-      \textbf{a,}
+      \textbf{(a)}
        Principal components obtained using PCA on simulated datasets of noisy VVB. The first (second) row shows the first seven principal components obtained on the dataset $\mathcal S_1$ ($\mathcal S_2$). 
        The first 6 (all 7) components correspond to non-vanishing singular values.
-       \textbf{b,} First 40 principal components individuated in the experimental dataset corresponding to the 15 classes labelled by $(m_1,m_2)$, discussed in the main text.%
+       \textbf{(b)} First 40 principal components individuated in the experimental dataset corresponding to the 15 classes labelled by $(m_1,m_2)$, discussed in the main text.%
     }
     \label{fig:VVBs:principal_components}
+\end{figure}
+
+% \begin{figure}[tb]
+%     \centering
+%     \begin{minipage}{0.49\textwidth}
+%         \centering
+%         \includegraphics[width=0.99\textwidth]{VVBs-principalValues_sixNonzero.pdf} % first figure itself
+%         \caption{first figure}
+%     \end{minipage}\hfill
+%     \begin{minipage}{0.49\textwidth}
+%         \centering
+%         \includegraphics[width=0.99\textwidth]{VVBs-principalValues_sevenNonzero.pdf} % second figure itself
+%         \caption{second figure}
+%     \end{minipage}
+% \end{figure}
+\begin{figure}[tb]
+    % \vspace{-50pt}
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \caption{}
+        \label{fig:GL:toffoli_diagonal_solutions}
+        \hspace{-20pt}\includegraphics[width=\textwidth]{VVBs-principalValues_sixNonzero.pdf}
+    \end{subfigure}%
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \caption{}
+        \label{fig:GL:fredkin_diagonal_solutions}
+        \hspace{-20pt}\includegraphics[width=\textwidth]{VVBs-principalValues_sevenNonzero.pdf}
+    \end{subfigure}\\
+    \centering
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \caption{}
+        \label{fig:GL:fredkin_diagonal_solutions}
+        \hspace{-20pt}\includegraphics[width=\textwidth]{VVBs-principalValues_fortyNonzero.pdf}
+    \end{subfigure}
+    \caption{First ten singular values corresponding to the datasets in~\cref{fig:VVBs:principal_components}.
+    \textbf{(a)} Singular values computed from the dataset $\calS_1$. Consistently with the results shown in the upper figures in~\cref{fig:VVBs:principal_components}\textbf{a} and the dimensional of the underlying space spanned by $\calS_1$, only the first six singular values are nonzero.
+    \textbf{(b)} Singular values computed from the dataset $\calS_2$. There are exactly seven nonzero singular values, consistently with the dimension of the space spanned by $\calS_2$.
+    \textbf{(c)} Singular values corresponding to the principal components in~\cref{fig:VVBs:principal_components}\textbf{b} computed from the experimental dataset.
+    }
+    \label{fig:VVBs:singularValues_sixAndSevenAndForty}
 \end{figure}
 
 
@@ -457,11 +513,11 @@ c_1\ket{L,m=1}+c_2\ket{R,m=2}
 c_1\ket{L,m=1}+c_2\ket{R,m=4},
 \end{equation}
 where the coefficients $c_i$ are sampled uniformly at random from the set of $c_{1},c_2\in\mathbb{C}$  such that $|c_1|^2+|c_2|^2=1$.
-Applying PCA to this dataset, we find six non-vanishing singular values, whose associated principal components are shown in~\cref{fig:VVBs:principal_components}\textbf{a}.
+Applying PCA to this dataset, we find six non-vanishing singular values. The corresponding principal components are given in~\cref{fig:VVBs:principal_components}\textbf{a}, and the associated singular values in~\cref{fig:VVBs:singularValues_sixAndSevenAndForty}\textbf{a}.
 This is consistent with the dimension of the subspace  spanned by the states in $\calS_1\equiv\{c_1\ket{L,1}+c_2\ket{R,2}, c_3\ket{L,1}+c_4\ket{R,4}\}$,  as the set of corresponding density matrices is spanned by the six orthogonal matrices
 $X^{(1,2)}, X^{(1,4)}, Y^{(1,2)},Y^{(1,4)},Z^{(1,2)}\pm Z^{(1,4)}$, where $X^{(i,j)}=\ketbra{i}{j}+\ketbra{j}{i}$ is the Pauli $X$ matrix acting on the $(i,j)$ subspace, and $Y^{(i,j)}$ and $Z^{(i,j)}$ are similarly defined.
-On the other hand, if the dataset under consideration consists of states in the space $\mathcal S_2=\{c_1\ket{L,1}+c_2\ket{R,2}, c_3\ket{L,3}+c_4\ket{R,4}\}$, then \ac{PCA} finds \emph{seven} principal components associated with non-vanishing singular values, as again shown in~\cref{fig:VVBs:principal_components}\textbf{a}.
-This is consistent with the underlying state space being spanned by the seven orthogonal Hermitians:
+On the other hand, if the dataset under consideration consists of states in the space $\mathcal S_2=\{c_1\ket{L,1}+c_2\ket{R,2}, c_3\ket{L,3}+c_4\ket{R,4}\}$, then \ac{PCA} finds \emph{seven} principal components associated with non-vanishing singular values, as again shown in~\cref{fig:VVBs:principal_components}\textbf{a}. The corresponding singular values are given in~\cref{fig:VVBs:singularValues_sixAndSevenAndForty}\textbf{b}.
+This is consistent with the underlying state space being spanned by the seven orthogonal hermitians:
 \begin{equation}
 \begin{gathered}
     X^{(1,2)}, X^{(3,4)},
@@ -471,7 +527,7 @@ This is consistent with the underlying state space being spanned by the seven or
     -Z^{(1,2)} - Z^{(1,3)} + 3 Z^{(1,4)}.
 \end{gathered}
 \end{equation}
-These matrices can be derived via direct analysis by finding a set of orthogonal Hermitians generating $\on{span}(\calS_2)$.
+These matrices can be derived via direct analysis by finding a set of orthogonal hermitians generating $\on{span}(\calS_2)$.
 This method is thus a quick and easy way to obtain useful information about the dimensionality of generated states, as well as other properties such as specific geometric features, like the sphere emerging from the experimental dataset discussed in the previous paragraph.
 
 
@@ -505,6 +561,7 @@ We use half of the dataset for training, and the other half for testing the resu
 We find a \emph{linear} SVM, instead of a more commonly employed SVM with RBF kernel, to give better accuracies: $\sim98\%$ vs the $\sim94\%$ using the RBF kernel.
 In~\cref{fig:VVBs:PCAresults}\textbf{d}, we highlight how the average overall accuracy depends on the dimension of the reduced representation: $\sim 25$ dimensions are already sufficient for good accuracies.
 A breakdown of the classification performance is reported in~\cref{fig:VVBs:accuracies15classes_SVC}.
+In~\cref{fig:VVBs:principal_components}\textbf{b} we report the images corresponding to the first forty principal components derived from this dataset, while in~\cref{fig:VVBs:singularValues_sixAndSevenAndForty}\textbf{c} we give the corresponding singular values.
 The average classification accuracy is $\sim 98 \%$. This result confirms that the description provided by \ac{PCA} is sufficient to capture the important features of the generated states, thus allowing for significantly more efficient classification schemes.
 
 \begin{figure}[tb]
@@ -533,7 +590,7 @@ The average classification accuracy is $\sim 98 \%$. This result confirms that t
 \section{Conclusions}
 \label{sec:VVBs:conclusions}
 
-We presented a novel approach to classify \acp{VVB} using a combination of supervised and unsupervised learning algorithms. We demonstrated how the use of inference strategies based on CNNs, PCA, and SVMs enables probing efficiently high-dimensional photonics \ac{VVB} systems.
+We presented a novel approach to classify \acp{VVB} using a combination of supervised and unsupervised learning algorithms. More precisely, we demonstrated how to use standard inference strategies based on CNNs, PCA, and SVMs to probe efficiently high-dimensional photonics \ac{VVB} systems.
 In particular, we used dimensionality reduction to probe the underlying geometrical properties of experimentally generated VVBs, without requiring prior knowledge about the physics of the generation apparatus.
 % By embedding a variety of \ac{ML} algorithms into our experimental pipeline, the task of characterising structured light is made significantly broader in the methods, ranging from supervised to unsupervised learning, and more flexible in the applications, classification and regression tasks.
 %Then, the investigation of different techniques in the ML field has provided a more general framework for the characterization of structured light.  

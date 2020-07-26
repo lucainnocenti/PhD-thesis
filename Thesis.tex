@@ -93,22 +93,48 @@ Saroch Leedumrongwatthanakun, Luca Innocenti, Hugo Defienne, Thomas Juffmann, Al
 \section*{Note to the reader}
 To further organise the content of the thesis, on top of the standard sectioning we provided brief titles for each paragraph. These will be denotes like \tmpHeading{this}.
 
-\input{Thesis-Chapter-Intro.tex}
+% \input{Thesis-Chapter-Intro.tex}
 
 % \input{Thesis-Chapter-GateLearning.tex}
 
 % \input{Thesis-Chapter-QWs.tex}
 
-\input{Thesis-Chapter-ExperimentalQSEWithQWs.tex}
+% \input{Thesis-Chapter-ExperimentalQSEWithQWs.tex}
 
-% \input{Thesis-Chapter-VVBsWithQWs.tex}
+\input{Thesis-Chapter-VVBsWithQWs.tex}
 
 \chapter{Conclusions}
-We discussed machine learning techniques to tackle a variety of quantum information tasks.
+We discussed the use of machine learning techniques to tackle different quantum information tasks.
 On one hand, we showed that borrowing techniques from the machine learning toolbox, such as stochastic gradient descent and automatic differentiation, offers significant advantages for tasks such as gate learning with time-independent Hamiltonians.
 Moreover, we found that pairing supervised learning strategies with analytical reasoning we can further speed-up finding solutions, and gain more insight into the structure of the problem.
 On the other hand, after devising and showcasing experimentally a scheme to generate arbitrary states via quantum walk dynamics, we showed how machine learning algorithms such as convolutional neural networks, principal component analysis, and support vector machines, can provide significant insight into generated states from the sole knowledge of their transverse intensity profiles.
 These results add to the growing amount of evidence that the flexibility provided by machine learning finds fruitful application both for fundamental and applied research in quantum information science.
+
+The work presented in this thesis lends itself to be extended in several directions.
+In the context of gate learning, there are three major venues of research branching from the results presented in~\cref{chapter:gate_learning}.
+From a more applicative point of view, there is much to be learnt about what quantum gates are directly implementable with experimentally available interactions.
+A thorough understanding of this would have far-reaching consequences for example in the context of quantum computation and quantum algorithms development, providing more expressive quantum gates to be included into the ``elementary gate set'' used to express quantum algorithms and decompose complex operations.
+The underlying mathematical questions are also compelling and ripe for exploration. There are interesting relations between our methods and mathematical results in the fields of \emph{inverse eigenvalues problems}~\cite{friedland1977inverse} and Lie theory that could potentially provide elegant answers to the question of reachability of quantum gates in constrained interactions scenarios.
+Another future venue of research is the extension of our analytical results for quantum gates to the more general context of quantum maps.
+In particular, how the analytical conditions discussed in~\cref{chapter:gate_learning} would extend to the case of non-unitary evolutions.
+Finally, the machine learning techniques we used in this work are intrinsically black-box-like algorithms.
+Even though they are well-suited to gate learning problems, they are not intrinsically tied to them, and can be seamlessly applied to other contexts.
+Indeed, any problem requiring to optimise \emph{a functional relationship} over a number of continuous parameters is likely to be a good candidate for the combination of the supervised learning techniques we employed.
+A promising candidate would for example be finding convex decompositions for given classical states, for which a similar technique based on stochastic gradient descent would be potentially fruitful.
+
+The results presented in~\cref{chapter:quantum_walks,chapter:experimental_engineering_qudits} are also of wide applicability.
+The generality of our characterisation of the possible quantum states emerging from one-dimensional discrete-time quantum walks makes it potentially useful in any task involving a finite number of steps of such dynamics.
+From an applicative perspective, the protocol allows the generation of arbitrary qudit states using only a simple physical interaction, as demonstrated in the experimental realisation presented in~\cref{chapter:experimental_engineering_qudits}.
+Extending the result would contribute to a more thorough understanding of quantum walk dynamics, which are of widespread use in quantum information science and have found countless applications.
+In particular, a natural open question is the extensibility of our characterisation to quantum walks on higher dimensional lattices, as well as quantum walks on general graphs.
+More generally, a deeper understanding of the exact properties of quantum walk dynamics that make this characterisation possible in the first place would lead to generalise our results for a wide range of quantum dynamics even beyond the quantum walk model.
+
+Finally, our application of machine learning to analyse experimentally generated states further showcases the usefulness and flexibility of these techniques in a multitude of scenarios.
+These include, but are not limited to, any situation involving measuring high-dimensional quantum states in a fixed basis.
+Possible extensions of this work include a more thorough analysis of vector vortex beams, and the use of more sophisticated models to describe the experimental outputs of q-plates.
+On the machine learning side, a question left open by our investigation is the possibility of classifying accurately experimental vector vortex beams using convolutional neural networks trained exclusively on simulated ones.
+Extending the techniques used in~\cref{whatever} to achieve this would provide an even stronger statement about the possibility of leveraging machine learning algorithms to devise automatic pipelines to characterise and validate the quality of experimental apparatuses in a variety of scenarios.
+A first possible step in this direction would be to leveraging the recent developments in \emph{neural network interpretability}~\cite{olah2018the} to extract the features picked up by the trained neural networks. This would, in turn, allow to devise techniques making the generalisation from simulated to experimental images possible.
 
 
 \input{Thesis-BackMatter.tex}

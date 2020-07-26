@@ -29,14 +29,14 @@ Since Allen's groundbreaking work, the OAM of light found several applications i
 In particular, OAM of photons has been used for communication protocols~\cite{langford2004measuring}, quantum metrology~\cite{dambrosio2013photonic}, as well as to study quantum correlations~\cite{leach2010quantum,mair2001entanglement,vaziri2002experimental,dada2011experimental,pors2011highdimensional,fickler2012quantum,malik2016multiphoton}.
 % that is proportional to $\ell$, which is the quantum number that determines the azimuthal phase profile of the field.
 The most common types of helical laser beams carrying OAM are \ac{LG} modes, here denoted with $LG_p^\ell$. These are solutions of the Helmholtz equation in cylindrical coordinates in the paraxial approximation. LG modes are defined by two quantum numbers, $p$ and $\ell$, respectively characterising the radial and azimuthal structure of the mode. A characteristic feature of these beams is their azimuthal phase dependence --- $LG_p^\ell\sim e^{i\ell\phi}$ with $\phi$ the azimuthal coordinate in the plane transverse to the propagation direction --- as well as their carrying an integer amount of OAM.
-\add{More explicitly, LG modes are characterised, in cylindrical coordinates in the plane transverse to the propagation direction, by the amplitude profile $u_{p,\ell}(r,\theta)$ given by~\cite{doster2016laguerre–gauss}:
+More explicitly, LG modes are characterised, in cylindrical coordinates in the transverse propagation plane, by the amplitude profile $u_{p,\ell}(r,\theta)$ given by~\cite{doster2016laguerre–gauss}:
 \begin{equation}
     u_{p,\ell}(r,\theta) = 
     % C_{p,\ell}
     \sqrt{\frac{2p!}{\pi (p+m)!}}
     \left(\frac{r\sqrt2}{w_0}\right)^{\lvert \ell\rvert} L_p^{\lvert \ell\rvert}(2r^2) e^{i\ell\theta},
 \end{equation}
-where $L_p^\ell$ are the generalised Laguerre-Gauss polynomials of $p$ and $\ell$, and $w_0$ is the beam waist.}
+where $L_p^\ell$ are the generalised Laguerre polynomials of $p$ and $\ell$, and $w_0$ is the beam waist.
 In~\cref{fig:expQWs:LG_profile_L0P2Z03,fig:expQWs:LG_profile_L1P2Z03} we give two examples of the transverse intensity profile of LG modes with different azimuthal quantum numbers $\ell$.
 % ~\cite{mair2001entanglement,kwiat1993highvisibility,howell2004realization,}
 
@@ -158,17 +158,16 @@ In this combined \ac{OAM}-loop scheme, experimental challenges arise at the meas
 \label{sec:expQWs:results}
 
 \tmpHeading{Types of generated states}
-To demonstrate the flexibility of the protocol, we showcase the generation of a variety of states, including computational basis states, completely balanced states, random states, Fourier basis states, cat-like states and \acp{SCS} (see~\cref{subsec:expQWs:catstates}).
+To demonstrate the flexibility of the protocol, we showcase the generation of a variety of states, including computational basis states, completely balanced states, random states, Fourier basis states, cat-like states and \acp{SCS}, as discussed in~\cref{subsec:expQWs:catstates}.
 \Cref{table:expQWs:summary} contains a summary of the states engineered with the corresponding fidelities and generation probabilities,
-while~\cref{table:expQWs:random_states_amps} gives the explicit form of the used random target states.
-In~\cref{fig:expQWs:results_cat_states,fig:VVBs:results_SCS_states} we give the experimental results for the generation of cat-like states and \acp{SCS}, respectively.
+while in~\cref{table:expQWs:random_states_amps} we list the random target states that were generated.
+In~\cref{fig:expQWs:results_cat_states,fig:VVBs:results_SCS_states} we give the experimental results for the generation of cat-like states and \acp{SCS}, respectively. More detail about these states is given in~\cref{subsec:expQWs:catstates}.
 The fidelity between experimentally synthesised and target states is computed by projecting each state onto an orthonormal basis containing the target one.
 
 \tmpHeading{Scaling of projection probabilities}
-In~\cref{fig:expQWs:avgProbabilitiesVsStepNumber} we give the \textit{average} projection probability as a function of the number of steps. These are calculated by averaging the projection probabilities obtained by running the optimisation algorithm given in~\cref{sec:QWs:numerical_fid_max} over many uniformly sampled random states, for different numbers of steps.
-% We find the average projection probability to decrease roughly linearly with the number of steps.
-\add{We find numerically that the projection probability does not decrease quickly with the number of steps, remaining above $10\%$ up to $20$ steps (which corresponds to target walker states of size $21$)}
-% Assuming such linear behaviour to hold for more steps, the average projection probability would drop to $\sim 0.1$ at around $25$ steps, remaining $\ge 0.15$ for up to $20$ steps.
+In~\cref{fig:expQWs:avgProbabilitiesVsStepNumber} we give the \textit{average} projection probability as a function of the number of steps.
+These are computed by averaging the projection probabilities obtained by running the optimisation algorithm given in~\cref{sec:QWs:numerical_fid_max} over many uniformly sampled random target states, for different numbers of steps.
+We find numerically that the projection probability does not decrease quickly with the number of steps, remaining above $10\%$ up to $20$ steps (which corresponds to target walker states of size $21$).
 Note that this likely underestimates the actual probabilities. Indeed, as already mentioned, this optimisation method finds only one among many solutions for a given target, and thus generally not the optimal one in terms of projection probability. Moreover, increasing the number of steps also increases the number of ways in which a state can be generated, meaning that we can expect the underestimation to be more significant for larger numbers of step.
 Further evidence suggesting that this method underestimates the real average probabilities is obtained by computing the full set of solutions and taking the optimal one, which can be done for up to five steps. Indeed, as shown in~\cref{sec:QWs:numerical_fid_max}, with this method we find the real optimal average probabilities for three, four, and five steps to be consistently $\sim 0.33$, with no detectable decreasing behaviour.
 
@@ -285,54 +284,96 @@ In the context of QWs, we define \emph{cat-like states} as coherent superpositio
     \label{fig:expQWs:avgProbabilitiesVsStepNumber}
 \end{figure}
 
-% The second class of states that we consider are \emph{spin-coherent states}~\cite{ulyanov1999spin}, which are the spin-like counterpart of \emph{coherent states} of a quantum harmonic oscillator.
-
 \tmpHeading{What are SCSs?}
-\acfp{SCS} are the counterparts of coherent states of the harmonic oscillator for a particle with spin $s$~\cite{radcliffe1971some,arecchi1972atomic,agarwal1997atomic,markham2003classicality,chryssomalakos2018geometry}. They are the eigenstates, with eigenvalue $s$, of $S_{\theta,\phi}$, the component of the total spin-momentum operator along the direction identified by the spherical angles $(\theta, \phi)$~\cite{arecchi1972atomic,agarwal1997atomic,ulyanov1999spin,lee2015visualizing}.
-A decomposition of such states over the $\{\ket{m}\}$ basis of the projected spin along the $z$-direction, $S_z$, reads
+\acfp{SCS} are the counterparts of coherent states of the harmonic oscillator for a particle with spin $s$~\cite{radcliffe1971some,arecchi1972atomic,agarwal1997atomic,markham2003classicality,chryssomalakos2018geometry}. They are the eigenstates, with eigenvalue $s$, of the component of the total spin-momentum operator along the direction identified by the spherical angles $(\theta, \phi)$, here denoted with $S_{\theta,\phi}$~\cite{arecchi1972atomic,agarwal1997atomic,ulyanov1999spin,lee2015visualizing}.
+\acp{SCS} have numerous applications in condensed matter physics, in particular for quasi-exactly solvable models, for the Wigner-Kirkwood expansion and in quantum correction to energy quantisation rules~\cite{ulyanov1999spin}. At a more foundational level, they can be used to generate Schrödinger cat states~~\cite{agarwal1997atomic}.
+More precisely, given the spin operators $S_x,S_y,S_z$ acting on spin-$s$ system, we introduce the raising and lowering operators $S_\pm\equiv S_x\pm i S_y$, define the ``\emph{spin ground state}'' $\ket{S}$ via $S_z\ket s=s\ket s$, and define SCSs as
+\begin{equation}
+    \ket\mu \equiv N^{-1/2} \exp(\mu S_-) \ket s,
+\end{equation}
+for $\mu\in\CC$, with $N$ a normalisation constant.
+More explicitly, assuming $S_+\ket s=0$, we have
+\begin{equation}
+    S_-^p \ket s = \left(\frac{p! (2s)!}{(2s-p)!}\right)^{1/2} \ket{s-p},
+\end{equation}
+and thus
+\begin{equation}
+    \ket\mu = \frac{1}{(1+\lvert\mu\rvert^2)^s}
+    \sum_{p=0}^{2s} \mu^p\left(\frac{p! (2s)!}{(2s-p)!}\right)^{1/2} \ket{s-p}.
+    \label{eq:def_SCS_mu}
+\end{equation}
+Note the analogy with Glauber states in quantum optics, which are defined as
+$\ket\alpha=\exp(\alpha a^\dagger-\alpha^* a)\ket0
+= e^{-\lvert\alpha\rvert^2/2}\exp(\alpha a^\dagger)\ket 0$.
+Indeed, the two notions become equivalent in the limit of large spins $s\to\infty$, via the identifications
+$S_-\to \sqrt{2s} \,a^\dagger$
+and
+$\mu\to \alpha/\sqrt{2s}$.
+A different parametrisation for SCSs is obtained writing $\mu=e^{i\phi}\tan(\theta/2)$ for $\theta,\phi\in\RR$.
+With respect to these parameters~\cref{eq:def_SCS_mu} becomes
+\begin{equation}
+    \ket{s,\theta,\phi} \equiv \ket{e^{i\phi}\tan(\theta/2)} =
+    \cos(\theta/2)^{2s} \exp(\mu S_-)\ket s,
+\end{equation}
+where we introduced the notation $\ket{s,\theta,\phi}$ to denote SCSs with total spin number $s$ and $\mu=e^{i\phi}\tan(\theta/2)$.
+With this formalism, we can represent SCSs as points on a $2$-sphere, similarly to the Bloch sphere representation of qubits.
+We find that for example
+\newcommand{\bsnangles}{\bs{n}_{\theta,\phi}}
+\begin{equation}
+\begin{gathered}
+    \braket{s,\theta,\phi}{s,\theta',\phi'} = 
+    \left( \cos(\theta/2)\cos(\theta'/2) + \sin(\theta/2) \sin(\theta'/2) \exp[i(\phi-\phi')] \right)^{2s}, \\
+    \lvert \braket{s,\theta,\phi}{s,\theta',\phi'} \rvert =
+    \left( \frac{1 + \bsnangles\cdot\bs{n}_{\theta',\phi'}}{2} \right)^s,
+\end{gathered}
+\end{equation}
+where $\bsnangles$ is the unit vector in the $(\theta,\phi)$ direction:
+$\bsnangles\equiv (\sin\theta \cos\phi,\sin\theta\sin\phi,\cos\theta)$.
+This tells us that the overlap between SCSs can be easily calculated from the overlap of the corresponding unit vectors on the unit sphere.
+Defining the spin operator in the $\bs n$ direction as
+$S_{\bs n}\equiv \bs S\cdot \bs n\equiv \sum_i S_i n_i$,
+we find that $S_{\bsnangles}\ket{s,\theta,\phi}=s \ket{s,\theta,\phi}$, and we can thus understand $\ket{s,\theta,\phi}$ as the maximum spin state in the $\bsnangles$ direction.
+
+\tmpHeading{Experimental engineering of SCSs}
+% Although \acp{SCS} are in general not orthogonal, they form a convenient basis, analogously to coherent states.
+As previously discussed, SCSs corresponding to opposite directions are orthogonal: $\braket{s,\theta,\phi}{s,\theta',\phi'}=0$ if $\bs n_{\theta,\phi}\cdot\bs n_{\theta',\phi'}=-1$.
+This implies, in particular, that
+$\{\ket{s,\pi/2,\phi},\ket{s,-\pi/2,\phi}\}$
+form an orthonormal basis for a two-level system.
+{\color{red}Moreover, as two \acp{SCS} pointing in opposite azimuthal directions are orthogonal for $\theta\sim\pi/2$, by restricting the attention to $\{\ket{s,\pi/2,\phi},\ket{s,-\pi/2,\phi}\}$ we would be dealing with an orthonormal basis, which we can use to construct the analogous of a Bloch ball for a two-level system (cf.~\cref{fig:VVBs:results_SCS_states}\textbf{a}).}
+We showcase the flexibility of our experimental apparatus engineering the states $\ket{S_1}\equiv\ket{5/2,\pi/2,0}$ and $\ket{S_2}\equiv\ket{5/2,-\pi/2,0}$, as well as their balanced superpositions.
+% Furthermore, $\ket{S_1}$ and $\ket{S_2}$ are also eigenstates of the $S_x$ operator.
+To assess the quality of the experimental results, we measured the projections of $\ket{S_1}$ onto the the eigenstates of $S_z$ (cf. \cref{fig:VVBs:results_SCS_states}\textbf{b}) and $S_x$ (cf. \cref{fig:VVBs:results_SCS_states}\textbf{c}). Analogous results are found for $\ket{S_2}$.
+In~\cref{fig:VVBs:results_SCS_states}(\textbf{d-e}) we give the results of engineering the balanced superposition $\frac{1}{\sqrt{2}}(\ket{S_1}-\ket{S_2})$.
+Such balanced superpositions are akin to the Schrödinger cat states built on coherent states of a harmonic oscillator, and exhibit signatures of non-classical interference~\cite{agarwal1997atomic}. For instance, only even (odd) components of the logical basis enter the superpositions $\ket{S_1}\pm\ket{S_2}$, a parity rule that is fully analogous to the one characterising even (odd) bosonic cat states.
+
+\tmpHeading{Cat states based on SCSs: phase-space picture}
+We provide here a brief analysis of the features of SCSs in a phase space representation~\cite{agarwal1997atomic}. In particular, we shall be considering the analogous of the Husimi $Q$ function~\cite{walls2007quantum} defined as
+\begin{equation}
+Q_\pm(\alpha,\beta)=\vert\langle{5/2,\alpha,\beta}\vert\psi_\pm\rangle\vert^2,
+\label{eq:QJ_representation_psij}
+\end{equation}
+where $\sqrt2\ket{\psi_\pm}\equiv \ket{S_1}\pm\ket{S_2}$.
+This definition allows us to represent states in the spherical polar space, mapping the Cartesian coordinates $(x,y,z)$ as follows
 \begin{equation}
 \begin{aligned}
-	\ket{s,\theta,\phi} &=
-		\sum_{m=-s}^{s}
-		\sqrt{\frac{(2s)!}{(s+m)!(s-m)!}} e^{-i\phi m} C_\theta^{s+m} S_\theta^{s-m}\ket{m},
+x &\to Q_\pm(\alpha,\beta)\sin\alpha\cos\beta, \\
+y &\to Q_\pm(\alpha,\beta)\sin\alpha\sin\beta, \\
+z &\to Q_\pm(\alpha,\beta)\cos\alpha.
 \end{aligned}
-\label{spin_coherent1}
 \end{equation}
-with $C_\theta\equiv\sqrt{1-S^2_\theta}=\cos(\theta/2)$. \acp{SCS} have numerous applications in condensed matter physics, in particular for quasi-exactly solvable models, for the Wigner-Kirkwood expansion and in quantum correction to energy quantisation rules~\cite{ulyanov1999spin}. At a more foundational level, they can be used to generate Schrödinger cat states~~\cite{agarwal1997atomic}. 
+% in the spherical polar space where the Cartesian coordinates $(x,y,z)$ are mapped into $x\to Q_j(\alpha,\beta)\sin\alpha\cos\beta$, $y\to Q_j(\alpha,\beta)\sin\alpha\sin\beta$ and $z\to Q_j(\alpha,\beta)\cos\alpha$.
+Despite their apparent simplicity, $Q_\pm(\alpha,\beta)$ capture important information about the quantum interference between the orthogonal components of $\ket{\psi_{\pm}}$, which differentiate such states from the incoherent mixture of \acp{SCS} $(\ketbra{S_1}\pm\ketbra{S_2})/2$. 
 
-\tmpHeading{Properties of SCSs}
-Although \acp{SCS} are in general not orthogonal, they form a convenient basis. Moreover, as two \acp{SCS} pointing in opposite azimuthal directions are orthogonal for $\theta\sim\pi/2$, by restricting the attention to $\{\ket{s,\pi/2,\phi},\ket{s,-\pi/2,\phi}\}$ we would be dealing with an orthonormal basis, which we can use to construct the analogous of a Bloch ball for a two-level system (cf.~\cref{fig:VVBs:results_SCS_states}\textbf{a}). We have thus engineered $\ket{S_1}\equiv\ket{5/2,\pi/2,0}$ and $\ket{S_2}\equiv\ket{5/2,-\pi/2,0}$, and considered the experimental synthesis of balanced coherent superpositions of such states.
-Furthermore, $S_1$ and $S_2$ are also eigenstates of the $\hat{S}_x$ operator. In~\cref{fig:VVBs:results_SCS_states}\textbf{b-c} the state $S_1$ is projected firstly on the computational basis, the eigenstates of $\hat{S_z}$, and then on the basis $\{S_i\}$, with $i=1...6$, which consists of $\hat{S}_x$ eigenstates. Balanced superpositions of $S_1$ and $S_2$ are akin to the Schrödinger cat states built on coherent states of a harmonic oscillator, as they exhibit signatures of non-classical interference~\cite{agarwal1997atomic}. For instance, only even (odd) components of the logical basis enter the superpositions $\ket{S_1}\pm\ket{S_2}$, a parity rule that is fully analogous to the one characterising even (odd) bosonic cat states. Thanks to the isomorphism between the spaces of \ac{OAM} and of arbitrary angular momentum equal to $n/2$, we can generate \ac{SCS} mapping the basis $\{ \ket{s_z}\}$ in~\cref{spin_coherent1} into the basis of the \ac{QW} $\{|m\rangle\}$. The results are illustrated in~\cref{fig:VVBs:results_SCS_states}\textbf{a-e}, where we show the high quality of both the generated \acp{SCS}and \ac{SCS}-based cat states.
-
-\tmpHeading{Cat states based on spin coherent states: phase-space picture}
-The decomposition of a \ac{SCS} $\ket{s,\theta,\phi}$ over the basis of eigenstates of angular momentum $\{\ket{m}\}_{m=-s}^s$ reads
-\begin{equation}
-	\ket{s,\theta,\phi} =
-	\sum^s_{m=-s}
-		\sqrt{\frac{(2s)!}{(s+m)!(s-m)!}}
-		e^{-i\phi m} C^{s+m}_\theta S^{s-m}_\theta \ket{m},
-\end{equation}
-with $C_\theta\equiv\sqrt{1-S^2_\theta}=\cos(\theta/2)$. We have also introduced the \ac{SCS}-based cat states built as the following superpositions of orthogonal states $\ket{S_1}:=\ket{5/2,\pi/2,0}$ and $\ket{S_2}:=\ket{5/2,-\pi/2,0}$:
-\begin{equation}
-%\begin{aligned}
-\ket{\psi_{1}}=\frac{1}{\sqrt 2}(\ket{S_1}+\ket{S_2}),\qquad\ket{\psi_{2}}=\frac{1}{\sqrt 2}(\ket{S_1}-\ket{S_2}).
-%\end{aligned}
-\end{equation}
-We provide here a brief analysis of the features of such states, which are best analysed in a suitably defined phase space~\cite{agarwal1997atomic}. In particular, we shall be considering the analogous of the Husimi $Q$ function~\cite{walls2007quantum} defined as
-\begin{equation}
-\label{deco}
-Q_j(\alpha,\beta)=\vert\langle{5/2,\alpha,\beta}\vert\psi_j\rangle\vert^2\qquad(j=1,2)
-\end{equation}
-in the spherical polar space where the Cartesian coordinates $(x,y,z)$ are mapped into $x\to Q_j(\alpha,\beta)\sin\alpha\cos\beta$, $y\to Q_j(\alpha,\beta)\sin\alpha\sin\beta$ and $z\to Q_j(\alpha,\beta)\cos\alpha$. Despite the simplicity of its definition, $Q_j(\alpha,\beta)$ captures important information about the quantum interference between the orthogonal components of $\ket{\psi_{j}}$, which differentiate such states from the incoherent mixture of \acp{SCS} $(\ket{S_1}\bra{S_1}\pm\ket{S_2}\bra{S_2})/2$. 
-
-The orthogonality of $\ket{S_1}$ and $\ket{S_2}$ allows one to cast $Q_j(\alpha,\beta)$ as 
+The orthogonality of $\ket{S_1}$ and $\ket{S_2}$ allows one to cast $Q_\pm(\alpha,\beta)$ as 
 \begin{equation}\scalebox{0.9}{$
-Q_j(\alpha,\beta)=\frac12\left(|q_+(5/2,\alpha,\beta)|^2+|q_-(5/2,\alpha,\beta)|^2+\text{sign}_j2\text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)]\right)
+Q_\pm(\alpha,\beta)=\frac12\left(|q_+(5/2,\alpha,\beta)|^2+|q_-(5/2,\alpha,\beta)|^2\pm 2\text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)]\right)
 $}\end{equation}
-where $q_\pm(s,\alpha,\beta)=\bra{s,\alpha,\beta}{s,\pm\theta,0}\rangle$ and $\text{sign}_1=-\text{sign}_2=+1$. Such scalar products can be evaluated explicitly for any value of $s$ by using the decomposition in~\cref{deco} to get 
+where $q_\pm(s,\alpha,\beta)=\bra{s,\alpha,\beta}{s,\pm\theta,0}\rangle$.
+Such scalar products can be evaluated explicitly for any value of $s$ by using the decomposition in~\cref{eq:QJ_representation_psij} to get 
 \begin{equation}
 \scalebox{0.9}{$\begin{aligned}
-q_\pm(\alpha,\beta) =
+q_\pm(s,\alpha,\beta) =
 &(\pm 1)^s\frac{\Gamma (2 s+1)}{\Gamma (s+1)^2} S^s\left({\alpha }\right) C^s\left(\alpha\right) S^s\left(\theta\right) C^s\left({\theta}\right)
 \left[
 	\, _2F_1
@@ -349,23 +390,25 @@ q_\pm(\alpha,\beta) =
 \end{equation}
 where $T(\alpha)=S(\alpha)/C(\alpha)=\tan(\alpha/2)$, $_2F_1(a,b,c;d)$ is the ordinary Hypergeometric function, and $\Gamma(d)$ is the Gamma function with argument $d$.
 
-Using these expressions, we can compute $Q_j(\alpha,\beta)$ and investigate its features. However, looking at such function directly does not provide sufficient information for the discrimination of an incoherent mixture and a state such as $\ket{\psi-{1,2}}$. On the other hand, we find more informative to consider that $\frac12\left(|q_+(5/2,\alpha,\beta)|^2+|q_-(5/2,\alpha,\beta)|^2\right)$ is precisely the spherical SCS-based $Q$ function for the incoherent state $(\ket{S_1}\!\bra{S_1}\pm\ket{S_2}\!\bra{S_2})/2$. Let us call it $Q_{inc}(\alpha,\beta)$, so that 
+Using these expressions, we can compute $Q_\pm(\alpha,\beta)$ and investigate its features. However, looking at such function directly does not provide sufficient information for the discrimination of an incoherent mixture and a state such as $\ket{\psi_\pm}$.
+On the other hand, we find more informative to consider that $\frac12\left(|q_+(5/2,\alpha,\beta)|^2+|q_-(5/2,\alpha,\beta)|^2\right)$ is precisely the spherical SCS-based $Q$ function for the incoherent state $(\ketbra{S_1}\pm\ketbra{S_2})/2$. Let us call it $Q_{\on{inc}}(\alpha,\beta)$, so that 
 \begin{equation}
-Q_j(\alpha,\beta)=Q_{inc}(\alpha,\beta)+\text{sign}_j\text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)],
+Q_\pm(\alpha,\beta)=Q_{\on{inc}}(\alpha,\beta) \pm \text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)],
 \end{equation}
-which pinpoints the contribution coming from the fixed-phase relation typical of a coherent superposition. We thus focus on state $\ket{\psi_2}$, which is the one that has been addressed in our experimental endeavors, and look at the term $-\text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)]$, and represent it in the spherical polar plane defined above. \Cref{fig:expQWs:SCS_plots}\textbf{(a)} shows the results of our calculations. 
+which pinpoints the contribution coming from the fixed-phase relation typical of a coherent superposition. We thus focus on state $\ket{\psi_-}$, which is the one that has been addressed in our experimental endeavors, and look at the term $-\text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)]$, and represent it in the spherical polar plane defined above. \Cref{fig:expQWs:SCS_plots}\textbf{(a)} shows the results of our calculations. 
 
 Such interference term exhibits ten equally separated lobes, and clearly displays both rotation and inversion symmetry. In fact, one can show that, for a generic value of $s$, the interference term in the corresponding $Q$ function exhibits $4s$ equally spaced lobes. It is worth mentioning that in~\cite{agarwal1997atomic} another figure of merit for the analysis of the effects of the interference term was adopted. More specifically,~\cite{agarwal1997atomic} studied the form of 
 \begin{equation}
-\frac{Q_j(\alpha,\beta)}{Q_{inc,j}(\alpha,\beta)}=1+\text{sign}_j\frac{2\text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)]}{Q_{inc,j}(\alpha,\beta)},
+    \frac{Q_\pm(\alpha,\beta)}{Q_{\on{inc},\pm}(\alpha,\beta)} =
+    1 \pm \frac{2\text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)]}{Q_{\on{inc},\pm}(\alpha,\beta)},
 \end{equation}
-which thus quantifies the effect of quantum coherence as the deviation of $Q_j(\alpha,\beta)$ from $1$, whose representation in the chosen spherical polar space is a sphere of unit radius. When making use of such figure of merit, we find~\cref{fig:expQWs:SCS_plots}\textbf{(b)}, which shows a lobate behavior significantly different from the (incoherent) spherical trend. 
+which thus quantifies the effect of quantum coherence as the deviation of $Q_\pm(\alpha,\beta)$ from $1$, whose representation in the chosen spherical polar space is a sphere of unit radius. When making use of such figure of merit, we find~\cref{fig:expQWs:SCS_plots}\textbf{(b)}, which shows a lobate behavior significantly different from the (incoherent) spherical trend. 
 
 \begin{figure}[tb]
     \centering
     {\bf (a)}\hskip8cm{\bf (b)}\\
     \includegraphics[width=\columnwidth]{experimentalQSE-Insieme.jpg}
-    \caption{Spherical polar plot of the interference term $-\text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)]$ in the $Q_2(\alpha,\beta)$ function.}
+    \caption{Spherical polar plot of the interference term $-\text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)]$ in the $Q_-(\alpha,\beta)$ function.}
     \label{fig:expQWs:SCS_plots}
 \end{figure}
 
@@ -377,6 +420,10 @@ which thus quantifies the effect of quantum coherence as the deviation of $Q_j(\
 In this chapter we presented an experimental implementation of the state engineering protocol discussed in~\cref{chapter:quantum_walks}. We realised the QW with a photonics apparatus using \ac{OAM} and polarisation as physical embodiments of walker and coin degrees of freedom.
 In particular, we implemented a five-step \ac{QW} with full control the preparation, choice of coin operations, and detection stages. To showcase the effectiveness of the protocol, we demonstrated the synthesis of arbitrary walker states.
 Our results reinforce the idea that numerical optimisation complementing a complex \ac{QW} dynamics is effective for high-dimensional state engineering.
+
 Future outlooks of this work include using our platform to implement quantum information protocols involving entanglement between low- and high-dimensional degrees of freedom, as well as exploring the possibility of achieving entanglement between the OAM of multiple photons, by leveraging the rich possibilities offered by the QW dynamics.
+More generally, our results demonstrate the potential of quantum photonics platforms to generate a large variety of quantum states with relative ease. Similarly, it highlights the usefulness and flexibility of the protocol presented in~\cref{chapter:quantum_walks} to devise experimental state engineering protocols.
 % A natural generalisation of this novel paradigm could be the engineering in the multipartite scenario, exploiting quantum correlations between multiple walkers. Regarding the research of the coin, further improvements of our approach can be envisaged by identifying appropriate routines to optimize the state engineering process in the presence of actual experimental imperfections.
 % To this end, machine learning algorithms can be a promising add-on to our numerical optimisation approach to adapt the coin operators to a given experimental implementation.
+
+\highlight{decide what put here}
