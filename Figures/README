@@ -1,0 +1,19 @@
+The file accuracy_history.txt contains the data to generate the figure with the training history of accuracy and validation accuracy used in the VVB+ML chapter. The figure is generated from the file using MMA with:
+
+```
+{acc, valAcc} = Import[FileNameJoin@{path, "accuracy_history.txt"}, "Data"];
+
+fig = ListLogPlot[{1 - acc, 1 - valAcc},
+	PlotStyle -> {PointSize@0.015}, ImageSize -> 500,
+	Frame -> True, 
+	FrameStyle -> 
+	Directive[Black, Thick, Large, FontFamily -> "Latin Modern Math"],
+	FrameLabel -> {"epoch number"},
+	PlotLegends -> Placed[{
+			Style["inaccuracy", FontSize -> 23, FontFamily -> "Latin Modern Math"],
+			Style["validation inaccuracy", FontSize -> 23, FontFamily -> "Latin Modern Math"]
+		}, {Left, Bottom}
+	],
+	GridLines -> Automatic
+]
+```

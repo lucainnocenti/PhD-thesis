@@ -3,10 +3,12 @@
 \chapter{Experimental engineering of qudit states}
 \label{chapter:experimental_engineering_qudits}
 
-\tmpHeading{Summary of the work} In this chapter we present an experimental implementation of the state engineering scheme discussed in~\cref{chapter:quantum_walks}, leveraging the \emph{coin space} of a \ac{QW} as an auxiliary degree of freedom to engineer target qudits.
+\tmpHeading{Summary of the work}
+In this chapter we present an experimental implementation of the state engineering scheme discussed in~\cref{chapter:quantum_walks}, leveraging the \emph{coin space} of a \ac{QW} as an auxiliary degree of freedom to engineer target qudits.
 We use for the purpose an experimental apparatus implementing time-dependent \acp{QW} in the polarisation and \ac{OAM} degrees of freedom~\cite{zhang2010implementation,goyal2013implementing,cardano2015quantum}, exploiting the so-called \acp{QP}~\cite{marrucci2006optical} to implement the controlled-shift QW operation.
 To benchmark and showcase the potential of the apparatus, we demonstrate the engineering of several classes of states.
 The work described in this chapter can be found in~\cite{giordani2019experimental}.
+The experimental aspects of this work have been carried out by the team in Rome, while myself and collaborators in Belfast worked on all theoretical aspects surrounding it, including data analysis, proposal of interesting states to engineering, and devising of the coin operations required to do it.
 
 \tmpHeading{Chapter outline}
 \Cref{sec:expQWs:OAMintro} gives a brief overview of \ac{OAM} and \acp{VVB}.
@@ -340,7 +342,7 @@ As previously discussed, SCSs corresponding to opposite directions are orthogona
 This implies, in particular, that
 $\{\ket{s,\pi/2,\phi},\ket{s,-\pi/2,\phi}\}$
 form an orthonormal basis for a two-level system.
-{\color{red}Moreover, as two \acp{SCS} pointing in opposite azimuthal directions are orthogonal for $\theta\sim\pi/2$, by restricting the attention to $\{\ket{s,\pi/2,\phi},\ket{s,-\pi/2,\phi}\}$ we would be dealing with an orthonormal basis, which we can use to construct the analogous of a Bloch ball for a two-level system (cf.~\cref{fig:VVBs:results_SCS_states}\textbf{a}).}
+% {\color{red}Moreover, as two \acp{SCS} pointing in opposite azimuthal directions are orthogonal for $\theta\sim\pi/2$, by restricting the attention to $\{\ket{s,\pi/2,\phi},\ket{s,-\pi/2,\phi}\}$ we would be dealing with an orthonormal basis, which we can use to construct the analogous of a Bloch ball for a two-level system (cf.~\cref{fig:VVBs:results_SCS_states}\textbf{a}).}
 We showcase the flexibility of our experimental apparatus engineering the states $\ket{S_1}\equiv\ket{5/2,\pi/2,0}$ and $\ket{S_2}\equiv\ket{5/2,-\pi/2,0}$, as well as their balanced superpositions.
 % Furthermore, $\ket{S_1}$ and $\ket{S_2}$ are also eigenstates of the $S_x$ operator.
 To assess the quality of the experimental results, we measured the projections of $\ket{S_1}$ onto the the eigenstates of $S_z$ (cf. \cref{fig:VVBs:results_SCS_states}\textbf{b}) and $S_x$ (cf. \cref{fig:VVBs:results_SCS_states}\textbf{c}). Analogous results are found for $\ket{S_2}$.
@@ -408,7 +410,7 @@ which thus quantifies the effect of quantum coherence as the deviation of $Q_\pm
     \centering
     {\bf (a)}\hskip8cm{\bf (b)}\\
     \includegraphics[width=\columnwidth]{experimentalQSE-Insieme.jpg}
-    \caption{Spherical polar plot of the interference term $-\text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)]$ in the $Q_-(\alpha,\beta)$ function.}
+    \caption{Spherical polar plot of the interference term $-\text{Re}[q_+(5/2,\alpha,\beta)q^*_-(5/2,\alpha,\beta)]$ in the $Q_-(\alpha,\beta)$ function. \textbf{(a)} Spherical polar plot for incoherent mixture. \textbf{(b)} Spherical polar plot for the corresponding coherent superposition.}
     \label{fig:expQWs:SCS_plots}
 \end{figure}
 
@@ -426,4 +428,4 @@ More generally, our results demonstrate the potential of quantum photonics platf
 % A natural generalisation of this novel paradigm could be the engineering in the multipartite scenario, exploiting quantum correlations between multiple walkers. Regarding the research of the coin, further improvements of our approach can be envisaged by identifying appropriate routines to optimize the state engineering process in the presence of actual experimental imperfections.
 % To this end, machine learning algorithms can be a promising add-on to our numerical optimisation approach to adapt the coin operators to a given experimental implementation.
 
-\highlight{decide what put here}
+The impact and timeliness of this work is demonstrated by the number of citations it received. For example, in the context of controlling one-dimensional QW dynamics, our work was referenced in \cite{singh2019computational,panahiyan2020onedimensional,panahiyan2019increasing,panahiyan2018controlling,badhani2019gravitationally,mendonça2020emergent,gratsea2020generation}.

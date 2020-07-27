@@ -12,6 +12,7 @@ We first train \acp{CNN} to classify experimental images.
 We then discuss how the joint application of \ac{DR} and \acp{SVM} can also be used to classify states, and even obtain a full description of a state from its intensity profile.
 These algorithms are fully independent on the specifics of the experimental apparatus, and are thus applicable in a variety of situations.
 The work discussed here can be found in~\cite{giordani2020machine}.
+The experimental aspects of this work have been carried out by the team in Rome, while myself and collaborators in Belfast worked on the theoretical aspects, including proposal of machine learning techniques and data analysis.
 
 \tmpHeading{Previous applications of ML to structured light}
 As discussed in~\cref{sec:intro:ML}, \ac{ML} provides a versatile toolbox to tackle a variety of tasks arising in experimental platforms. It has, in particular, proven useful to characterise quantum protocols and dynamics~\cite{carrasquilla2019reconstructing,giordani2018experimental, agresti2019pattern,lumino2018experimental,rocchetto2019experimental,butler2018machine,fischer2006predicting,melnikov2018active,wang2017experimental}.
@@ -325,7 +326,7 @@ We tested different CNN architectures, the details of which can be found in the 
 	In this work we stick with the simpler OAM beams for simplicity, but it is possible that using a better model for the simulation would allow to classify experimental images training solely on simulated ones.
 	\item Finally, we find that a small number of experimental images are enough to allow the network to generalise and be able to categorise the rest of them.
 	We train a CNN using $20$ experimental images per class, and test it on the remaining $\sim1700$ ones, and achieve a $\sim 99\%$ accuracy on the test set.
-	We achieve this using a CNN using three convolutional layers followed by a max-pooling layer each, and a hidden fully connected layer with $64$ neurons, amounting to a total of $\sim38$k parameters.
+	We achieve this using a CNN using three convolutional layers followed by a max-pooling layer each, and a hidden fully connected layer with $64$ neurons, amounting to a total of $\sim38$k parameters. The history of accuracies per epoch for training and validation sets is reported in~\cref{fig:VVBs:training_history}.
 \end{itemize}
 
 % \begin{figure}[tb]
@@ -337,13 +338,20 @@ We tested different CNN architectures, the details of which can be found in the 
 %     \label{fig:VVBs:hyGG}
 % \end{figure}
 
-\highlight{Add figures for training history}
-
 \begin{figure}[tb]
 	\centering
 	\includegraphics[width=\linewidth]{VVBs-training_examples.png}
-	\caption{Caption here}
+	\caption{Sample of pre-processed training images used to train the CNN. These are obtained taking images of VVBs and applying random transformations such as translations, shearings, rescalings, changes in overall brightness. We also add random white noise to the images.
+	This allows to substantially enlarge the size of the training dataset, while at the same time forcing the CNN to not pick up features --- such as the centering of the image or its overall brightness --- which we know should not be used to classify the images.
+	}
 	\label{fig:VVBs:pre-processed_images}
+\end{figure}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.6\linewidth]{VVBs-inaccuracy_training-history.pdf}
+	\caption{History of training inaccuracy (here, $\on{inaccuracy}\equiv1-\on{accuracy}$) during training of the experimental VVBs. We give the inaccuracies computed over training and validation datasets for each training epoch. Each training epoch is composed of $200$ training steps, and in each step the network is trained on $32$ images.}
+	\label{fig:VVBs:training_history}
 \end{figure}
 
 \tmpHeading{Retrieving the position in the Poincaré sphere}
@@ -403,7 +411,7 @@ The output probabilities in the computational basis following evolution through 
 % Note that this situation models what happens when we measure VVBs with a CCD camera: VVBs are sparse in the OAM-polarisation basis (they are effectively two-dimensional), and measurement in the position basis can be described as a projective measurement following a unitary $\calU$ describing the change of basis.
 This means that the mapping between density matrices and detected probabilities is linear: $\bs p=\Psi(\rho)$ for some linear map $\Psi$.
 We can represent $\Psi$ as a (generally non-square) matrix, for example via its action on the coefficients of $\rho$ in some operatorial basis.
-Any state can be decomposed as $\rho=\sum_k c_k \sigma_k$ for some operatorial basis $\{I\}\cup \{\sigma_k\}_k$ for the space of hermitian operators, with $I$ the identity matrix and $\sigma_k$ orthogonal traceless hermitians. We then have the induced linear mapping $p_j = \sum_k \Psi_{jk}c_k$, with $\Psi_{jk}\equiv\Psi(\sigma_k)_j$ the matrix elements of $\Psi$.
+Any state can be decomposed as $\rho=\sum_k c_k \sigma_k$ for some operatorial basis $\{I\}\cup \{\sigma_k\}_k$ for the space of Hermitian operators, with $I$ the identity matrix and $\sigma_k$ orthogonal traceless Hermitians. We then have the induced linear mapping $p_j = \sum_k \Psi_{jk}c_k$, with $\Psi_{jk}\equiv\Psi(\sigma_k)_j$ the matrix elements of $\Psi$.
 This linearity implies that many geometrical features of the space of states are preserved in the space of probabilities. Moreover, a suitable choice of $\Psi$ will allow to retrieve $\rho$ from the knowledge of $\bs p$.
 For this to be possible, $\Psi$ needs to have a number of rows greater than or equal to the number of columns. Physically, this amounts to the measurement basis containing a sufficient number of elements. More specifically, $\Psi$ needs to be \emph{left-invertible}, which is the case when its columns are linearly independent.
 
@@ -517,7 +525,7 @@ Applying PCA to this dataset, we find six non-vanishing singular values. The cor
 This is consistent with the dimension of the subspace  spanned by the states in $\calS_1\equiv\{c_1\ket{L,1}+c_2\ket{R,2}, c_3\ket{L,1}+c_4\ket{R,4}\}$,  as the set of corresponding density matrices is spanned by the six orthogonal matrices
 $X^{(1,2)}, X^{(1,4)}, Y^{(1,2)},Y^{(1,4)},Z^{(1,2)}\pm Z^{(1,4)}$, where $X^{(i,j)}=\ketbra{i}{j}+\ketbra{j}{i}$ is the Pauli $X$ matrix acting on the $(i,j)$ subspace, and $Y^{(i,j)}$ and $Z^{(i,j)}$ are similarly defined.
 On the other hand, if the dataset under consideration consists of states in the space $\mathcal S_2=\{c_1\ket{L,1}+c_2\ket{R,2}, c_3\ket{L,3}+c_4\ket{R,4}\}$, then \ac{PCA} finds \emph{seven} principal components associated with non-vanishing singular values, as again shown in~\cref{fig:VVBs:principal_components}\textbf{a}. The corresponding singular values are given in~\cref{fig:VVBs:singularValues_sixAndSevenAndForty}\textbf{b}.
-This is consistent with the underlying state space being spanned by the seven orthogonal hermitians:
+This is consistent with the underlying state space being spanned by the seven orthogonal Hermitians:
 \begin{equation}
 \begin{gathered}
     X^{(1,2)}, X^{(3,4)},
@@ -527,7 +535,7 @@ This is consistent with the underlying state space being spanned by the seven or
     -Z^{(1,2)} - Z^{(1,3)} + 3 Z^{(1,4)}.
 \end{gathered}
 \end{equation}
-These matrices can be derived via direct analysis by finding a set of orthogonal hermitians generating $\on{span}(\calS_2)$.
+These matrices can be derived via direct analysis by finding a set of orthogonal Hermitians generating $\on{span}(\calS_2)$.
 This method is thus a quick and easy way to obtain useful information about the dimensionality of generated states, as well as other properties such as specific geometric features, like the sphere emerging from the experimental dataset discussed in the previous paragraph.
 
 
