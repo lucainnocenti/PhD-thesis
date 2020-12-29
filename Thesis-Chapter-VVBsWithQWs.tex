@@ -409,9 +409,11 @@ The output probabilities in the computational basis following evolution through 
 	    = \sum_{ij}\calU_{ki}\bar\calU_{kj}\rho_{ij}.
 \end{equation}
 % Note that this situation models what happens when we measure VVBs with a CCD camera: VVBs are sparse in the OAM-polarisation basis (they are effectively two-dimensional), and measurement in the position basis can be described as a projective measurement following a unitary $\calU$ describing the change of basis.
-This means that the mapping between density matrices and detected probabilities is linear: $\bs p=\Psi(\rho)$ for some linear map $\Psi$.
-We can represent $\Psi$ as a (generally non-square) matrix, for example via its action on the coefficients of $\rho$ in some operatorial basis.
-Any state can be decomposed as $\rho=\sum_k c_k \sigma_k$ for some operatorial basis $\{I\}\cup \{\sigma_k\}_k$ for the space of Hermitian operators, with $I$ the identity matrix and $\sigma_k$ orthogonal traceless Hermitians. We then have the induced linear mapping $p_j = \sum_k \Psi_{jk}c_k$, with $\Psi_{jk}\equiv\Psi(\sigma_k)_j$ the matrix elements of $\Psi$.
+The mapping between density matrices and detected probabilities is thus $\bs p=\Psi(\rho)$ where $\Psi$ is the linear operator
+$\Psi\equiv\sum_j \ketbra{j}{jj}(\calU\otimes\calU^*)$.
+This operator can equivalently be represented as a matrix with elements
+$\Psi_{i,jk} = \calU_{ij}\calU^*_{ik}$.
+Equivalently, we can represent $\rho$ in a basis of Hermitian operators as $\rho=\sum_k c_k \sigma_k$. We then have the induced linear mapping $p_j = \sum_k \tilde\Psi_{jk}c_k$, with $\tilde\Psi_{jk}\equiv\Psi(\sigma_k)_j$.
 This linearity implies that many geometrical features of the space of states are preserved in the space of probabilities. Moreover, a suitable choice of $\Psi$ will allow to retrieve $\rho$ from the knowledge of $\bs p$.
 For this to be possible, $\Psi$ needs to have a number of rows greater than or equal to the number of columns. Physically, this amounts to the measurement basis containing a sufficient number of elements. More specifically, $\Psi$ needs to be \emph{left-invertible}, which is the case when its columns are linearly independent.
 
